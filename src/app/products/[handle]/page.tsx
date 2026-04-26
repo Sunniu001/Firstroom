@@ -1,3 +1,4 @@
+export const maxDuration = 60;
 import React from 'react';
 import { getProductBySlug, getProducts } from '@/lib/api/products';
 import { Header } from '@/components/Header/Header';
