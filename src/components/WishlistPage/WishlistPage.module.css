@@ -1,0 +1,261 @@
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+  font-family: var(--font-sans);
+}
+
+.pageTitle {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+}
+
+/* ─── LIST TABS ─── */
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+
+.tab {
+  padding: 0.55rem 1.25rem;
+  border: 1.5px solid #111;
+  background: #fff;
+  color: #111;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+
+.tab:hover {
+  background: #f0f0f0;
+}
+
+.tabActive {
+  background: #111;
+  color: #fff;
+}
+
+/* ─── TABLE HEADER ROW ─── */
+.tableHeader {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+}
+
+.deleteBtn {
+  background: none;
+  border: none;
+  color: var(--accent-color);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+
+/* ─── TABLE ─── */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  font-size: 0.72rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.8rem 0.75rem;
+  text-align: left;
+  font-weight: 500;
+}
+
+.thCheck  { width: 40px; }
+.thAction { text-align: center; }
+
+.row {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.row td {
+  padding: 1.25rem 0.75rem;
+  vertical-align: middle;
+}
+
+.tdCheck {
+  width: 40px;
+}
+
+.checkbox {
+  width: 18px;
+  height: 18px;
+  accent-color: #111;
+  cursor: pointer;
+}
+
+.tdProduct {}
+
+.productLink {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.productImage {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  background: var(--bg-secondary);
+  flex-shrink: 0;
+}
+
+.productName {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.productName:hover {
+  color: var(--accent-color);
+}
+
+.tdPrice {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.tdStock {
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+}
+
+.inStock {
+  color: #22a060;
+  font-weight: 600;
+}
+
+.outOfStock {
+  color: #999;
+}
+
+.tdAction {
+  text-align: center;
+}
+
+.addToCartBtn {
+  border: 1.5px solid #111;
+  background: #fff;
+  color: #111;
+  padding: 0.55rem 1.15rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+
+.addToCartBtn:hover:not(:disabled) {
+  background: #111;
+  color: #fff;
+}
+
+.addToCartBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.emptyRow {
+  text-align: center;
+  padding: 3rem 0;
+  color: var(--text-secondary);
+}
+
+/* ─── SHARE ─── */
+.shareRow {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.shareBtn {
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid var(--border-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.18s, color 0.18s;
+}
+
+.shareBtn:hover {
+  border-color: #111;
+  color: #111;
+}
+
+/* ─── FOOTER ─── */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.returnLink {
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--accent-color);
+  text-decoration: none;
+}
+
+.returnLink:hover {
+  text-decoration: underline;
+  color: var(--accent-color);
+}
+
+.footerBtns {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.footerBtn {
+  border: 1.5px solid var(--accent-color);
+  background: #fff;
+  color: var(--accent-color);
+  padding: 0.65rem 1.1rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+
+.footerBtn:hover:not(:disabled) {
+  background: var(--accent-color);
+  color: #fff;
+}
+
+.footerBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.empty {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}

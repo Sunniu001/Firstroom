@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 3.5rem 0;
+}
+
+.icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1.5px solid #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #111;
+  transition: all 0.2s;
+}
+
+.icon:hover {
+  background-color: #111;
+  color: white;
+}

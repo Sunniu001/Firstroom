@@ -1,0 +1,38 @@
+.container {
+  margin-bottom: var(--spacing-lg);
+}
+
+.label {
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+  display: block;
+}
+
+.optionsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.sizeButton {
+  padding: 12px 24px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.sizeButton:hover {
+  border-color: #999;
+}
+
+.sizeButton.selected {
+  border-color: #d84141; /* Slightly darker/redder to match PSD */
+  color: var(--text-primary);
+}

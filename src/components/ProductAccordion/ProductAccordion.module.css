@@ -1,0 +1,73 @@
+.accordionContainer {
+  margin: var(--spacing-xxl) auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.tab {
+  width: 100%;
+}
+
+.tabHeader {
+  width: 100%;
+  background-color: #f6f6f6;
+  border: none;
+  padding: 1.25rem;
+  text-align: center;
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  color: #111;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  transition: background-color 0.2s;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.tabHeader:hover {
+  background-color: #eee;
+}
+
+.tabHeader span {
+  font-family: var(--font-sans);
+  font-weight: bold;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tabContent {
+  padding: 2rem 1rem;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #333;
+  line-height: 1.6;
+}
+
+.formattedText {
+  text-align: left;
+  display: inline-block;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.textHeader {
+  display: block;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  color: #111;
+}
+
+.textLine {
+  display: block;
+  font-weight: 400;
+  margin-top: 0.25rem;
+  color: #444;
+}

@@ -1,0 +1,231 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main {
+  flex: 1;
+  padding-top: 73px; /* Header height */
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 var(--spacing-lg);
+  color: #ffffff;
+}
+
+.heroBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+
+.heroOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: -1;
+}
+
+.heroContent {
+  max-width: 800px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.heroTitle {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1.3;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.heroSubtitle {
+  font-family: var(--font-sans);
+  font-size: 1.125rem;
+  font-weight: 400;
+  max-width: 600px;
+  margin: var(--spacing-md) 0 var(--spacing-lg) 0;
+  line-height: 1.6;
+}
+
+.heroButton {
+  background-color: #ffffff;
+  color: var(--accent-color);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 12px 32px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 2px;
+  border: none;
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+
+.heroButton:hover {
+  opacity: 0.9;
+}
+
+/* Base Section Padding */
+.section {
+  padding: 100px var(--spacing-lg);
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.sectionLight {
+  background-color: var(--bg-secondary);
+}
+
+/* Feature Block */
+.featureBlock {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-xl);
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .featureBlock {
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+  }
+}
+
+.featureContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.featureTitle {
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-lg);
+}
+
+.featureText {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: var(--spacing-lg);
+}
+
+.featureIllustration {
+  height: 80px;
+  width: auto;
+  object-fit: contain;
+  align-self: flex-start;
+}
+
+.featureImageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+/* Brand specific corner radius */
+.featureImageRight {
+  border-radius: 0 var(--radius-custom) 0 var(--radius-custom);
+}
+
+.featureImageLeft {
+  border-radius: var(--radius-custom) 0 var(--radius-custom) 0;
+}
+
+.featureImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Category Grid Section */
+.categorySection {
+  padding: 100px var(--spacing-lg);
+  background-color: var(--bg-secondary);
+  text-align: center;
+}
+
+.categorySectionTitle {
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin-bottom: 60px;
+}
+
+.categoryGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .categoryGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.categoryCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: var(--text-primary);
+}
+
+.categoryImageWrapper {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  margin-bottom: var(--spacing-md);
+  background-color: #e2e2e2;
+}
+
+.categoryImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.categoryCard:hover .categoryImage {
+  transform: scale(1.05);
+}
+
+.categoryLabel {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: var(--spacing-sm);
+}

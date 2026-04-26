@@ -1,65 +1,133 @@
-import Image from "next/image";
+import React from "react";
+import styles from "./page.module.css";
+import { Header } from "../components/Header/Header";
+import { Footer } from "../components/Footer/Footer";
+import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <div className={styles.container}>
+      <Header />
+      
+      <main className={styles.main}>
+        {/* Hero Section */}
+        <section className={styles.hero}>
+          <img 
+            src="https://images.unsplash.com/photo-1540932239986-30128078f3c5?auto=format&fit=crop&q=80&w=2000" 
+            alt="Red luxury room with green sofas" 
+            className={styles.heroBackground}
+          />
+          <div className={styles.heroOverlay}></div>
+          <div className={styles.heroContent}>
+            <h1 className={styles.heroTitle}>Luxury Walls. Personal Stories.<br />Timeless Design.</h1>
+            <p className={styles.heroSubtitle}>
+              Crafted for refined interiors, our bespoke wallpapers transform blank walls into evocative expressions of identity.
+            </p>
+            <Link href="/products" passHref>
+              <button className={styles.heroButton}>SHOP NOW</button>
+            </Link>
+          </div>
+        </section>
+
+        {/* Feature Split Block 1: Text Left, Image Right */}
+        <section className={styles.section}>
+          <div className={styles.featureBlock}>
+            <div className={styles.featureContent}>
+              <h2 className={styles.featureTitle}>Cultural Motifs, Modern Aesthetic</h2>
+              <p className={styles.featureText}>
+                Our collections blend timeless Indian art with contemporary design sensibilities ideal for today's sophisticated spaces. From concept to execution, we tailor each pattern to your vision, turning your walls into curated storytelling surfaces. We offer decor for every corner of your home, adding personality, depth, and meaning to every detail.
+              </p>
+              <img 
+                src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&q=80&w=200" 
+                alt="Plant illustration" 
+                className={styles.featureIllustration}
+              />
+            </div>
+            <div className={`${styles.featureImageWrapper} ${styles.featureImageRight}`}>
+              <img 
+                src="https://images.unsplash.com/photo-1600210491369-e753d80a41f3?auto=format&fit=crop&q=80&w=1200" 
+                alt="Floral wallpaper interior" 
+                className={styles.featureImage} 
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* Category Grid Section */}
+        <section className={styles.categorySection}>
+          <h2 className={styles.categorySectionTitle}>Artful Accents For Homes Of Distinctive Taste</h2>
+          
+          <div className={styles.categoryGrid}>
+            <Link href="/category/wallpaper" className={styles.categoryCard}>
+              <div className={styles.categoryImageWrapper}>
+                <img src="https://images.unsplash.com/photo-1615529182904-14819c35db37?auto=format&fit=crop&q=80&w=800" alt="Wallpaper" className={styles.categoryImage} />
+              </div>
+              <span className={styles.categoryLabel}>WALLPAPER</span>
+            </Link>
+            <Link href="/category/nameplate" className={styles.categoryCard}>
+              <div className={styles.categoryImageWrapper}>
+                <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=800" alt="Nameplate" className={styles.categoryImage} />
+              </div>
+              <span className={styles.categoryLabel}>NAMEPLATE</span>
+            </Link>
+            <Link href="/category/desk-decor" className={styles.categoryCard}>
+              <div className={styles.categoryImageWrapper}>
+                <img src="https://images.unsplash.com/photo-1497942304796-b8bc2cc898f3?auto=format&fit=crop&q=80&w=800" alt="Desk Decor" className={styles.categoryImage} />
+              </div>
+              <span className={styles.categoryLabel}>DESK DECOR</span>
+            </Link>
+          </div>
+          
+          <div className={styles.categoryGrid} style={{ marginTop: '40px' }}>
+            <Link href="/category/decals" className={styles.categoryCard}>
+              <div className={styles.categoryImageWrapper}>
+                <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&q=80&w=800" alt="Decals" className={styles.categoryImage} />
+              </div>
+              <span className={styles.categoryLabel}>DECALS</span>
+            </Link>
+            <Link href="/category/frames" className={styles.categoryCard}>
+              <div className={styles.categoryImageWrapper}>
+                <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&q=80&w=800" alt="Frames" className={styles.categoryImage} />
+              </div>
+              <span className={styles.categoryLabel}>FRAMES</span>
+            </Link>
+            <Link href="/category/kids-wallpaper" className={styles.categoryCard}>
+              <div className={styles.categoryImageWrapper}>
+                <img src="https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&q=80&w=800" alt="Kids Wallpaper" className={styles.categoryImage} />
+              </div>
+              <span className={styles.categoryLabel}>KIDS WALLPAPER</span>
+            </Link>
+          </div>
+        </section>
+
+        {/* Feature Split Block 2: Image Left, Text Right */}
+        <section className={styles.section}>
+          <div className={styles.featureBlock}>
+            <div className={`${styles.featureImageWrapper} ${styles.featureImageLeft}`}>
+              <img 
+                src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=1200" 
+                alt="Heritage themed wallpaper" 
+                className={styles.featureImage} 
+              />
+            </div>
+            <div className={styles.featureContent}>
+              <h2 className={styles.featureTitle}>Themes Rooted In Heritage</h2>
+              <p className={styles.featureText}>
+                Inspired by royal courts, sacred temples, and Mughal gardens, our themed wallpapers are deeply evocative. Designed exclusively for you, each piece reflects personal meaning crafted with a level of customisation rarely found elsewhere. Every element, from colour palette to scale and layout is tailored to harmonise with your space. Whether it's a statement wall or a full room narrative, we bring your vision to life with artistic precision.
+              </p>
+              <img 
+                src="https://images.unsplash.com/photo-1484406560908-6f62b70f0653?auto=format&fit=crop&q=80&w=200" 
+                alt="Deer illustration" 
+                className={styles.featureIllustration}
+              />
+            </div>
+          </div>
+        </section>
+
       </main>
+
+      <Footer />
     </div>
   );
 }

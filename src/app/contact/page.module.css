@@ -1,0 +1,112 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main {
+  flex: 1;
+  padding-top: 73px;
+}
+
+.headerSection {
+  padding: 120px var(--spacing-lg) 80px;
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  font-weight: 400;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-lg);
+  letter-spacing: 0.02em;
+}
+
+.text {
+  font-family: var(--font-sans);
+  font-size: 1.125rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: var(--spacing-lg);
+}
+
+.section {
+  padding: 100px var(--spacing-lg);
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.sectionLight {
+  background-color: var(--bg-secondary);
+}
+
+.featureBlock {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-xl);
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .featureBlock {
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+  }
+}
+
+.featureContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.featureTitle {
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-md);
+}
+
+.featureImageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: var(--radius-custom) 0 var(--radius-custom) 0;
+}
+
+.featureImageRight {
+  border-radius: 0 var(--radius-custom) 0 var(--radius-custom);
+}
+
+.featureImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.button {
+  display: inline-block;
+  background-color: var(--accent-color);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 14px 36px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  transition: opacity var(--transition-fast);
+  border-radius: 2px;
+  align-self: flex-start;
+  margin-top: var(--spacing-md);
+}
+
+.button:hover {
+  opacity: 0.9;
+}
