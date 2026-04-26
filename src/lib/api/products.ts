@@ -58,7 +58,7 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
         
         variationsResponses.forEach(rawVar => {
           // Create a unique key based on all attributes
-          const attrKey = rawVar.attributes
+          const attrKey = (rawVar.attributes || [])
             .sort((a: any, b: any) => a.name.localeCompare(b.name))
             .map((attr: any) => `${attr.name}:${attr.option}`)
             .join('|');
@@ -66,10 +66,10 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
           if (!uniqueVariants.has(attrKey)) {
             uniqueVariants.set(attrKey, {
               id: rawVar.id,
-              attributes: rawVar.attributes.reduce((acc: any, attr: any) => {
+              attributes: rawVar.attributes ? rawVar.attributes.reduce((acc: any, attr: any) => {
                 acc[attr.name] = attr.option;
                 return acc;
-              }, {}),
+              }, {}) : {},
               price: parseFloat(rawVar.price || "0"),
               regularPrice: parseFloat(rawVar.regular_price || "0"),
               salePrice: rawVar.sale_price ? parseFloat(rawVar.sale_price) : undefined,
@@ -86,7 +86,7 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
     }
     
     // Fetch Nameplate metadata
-    const isNameplate = product.categories.some((c: any) => c.slug?.includes('nameplate') || c.name?.toLowerCase().includes('nameplate'));
+    const isNameplate = product.categories.some((c: any) => (c.slug || '').includes('nameplate') || (c.name || '').toLowerCase().includes('nameplate'));
     if (isNameplate) {
       try {
         const v3Product = await wcFetch(`products/${product.id}`);
