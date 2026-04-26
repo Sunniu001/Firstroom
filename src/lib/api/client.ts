@@ -1,26 +1,16 @@
-import WooCommerceRestApi from "@woocommerce/woocommerce-rest-api";
+export const API_URL = process.env.NEXT_PUBLIC_WC_API_URL;
+export const STORE_URL = process.env.NEXT_PUBLIC_WC_STORE_URL;
 
-const storeUrl = process.env.NEXT_PUBLIC_WC_STORE_URL || 'https://sunniy.com';
-const WC_CONSUMER_KEY = process.env.WC_CONSUMER_KEY || '';
-const WC_CONSUMER_SECRET = process.env.WC_CONSUMER_SECRET || '';
+export async function wcFetch(endpoint: string) {
+  const res = await fetch(`${API_URL}/${endpoint}`, {
+    next: { revalidate: 120 },
+  });
 
-// Initialize the WooCommerce REST API client for catalog operations
-export const api = new WooCommerceRestApi({
-  url: storeUrl,
-  consumerKey: WC_CONSUMER_KEY,
-  consumerSecret: WC_CONSUMER_SECRET,
-  version: 'wc/v3',
-  queryStringAuth: true, // Required for many hosting environments to generate OAuth signatures
-});
-
-export async function wcFetch(endpoint: string, params: Record<string, any> = {}) {
-  try {
-    const response = await api.get(endpoint, params);
-    return response.data;
-  } catch (error: any) {
-    console.error(`WooCommerce API Error on ${endpoint}:`, error.response?.data || error.message);
-    throw new Error(`WooCommerce API error: ${error.response?.status || 500}`);
+  if (!res.ok) {
+    throw new Error("WooCommerce Store API error");
   }
+
+  return res.json();
 }
 
 /**
@@ -34,29 +24,19 @@ export async function fetchStoreApi<T>(
   options?: RequestInit,
   nonce?: string | null
 ): Promise<{ data: T; cartToken: string | null; nonce: string | null }> {
-  // Use the main domain for store API
-  const url = `${storeUrl}/wp-json/wc/store/v1/${endpoint}`;
+  const url = `${STORE_URL}/wp-json/wc/store/v1/${endpoint}`;
 
-  const defaultHeaders: HeadersInit = {
+  const headers: HeadersInit = {
     'Content-Type': 'application/json',
     Accept: 'application/json',
+    ...(cartToken ? { 'Cart-Token': cartToken } : {}),
+    ...(nonce ? { 'Nonce': nonce } : {}),
+    ...options?.headers,
   };
-
-  if (cartToken) {
-    defaultHeaders['Cart-Token'] = cartToken;
-  }
-
-  if (nonce) {
-    defaultHeaders['Nonce'] = nonce;
-  }
 
   const response = await fetch(url, {
     ...options,
-    headers: {
-      ...defaultHeaders,
-      ...options?.headers,
-    },
-    // Cart operations should never be cached
+    headers,
     cache: 'no-store',
   });
 
@@ -66,7 +46,7 @@ export async function fetchStoreApi<T>(
     try {
       const parsed = JSON.parse(body);
       if (parsed.message) message = parsed.message;
-    } catch {}
+    } catch { }
     throw new Error(`WooCommerce Store API Error: ${message} at ${endpoint}`);
   }
 
