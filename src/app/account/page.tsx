@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { AccountDashboard } from '@/components/AccountDashboard/AccountDashboard';
 
 export const metadata = {
@@ -6,5 +7,9 @@ export const metadata = {
 };
 
 export default function AccountPage() {
-  return <AccountDashboard />;
+  return (
+    <Suspense fallback={<div>Loading account...</div>}>
+      <AccountDashboard />
+    </Suspense>
+  );
 }
