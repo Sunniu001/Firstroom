@@ -22,9 +22,10 @@
 .image {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover; /* Changed from contain to match design */
   transition: transform var(--transition-slow);
 }
+
 
 .overlay {
   position: absolute;
@@ -49,6 +50,18 @@
   padding-top: 4px;
 }
 
+.categoryLabel {
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #D34343;
+  letter-spacing: 0.1em;
+  margin-bottom: -2px;
+}
+
+
+
 .subtitle {
   font-family: var(--font-sans);
   font-size: 0.75rem;
@@ -59,17 +72,32 @@
 
 .title {
   font-family: var(--font-serif);
-  font-size: 1.1rem;
+  font-size: 0.85rem; /* Smaller as per reference */
   font-weight: 400;
-  color: var(--text-primary);
+  color: #333;
   margin: 0;
-  line-height: 1.3;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+}
+
+.priceContainer {
+  display: flex;
+  align-items: baseline;
+  margin-top: 4px;
 }
 
 .price {
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
   font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-top: 4px;
+  font-weight: 400;
+  color: #1a1a1a;
 }
+
+.unit {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: #999; /* Different color for the unit */
+  margin-left: 2px;
+}
+
+

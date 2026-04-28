@@ -1,55 +1,61 @@
 .galleryContainer {
   display: flex;
-  gap: var(--spacing-md);
+  gap: 15px;
   align-items: flex-start;
 }
 
 .thumbnailList {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
-  width: 80px;
+  gap: 10px;
+  width: 60px;
 }
 
 .thumbnailBtn {
   width: 100%;
   aspect-ratio: 1;
-  border: 1px solid var(--border-color);
+  border: 1px solid #eee;
   padding: 0;
-  background: white;
+  background: #f9f9f9;
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: all 0.2s ease;
   overflow: hidden;
+  border-radius: 4px;
 }
 
 .thumbnailBtn:hover {
-  border-color: #888;
+  border-color: #ccc;
 }
 
 .thumbnailBtn.active {
   border-color: #111;
-  border-width: 2px;
+  border-width: 1px;
 }
 
 .thumbnailImg {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .mainImageContainer {
   flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-color: #f9f9f9;
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+  height: 600px;
 }
 
 .mainImg {
   width: 100%;
-  height: auto;
-  object-fit: contain;
-  max-height: 800px;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
+
+
+
 
 .placeholderImage {
   width: 100%;

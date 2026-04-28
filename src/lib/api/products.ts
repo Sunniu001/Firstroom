@@ -59,7 +59,7 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
         variationsResponses.forEach(rawVar => {
           // Create a unique key based on all attributes
           const attrKey = (rawVar.attributes || [])
-            .sort((a: any, b: any) => a.name.localeCompare(b.name))
+            .sort((a: any, b: any) => (a.name || '').localeCompare(b.name || ''))
             .map((attr: any) => `${attr.name}:${attr.option}`)
             .join('|');
             
@@ -115,13 +115,37 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   }
 }
 
-export async function getProductsByCategory(categoryId: string): Promise<Product[]> {
+export interface PaginatedProducts {
+  products: Product[];
+  total: number;
+  totalPages: number;
+}
+
+export async function getProductsByCategory(
+  categoryId: string,
+  page: number = 1,
+  perPage: number = 20,
+  orderby: string = 'price',
+  order: string = 'asc'
+): Promise<PaginatedProducts> {
   try {
-    const { data } = await fetchStoreApi<any[]>(`products?category=${categoryId}`);
-    return data.map(normalizeStoreProduct);
+    const { data, headers } = await fetchStoreApi<any[]>(
+      `products?category=${categoryId}&page=${page}&per_page=${perPage}&orderby=${orderby}&order=${order}`
+    );
+    
+    const total = parseInt(headers.get('x-wp-total') || '0');
+    const totalPages = parseInt(headers.get('x-wp-totalpages') || '0');
+
+    return {
+      products: data.map(normalizeStoreProduct),
+      total,
+      totalPages
+    };
   } catch (error) {
     console.error(`Failed to fetch products for category ${categoryId}:`, error);
-    return [];
+    return { products: [], total: 0, totalPages: 0 };
   }
 }
+
+
 

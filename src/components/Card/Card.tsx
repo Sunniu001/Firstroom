@@ -5,7 +5,9 @@ interface CardProps {
   image?: string;
   title: string;
   subtitle?: string;
+  category?: string;
   price?: string;
+  unit?: string;
   className?: string;
   onClick?: () => void;
 }
@@ -14,7 +16,9 @@ export const Card: React.FC<CardProps> = ({
   image,
   title,
   subtitle,
+  category,
   price,
+  unit,
   className = '',
   onClick
 }) => {
@@ -27,10 +31,18 @@ export const Card: React.FC<CardProps> = ({
         </div>
       )}
       <div className={styles.content}>
+        {category && <span className={styles.categoryLabel}>{category}</span>}
         {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
         <h3 className={styles.title}>{title}</h3>
-        {price && <span className={styles.price}>{price}</span>}
+
+        {price && (
+          <div className={styles.priceContainer}>
+            <span className={styles.price}>{price}</span>
+            {unit && <span className={styles.unit}> / {unit}</span>}
+          </div>
+        )}
       </div>
     </div>
   );
 };
+

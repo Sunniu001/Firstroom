@@ -20,8 +20,8 @@ export const FrameSizeSelector: React.FC<FrameSizeSelectorProps> = ({
       <span className={styles.label}>Frame Size</span>
       <div className={styles.optionsContainer}>
         {variants.map((variant) => {
-          // Assuming the attribute is named "Frame Size" or similar
-          const sizeLabel = variant.attributes['Frame Size'] || Object.values(variant.attributes)[0] || `Variant ${variant.id}`;
+          const attrs = variant.attributes || {};
+          const sizeLabel = attrs['Frame Size'] || Object.values(attrs)[0] || `Variant ${variant.id}`;
           
           return (
             <button
@@ -30,7 +30,7 @@ export const FrameSizeSelector: React.FC<FrameSizeSelectorProps> = ({
               onClick={() => onSelect(variant.id)}
               aria-pressed={selectedVariantId === variant.id}
             >
-              {sizeLabel.replace(/-/g, ' ')}
+              {String(sizeLabel).replace(/-/g, ' ')}
             </button>
           );
         })}

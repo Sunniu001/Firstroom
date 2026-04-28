@@ -238,8 +238,8 @@ export const ProductAccordion: React.FC<ProductAccordionProps> = ({ description,
           Product Details <span>{openTab === 'Details' ? '−' : '+'}</span>
         </button>
         {openTab === 'Details' && (
-          <div className={styles.tabContent}>
-            {data ? renderFormattedText(data.details) : <div dangerouslySetInnerHTML={{ __html: description }} />}
+          <div className={styles.tabContent} style={{ textAlign: 'center' }}>
+            <div dangerouslySetInnerHTML={{ __html: description }} />
           </div>
         )}
       </div>
@@ -272,10 +272,11 @@ export const ProductAccordion: React.FC<ProductAccordionProps> = ({ description,
         </button>
         {openTab === 'Info' && (
           <div className={styles.tabContent}>
-            <p>For custom sizes or commercial orders, please contact our support team at firstroom2019@gmail.com.</p>
+            {data ? renderFormattedText(data.details) : <p>For custom sizes or commercial orders, please contact our support team at firstroom2019@gmail.com.</p>}
           </div>
         )}
       </div>
     </div>
+
   );
 };

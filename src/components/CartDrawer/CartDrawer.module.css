@@ -2,10 +2,10 @@
   position: fixed;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.4);
-  z-index: 100;
+  z-index: 2000;
   opacity: 0;
   pointer-events: none;
-  transition: opacity var(--transition-normal);
+  transition: opacity 0.3s ease;
 }
 
 .overlay.open {
@@ -20,10 +20,10 @@
   bottom: 0;
   width: 100%;
   max-width: 400px;
-  background-color: var(--bg-primary);
-  z-index: 101;
+  background-color: #fff;
+  z-index: 2001;
   transform: translateX(100%);
-  transition: transform var(--transition-normal);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
 }
@@ -33,56 +33,90 @@
 }
 
 .header {
-  padding: 1.5rem 1.5rem 0.5rem 1.5rem;
+  padding: 16px 20px;
   display: flex;
-  justify-content: flex-end; /* Just the close button on top right, or nothing if header is hidden */
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
 }
 
-/* Actually, the screenshot doesn't have a header. The close button might be external or not present.
-   Let's keep the close button for accessibility but make it subtle or position it absolutely. */
 .title {
-  display: none; /* Hide 'Your Cart' title based on screenshot */
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #000;
+  margin: 0;
 }
 
 .closeButton {
   background: none;
   border: none;
-  font-size: 1.5rem;
   cursor: pointer;
-  color: var(--text-secondary);
+  padding: 4px;
+  color: #333;
 }
 
 .content {
   flex: 1;
   overflow-y: auto;
-  padding: var(--spacing-lg);
+  padding: 0;
 }
 
-.emptyState {
+.shippingBarWrapper {
+  padding: 12px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.shippingText {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.progressBar {
+  height: 3px;
+  background-color: #f0f0f0;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background-color: #000;
+  transition: width 0.5s ease;
+}
+
+.itemsList {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  color: var(--text-secondary);
-  gap: var(--spacing-md);
 }
 
 .cartItem {
   display: flex;
-  gap: 1.5rem;
-  padding: 1.5rem 0;
-  border-bottom: 1px solid var(--border-color);
+  gap: 15px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.itemImageWrapper {
+  width: 70px;
+  height: 80px;
+  background-color: #f9f9f9;
+  flex-shrink: 0;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .itemImage {
-  width: 80px;
-  height: 80px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  background-color: var(--bg-secondary);
 }
 
-.itemDetails {
+.itemInfo {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -92,102 +126,213 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 0.25rem;
+  margin-bottom: 2px;
 }
 
-.itemTitle {
+.itemName {
   font-family: var(--font-serif);
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #c45b59; /* Reddish brand color from screenshot */
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 0;
+  color: #000;
 }
 
-.removeBtn {
+.removeItem {
   background: none;
-  border: 1px solid #1a1a1a;
+  border: 1px solid #eee;
   border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  font-size: 1rem;
-  line-height: 1;
+  width: 22px;
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #1a1a1a;
   cursor: pointer;
-  padding: 0;
+  color: #999;
 }
 
-.customData {
-  margin-bottom: 1rem;
-  font-size: 0.85rem;
-  color: var(--text-secondary);
+.itemPrice {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 8px;
 }
 
-.customDataRow {
+.itemFooter {
   display: flex;
-  gap: 0.5rem;
-  margin-bottom: 0.15rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
 }
 
-.customDataKey {
+.quantitySelector {
+  display: flex;
+  align-items: center;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 2px;
+}
+
+.quantitySelector button {
+  background: none;
+  border: none;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #666;
+}
+
+.quantitySelector span {
+  width: 24px;
+  text-align: center;
+  font-size: 0.85rem;
   font-weight: 500;
 }
 
-.itemPriceRow {
-  font-family: var(--font-serif);
-  font-size: 1.1rem;
+.itemTotal {
+  font-size: 0.9rem;
   font-weight: 600;
-  margin-top: auto;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.quantity {
-  font-weight: 700;
-}
-
-.multiplier {
-  font-weight: 400;
-}
-
-.price {
-  font-weight: 700;
+  color: #000;
 }
 
 .footer {
-  padding: 1.5rem;
+  padding: 16px 20px;
+  background-color: #fff;
+  border-top: 1px solid #eee;
 }
 
-.summary {
+.summaryTable {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #333;
+}
+
+.shippingNote {
+  color: #999;
+  font-size: 0.8rem;
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-top: 1px solid #eee;
+  padding-top: 12px;
+  margin-top: 4px;
+}
+
+.totalLabel {
+  display: flex;
+  flex-direction: column;
+}
+
+.totalLabel strong {
+  font-size: 1.1rem;
+  color: #000;
+}
+
+.taxNote {
+  font-size: 0.7rem;
+  color: #999;
+  margin-top: 1px;
+}
+
+.totalAmount {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #000;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.checkoutBtn {
+  flex: 1;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 2rem;
-  font-family: var(--font-serif);
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #1a1a1a;
-}
-
-.footerLinks {
-  display: flex;
-  gap: 1.5rem;
-}
-
-.footerLink {
-  background: none;
-  border: none;
-  font-family: var(--font-serif);
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: #1a1a1a;
-  cursor: pointer;
-  padding: 0;
+  justify-content: center;
+  height: 44px;
+  background-color: #000;
+  color: #fff;
+  border-radius: 4px;
   text-decoration: none;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
 }
 
-.footerLink:hover {
-  text-decoration: underline;
+.checkoutBtn:hover {
+  background-color: #B53939;
+  color: #fff;
+}
+
+
+.viewCartBtn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border: 1px solid #eee;
+  background-color: #fff;
+  color: #333;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+}
+
+.viewCartBtn:hover {
+  background-color: #B53939;
+  border-color: #B53939;
+  color: #fff;
+}
+
+.trustBadges {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.7rem;
+  color: #999;
+}
+
+.badgeItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dot {
+  font-size: 0.8rem;
+}
+
+.emptyState {
+  padding: 40px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+@media (max-width: 480px) {
+  .drawer {
+    max-width: 100%;
+  }
 }

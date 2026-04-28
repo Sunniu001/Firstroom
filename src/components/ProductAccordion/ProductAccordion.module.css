@@ -1,73 +1,82 @@
 .accordionContainer {
-  margin: var(--spacing-xxl) auto 0;
+  width: 100%;
+  max-width: 100%;
+  margin: 40px 0;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  width: 100%;
-  max-width: 1000px;
+  gap: 12px;
 }
 
 .tab {
   width: 100%;
+  border: none;
 }
 
 .tabHeader {
   width: 100%;
   background-color: #f6f6f6;
+  padding: 18px 24px;
+  display: flex;
+  justify-content: center; /* Center the text */
+  align-items: center;
+  position: relative;
+  cursor: pointer;
   border: none;
-  padding: 1.25rem;
-  text-align: center;
   font-family: var(--font-serif);
   font-size: 1.1rem;
-  color: #111;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.75rem;
-  transition: background-color 0.2s;
   font-weight: 500;
-  letter-spacing: 0.5px;
+  color: #333;
+  transition: background-color 0.2s ease;
 }
 
 .tabHeader:hover {
-  background-color: #eee;
+  background-color: #f0f0f0;
 }
 
 .tabHeader span {
-  font-family: var(--font-sans);
-  font-weight: bold;
-  font-size: 1.4rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: absolute;
+  right: 24px; /* Move plus icon to the right */
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #1a1a1a;
 }
 
 .tabContent {
-  padding: 2rem 1rem;
-  text-align: center;
+  padding: 24px 40px;
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  font-family: var(--font-sans);
   font-size: 0.95rem;
-  color: #333;
   line-height: 1.6;
+  color: #4a4a4a;
+  animation: slideDown 0.3s ease-out;
 }
 
 .formattedText {
-  text-align: left;
-  display: inline-block;
-  max-width: 800px;
-  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .textHeader {
+  font-weight: 700;
+  color: #000;
+  margin-top: 8px;
   display: block;
-  font-weight: 600;
-  margin-top: 1.5rem;
-  color: #111;
 }
 
 .textLine {
   display: block;
-  font-weight: 400;
-  margin-top: 0.25rem;
-  color: #444;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .tabHeader {
+    font-size: 1rem;
+    padding: 15px 20px;
+  }
 }

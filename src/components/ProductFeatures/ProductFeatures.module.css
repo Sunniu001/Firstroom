@@ -1,33 +1,51 @@
 .container {
   display: flex;
   justify-content: center;
-  gap: 6rem;
-  margin: 2rem auto 6rem;
-  max-width: 1000px;
+  align-items: flex-start;
+  gap: 4rem;
+  margin: 40px auto 80px;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 40px;
 }
 
 .feature {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
   text-align: center;
-  font-family: var(--font-serif);
-  font-size: 1.15rem;
-  color: #111;
+  gap: 15px;
 }
 
 .iconWrapper {
-  color: #111;
-  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px; /* Fixed height for icon alignment */
 }
 
-@media (max-width: 768px) {
+.feature span {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #333;
+  line-height: 1.2;
+}
+
+@media (max-width: 900px) {
   .container {
+    gap: 2rem;
     flex-wrap: wrap;
-    gap: 3rem;
   }
+  
   .feature {
-    width: 40%;
+    flex: 0 0 calc(50% - 1rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .feature {
+    flex: 0 0 100%;
   }
 }

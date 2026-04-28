@@ -5,7 +5,9 @@ import { Header } from '@/components/Header/Header';
 import { Footer } from '@/components/Footer/Footer';
 import { ProductActions } from '@/components/ProductActions/ProductActions';
 import { ProductGallery } from '@/components/ProductGallery/ProductGallery';
+import Link from 'next/link';
 import { ProductAccordion } from '@/components/ProductAccordion/ProductAccordion';
+
 import { SocialShare } from '@/components/SocialShare/SocialShare';
 import { ProductFeatures } from '@/components/ProductFeatures/ProductFeatures';
 import { notFound } from 'next/navigation';
@@ -71,18 +73,26 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
       
-      <main style={{ flex: 1, padding: 'var(--spacing-xl) var(--spacing-lg)' }}>
+      <main className={styles.main}>
+        <div className={styles.breadcrumbContainer}>
+          <Link href="/">Home</Link>
+          <span className={styles.separator}>/</span>
+          <Link href="/category/wallpapers">Wallpapers</Link>
+          <span className={styles.separator}>/</span>
+          <span className={styles.current}>{legacyProduct.title}</span>
+        </div>
+
         <div className={styles.container}>
-          <ProductGallery images={legacyProduct.images} />
+          <div className={styles.galleryWrapper}>
+            <ProductGallery images={legacyProduct.images} />
+          </div>
           
           <div className={styles.productInfo}>
-            <div className={styles.categories}>
-              {legacyProduct.categories.join(', ')}
-            </div>
             <h1 className={styles.title}>{legacyProduct.title}</h1>
             <p className={styles.price}>
-              ₹{legacyProduct.price.amount} {legacyProduct.isWallpaper && <span style={{fontSize: '0.8rem', color: '#666', fontWeight: 400}}>/ sq. ft.</span>}
+              ₹{legacyProduct.price.amount} {legacyProduct.isWallpaper && <span className={styles.unit}>/ sq. ft.</span>}
             </p>
+
 
             <ProductActions product={legacyProduct} />
           </div>

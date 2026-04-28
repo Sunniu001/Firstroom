@@ -3,9 +3,16 @@ import { Category } from "@/types/product";
 
 export async function getCategories(): Promise<Category[]> {
   try {
-    const { data } = await fetchStoreApi<any[]>("products/categories");
+    const pages = [1, 2, 3, 4, 5];
+    const results = await Promise.all(
+      pages.map(page => 
+        fetchStoreApi<any[]>(`products/categories?per_page=100&page=${page}`).catch(() => ({ data: [] }))
+      )
+    );
 
-    return data.map((cat: any) => ({
+    const allData = results.flatMap(result => result.data || []);
+
+    return allData.map((cat: any) => ({
       id: cat.id,
       name: cat.name,
       slug: cat.slug,
@@ -17,3 +24,4 @@ export async function getCategories(): Promise<Category[]> {
     return [];
   }
 }
+

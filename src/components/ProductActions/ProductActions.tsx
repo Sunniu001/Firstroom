@@ -35,7 +35,7 @@ export const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
   const [height, setHeight] = useState<string>('5');
   const [width, setWidth] = useState<string>('5');
   const [quantity, setQuantity] = useState(1);
-  const materials = product.attributes?.find(a => a.name.toLowerCase() === 'material')?.options || [];
+  const materials = product.attributes?.find(a => (a.name || '').toLowerCase() === 'material')?.options || [];
   const [selectedMaterial, setSelectedMaterial] = useState<string>(materials[0] || '');
 
   const isVariable = product.variants && product.variants.length > 0;
@@ -76,7 +76,7 @@ export const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
       if (isVariable && selectedVariantId && product.variants) {
         const selectedVariant = product.variants.find(v => v.id === selectedVariantId);
         if (selectedVariant && selectedVariant.attributes) {
-          variationPayload = Object.entries(selectedVariant.attributes).map(([key, value]) => ({
+          variationPayload = Object.entries(selectedVariant.attributes || {}).map(([key, value]) => ({
             attribute: key,
             value: value as string,
           }));

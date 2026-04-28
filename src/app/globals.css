@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Caveat:wght@400..700&family=Dancing+Script:wght@400..700&family=Great+Vibes&family=Pacifico&family=Playball&family=Sacramento&family=Satisfy&family=Yellowtail&display=swap');
+/* Google Fonts are loaded via Next.js font loader in layout.tsx */
 
 :root {
   /* Colors */
@@ -8,11 +8,12 @@
   --text-secondary: #4a4a4a;
   --text-muted: #999999;
   --border-color: #e5e5e5;
-  --accent-color: #ff4d4f; /* The coral red from the design */
+  --accent-color: #B53939; /* Decided Brand Red */
+
   
-  /* Typography */
-  --font-sans: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-serif: var(--font-playfair), Georgia, serif;
+  /* Typography — Playfair Display (headings) + Lato (body/nav) */
+  --font-sans: var(--font-lato), 'Lato', system-ui, sans-serif;
+  --font-serif: var(--font-playfair), 'Playfair Display', Georgia, serif;
   
   /* Spacing */
   --spacing-xs: 0.25rem;
@@ -83,4 +84,5 @@ img {
 
 .main-content {
   flex: 1;
+  padding-top: 104px; /* 34px topbar + 70px mainbar */
 }

@@ -6,7 +6,6 @@
 
 .main {
   flex: 1;
-  padding-top: 73px; /* Header height */
 }
 
 /* Hero Section */
@@ -19,31 +18,36 @@
   text-align: center;
   padding: 0 var(--spacing-lg);
   color: #ffffff;
+  overflow: hidden;
 }
 
+/* Fixed background — matches design settings exactly */
 .heroBackground {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -2;
+  inset: 0;
+  background-image: url('/images/Hero-Page-Image-1.webp');
+  background-size: cover;
+  /* Display Size: Cover */
+  background-position: center center;
+  /* Position: Center Center */
+  background-attachment: fixed;
+  /* Attachment: Fixed */
+  background-repeat: no-repeat;
+  /* Repeat: No-repeat */
+  z-index: 0;
 }
 
 .heroOverlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: -1;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.42);
+  z-index: 1;
 }
 
 .heroContent {
+  position: relative;
+  z-index: 2;
   max-width: 800px;
-  z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -52,20 +56,23 @@
 
 .heroTitle {
   font-family: var(--font-serif);
-  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  font-size: 40px;
   font-weight: 400;
-  line-height: 1.3;
+  line-height: 1.35;
   margin: 0;
   letter-spacing: 0.02em;
+  color: #ffffff;
 }
 
 .heroSubtitle {
   font-family: var(--font-sans);
-  font-size: 1.125rem;
-  font-weight: 400;
-  max-width: 600px;
-  margin: var(--spacing-md) 0 var(--spacing-lg) 0;
-  line-height: 1.6;
+  font-size: 18px;
+  font-weight: 500;
+  /* Lato Medium */
+  max-width: 560px;
+  margin: 0.5rem 0 1.5rem 0;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .heroButton {
@@ -73,26 +80,34 @@
   color: var(--accent-color);
   font-family: var(--font-sans);
   font-size: 0.875rem;
-  font-weight: 500;
-  padding: 12px 32px;
+  font-weight: 700;
+  padding: 13px 36px;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-radius: 2px;
-  border: none;
+  letter-spacing: 0.08em;
+  border: 2px solid #ffffff;
   cursor: pointer;
-  transition: opacity var(--transition-fast);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .heroButton:hover {
-  opacity: 0.9;
+  background-color: transparent;
+  color: #ffffff;
 }
 
 /* Base Section Padding */
 .section {
-  padding: 100px var(--spacing-lg);
-  max-width: 1440px;
-  margin: 0 auto;
+  padding: 100px 40px;
   width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+
+
+
+@media (max-width: 768px) {
+  .section {
+    padding: 60px 24px;
+  }
 }
 
 .sectionLight {
@@ -122,25 +137,49 @@
 
 .featureTitle {
   font-family: var(--font-serif);
-  font-size: 2.5rem;
+  font-size: 32px;
   font-weight: 400;
   color: var(--text-primary);
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: 40px;
+  line-height: 1.2;
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .featureTitle {
+    font-size: 28px;
+    margin-bottom: 24px;
+  }
+  
+  .featureText {
+    margin-bottom: 30px;
+  }
 }
 
 .featureText {
   font-family: var(--font-sans);
-  font-size: 1rem;
+  font-size: 16px;
   color: var(--text-secondary);
-  line-height: 1.8;
-  margin-bottom: var(--spacing-lg);
+  line-height: 1.6;
+  margin-bottom: 50px;
 }
 
 .featureIllustration {
-  height: 80px;
-  width: auto;
+  width: 100%;
+  max-width: 220px;
+  height: auto;
   object-fit: contain;
-  align-self: flex-start;
+  align-self: center;
+  /* Centered as requested */
+}
+
+.featureContentRight {
+  align-items: flex-start; /* Ensure text is left-aligned */
+  text-align: left;
+}
+
+.featureContentRight .featureIllustration {
+  align-self: center; /* Specifically center the illustration */
 }
 
 .featureImageWrapper {
@@ -149,6 +188,13 @@
   aspect-ratio: 16 / 10;
   overflow: hidden;
 }
+
+@media (max-width: 768px) {
+  .featureImageWrapper {
+    aspect-ratio: 1 / 1; /* Square on mobile for better visibility */
+  }
+}
+
 
 /* Brand specific corner radius */
 .featureImageRight {
@@ -168,25 +214,42 @@
 /* Category Grid Section */
 .categorySection {
   padding: 100px var(--spacing-lg);
+  /* Reverted from 120px */
   background-color: var(--bg-secondary);
   text-align: center;
 }
 
+@media (max-width: 768px) {
+  .categorySection {
+    padding: 40px 24px; /* Reduced padding on mobile */
+  }
+}
+
 .categorySectionTitle {
   font-family: var(--font-serif);
-  font-size: 2.5rem;
+  font-size: 32px;
   font-weight: 400;
   color: var(--text-primary);
-  margin-bottom: 60px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+  .categorySectionTitle {
+    font-size: 26px; /* Lower font size on mobile */
+    margin-bottom: 30px;
+  }
 }
 
 .categoryGrid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 40px;
-  max-width: 1440px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
 }
+
+
 
 @media (min-width: 768px) {
   .categoryGrid {
@@ -223,9 +286,58 @@
 
 .categoryLabel {
   font-family: var(--font-sans);
-  font-size: 0.875rem;
+  font-size: 0.975rem;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-top: var(--spacing-sm);
+}
+
+/* Video Section */
+.videoSection {
+  padding: 10px 0 0 0;
+  /* No left/right padding */
+  text-align: center;
+  background-color: #ffffff;
+}
+
+.videoTitle {
+  font-family: var(--font-serif);
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin-bottom: 60px;
+}
+
+@media (max-width: 768px) {
+  .videoTitle {
+    font-size: 26px; /* Lower font size on mobile */
+    padding: 0 24px; /* Added padding */
+    margin-bottom: 40px;
+  }
+}
+
+.videoWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  /* Full width */
+  margin: 0;
+  aspect-ratio: 16 / 9;
+  background-color: #000;
+  overflow: hidden;
+}
+
+.videoIframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 115%;
+  /* Scaled to crop top/bottom info */
+  transform: translate(-50%, -50%) scale(1.2);
+  /* Scaled to crop branding */
+  border: none;
+  pointer-events: none;
+  /* Disable interaction */
 }

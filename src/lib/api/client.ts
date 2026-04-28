@@ -2,16 +2,19 @@ export const API_URL = process.env.NEXT_PUBLIC_WC_API_URL;
 export const STORE_URL = process.env.NEXT_PUBLIC_WC_STORE_URL;
 
 export async function wcFetch(endpoint: string) {
-  const res = await fetch(`${API_URL}/${endpoint}`, {
+  const url = `${API_URL}/${endpoint}`;
+  const res = await fetch(url, {
     next: { revalidate: 120 },
   });
 
   if (!res.ok) {
-    throw new Error("WooCommerce Store API error");
+    const errorBody = await res.text().catch(() => "No error body");
+    throw new Error(`WooCommerce API Error: ${res.status} ${res.statusText} at ${endpoint}. Body: ${errorBody}`);
   }
 
   return res.json();
 }
+
 
 /**
  * Client for WooCommerce Store API (v1)
@@ -23,7 +26,7 @@ export async function fetchStoreApi<T>(
   cartToken?: string | null,
   options?: RequestInit,
   nonce?: string | null
-): Promise<{ data: T; cartToken: string | null; nonce: string | null }> {
+): Promise<{ data: T; cartToken: string | null; nonce: string | null; headers: Headers }> {
   const url = `${STORE_URL}/wp-json/wc/store/v1/${endpoint}`;
 
   const headers: HeadersInit = {
@@ -54,5 +57,6 @@ export async function fetchStoreApi<T>(
   const returnedNonce = response.headers.get('Nonce') || nonce || null;
   const data = await response.json();
 
-  return { data, cartToken: returnedCartToken, nonce: returnedNonce };
+  return { data, cartToken: returnedCartToken, nonce: returnedNonce, headers: response.headers };
 }
+
