@@ -126,7 +126,12 @@ export const AccountDashboard: React.FC = () => {
     if (pwd.new !== pwd.confirm) { setErrorMsg('Passwords do not match.'); return; }
     setIsLoading(true); setErrorMsg(null);
     try {
-      await updateCustomer(customer.id, { password: pwd.new } as any);
+      const res = await fetch(`/api/wc/customer?id=${customer.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: pwd.new }),
+      });
+      if (!res.ok) throw new Error((await res.json()).message || 'Failed to change password');
       notify('Password updated.');
       setPwd({ old: '', new: '', confirm: '' });
     } catch (e: any) { setErrorMsg(e.message); }

@@ -27,7 +27,7 @@ export interface WCOrder {
   date_created: string;
   total: string;
   currency_symbol: string;
-  line_items: Array<{ name: string; quantity: number; total: string }>;
+  line_items: Array<{ name: string; quantity: number; total: string; image?: { src: string } }>;
 }
 
 // ─── AUTH ────────────────────────────────────────────────────────
