@@ -142,28 +142,33 @@ export const CartPage: React.FC = () => {
                   </div>
                   
                   <div className={styles.priceCol}>
-                    ₹{(price * (item.customData?.Area ? parseFloat(item.customData.Area) : 1)).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                    ₹{price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                    {item.customData?.Area && <span className={styles.priceUnit}> / sq. ft.</span>}
                   </div>
                   
                   <div className={styles.quantityCol}>
                     <div className={styles.qtyControl}>
-                      <button 
-                        className={styles.qtyBtn}
-                        onClick={() => handleUpdateQuantity(item.id, item.quantity, -1)}
-                        disabled={isLoading || item.quantity <= 1}
-                      >
-                        -
-                      </button>
-                      <div className={styles.qtyValue}>
-                        {item.customData?.Area ? Math.round(item.quantity / parseFloat(item.customData.Area)) : item.quantity}
-                      </div>
-                      <button 
-                        className={styles.qtyBtn}
-                        onClick={() => handleUpdateQuantity(item.id, item.quantity, 1)}
-                        disabled={isLoading}
-                      >
-                        +
-                      </button>
+                      {item.customData?.Area ? (
+                        <span className={styles.sqftQty}>{item.quantity} sq. ft.</span>
+                      ) : (
+                        <>
+                          <button 
+                            className={styles.qtyBtn}
+                            onClick={() => handleUpdateQuantity(item.id, item.quantity, -1)}
+                            disabled={isLoading || item.quantity <= 1}
+                          >
+                            -
+                          </button>
+                          <div className={styles.qtyValue}>{item.quantity}</div>
+                          <button 
+                            className={styles.qtyBtn}
+                            onClick={() => handleUpdateQuantity(item.id, item.quantity, 1)}
+                            disabled={isLoading}
+                          >
+                            +
+                          </button>
+                        </>
+                      )}
                     </div>
                   </div>
                   

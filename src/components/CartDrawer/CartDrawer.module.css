@@ -358,3 +358,15 @@
     max-width: 100%;
   }
 }
+.sqftQty {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #333;
+  padding: 4px 8px;
+}
+
+.priceUnit {
+  font-size: 0.75rem;
+  color: #666;
+  font-weight: 400;
+}

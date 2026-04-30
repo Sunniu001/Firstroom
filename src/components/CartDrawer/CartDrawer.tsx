@@ -122,16 +122,21 @@ export const CartDrawer: React.FC = () => {
                     )}
 
                     <div className={styles.itemPrice}>
-                      ₹{(parseFloat(item.price.amount) * (item.customData?.Area ? parseFloat(item.customData.Area) : 1)).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                      ₹{parseFloat(item.price.amount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                      {item.customData?.Area && <span className={styles.priceUnit}> / sq. ft.</span>}
                     </div>
                     
                     <div className={styles.itemFooter}>
                       <div className={styles.quantitySelector}>
-                        <button onClick={() => handleUpdateQuantity(item.id, item.quantity, -1)} disabled={isLoading}>—</button>
-                        <span>
-                          {item.customData?.Area ? Math.round(item.quantity / parseFloat(item.customData.Area)) : item.quantity}
-                        </span>
-                        <button onClick={() => handleUpdateQuantity(item.id, item.quantity, 1)} disabled={isLoading}>+</button>
+                        {item.customData?.Area ? (
+                          <span className={styles.sqftQty}>{item.quantity} sq. ft.</span>
+                        ) : (
+                          <>
+                            <button onClick={() => handleUpdateQuantity(item.id, item.quantity, -1)} disabled={isLoading}>—</button>
+                            <span>{item.quantity}</span>
+                            <button onClick={() => handleUpdateQuantity(item.id, item.quantity, 1)} disabled={isLoading}>+</button>
+                          </>
+                        )}
                       </div>
                       <div className={styles.itemTotal}>
                         ₹{(parseFloat(item.price.amount) * item.quantity).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
