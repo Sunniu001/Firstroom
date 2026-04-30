@@ -47,12 +47,13 @@ export const CartPage: React.FC = () => {
   }, [cart, selectedItemIds.length, selectAllItems]);
 
   const handleUpdateQuantity = async (itemKey: string, currentQuantity: number, change: number) => {
-    if (!cartToken) return;
-    const newQuantity = currentQuantity + change;
+    if (!cartToken || !cart) return;
+    const item = cart.items.find(i => i.id === itemKey);
+    const area = item?.customData?.Area ? parseFloat(item.customData.Area) : 1;
+    const newQuantity = currentQuantity + (change * area);
     
-    if (newQuantity < 1) {
-      // Typically, we'd remove it, but for a selective checkout, maybe we just stop at 1 or allow removal.
-      // Let's stop at 1 for the qty controls and let them use a delete button if they want (not in mockup though).
+    if (newQuantity < (area * 0.9)) {
+      // Potentially remove item or just stop
       return;
     }
 
@@ -153,7 +154,9 @@ export const CartPage: React.FC = () => {
                       >
                         -
                       </button>
-                      <div className={styles.qtyValue}>{item.quantity}</div>
+                      <div className={styles.qtyValue}>
+                        {item.customData?.Area ? Math.round(item.quantity / parseFloat(item.customData.Area)) : item.quantity}
+                      </div>
                       <button 
                         className={styles.qtyBtn}
                         onClick={() => handleUpdateQuantity(item.id, item.quantity, 1)}

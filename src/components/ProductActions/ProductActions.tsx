@@ -83,15 +83,28 @@ export const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
         }
       }
       
-      let customData;
+      let customData: Record<string, string> | undefined;
       if (isNameplate) {
         customData = {
           'Name': nameplateData.name,
           'Font': nameplateData.font
         };
+      } else if (isWallpaper) {
+        customData = {
+          'Height': height,
+          'Width': width,
+          'Area': displayArea.toFixed(2),
+          'Material': selectedMaterial
+        };
       }
       
-      const { cart: newCart, cartToken: newCartToken } = await addToCart(cartToken, product.id, quantity, variationPayload, customData);
+      // For wallpapers, if the unit price is per sq ft, we need to send the total area as quantity 
+      // if the backend isn't configured to calculate price from metadata.
+      // However, if we want to keep the quantity as "units of wallpaper", 
+      // we'd need a backend plugin to handle the price calculation.
+      const finalQuantity = isWallpaper ? quantity * displayArea : quantity;
+
+      const { cart: newCart, cartToken: newCartToken } = await addToCart(cartToken, product.id, finalQuantity, variationPayload, customData);
       setCart(newCart);
       setCartToken(newCartToken);
       setIsOpen(true);

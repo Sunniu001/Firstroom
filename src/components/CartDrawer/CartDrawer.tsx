@@ -26,9 +26,11 @@ export const CartDrawer: React.FC = () => {
   }, [cartToken, cart, setCart, setIsLoading]);
 
   const handleUpdateQuantity = async (itemKey: string, currentQuantity: number, change: number) => {
-    if (!cartToken) return;
-    const newQuantity = currentQuantity + change;
-    if (newQuantity < 1) return handleRemoveItem(itemKey);
+    if (!cartToken || !cart) return;
+    const item = cart.items.find(i => i.id === itemKey);
+    const area = item?.customData?.Area ? parseFloat(item.customData.Area) : 1;
+    const newQuantity = currentQuantity + (change * area);
+    if (newQuantity < (area * 0.9)) return handleRemoveItem(itemKey);
 
     setIsLoading(true);
     try {
@@ -107,12 +109,26 @@ export const CartDrawer: React.FC = () => {
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg>
                       </button>
                     </div>
+                    
+                    {item.customData && Object.keys(item.customData).length > 0 && (
+                      <div className={styles.itemMeta}>
+                        {Object.entries(item.customData).map(([key, value]) => (
+                          <div key={key} className={styles.metaRow}>
+                            <span className={styles.metaLabel}>{key}:</span>
+                            <span className={styles.metaValue}>{value}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
                     <div className={styles.itemPrice}>₹{parseFloat(item.price.amount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</div>
                     
                     <div className={styles.itemFooter}>
                       <div className={styles.quantitySelector}>
                         <button onClick={() => handleUpdateQuantity(item.id, item.quantity, -1)} disabled={isLoading}>—</button>
-                        <span>{item.quantity}</span>
+                        <span>
+                          {item.customData?.Area ? Math.round(item.quantity / parseFloat(item.customData.Area)) : item.quantity}
+                        </span>
                         <button onClick={() => handleUpdateQuantity(item.id, item.quantity, 1)} disabled={isLoading}>+</button>
                       </div>
                       <div className={styles.itemTotal}>

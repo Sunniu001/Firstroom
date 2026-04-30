@@ -157,6 +157,28 @@
   margin-bottom: 8px;
 }
 
+.itemMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 10px;
+}
+
+.metaRow {
+  display: flex;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.metaLabel {
+  font-weight: 600;
+}
+
+.metaValue {
+  color: #333;
+}
+
 .itemFooter {
   display: flex;
   justify-content: space-between;
