@@ -34,6 +34,7 @@ export const AccountDashboard: React.FC = () => {
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [guestEmail, setGuestEmail] = useState<string | null>(null);
+  const [orderTypeTab, setOrderTypeTab] = useState<'wallpaper' | 'decor'>('wallpaper');
 
   useEffect(() => {
     const s = searchParams.get('section') as Section;
@@ -257,6 +258,23 @@ export const AccountDashboard: React.FC = () => {
         {section === 'orders' && (
           <>
             <div className={styles.sectionTitle}>My Orders</div>
+            
+            {/* Order Type Tabs */}
+            <div className={styles.orderTabs}>
+              <button 
+                className={`${styles.orderTab} ${orderTypeTab === 'wallpaper' ? styles.orderTabActive : ''}`}
+                onClick={() => setOrderTypeTab('wallpaper')}
+              >
+                Wallpaper
+              </button>
+              <button 
+                className={`${styles.orderTab} ${orderTypeTab === 'decor' ? styles.orderTabActive : ''}`}
+                onClick={() => setOrderTypeTab('decor')}
+              >
+                Home Decor
+              </button>
+            </div>
+
             {isLoading ? <p>Loading…</p> : orders.length === 0 ? (
               <div className={styles.emptyState}>
                 <p>No orders yet.</p>
@@ -274,9 +292,16 @@ export const AccountDashboard: React.FC = () => {
                 </thead>
                 <tbody>
                   {orders.flatMap(order =>
-                    order.line_items.map((item, i) => (
-                      <tr key={`${order.id}-${i}`}>
-                        <td>
+                    order.line_items
+                      .filter(item => {
+                        const isWall = item.sku?.startsWith('FMWPAR') || 
+                                      item.meta_data?.some(m => m.key.toLowerCase() === 'area') ||
+                                      item.name.toLowerCase().includes('shade');
+                        return orderTypeTab === 'wallpaper' ? isWall : !isWall;
+                      })
+                      .map((item, i) => (
+                        <tr key={`${order.id}-${i}`}>
+                        <td data-label="Product">
                           <div className={styles.orderProductCell}>
                             <div className={styles.orderImagePlaceholder}>
                               {item.image?.src ? (
@@ -288,13 +313,29 @@ export const AccountDashboard: React.FC = () => {
                             <div className={styles.orderItemDetails}>
                               <span className={styles.orderItemName}>{item.name}</span>
                               <span className={styles.orderDate}>{new Date(order.date_created).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                              
+                              {/* Display custom dimensions and material */}
+                              {item.meta_data && item.meta_data.length > 0 && (
+                                <div className={styles.orderItemMeta}>
+                                  {item.meta_data
+                                    .filter(m => !['area', '_custom_data', 'sqft'].includes(m.key.toLowerCase()))
+                                    .map((meta, idx) => (
+                                      <div key={idx} className={styles.orderMetaRow}>
+                                        {meta.key}: {meta.value}
+                                      </div>
+                                    ))}
+                                </div>
+                              )}
                             </div>
                           </div>
                         </td>
-                        <td>{item.quantity}</td>
-                        <td>{order.currency_symbol}{parseFloat(item.total).toLocaleString('en-IN')}</td>
-                        <td>
-                          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                        <td data-label="Quantity">
+                          {/* Hide quantity for wallpapers in order history to avoid confusion */}
+                          {(item.meta_data?.some(m => m.key.toLowerCase() === 'area') || (item.sku && item.sku.startsWith('FMWPAR'))) ? '-' : item.quantity}
+                        </td>
+                        <td data-label="Price">{order.currency_symbol}{parseFloat(item.total).toLocaleString('en-IN')}</td>
+                        <td data-label="Status">
+                          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
                             <span className={`${styles.orderStatus} ${getStatusClass(order.status)}`}>
                               {order.status === 'completed' ? 'DELIVERED' : order.status.toUpperCase()}
                             </span>

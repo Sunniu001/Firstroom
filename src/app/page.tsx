@@ -123,13 +123,14 @@ export default async function Home() {
         <section className={styles.videoSection}>
           <h2 className={styles.videoTitle}>When Your Vision Become Your Space</h2>
           <div className={styles.videoWrapper}>
-            <iframe
+            <video
               className={styles.videoIframe}
-              src="https://www.youtube.com/embed/hGp2mkVjb7U?autoplay=1&mute=1&loop=1&playlist=hGp2mkVjb7U&controls=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1"
-              title="First Room Video"
-              allow="autoplay; encrypted-media"
-              allowFullScreen
-            ></iframe>
+              src="/images/Landing page video.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+            />
           </div>
         </section>
 

@@ -74,6 +74,8 @@ export interface NormalizedCartItem {
   quantity: number;
   title: string;
   image: string;
+  sku?: string;
+  isWallpaper?: boolean;
   price: {
     amount: string;
     currencyCode: string;

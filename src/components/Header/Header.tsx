@@ -291,13 +291,93 @@ export const Header: React.FC = () => {
 
       {/* Mobile Menu Overlay */}
       <div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.mobileMenuOpen : ''}`}>
+        {/* Mobile Menu Header with Icons */}
+        <div className={styles.mobileMenuHeader}>
+          <div className={styles.mobileMenuLeft}>
+            <Image src="/images/Logo.png" alt="Logo" width={180} height={50} style={{ objectFit: 'contain' }} />
+          </div>
+          <div className={styles.mobileMenuIcons}>
+            <button className={styles.mobileIconBtn} onClick={() => { setIsMobileMenuOpen(false); setIsSearchOpen(true); }}>
+              <SearchIcon />
+            </button>
+            <Link href="/wishlist" className={styles.mobileIconBtn} onClick={() => setIsMobileMenuOpen(false)} style={{ position: 'relative' }}>
+              <HeartIcon />
+              {mounted && wishlistCount > 0 && <span className={styles.badge}>{wishlistCount}</span>}
+            </Link>
+            <button className={styles.mobileIconBtn} onClick={() => { setIsMobileMenuOpen(false); setIsOpen(true); }} style={{ position: 'relative' }}>
+              <BagIcon />
+              {mounted && cartCount > 0 && <span className={styles.badge}>{cartCount}</span>}
+            </button>
+            <button className={styles.mobileIconBtn} onClick={() => { setIsMobileMenuOpen(false); if (user) router.push('/account'); else openLoginModal(); }}>
+              <UserIcon />
+            </button>
+            <button className={styles.mobileCloseBtn} onClick={() => setIsMobileMenuOpen(false)}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+          </div>
+        </div>
+
         <div className={styles.mobileMenuInner}>
           <nav className={styles.mobileNav}>
-            <Link href="/category/wallpapers" className={styles.mobileNavLink} onClick={() => setIsMobileMenuOpen(false)}>WALLPAPER</Link>
-            <Link href="/category/home-decor" className={styles.mobileNavLink} onClick={() => setIsMobileMenuOpen(false)}>HOME DECOR</Link>
+            {/* WALLPAPER Accordion */}
+            <div className={styles.mobileAccordion}>
+              <div className={styles.mobileAccordionHeader}>
+                <Link href="/category/wallpapers" className={styles.mobileNavLink} style={{ border: 'none', padding: 0 }} onClick={() => setIsMobileMenuOpen(false)}>WALLPAPER</Link>
+                <button className={styles.accordionToggle} onClick={(e) => {
+                  e.currentTarget.parentElement?.nextElementSibling?.classList.toggle(styles.accordionOpen);
+                  e.currentTarget.classList.toggle(styles.toggleRotate);
+                }}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+              </div>
+              <div className={styles.accordionContent}>
+                <Link href="/category/artistic-wallpaper" className={styles.mobileSubLink} onClick={() => setIsMobileMenuOpen(false)}>Artistic</Link>
+                <Link href="/category/botanical-rhythm-wallpaper" className={styles.mobileSubLink} onClick={() => setIsMobileMenuOpen(false)}>Botanical Rhythm</Link>
+                <Link href="/category/inner-landscape-wallpaper" className={styles.mobileSubLink} onClick={() => setIsMobileMenuOpen(false)}>Inner Landscape</Link>
+                <Link href="/category/motif-impression-wallpaper" className={styles.mobileSubLink} onClick={() => setIsMobileMenuOpen(false)}>Motif Impression</Link>
+                <Link href="/category/timeless-wallpaper" className={styles.mobileSubLink} onClick={() => setIsMobileMenuOpen(false)}>Timeless</Link>
+                <Link href="/category/tropical-wallpaper" className={styles.mobileSubLink} onClick={() => setIsMobileMenuOpen(false)}>Tropical</Link>
+                <Link href="/category/kids-wallpaper" className={styles.mobileSubLink} onClick={() => setIsMobileMenuOpen(false)}>Kids</Link>
+                <Link href="/category/wallpapers" className={styles.mobileSubLink} onClick={() => setIsMobileMenuOpen(false)}>View All</Link>
+              </div>
+            </div>
+
+            {/* HOME DECOR Accordion */}
+            <div className={styles.mobileAccordion}>
+              <div className={styles.mobileAccordionHeader}>
+                <Link href="/category/home-decor" className={styles.mobileNavLink} style={{ border: 'none', padding: 0 }} onClick={() => setIsMobileMenuOpen(false)}>HOME DECOR</Link>
+                <button className={styles.accordionToggle} onClick={(e) => {
+                  e.currentTarget.parentElement?.nextElementSibling?.classList.toggle(styles.accordionOpen);
+                  e.currentTarget.classList.toggle(styles.toggleRotate);
+                }}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+              </div>
+              <div className={styles.accordionContent}>
+                <Link href="/category/decals" className={styles.mobileSubLink} onClick={() => setIsMobileMenuOpen(false)}>Decals</Link>
+                <Link href="/category/desk-quote" className={styles.mobileSubLink} onClick={() => setIsMobileMenuOpen(false)}>Desk Quote</Link>
+                <Link href="/category/frame" className={styles.mobileSubLink} onClick={() => setIsMobileMenuOpen(false)}>Frame</Link>
+                <Link href="/category/nameplate" className={styles.mobileSubLink} onClick={() => setIsMobileMenuOpen(false)}>Nameplate</Link>
+                <Link href="/category/home-decor" className={styles.mobileSubLink} onClick={() => setIsMobileMenuOpen(false)}>View All</Link>
+              </div>
+            </div>
+
             <Link href="/custom-design" className={styles.mobileNavLink} onClick={() => setIsMobileMenuOpen(false)}>CUSTOM DESIGN</Link>
             <Link href="/our-story" className={styles.mobileNavLink} onClick={() => setIsMobileMenuOpen(false)}>OUR STORY</Link>
             <Link href="/contact" className={styles.mobileNavLink} onClick={() => setIsMobileMenuOpen(false)}>CONTACT US</Link>
+            
+            <div className={styles.mobileAccount}>
+              <div className={styles.mobileAccountTitle}>MY ACCOUNT</div>
+              {user ? (
+                <>
+                  <Link href="/account?section=orders" className={styles.mobileNavLink} style={{ fontSize: '1rem', border: 'none', textTransform: 'uppercase' }} onClick={() => setIsMobileMenuOpen(false)}>Orders</Link>
+                  <Link href="/account" className={styles.mobileNavLink} style={{ fontSize: '1rem', border: 'none', textTransform: 'uppercase' }} onClick={() => setIsMobileMenuOpen(false)}>My Profile</Link>
+                  <button className={styles.mobileNavLink} style={{ fontSize: '1rem', border: 'none', background: 'none', textAlign: 'left', cursor: 'pointer', textTransform: 'uppercase' }} onClick={handleLogout}>Log out</button>
+                </>
+              ) : (
+                <button className={styles.mobileNavLink} style={{ fontSize: '1rem', border: 'none', background: 'none', textAlign: 'left', cursor: 'pointer', textTransform: 'uppercase' }} onClick={() => { setIsMobileMenuOpen(false); openLoginModal(); }}>Login / Sign Up</button>
+              )}
+            </div>
           </nav>
         </div>
       </div>

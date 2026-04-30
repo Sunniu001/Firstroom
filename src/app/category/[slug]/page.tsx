@@ -8,6 +8,8 @@ import { CategoryProductGrid } from "@/components/Category/CategoryProductGrid";
 
 export const dynamic = 'force-dynamic';
 
+import styles from "./page.module.css";
+
 export default async function CategoryPage({
   params,
   searchParams
@@ -26,7 +28,6 @@ export default async function CategoryPage({
   try {
     const { wcFetch } = await import("@/lib/api/client");
     const catSearch = await wcFetch(`products/categories?slug=${decodedSlug}`);
-    console.log("products from page.tsx", catSearch);
     if (catSearch && catSearch.length > 0) {
       const cat = catSearch[0];
       currentCategory = {
@@ -47,38 +48,11 @@ export default async function CategoryPage({
     currentCategory = categories.find((c) => c.slug === slug || c.slug === decodedSlug);
   }
 
-  // Strategy 3: Product-based discovery (DISABLED - CAUSING HIJACKS ON VERCEL)
-  /*
-  if (!currentCategory) {
-    try {
-      const { fetchStoreApi } = await import("@/lib/api/client");
-      const { data: productsData } = await fetchStoreApi<any[]>(`products?category=${decodedSlug}&per_page=1`);
-      if (productsData && productsData.length > 0) {
-        const firstProduct = productsData[0];
-        const catData = firstProduct.categories?.find((c: any) => c.slug === decodedSlug);
-        if (catData) {
-          currentCategory = {
-            id: catData.id,
-            name: catData.name,
-            slug: catData.slug,
-            parent: catData.parent || 0,
-            image: undefined,
-          };
-        }
-      }
-    } catch (e) {
-      console.error("Product-based discovery failed:", e);
-    }
-  }
-  */
-
   if (!currentCategory) {
     return (
-      <div style={{ padding: "100px 20px", textAlign: "center" }}>
+      <div className={styles.main} style={{ textAlign: "center", padding: "100px 20px" }}>
         <h1 style={{ fontFamily: "var(--font-serif)" }}>Category Not Found</h1>
         <p style={{ color: "#666", marginTop: "20px" }}>Requested Slug: {slug}</p>
-        <p style={{ color: "#999", fontSize: "12px" }}>API_URL: {process.env.NEXT_PUBLIC_WC_API_URL || "MISSING"}</p>
-        <p style={{ color: "#999", fontSize: "12px" }}>STORE_URL: {process.env.NEXT_PUBLIC_WC_STORE_URL || "MISSING"}</p>
         <Link href="/" style={{ marginTop: "40px", display: "inline-block", color: "#8FA899" }}>Return Home</Link>
       </div>
     );
@@ -99,7 +73,7 @@ export default async function CategoryPage({
     default: orderby = 'date'; order = 'desc';
   }
 
-  // Fetch products (Always, for both leaf and parent categories)
+  // Fetch products
   const { products, totalPages } = await getProductsByCategory(
     currentCategory.id.toString(),
     currentPage,
@@ -115,44 +89,25 @@ export default async function CategoryPage({
 
   const isParentCategory = slug === 'wallpapers' || slug === 'home-decor';
 
-
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: "#ffffff" }}>
-      <main style={{ flex: 1, padding: "20px 40px 60px 40px" }}>
-        <div style={{ maxWidth: "1440px", margin: "0 auto" }}>
-
-          <h1 style={{
-            fontSize: "42px",
-            marginTop: "0",
-            marginBottom: "40px",
-            fontFamily: "var(--font-serif)",
-            fontWeight: 400,
-            textAlign: "center",
-            color: "#1a1a1a"
-          }}>
+    <div className={styles.container} style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: "#ffffff" }}>
+      <main className={styles.main}>
+        <div className={styles.contentWrapper}>
+          <h1 className={styles.title}>
             {currentCategory.name}
           </h1>
 
-          {/* Products Grid */}
-
-          <div style={{ padding: "0 5px" }}>
+          <div className={styles.gridContainer}>
             {(!products || products.length === 0) ? (
-              <p style={{ color: "var(--text-secondary)", textAlign: "center", marginTop: "var(--spacing-xl)" }}>No products found in this category.</p>
+              <p className={styles.emptyMessage}>No products found in this category.</p>
             ) : (
               <CategoryProductGrid products={products} unit={isWallpaper ? "sq. ft." : undefined} showCategory={isParentCategory} />
-
             )}
           </div>
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: "80px",
-              gap: "24px"
-            }}>
+            <div className={styles.pagination}>
               {[...Array(totalPages)].map((_, i) => {
                 const pageNum = i + 1;
                 const isActive = pageNum === currentPage;
@@ -161,21 +116,7 @@ export default async function CategoryPage({
                   <Link
                     key={pageNum}
                     href={`/category/${slug}?page=${pageNum}${sortQuery}`}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: "36px",
-                      height: "36px",
-                      backgroundColor: isActive ? "#8FA899" : "transparent",
-                      color: isActive ? "#ffffff" : "#999999",
-                      textDecoration: "none",
-                      fontSize: "14px",
-                      fontFamily: "var(--font-sans)",
-                      fontWeight: 500,
-                      borderRadius: "2px",
-                      transition: "all 0.2s ease"
-                    }}
+                    className={`${styles.pageLink} ${isActive ? styles.pageLinkActive : ""}`}
                   >
                     {pageNum}
                   </Link>
@@ -185,14 +126,7 @@ export default async function CategoryPage({
               {currentPage < totalPages && (
                 <Link
                   href={`/category/${slug}?page=${currentPage + 1}${sortParam ? `&sort=${sortParam}` : ''}`}
-                  style={{
-                    color: "#333",
-                    textDecoration: "none",
-                    fontSize: "20px",
-                    display: "flex",
-                    alignItems: "center",
-                    marginLeft: "-8px"
-                  }}
+                  className={styles.nextLink}
                 >
                   &rarr;
                 </Link>

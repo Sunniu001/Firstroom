@@ -48,7 +48,7 @@ export const Footer: React.FC = () => {
           <div className={styles.column}>
             <h4 className={styles.heading}>QUICK LINKS</h4>
             <ul className={styles.list}>
-              <li><Link href="/category/wallpaper" className={styles.link}>WALLPAPER</Link></li>
+              <li><Link href="/category/wallpapers" className={styles.link}>WALLPAPER</Link></li>
               <li><Link href="/category/home-decor" className={styles.link}>HOME DECOR</Link></li>
               <li><Link href="/custom-design" className={styles.link}>CUSTOM DESIGN</Link></li>
               <li><Link href="/our-story" className={styles.link}>OUR STORY</Link></li>

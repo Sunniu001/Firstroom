@@ -10,7 +10,11 @@
 }
 
 @media (max-width: 768px) {
-  .layout { grid-template-columns: 1fr; gap: 2.5rem; }
+  .layout { 
+    grid-template-columns: 1fr; 
+    gap: 1.5rem; 
+    padding: 2rem 1.25rem 4rem;
+  }
 }
 
 /* ─── SIDEBAR ─── */
@@ -77,6 +81,13 @@
   min-height: 400px;
 }
 
+@media (max-width: 768px) {
+  .main {
+    padding: 1.5rem;
+    border: none;
+  }
+}
+
 .sectionTitle {
   font-size: 1.25rem;
   font-weight: 700;
@@ -89,6 +100,13 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
+}
+
+@media (max-width: 640px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
 }
 
 .formGroupFull { grid-column: 1 / -1; }
@@ -167,6 +185,84 @@
   background: #fcfcfc;
 }
 
+@media (max-width: 768px) {
+  .ordersTable thead {
+    display: none;
+  }
+  
+  .ordersTable tr {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 0;
+    border-bottom: 2px solid #f5f5f5;
+  }
+  
+  .ordersTable td {
+    padding: 0.5rem 0;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .ordersTable td:first-child {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .ordersTable td::before {
+    content: attr(data-label);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #999;
+    text-transform: uppercase;
+  }
+  
+  .ordersTable td:first-child::before {
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* ─── ORDER TABS ─── */
+.orderTabs {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.orderTab {
+  padding: 0.75rem 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #777;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.orderTab:hover {
+  color: #111;
+}
+
+.orderTabActive {
+  color: #111;
+}
+
+.orderTabActive::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #111;
+}
+
 .ordersTable td {
   padding: 1.25rem 1rem;
   border-bottom: 1px solid #ebebeb;
@@ -222,6 +318,19 @@
   color: #777;
 }
 
+.orderItemMeta {
+  margin-top: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.orderMetaRow {
+  font-size: 0.75rem;
+  color: #666;
+  text-transform: capitalize;
+}
+
 .orderStatus {
   font-size: 0.75rem;
   font-weight: 700;
@@ -266,6 +375,14 @@
   gap: 1.5rem;
 }
 
+@media (max-width: 768px) {
+  .addressRow {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+}
+
 .addressName {
   font-weight: 500;
   font-size: 0.85rem;
@@ -305,6 +422,13 @@
   gap: 1.5rem;
 }
 
+@media (max-width: 640px) {
+  .addressFormGrid, .addressFormRow3 {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
 .addAddressBtn {
   margin-top: 1.5rem;
   border: 1.5px solid #111;
@@ -334,6 +458,14 @@
   align-items: center;
   gap: 2rem;
   margin-top: 0.5rem;
+}
+
+@media (max-width: 480px) {
+  .passwordActions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
 }
 
 .forgotLink {

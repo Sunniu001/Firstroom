@@ -68,8 +68,19 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
         <div className={styles.breadcrumbContainer}>
           <Link href="/">Home</Link>
           <span className={styles.separator}>/</span>
-          <Link href="/category/wallpapers">Wallpapers</Link>
-          <span className={styles.separator}>/</span>
+          {product.categories && product.categories.length > 0 ? (
+            <>
+              <Link href={`/category/${product.categories[0].slug}`}>
+                {product.categories[0].name}
+              </Link>
+              <span className={styles.separator}>/</span>
+            </>
+          ) : (
+            <>
+              <Link href="/category/wallpapers">Wallpapers</Link>
+              <span className={styles.separator}>/</span>
+            </>
+          )}
           <span className={styles.current}>{legacyProduct.title}</span>
         </div>
 
@@ -81,7 +92,7 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
           <div className={styles.productInfo}>
             <h1 className={styles.title}>{legacyProduct.title}</h1>
             <p className={styles.price}>
-              ₹{legacyProduct.price.amount} {legacyProduct.isWallpaper && <span className={styles.unit}>/ sq. ft.</span>}
+              ₹{legacyProduct.price.amount} {legacyProduct.isWallpaper && <span className={styles.unit}>/sqft</span>}
             </p>
 
 

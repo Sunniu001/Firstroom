@@ -34,8 +34,9 @@ export const CartDrawer: React.FC = () => {
 
     setIsLoading(true);
     try {
-      const updatedCart = await updateCartItem(cartToken, itemKey, newQuantity);
+      const { cart: updatedCart, cartToken: newCartToken } = await updateCartItem(cartToken, itemKey, newQuantity);
       setCart(updatedCart);
+      setCartToken(newCartToken);
     } catch (error) {
       console.error("Failed to update quantity:", error);
     } finally {
@@ -47,8 +48,9 @@ export const CartDrawer: React.FC = () => {
     if (!cartToken) return;
     setIsLoading(true);
     try {
-      const updatedCart = await removeCartItem(cartToken, itemKey);
+      const { cart: updatedCart, cartToken: newCartToken } = await removeCartItem(cartToken, itemKey);
       setCart(updatedCart);
+      setCartToken(newCartToken);
     } catch (error) {
       console.error("Failed to remove item:", error);
     } finally {
@@ -123,21 +125,17 @@ export const CartDrawer: React.FC = () => {
 
                     <div className={styles.itemPrice}>
                       ₹{parseFloat(item.price.amount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
-                      {item.customData?.Area && <span className={styles.priceUnit}> / sq. ft.</span>}
+                      {item.isWallpaper && <span className={styles.priceUnit}> /sqft</span>}
                     </div>
                     
                     <div className={styles.itemFooter}>
-                      <div className={styles.quantitySelector}>
-                        {item.customData?.Area ? (
-                          <span className={styles.sqftQty}>{item.quantity} sq. ft.</span>
-                        ) : (
-                          <>
-                            <button onClick={() => handleUpdateQuantity(item.id, item.quantity, -1)} disabled={isLoading}>—</button>
-                            <span>{item.quantity}</span>
-                            <button onClick={() => handleUpdateQuantity(item.id, item.quantity, 1)} disabled={isLoading}>+</button>
-                          </>
-                        )}
-                      </div>
+                      {!item.isWallpaper && (
+                        <div className={styles.quantitySelector}>
+                          <button onClick={() => handleUpdateQuantity(item.id, item.quantity, -1)} disabled={isLoading}>—</button>
+                          <span>{item.quantity}</span>
+                          <button onClick={() => handleUpdateQuantity(item.id, item.quantity, 1)} disabled={isLoading}>+</button>
+                        </div>
+                      )}
                       <div className={styles.itemTotal}>
                         ₹{(parseFloat(item.price.amount) * item.quantity).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                       </div>

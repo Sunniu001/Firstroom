@@ -357,6 +357,41 @@
   .drawer {
     max-width: 100%;
   }
+
+  .header {
+    padding: 12px 15px;
+  }
+
+  .cartItem {
+    padding: 12px 15px;
+    gap: 12px;
+  }
+
+  .itemImageWrapper {
+    width: 60px;
+    height: 70px;
+  }
+
+  .itemName {
+    font-size: 0.88rem;
+  }
+
+  .itemPrice, .itemTotal {
+    font-size: 0.85rem;
+  }
+
+  .actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .checkoutBtn, .viewCartBtn {
+    height: 48px; /* Slightly taller for better touch */
+  }
+
+  .footer {
+    padding: 12px 15px;
+  }
 }
 .sqftQty {
   font-size: 0.9rem;

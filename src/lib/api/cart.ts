@@ -10,22 +10,37 @@ function normalizeCart(storeCart: StoreCart): NormalizedCart {
 
   return {
     id: storeCart.cart_token,
-    totalQuantity: storeCart.items_count,
+    totalQuantity: storeCart.items.length,
     items: storeCart.items.map((item) => {
       let customData: Record<string, string> | undefined;
-      if (item.item_data && item.item_data.length > 0) {
+      
+      // Check standard item_data
+      if (item.item_data && Array.isArray(item.item_data)) {
         customData = item.item_data.reduce((acc, curr) => {
           acc[curr.key] = curr.value;
           return acc;
         }, {} as Record<string, string>);
       }
       
+      // Fallback to extensions if available
+      const extensions = (item as any).extensions;
+      if (!customData && extensions?.custom_data) {
+        customData = extensions.custom_data;
+      }
+      
+      const sku = item.sku || '';
+      const isWallpaper = (customData && Object.keys(customData).some(k => k.toLowerCase().includes('area'))) || 
+                         sku.startsWith('FMWPAR') || 
+                         item.name.toLowerCase().includes('shade');
+
       return {
         id: item.key,
         productId: String(item.id),
         quantity: item.quantity,
         title: item.name,
         image: item.images?.[0]?.src || '',
+        sku: sku,
+        isWallpaper: isWallpaper,
         price: {
           amount: String(parseInt(item.prices.price) / divisor),
           currencyCode: item.prices.currency_code,
@@ -66,12 +81,12 @@ export async function addToCart(
   customData?: Record<string, string>
 ): Promise<{ cart: NormalizedCart; cartToken: string }> {
   let activeToken = cartToken;
+  let activeNonce: string | null = null;
   
-  if (!activeToken) {
-    // Fetch an empty cart first to generate a valid Cart-Token session, bypassing the Nonce requirement for guests
-    const initialCart = await fetchStoreApi<StoreCart>('cart', null);
-    activeToken = initialCart.cartToken;
-  }
+  // 1. Ensure we have a valid token and a fresh nonce
+  const sessionRes = await fetchStoreApi<StoreCart>('cart', activeToken);
+  activeToken = sessionRes.cartToken;
+  activeNonce = sessionRes.nonce;
 
   const payload: any = {
     id: productId,
@@ -83,19 +98,23 @@ export async function addToCart(
   }
   
   if (customData) {
-    // Standard approach for adding custom item data in WooCommerce Store API extensions
-    payload.extensions = { ...payload.extensions, custom_data: customData };
-    payload.item_data = customData; // Some plugins use this format instead
+    payload.item_data = Object.entries(customData).map(([key, value]) => ({ key, value }));
+    payload.extensions = { 
+      ...payload.extensions, 
+      custom_data: customData,
+      metadata: Object.entries(customData).map(([key, value]) => ({ key, value }))
+    };
   }
 
+  // 2. Perform the add-item operation with the LATEST token and nonce
   const { data, cartToken: newCartToken } = await fetchStoreApi<StoreCart>('cart/add-item', activeToken, {
     method: 'POST',
     body: JSON.stringify(payload),
-  });
+  }, activeNonce);
 
   return {
     cart: normalizeCart(data),
-    cartToken: newCartToken as string,
+    cartToken: (newCartToken || activeToken) as string,
   };
 }
 
@@ -103,30 +122,44 @@ export async function updateCartItem(
   cartToken: string,
   itemKey: string,
   quantity: number
-): Promise<NormalizedCart> {
-  const { data } = await fetchStoreApi<StoreCart>('cart/update-item', cartToken, {
+): Promise<{ cart: NormalizedCart; cartToken: string }> {
+  // 1. Fetch latest token and fresh nonce
+  const { nonce, cartToken: latestToken } = await fetchStoreApi<StoreCart>('cart', cartToken);
+  const activeToken = latestToken || cartToken;
+
+  const { data, cartToken: newToken } = await fetchStoreApi<StoreCart>('cart/update-item', activeToken, {
     method: 'POST',
     body: JSON.stringify({
       key: itemKey,
       quantity,
     }),
-  });
+  }, nonce);
 
-  return normalizeCart(data);
+  return {
+    cart: normalizeCart(data),
+    cartToken: (newToken || activeToken) as string,
+  };
 }
 
 export async function removeCartItem(
   cartToken: string,
   itemKey: string
-): Promise<NormalizedCart> {
-  const { data } = await fetchStoreApi<StoreCart>('cart/remove-item', cartToken, {
+): Promise<{ cart: NormalizedCart; cartToken: string }> {
+  // 1. Fetch latest token and fresh nonce
+  const { nonce, cartToken: latestToken } = await fetchStoreApi<StoreCart>('cart', cartToken);
+  const activeToken = latestToken || cartToken;
+
+  const { data, cartToken: newToken } = await fetchStoreApi<StoreCart>('cart/remove-item', activeToken, {
     method: 'POST',
     body: JSON.stringify({
       key: itemKey,
     }),
-  });
+  }, nonce);
 
-  return normalizeCart(data);
+  return {
+    cart: normalizeCart(data),
+    cartToken: (newToken || activeToken) as string,
+  };
 }
 
 export interface BillingDetails {
@@ -181,13 +214,29 @@ export async function placeOrder(
   }
 
   // Step 3: Place the order with selected items only
-  // Map state name → WooCommerce 2-letter code if needed, or send as-is
+  // Build a customer note that includes custom dimensions if they exist
+  let note = '';
+  const wallpaperItems = allItems.filter(item => selectedItemKeys.includes(item.id) && item.customData);
+  
+  if (wallpaperItems.length > 0) {
+    note = 'PRODUCT CUSTOMIZATIONS:\n';
+    wallpaperItems.forEach(item => {
+      note += `- ${item.title}:\n`;
+      if (item.customData) {
+        Object.entries(item.customData).forEach(([key, value]) => {
+          note += `  ${key}: ${value}\n`;
+        });
+      }
+    });
+    note += '\n';
+  }
+
   const checkoutPayload = {
     billing_address: { ...billing },
     shipping_address: { ...billing },
     payment_method: paymentMethod,
     payment_data: [],
-    customer_note: '',
+    customer_note: note.trim(),
   };
 
   let orderResult: any;

@@ -12,13 +12,19 @@ function basicAuth() {
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl;
   const customerId = searchParams.get('customer_id');
-  if (!customerId) {
-    return NextResponse.json({ message: 'customer_id required' }, { status: 400 });
+  const orderId = searchParams.get('id');
+
+  if (!customerId && !orderId) {
+    return NextResponse.json({ message: 'customer_id or id required' }, { status: 400 });
   }
 
   try {
+    const url = orderId 
+      ? `${WC_API}/orders/${orderId}`
+      : `${WC_API}/orders?customer=${customerId}&per_page=20&orderby=date&order=desc`;
+      
     const res = await fetch(
-      `${WC_API}/orders?customer=${customerId}&per_page=20&orderby=date&order=desc`,
+      url,
       { headers: { Authorization: basicAuth() } }
     );
     const data = await res.json();

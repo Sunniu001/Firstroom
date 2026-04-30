@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/Button/Button';
 import { useCartStore } from '@/store/cartStore';
 import { useWishlistStore } from '@/store/wishlistStore';
-import { addToCart } from '@/lib/api/cart';
+import { addToCart, updateCartItem } from '@/lib/api/cart';
 import { NormalizedProduct } from '@/types/product';
 import { FrameSizeSelector } from '../FrameSizeSelector/FrameSizeSelector';
 import { NameplatePersonalizer, NameplateData } from '../NameplatePersonalizer/NameplatePersonalizer';
@@ -18,7 +18,7 @@ interface ProductActionsProps {
 export const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
   const [isAdding, setIsAdding] = useState(false);
   const [showWishlistModal, setShowWishlistModal] = useState(false);
-  const { cartToken, setCart, setCartToken, setIsOpen } = useCartStore();
+  const { cart, cartToken, setCart, setCartToken, setIsOpen } = useCartStore();
   const { isInAnyList } = useWishlistStore();
 
   const isWished = isInAnyList(product.id);
@@ -102,12 +102,42 @@ export const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
       // if the backend isn't configured to calculate price from metadata.
       // However, if we want to keep the quantity as "units of wallpaper", 
       // we'd need a backend plugin to handle the price calculation.
+      // Cart Splitting Logic: For wallpapers, we treat different dimensions as separate items.
+      // Use numeric parsing to ensure "5" and "5.00" match.
+      const existingItem = isWallpaper ? cart?.items.find(item => {
+        if (item.productId !== product.id) return false;
+        
+        // Normalize keys to lowercase for comparison
+        const meta: Record<string, string> = {};
+        if (item.customData) {
+          Object.entries(item.customData).forEach(([k, v]) => {
+            meta[k.toLowerCase()] = String(v);
+          });
+        }
+
+        const sameHeight = parseFloat(meta['height'] || '0') === parseFloat(height);
+        const sameWidth = parseFloat(meta['width'] || '0') === parseFloat(width);
+        const sameMaterial = (meta['material'] || '').toLowerCase() === selectedMaterial.toLowerCase();
+
+        return sameHeight && sameWidth && sameMaterial;
+      }) : null;
+
       const finalQuantity = isWallpaper ? quantity * displayArea : quantity;
 
-      const { cart: newCart, cartToken: newCartToken } = await addToCart(cartToken, product.id, finalQuantity, variationPayload, customData);
-      setCart(newCart);
-      setCartToken(newCartToken);
-      setIsOpen(true);
+      if (existingItem && cartToken) {
+        // Update existing line item quantity
+        const newQuantity = existingItem.quantity + finalQuantity;
+        const { cart: updatedCart, cartToken: newCartToken } = await updateCartItem(cartToken, existingItem.id, newQuantity);
+        setCart(updatedCart);
+        setCartToken(newCartToken);
+        setIsOpen(true);
+      } else {
+        // Add as new line item (or first time)
+        const { cart: newCart, cartToken: newCartToken } = await addToCart(cartToken, product.id, finalQuantity, variationPayload, customData);
+        setCart(newCart);
+        setCartToken(newCartToken);
+        setIsOpen(true);
+      }
     } catch (error) {
       console.error('Failed to add to cart:', error);
     } finally {
@@ -178,14 +208,16 @@ export const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
         <div className={styles.totalPriceDisplay}>
           Total: <span>₹{totalPrice.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
         </div>
-        <div className={styles.quantitySelector}>
-           <span className={styles.qtyLabel}>Quantity:</span>
-           <div className={styles.qtyControls}>
-             <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className={styles.qtyBtn}>-</button>
-             <span className={styles.qtyValue}>{quantity}</span>
-             <button onClick={() => setQuantity(quantity + 1)} className={styles.qtyBtn}>+</button>
-           </div>
-        </div>
+        {!isWallpaper && (
+          <div className={styles.quantitySelector}>
+            <span className={styles.qtyLabel}>Quantity:</span>
+            <div className={styles.qtyControls}>
+              <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className={styles.qtyBtn}>-</button>
+              <span className={styles.qtyValue}>{quantity}</span>
+              <button onClick={() => setQuantity(quantity + 1)} className={styles.qtyBtn}>+</button>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className={styles.actionButtons}>
