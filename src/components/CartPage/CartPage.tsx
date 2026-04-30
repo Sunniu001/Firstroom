@@ -142,7 +142,7 @@ export const CartPage: React.FC = () => {
                   </div>
                   
                   <div className={styles.priceCol}>
-                    ₹{price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                    ₹{(price * (item.customData?.Area ? parseFloat(item.customData.Area) : 1)).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                   </div>
                   
                   <div className={styles.quantityCol}>

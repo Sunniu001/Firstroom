@@ -121,7 +121,9 @@ export const CartDrawer: React.FC = () => {
                       </div>
                     )}
 
-                    <div className={styles.itemPrice}>₹{parseFloat(item.price.amount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</div>
+                    <div className={styles.itemPrice}>
+                      ₹{(parseFloat(item.price.amount) * (item.customData?.Area ? parseFloat(item.customData.Area) : 1)).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                    </div>
                     
                     <div className={styles.itemFooter}>
                       <div className={styles.quantitySelector}>
