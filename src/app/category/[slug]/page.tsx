@@ -8,10 +8,10 @@ import { CategoryProductGrid } from "@/components/Category/CategoryProductGrid";
 
 export const dynamic = 'force-dynamic';
 
-export default async function CategoryPage({ 
+export default async function CategoryPage({
   params,
   searchParams
-}: { 
+}: {
   params: Promise<{ slug: string }>,
   searchParams: Promise<{ page?: string, sort?: string }>
 }) {
@@ -100,17 +100,17 @@ export default async function CategoryPage({
 
   // Fetch products (Always, for both leaf and parent categories)
   const { products, totalPages } = await getProductsByCategory(
-    currentCategory.id.toString(), 
-    currentPage, 
+    currentCategory.id.toString(),
+    currentPage,
     20,
     orderby,
     order
   );
 
-  const isWallpaper = currentCategory.name.toLowerCase().includes('wallpaper') || 
-                     currentCategory.name.toLowerCase().includes('mural') ||
-                     slug.includes('wallpaper') || 
-                     slug.includes('mural');
+  const isWallpaper = currentCategory.name.toLowerCase().includes('wallpaper') ||
+    currentCategory.name.toLowerCase().includes('mural') ||
+    slug.includes('wallpaper') ||
+    slug.includes('mural');
 
   const isParentCategory = slug === 'wallpapers' || slug === 'home-decor';
 
@@ -119,13 +119,13 @@ export default async function CategoryPage({
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: "#ffffff" }}>
       <main style={{ flex: 1, padding: "20px 40px 60px 40px" }}>
         <div style={{ maxWidth: "1440px", margin: "0 auto" }}>
-          
-          <h1 style={{ 
-            fontSize: "42px", 
+
+          <h1 style={{
+            fontSize: "42px",
             marginTop: "0",
-            marginBottom: "40px", 
-            fontFamily: "var(--font-serif)", 
-            fontWeight: 400, 
+            marginBottom: "40px",
+            fontFamily: "var(--font-serif)",
+            fontWeight: 400,
             textAlign: "center",
             color: "#1a1a1a"
           }}>
@@ -145,19 +145,19 @@ export default async function CategoryPage({
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div style={{ 
-              display: "flex", 
-              justifyContent: "center", 
-              alignItems: "center", 
-              marginTop: "80px", 
-              gap: "24px" 
+            <div style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: "80px",
+              gap: "24px"
             }}>
               {[...Array(totalPages)].map((_, i) => {
                 const pageNum = i + 1;
                 const isActive = pageNum === currentPage;
                 const sortQuery = sortParam ? `&sort=${sortParam}` : '';
                 return (
-                  <Link 
+                  <Link
                     key={pageNum}
                     href={`/category/${slug}?page=${pageNum}${sortQuery}`}
                     style={{
@@ -180,9 +180,9 @@ export default async function CategoryPage({
                   </Link>
                 );
               })}
-              
+
               {currentPage < totalPages && (
-                <Link 
+                <Link
                   href={`/category/${slug}?page=${currentPage + 1}${sortParam ? `&sort=${sortParam}` : ''}`}
                   style={{
                     color: "#333",
