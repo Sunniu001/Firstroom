@@ -55,6 +55,8 @@ export default async function CategoryPage({
               parent: catData.parent || 0,
               image: undefined,
             };
+          } else {
+            console.warn(`Category discovery returned product but no matching category for slug: ${decodedSlug}`);
           }
         }
       } catch (e) {
@@ -83,7 +85,7 @@ export default async function CategoryPage({
 
   // Fetch products (Always, for both leaf and parent categories)
   const { products, totalPages } = await getProductsByCategory(
-    slug, 
+    currentCategory.id.toString(), 
     currentPage, 
     20,
     orderby,

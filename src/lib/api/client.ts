@@ -1,10 +1,23 @@
 export const API_URL = process.env.NEXT_PUBLIC_WC_API_URL;
 export const STORE_URL = process.env.NEXT_PUBLIC_WC_STORE_URL;
 
+const WC_KEY = process.env.WC_CONSUMER_KEY || '';
+const WC_SECRET = process.env.WC_CONSUMER_SECRET || '';
+
+function getAuthHeader(): Record<string, string> {
+  if (!WC_KEY || !WC_SECRET) return {};
+  const auth = Buffer.from(`${WC_KEY}:${WC_SECRET}`).toString('base64');
+  return { Authorization: `Basic ${auth}` };
+}
+
 export async function wcFetch(endpoint: string) {
   const cleanBaseUrl = API_URL?.endsWith('/') ? API_URL.slice(0, -1) : API_URL;
   const url = `${cleanBaseUrl}/${endpoint}`;
+  
   const res = await fetch(url, {
+    headers: {
+      ...getAuthHeader(),
+    },
     next: { revalidate: 120 },
   });
 
