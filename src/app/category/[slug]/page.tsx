@@ -6,6 +6,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CategoryProductGrid } from "@/components/Category/CategoryProductGrid";
 
+export const dynamic = 'force-dynamic';
+
 export default async function CategoryPage({ 
   params,
   searchParams
@@ -16,52 +18,56 @@ export default async function CategoryPage({
   const { slug } = await params;
   const { page: pageParam, sort: sortParam } = await searchParams;
   const currentPage = parseInt(pageParam || "1");
+  const decodedSlug = decodeURIComponent(slug);
 
-  const categories = await getCategories();
-  let currentCategory = categories.find((c) => c.slug === slug);
+  let currentCategory = null;
 
-  // Fallback: Multi-strategy lookup
+  // Strategy 1: Direct Fetch (Most reliable for Vercel/Next.js)
+  try {
+    const { wcFetch } = await import("@/lib/api/client");
+    const catSearch = await wcFetch(`products/categories?slug=${decodedSlug}`);
+    if (catSearch && catSearch.length > 0) {
+      const cat = catSearch[0];
+      currentCategory = {
+        id: cat.id,
+        name: cat.name,
+        slug: cat.slug,
+        parent: cat.parent || 0,
+        image: cat.image?.src || cat.image,
+      };
+    }
+  } catch (e) {
+    console.warn("Direct category lookup failed:", e);
+  }
+
+  // Strategy 2: Multi-category fetch (Fallback)
   if (!currentCategory) {
-    const decodedSlug = decodeURIComponent(slug);
+    const categories = await getCategories();
+    currentCategory = categories.find((c) => c.slug === slug || c.slug === decodedSlug);
+  }
+
+  // Strategy 3: Product-based discovery
+  if (!currentCategory) {
     try {
-      const { wcFetch } = await import("@/lib/api/client");
-      const catSearch = await wcFetch(`products/categories?slug=${decodedSlug}`);
-      if (catSearch && catSearch.length > 0) {
-        const cat = catSearch[0];
-        currentCategory = {
-          id: cat.id,
-          name: cat.name,
-          slug: cat.slug,
-          parent: cat.parent || 0,
-          image: cat.image?.src || cat.image,
-        };
+      const { fetchStoreApi } = await import("@/lib/api/client");
+      const { data: productsData } = await fetchStoreApi<any[]>(`products?category=${decodedSlug}&per_page=1`);
+      if (productsData && productsData.length > 0) {
+        const firstProduct = productsData[0];
+        const catData = firstProduct.categories?.find((c: any) => c.slug === decodedSlug);
+        if (catData) {
+          currentCategory = {
+            id: catData.id,
+            name: catData.name,
+            slug: catData.slug,
+            parent: catData.parent || 0,
+            image: undefined,
+          };
+        } else {
+          console.warn(`Category discovery returned product but no matching category for slug: ${decodedSlug}`);
+        }
       }
     } catch (e) {
-      console.warn("Direct category lookup failed, trying product-based discovery...");
-    }
-
-    if (!currentCategory) {
-      try {
-        const { fetchStoreApi } = await import("@/lib/api/client");
-        const { data: productsData } = await fetchStoreApi<any[]>(`products?category=${decodedSlug}&per_page=1`);
-        if (productsData && productsData.length > 0) {
-          const firstProduct = productsData[0];
-          const catData = firstProduct.categories?.find((c: any) => c.slug === decodedSlug);
-          if (catData) {
-            currentCategory = {
-              id: catData.id,
-              name: catData.name,
-              slug: catData.slug,
-              parent: catData.parent || 0,
-              image: undefined,
-            };
-          } else {
-            console.warn(`Category discovery returned product but no matching category for slug: ${decodedSlug}`);
-          }
-        }
-      } catch (e) {
-        console.error("Product-based discovery failed:", e);
-      }
+      console.error("Product-based discovery failed:", e);
     }
   }
 
@@ -70,6 +76,7 @@ export default async function CategoryPage({
   }
 
   // Check for child categories
+  const categories = await getCategories();
   const subcategories = categories.filter((c) => c.parent === currentCategory.id);
 
   // Sorting logic

@@ -6,19 +6,23 @@ const WC_SECRET = process.env.WC_CONSUMER_SECRET || '';
 
 function getAuthHeader(): Record<string, string> {
   if (!WC_KEY || !WC_SECRET) return {};
-  const auth = Buffer.from(`${WC_KEY}:${WC_SECRET}`).toString('base64');
+  // Using btoa for better compatibility across Node and Edge runtimes
+  const auth = btoa(`${WC_KEY}:${WC_SECRET}`);
   return { Authorization: `Basic ${auth}` };
 }
 
 export async function wcFetch(endpoint: string) {
   const cleanBaseUrl = API_URL?.endsWith('/') ? API_URL.slice(0, -1) : API_URL;
-  const url = `${cleanBaseUrl}/${endpoint}`;
+  // Add cache-buster for Vercel stability
+  const separator = endpoint.includes('?') ? '&' : '?';
+  const url = `${cleanBaseUrl}/${endpoint}${separator}_cb=${Date.now()}`;
   
   const res = await fetch(url, {
     headers: {
       ...getAuthHeader(),
     },
-    next: { revalidate: 120 },
+    // Using no-store for critical data lookups on Vercel
+    cache: 'no-store'
   });
 
   if (!res.ok) {
@@ -42,12 +46,14 @@ export async function fetchStoreApi<T>(
   nonce?: string | null
 ): Promise<{ data: T; cartToken: string | null; nonce: string | null; headers: Headers }> {
   const cleanBaseUrl = STORE_URL?.endsWith('/') ? STORE_URL.slice(0, -1) : STORE_URL;
-  const url = `${cleanBaseUrl}/wp-json/wc/store/v1/${endpoint}`;
-
+  const separator = endpoint.includes('?') ? '&' : '?';
+  const url = `${cleanBaseUrl}/wp-json/wc/store/v1/${endpoint}${separator}_cb=${Date.now()}`;
+  
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
     Accept: 'application/json',
     'User-Agent': 'FirstRoom-NextJS/1.0',
+    ...getAuthHeader(),
     ...(cartToken ? { 'Cart-Token': cartToken } : {}),
     ...(nonce ? { 'Nonce': nonce } : {}),
     ...options?.headers,
