@@ -8,6 +8,7 @@ import { useCartStore } from '@/store/cartStore';
 import { useWishlistStore } from '@/store/wishlistStore';
 import { useAuthStore } from '@/store/authStore';
 import { useUIStore } from '@/store/uiStore';
+import { signOut as nextAuthSignOut } from 'next-auth/react';
 import styles from './Header.module.css';
 
 /* ─── Social-bar icons ───────────────────────────────────── */
@@ -103,6 +104,7 @@ export const Header: React.FC = () => {
 
   const handleLogout = () => {
     logout();
+    nextAuthSignOut({ redirect: false }).catch(() => {});
     setIsAccountMenuOpen(false);
     router.push('/');
   };
@@ -243,29 +245,33 @@ export const Header: React.FC = () => {
               )}
             </button>
 
-            {mounted && user ? (
-              <div className={styles.accountWrapper} ref={accountMenuRef}>
-                <button
-                  className={`${styles.iconButton} ${isAccountMenuOpen ? styles.accountActive : ''}`}
-                  aria-label="My account"
-                  onClick={() => setIsAccountMenuOpen(!isAccountMenuOpen)}
-                >
-                  <UserIcon />
-                </button>
-                {isAccountMenuOpen && (
-                  <div className={styles.accountDropdown}>
-                    <Link href="/account?section=orders" className={styles.accountDropdownItem} onClick={() => setIsAccountMenuOpen(false)}>Orders</Link>
-                    <Link href="/wishlist" className={styles.accountDropdownItem} onClick={() => setIsAccountMenuOpen(false)}>Wishlist</Link>
-                    <Link href="/account" className={styles.accountDropdownItem} onClick={() => setIsAccountMenuOpen(false)}>My Profile</Link>
-                    <button className={styles.accountDropdownItem} onClick={handleLogout}>Log out</button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <button className={styles.iconButton} aria-label="Login" onClick={openLoginModal}>
+            <div className={styles.accountWrapper} ref={accountMenuRef}>
+              <button
+                className={`${styles.iconButton} ${isAccountMenuOpen ? styles.accountActive : ''}`}
+                aria-label="My account"
+                onClick={() => setIsAccountMenuOpen(!isAccountMenuOpen)}
+              >
                 <UserIcon />
               </button>
-            )}
+              {isAccountMenuOpen && (
+                <div className={styles.accountDropdown}>
+                  {user ? (
+                    <>
+                      <Link href="/account?section=orders" className={styles.accountDropdownItem} onClick={() => setIsAccountMenuOpen(false)}>Orders</Link>
+                      <Link href="/wishlist" className={styles.accountDropdownItem} onClick={() => setIsAccountMenuOpen(false)}>Wishlist</Link>
+                      <Link href="/account" className={styles.accountDropdownItem} onClick={() => setIsAccountMenuOpen(false)}>My Profile</Link>
+                      <button className={`${styles.accountDropdownItem} ${styles.logoutItem}`} onClick={handleLogout}>Log out</button>
+                    </>
+                  ) : (
+                    <>
+                      <button className={styles.accountDropdownItem} onClick={() => { setIsAccountMenuOpen(false); openLoginModal(); }}>Orders</button>
+                      <button className={styles.accountDropdownItem} onClick={() => { setIsAccountMenuOpen(false); openLoginModal(); }}>Wishlist</button>
+                      <button className={styles.accountDropdownItem} onClick={() => { setIsAccountMenuOpen(false); openLoginModal(); }}>My Profile</button>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
 
             {/* Mobile Menu Toggle */}
             <button 

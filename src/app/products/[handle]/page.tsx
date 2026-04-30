@@ -1,8 +1,6 @@
 export const maxDuration = 60;
 import React from 'react';
 import { getProductBySlug, getProducts } from '@/lib/api/products';
-import { Header } from '@/components/Header/Header';
-import { Footer } from '@/components/Footer/Footer';
 import { ProductActions } from '@/components/ProductActions/ProductActions';
 import { ProductGallery } from '@/components/ProductGallery/ProductGallery';
 import Link from 'next/link';
@@ -71,8 +69,6 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <Header />
-      
       <main className={styles.main}>
         <div className={styles.breadcrumbContainer}>
           <Link href="/">Home</Link>
@@ -107,8 +103,6 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
         <ProductFeatures />
         
       </main>
-
-      <Footer />
     </div>
   );
 }

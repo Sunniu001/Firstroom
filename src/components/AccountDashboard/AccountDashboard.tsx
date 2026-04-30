@@ -3,8 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { signOut as nextAuthSignOut } from 'next-auth/react';
 import { useAuthStore } from '@/store/authStore';
-import { getCustomerOrders, updateCustomer, WCCustomer, WCOrder, getCustomerByEmail } from '@/lib/api/auth';
+import { useUIStore } from '@/store/uiStore';
+import { WCCustomer, WCOrder } from '@/lib/api/auth';
 import styles from './AccountDashboard.module.css';
 
 type Section = 'info' | 'orders' | 'addresses' | 'password';
@@ -24,12 +26,14 @@ export const AccountDashboard: React.FC = () => {
   const initialSection = (searchParams.get('section') as Section) || 'info';
   
   const { user, logout } = useAuthStore();
+  const { openLoginModal } = useUIStore();
   const [section, setSection] = useState<Section>(initialSection);
   const [orders, setOrders] = useState<WCOrder[]>([]);
   const [customer, setCustomer] = useState<WCCustomer | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [guestEmail, setGuestEmail] = useState<string | null>(null);
 
   useEffect(() => {
     const s = searchParams.get('section') as Section;
@@ -38,24 +42,41 @@ export const AccountDashboard: React.FC = () => {
     }
   }, [searchParams]);
 
+  // Detect guest order flag from localStorage
   useEffect(() => {
-    if (!user) { router.push('/'); return; }
+    const email = localStorage.getItem('fr_guest_order_email');
+    if (email) {
+      if (user) {
+        // User is now logged in — clear the guest flag
+        localStorage.removeItem('fr_guest_order_email');
+      } else {
+        setGuestEmail(email);
+      }
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (!user) return;
     const load = async () => {
       setIsLoading(true);
       try {
-        const [c, o] = await Promise.all([
-          getCustomerByEmail(user.token, user.email),
-          getCustomerOrders(user.id),
+        const [custRes, ordersRes] = await Promise.all([
+          fetch(`/api/wc/customer?email=${encodeURIComponent(user.email)}`),
+          fetch(`/api/wc/orders?customer_id=${user.id}`),
         ]);
-        setCustomer(c);
-        setOrders(o);
+        if (custRes.ok) setCustomer(await custRes.json());
+        if (ordersRes.ok) setOrders(await ordersRes.json());
       } catch (e) { console.error(e); }
       finally { setIsLoading(false); }
     };
     load();
   }, [user, router]);
 
-  const handleLogout = () => { logout(); router.push('/'); };
+  const handleLogout = () => { 
+    logout(); 
+    nextAuthSignOut({ redirect: false }).catch(() => {});
+    router.push('/'); 
+  };
   const notify = (msg: string) => { setSuccessMsg(msg); setTimeout(() => setSuccessMsg(null), 3000); };
 
   // ── Account Info ──
@@ -68,7 +89,12 @@ export const AccountDashboard: React.FC = () => {
     if (!customer) return;
     setIsLoading(true); setErrorMsg(null);
     try {
-      await updateCustomer(customer.id, { first_name: info.first_name, last_name: info.last_name, email: info.email, billing: { ...customer.billing, phone: info.phone } } as any);
+      const res = await fetch(`/api/wc/customer?id=${customer.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ first_name: info.first_name, last_name: info.last_name, email: info.email, billing: { ...customer.billing, phone: info.phone } }),
+      });
+      if (!res.ok) throw new Error((await res.json()).message || 'Update failed');
       notify('Account info updated.');
     } catch (e: any) { setErrorMsg(e.message); }
     finally { setIsLoading(false); }
@@ -81,7 +107,12 @@ export const AccountDashboard: React.FC = () => {
     if (!customer) return;
     setIsLoading(true); setErrorMsg(null);
     try {
-      await updateCustomer(customer.id, { billing: { ...newAddr } } as any);
+      const res = await fetch(`/api/wc/customer?id=${customer.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ billing: { ...newAddr } }),
+      });
+      if (!res.ok) throw new Error((await res.json()).message || 'Failed to add address');
       notify('Address added.');
       setNewAddr({ first_name: '', last_name: '', email: '', phone: '', address_1: '', city: '', state: 'Jharkhand', postcode: '' });
     } catch (e: any) { setErrorMsg(e.message); }
@@ -102,7 +133,49 @@ export const AccountDashboard: React.FC = () => {
     finally { setIsLoading(false); }
   };
 
-  if (!user) return null;
+  if (!user) {
+    return (
+      <div style={{ minHeight: '50vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1.5rem', fontFamily: 'var(--font-sans)', color: '#333', padding: '2rem' }}>
+        
+        {/* Guest order temporary password notice */}
+        {guestEmail && (
+          <div style={{
+            maxWidth: '540px', width: '100%',
+            border: '1px solid #e8d5b7',
+            background: '#fffbf5',
+            padding: '1.5rem 2rem',
+            borderRadius: '2px',
+            marginBottom: '0.5rem',
+          }}>
+            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
+              <span style={{ fontSize: '1.2rem', lineHeight: 1 }}>✉️</span>
+              <div>
+                <div style={{ fontWeight: 600, fontSize: '0.92rem', marginBottom: '0.4rem', color: '#1a1a1a' }}>
+                  Your account with First Room is using a temporary password.
+                </div>
+                <div style={{ fontSize: '0.85rem', color: '#666', lineHeight: 1.6 }}>
+                  We emailed a link to <strong>{guestEmail}</strong> to change your password.
+                  Once set, you can log in to view your orders and manage your account.
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '1.1rem', fontWeight: 500, marginBottom: '1rem' }}>
+            {guestEmail ? 'Already set your password? Log in below.' : 'You need to be logged in to view your account.'}
+          </div>
+          <button
+            onClick={openLoginModal}
+            style={{ background: '#111', color: '#fff', border: 'none', padding: '0.85rem 2.5rem', fontSize: '0.82rem', fontWeight: 700, letterSpacing: '1.5px', cursor: 'pointer' }}
+          >
+            LOGIN
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const navItems: { id: Section; label: string }[] = [
     { id: 'info', label: 'Account info' },
@@ -200,16 +273,30 @@ export const AccountDashboard: React.FC = () => {
                       <tr key={`${order.id}-${i}`}>
                         <td>
                           <div className={styles.orderProductCell}>
-                            <div style={{ width: 56, height: 56, background: '#f4f4f4', flexShrink: 0 }} />
-                            <span>{item.name}</span>
+                            <div className={styles.orderImagePlaceholder}>
+                              {item.image?.src ? (
+                                <img src={item.image.src} alt={item.name} className={styles.orderItemImage} />
+                              ) : (
+                                <div className={styles.noImage}>FR</div>
+                              )}
+                            </div>
+                            <div className={styles.orderItemDetails}>
+                              <span className={styles.orderItemName}>{item.name}</span>
+                              <span className={styles.orderDate}>{new Date(order.date_created).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                            </div>
                           </div>
                         </td>
                         <td>{item.quantity}</td>
                         <td>{order.currency_symbol}{parseFloat(item.total).toLocaleString('en-IN')}</td>
                         <td>
-                          <span className={`${styles.orderStatus} ${getStatusClass(order.status)}`}>
-                            {order.status === 'completed' ? 'DELIVERED' : order.status.toUpperCase()}
-                          </span>
+                          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                            <span className={`${styles.orderStatus} ${getStatusClass(order.status)}`}>
+                              {order.status === 'completed' ? 'DELIVERED' : order.status.toUpperCase()}
+                            </span>
+                            <Link href={`/thank-you?order_id=${order.id}`} className={styles.viewDetailsBtn}>
+                              VIEW DETAILS
+                            </Link>
+                          </div>
                         </td>
                       </tr>
                     ))
@@ -252,14 +339,14 @@ export const AccountDashboard: React.FC = () => {
             </div>
 
             <div className={styles.addAddressTitle}>Add New Address</div>
-            <div className={styles.formGrid}>
+            <div className={styles.addressFormGrid}>
               <div className={styles.formGroup}>
                 <label className={styles.formLabel}>First Name <span className={styles.required}>*</span></label>
-                <input className={styles.formInput} value={newAddr.first_name} onChange={e => setNewAddr(p => ({...p, first_name: e.target.value}))} placeholder="Mark" />
+                <input className={styles.formInput} value={newAddr.first_name} onChange={e => setNewAddr(p => ({...p, first_name: e.target.value}))} />
               </div>
               <div className={styles.formGroup}>
                 <label className={styles.formLabel}>Last Name <span className={styles.required}>*</span></label>
-                <input className={styles.formInput} value={newAddr.last_name} onChange={e => setNewAddr(p => ({...p, last_name: e.target.value}))} placeholder="Cole" />
+                <input className={styles.formInput} value={newAddr.last_name} onChange={e => setNewAddr(p => ({...p, last_name: e.target.value}))} />
               </div>
               <div className={styles.formGroup}>
                 <label className={styles.formLabel}>Email <span className={styles.required}>*</span></label>
@@ -267,12 +354,14 @@ export const AccountDashboard: React.FC = () => {
               </div>
               <div className={styles.formGroup}>
                 <label className={styles.formLabel}>Phone Number <span className={styles.required}>*</span></label>
-                <input className={styles.formInput} type="tel" value={newAddr.phone} onChange={e => setNewAddr(p => ({...p, phone: e.target.value}))} placeholder="+1 0231 4554 452" />
+                <input className={styles.formInput} type="tel" value={newAddr.phone} onChange={e => setNewAddr(p => ({...p, phone: e.target.value}))} />
               </div>
-              <div className={`${styles.formGroup} ${styles.formGroupFull}`}>
-                <label className={styles.formLabel}>Address</label>
-                <input className={styles.formInput} value={newAddr.address_1} onChange={e => setNewAddr(p => ({...p, address_1: e.target.value}))} />
-              </div>
+            </div>
+            <div className={styles.formGroup} style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
+              <label className={styles.formLabel}>Address</label>
+              <input className={styles.formInput} value={newAddr.address_1} onChange={e => setNewAddr(p => ({...p, address_1: e.target.value}))} />
+            </div>
+            <div className={styles.addressFormRow3}>
               <div className={styles.formGroup}>
                 <label className={styles.formLabel}>City <span className={styles.required}>*</span></label>
                 <input className={styles.formInput} value={newAddr.city} onChange={e => setNewAddr(p => ({...p, city: e.target.value}))} />
@@ -280,40 +369,40 @@ export const AccountDashboard: React.FC = () => {
               <div className={styles.formGroup}>
                 <label className={styles.formLabel}>State <span className={styles.required}>*</span></label>
                 <select className={styles.formSelect} value={newAddr.state} onChange={e => setNewAddr(p => ({...p, state: e.target.value}))}>
-                  {INDIA_STATES.map(s => <option key={s}>{s}</option>)}
+                  {INDIA_STATES.map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
               </div>
               <div className={styles.formGroup}>
                 <label className={styles.formLabel}>Pincode <span className={styles.required}>*</span></label>
-                <input className={styles.formInput} value={newAddr.postcode} onChange={e => setNewAddr(p => ({...p, postcode: e.target.value}))} pattern="[0-9]{6}" />
+                <input className={styles.formInput} value={newAddr.postcode} onChange={e => setNewAddr(p => ({...p, postcode: e.target.value}))} />
               </div>
             </div>
             <button className={styles.addAddressBtn} onClick={handleAddAddress} disabled={isLoading}>
-              {isLoading ? 'SAVING...' : 'ADD ADDRESS'}
+              {isLoading ? 'ADDING...' : 'ADD ADDRESS'}
             </button>
           </>
         )}
 
         {/* CHANGE PASSWORD */}
-        {section === 'password' && (
+        {section === 'password' && customer && (
           <>
             <div className={styles.sectionTitle}>Change Password</div>
             <div className={styles.passwordForm}>
               <div className={styles.formGroup}>
                 <label className={styles.formLabel}>Old Password <span className={styles.required}>*</span></label>
-                <input className={styles.formInput} type="password" value={pwd.old} onChange={e => setPwd(p => ({...p, old: e.target.value}))} placeholder="Current password" />
+                <input className={styles.formInput} type="password" value={pwd.old} onChange={e => setPwd(p => ({...p, old: e.target.value}))} />
               </div>
               <div className={styles.formGroup}>
                 <label className={styles.formLabel}>New Password <span className={styles.required}>*</span></label>
-                <input className={styles.formInput} type="password" value={pwd.new} onChange={e => setPwd(p => ({...p, new: e.target.value}))} placeholder="New password" />
+                <input className={styles.formInput} type="password" value={pwd.new} onChange={e => setPwd(p => ({...p, new: e.target.value}))} />
               </div>
               <div className={styles.formGroup}>
                 <label className={styles.formLabel}>Confirm Password <span className={styles.required}>*</span></label>
-                <input className={styles.formInput} type="password" value={pwd.confirm} onChange={e => setPwd(p => ({...p, confirm: e.target.value}))} placeholder="Confirm new password" />
+                <input className={styles.formInput} type="password" value={pwd.confirm} onChange={e => setPwd(p => ({...p, confirm: e.target.value}))} />
               </div>
               <div className={styles.passwordActions}>
-                <button className={styles.addAddressBtn} onClick={handleChangePassword} disabled={isLoading}>
-                  {isLoading ? 'CHANGING...' : 'CHANGE PASSWORD'}
+                <button className={styles.saveBtn} onClick={handleChangePassword} disabled={isLoading} style={{ marginTop: 0 }}>
+                  {isLoading ? 'UPDATING...' : 'CHANGE PASSWORD'}
                 </button>
                 <button className={styles.forgotLink}>Forgot Password</button>
               </div>

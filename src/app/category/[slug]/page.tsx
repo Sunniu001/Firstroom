@@ -1,7 +1,5 @@
 import { getProductsByCategory } from "@/lib/api/products";
 import { getCategories } from "@/lib/api/categories";
-import { Header } from "@/components/Header/Header";
-import { Footer } from "@/components/Footer/Footer";
 import { Card } from "@/components/Card/Card";
 import { Grid } from "@/components/Grid/Grid";
 import Link from "next/link";
@@ -101,8 +99,6 @@ export default async function CategoryPage({
 
   return (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", backgroundColor: "#ffffff" }}>
-      <Header />
-      
       <main style={{ flex: 1, padding: "20px 40px 60px 40px" }}>
         <div style={{ maxWidth: "1440px", margin: "0 auto" }}>
           
@@ -186,8 +182,6 @@ export default async function CategoryPage({
           )}
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 }

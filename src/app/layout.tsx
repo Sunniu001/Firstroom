@@ -4,6 +4,9 @@ import "./globals.css";
 import { CartDrawer } from "@/components/CartDrawer/CartDrawer";
 import { LoginModal } from "@/components/LoginModal/LoginModal";
 import { Header } from "@/components/Header/Header";
+import { Footer } from "@/components/Footer/Footer";
+import { SessionProvider } from "next-auth/react";
+import { SocialAuthSync } from "@/components/SocialAuthSync/SocialAuthSync";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -33,12 +36,16 @@ export default function RootLayout({
       className={`${playfair.variable} ${lato.variable}`}
     >
       <body>
-        <Header />
-        <main className="main-content">
-          {children}
-        </main>
-        <CartDrawer />
-        <LoginModal />
+        <SessionProvider>
+          <SocialAuthSync />
+          <Header />
+          <main className="main-content">
+            {children}
+          </main>
+          <Footer />
+          <CartDrawer />
+          <LoginModal />
+        </SessionProvider>
       </body>
     </html>
   );

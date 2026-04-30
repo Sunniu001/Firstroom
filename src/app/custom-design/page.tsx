@@ -1,14 +1,10 @@
 import React from "react";
 import styles from "./page.module.css";
-import { Header } from "@/components/Header/Header";
-import { Footer } from "@/components/Footer/Footer";
 import Link from "next/link";
 
 export default function CustomDesign() {
   return (
     <div className={styles.container}>
-      <Header />
-      
       <main className={styles.main}>
         <section className={styles.headerSection}>
           <h1 className={styles.title}>The First Chapter of Your Space</h1>
@@ -68,8 +64,6 @@ export default function CustomDesign() {
           </div>
         </section>
       </main>
-
-      <Footer />
     </div>
   );
 }

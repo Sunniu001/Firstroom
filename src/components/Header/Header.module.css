@@ -322,6 +322,18 @@
   color: #000;
 }
 
+.logoutItem {
+  border-top: 1px solid #eee;
+  margin-top: 0.5rem;
+  color: #999;
+  font-size: 0.82rem;
+}
+
+.logoutItem:hover {
+  color: #c0392b;
+  background-color: #fff5f5;
+}
+
 /* ── Mobile Menu Toggle ─────────────────────── */
 .mobileMenuToggle {
   display: none;

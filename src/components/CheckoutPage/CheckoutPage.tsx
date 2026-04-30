@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCartStore } from '@/store/cartStore';
+import { useAuthStore } from '@/store/authStore';
 import { getCart, placeOrder, BillingDetails } from '@/lib/api/cart';
 import styles from './CheckoutPage.module.css';
 
@@ -28,6 +29,7 @@ export const CheckoutPage: React.FC = () => {
     cart, cartToken, setCart, setIsLoading, isLoading,
     selectedItemIds, clearSelection,
   } = useCartStore();
+  const { user } = useAuthStore();
 
   const [billing, setBilling] = useState<BillingDetails>(initialBilling);
   const [paymentMethod, setPaymentMethod] = useState<'razorpay' | 'cod'>('razorpay');
@@ -77,12 +79,19 @@ export const CheckoutPage: React.FC = () => {
         billing,
         selectedItemIds,
         cart.items,
-        paymentMethod
+        paymentMethod,
+        user?.token
       );
 
       // Clear the cart state and selection after placing order
       setCart(null);
       clearSelection();
+
+      // If this was a guest checkout (no logged-in user), flag the email
+      // so the account page can show the "temporary password" notice
+      if (!user) {
+        localStorage.setItem('fr_guest_order_email', billing.email);
+      }
 
       // For Razorpay: follow the payment gateway redirect URL.
       // For COD (and any other non-gateway method): go directly to our thank-you page.

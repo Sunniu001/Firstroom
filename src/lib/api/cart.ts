@@ -161,7 +161,8 @@ export async function placeOrder(
   billing: BillingDetails,
   selectedItemKeys: string[],
   allItems: Array<{ id: string; productId: string; quantity: number; customData?: Record<string, string> }>,
-  paymentMethod: string = 'razorpay'
+  paymentMethod: string = 'razorpay',
+  authToken?: string
 ): Promise<CheckoutResult> {
   // Step 0: Fetch the cart to obtain the Nonce header required for checkout POST
   const { nonce, cartToken: freshToken } = await fetchStoreApi<StoreCart>('cart', cartToken);
@@ -191,8 +192,14 @@ export async function placeOrder(
 
   let orderResult: any;
   try {
+    const headers: any = {};
+    if (authToken) {
+      headers['Authorization'] = `Bearer ${authToken}`;
+    }
+
     const { data } = await fetchStoreApi<any>('checkout', tempToken, {
       method: 'POST',
+      headers,
       body: JSON.stringify(checkoutPayload),
     }, nonce);
     orderResult = data;

@@ -1,13 +1,9 @@
 import React from "react";
 import styles from "./page.module.css";
-import { Header } from "@/components/Header/Header";
-import { Footer } from "@/components/Footer/Footer";
 
 export default function OurStory() {
   return (
     <div className={styles.container}>
-      <Header />
-      
       <main className={styles.main}>
         <section className={styles.headerSection}>
           <h1 className={styles.title}>Nature-Inspired Designs, Handcrafted with Care</h1>
@@ -85,8 +81,6 @@ export default function OurStory() {
           </div>
         </section>
       </main>
-
-      <Footer />
     </div>
   );
 }

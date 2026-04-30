@@ -1,13 +1,9 @@
 import React from "react";
 import styles from "./page.module.css";
-import { Header } from "@/components/Header/Header";
-import { Footer } from "@/components/Footer/Footer";
 
 export default function ContactUs() {
   return (
     <div className={styles.container}>
-      <Header />
-      
       <main className={styles.main}>
         <section className={styles.headerSection}>
           <h1 className={styles.title}>Get in touch</h1>
@@ -77,8 +73,6 @@ export default function ContactUs() {
           </div>
         </section>
       </main>
-
-      <Footer />
     </div>
   );
 }
