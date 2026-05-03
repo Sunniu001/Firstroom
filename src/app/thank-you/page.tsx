@@ -90,8 +90,8 @@ function ThankYouContent() {
                       <div className={styles.itemMeta}>
                         {item.meta_data
                           .filter(m => !['area', '_custom_data', 'sqft'].includes(m.key.toLowerCase()))
-                          .map((m, i) => (
-                            <span key={i}>{m.key}: {m.value}{i < item.meta_data.length - 1 ? ' • ' : ''}</span>
+                          .map((m, i, arr) => (
+                            <span key={i}>{m.key}: {m.value}{i < arr.length - 1 ? ' • ' : ''}</span>
                           ))}
                       </div>
                     )}
