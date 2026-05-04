@@ -299,7 +299,19 @@ export const CheckoutPage: React.FC = () => {
 
       {/* ── NEW: ACCOUNT SECTION ── */}
       <div className={styles.accountSection} style={{ marginBottom: '40px', padding: '30px', backgroundColor: '#f9f9f9', borderRadius: '8px' }}>
-        <h2 className={styles.sectionTitle} style={{ marginTop: 0 }}>Account Information</h2>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
+          <h2 className={styles.sectionTitle} style={{ margin: 0 }}>Account Information</h2>
+          {!user && (
+            <button 
+              type="button" 
+              className={styles.loginToggleBtn} 
+              onClick={openLoginModal}
+              style={{ background: 'none', border: 'none', color: '#a67b45', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 500, textDecoration: 'underline' }}
+            >
+              Already have an account? Log in
+            </button>
+          )}
+        </div>
         {user ? (
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#8FA899' }}></div>

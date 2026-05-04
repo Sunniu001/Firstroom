@@ -63,7 +63,7 @@ export const AccountDashboard: React.FC = () => {
       try {
         const [custRes, ordersRes] = await Promise.all([
           fetch(`/api/wc/customer?email=${encodeURIComponent(user.email)}`),
-          fetch(`/api/wc/orders?email=${encodeURIComponent(user.email)}`),
+          fetch(`/api/wc/orders?email=${encodeURIComponent(user.email)}&customer_id=${user.id}`),
         ]);
         if (custRes.ok) setCustomer(await custRes.json());
         if (ordersRes.ok) setOrders(await ordersRes.json());
@@ -292,7 +292,7 @@ export const AccountDashboard: React.FC = () => {
                 </thead>
                 <tbody>
                   {orders.flatMap(order =>
-                    order.line_items
+                    (order.line_items || [])
                       .filter(item => {
                         const isWall = item.sku?.startsWith('FMWPAR') || 
                                       item.meta_data?.some(m => m.key.toLowerCase() === 'area') ||

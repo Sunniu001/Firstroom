@@ -109,7 +109,16 @@ export const LoginModal: React.FC = () => {
         displayName: loginData.user_display_name,
         token: loginData.token,
       });
+
+      // Synchronize with NextAuth session so the Header and Guard stay in sync
+      await nextAuthSignIn('credentials', {
+        email: form.email,
+        password: form.password,
+        redirect: false,
+      });
+
       closeLoginModal();
+      router.refresh();
     } catch (err: any) {
       setError(err.message?.replace(/<[^>]+>/g, '') || 'Registration failed. Please try again.');
     } finally {

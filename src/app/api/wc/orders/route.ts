@@ -23,10 +23,23 @@ export async function GET(req: NextRequest) {
     let url = '';
     if (orderId) {
       url = `${WC_API}/orders/${orderId}`;
-    } else if (email) {
-      url = `${WC_API}/orders?billing_email=${encodeURIComponent(email)}&per_page=50&orderby=date&order=desc`;
-    } else {
-      url = `${WC_API}/orders?customer=${customerId}&per_page=50&orderby=date&order=desc`;
+    } else if (email || customerId) {
+      // Fetch by both ID and Email to catch everything (Guest + Registered)
+      const requests = [];
+      if (customerId) requests.push(fetch(`${WC_API}/orders?customer=${customerId}&per_page=50`, { headers: { Authorization: basicAuth() } }));
+      if (email) requests.push(fetch(`${WC_API}/orders?billing_email=${encodeURIComponent(email)}&per_page=50`, { headers: { Authorization: basicAuth() } }));
+      
+      const responses = await Promise.all(requests);
+      const datasets = await Promise.all(responses.map(r => r.json()));
+      
+      // Flatten only the results that are valid arrays
+      const merged = datasets.filter(d => Array.isArray(d)).flat();
+      
+      // Merge and remove duplicates by order ID
+      const unique = Array.from(new Map(merged.map(o => [o.id, o])).values())
+        .sort((a: any, b: any) => new Date(b.date_created).getTime() - new Date(a.date_created).getTime());
+        
+      return NextResponse.json(unique);
     }
       
     const res = await fetch(
