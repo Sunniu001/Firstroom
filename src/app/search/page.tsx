@@ -1,4 +1,4 @@
-import { wcFetch } from "@/lib/api/products";
+
 import { CategoryProductGrid } from "@/components/Category/CategoryProductGrid";
 import styles from "./page.module.css";
 import Link from "next/link";

@@ -6,7 +6,7 @@ import { updateCartItem, removeCartItem, getCart } from '@/lib/api/cart';
 import styles from './CartDrawer.module.css';
 
 export const CartDrawer: React.FC = () => {
-  const { cart, cartToken, isOpen, setIsOpen, setCart, setIsLoading, isLoading } = useCartStore();
+  const { cart, cartToken, isOpen, setIsOpen, setCart, setCartToken, setIsLoading, isLoading } = useCartStore();
 
   useEffect(() => {
     if (cartToken && !cart) {

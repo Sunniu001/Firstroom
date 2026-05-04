@@ -195,7 +195,7 @@ export async function placeOrder(
   cartToken: string,
   billing: BillingDetails,
   selectedItemKeys: string[],
-  allItems: Array<{ id: string; productId: string; quantity: number; customData?: Record<string, string> }>,
+  allItems: Array<{ id: string; productId: string; title: string; quantity: number; customData?: Record<string, string> }>,
   paymentMethod: string = 'razorpay',
   authToken?: string
 ): Promise<CheckoutResult> {

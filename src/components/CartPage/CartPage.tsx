@@ -14,6 +14,7 @@ export const CartPage: React.FC = () => {
     cart, 
     cartToken, 
     setCart, 
+    setCartToken,
     isLoading, 
     setIsLoading,
     selectedItemIds,
@@ -59,8 +60,9 @@ export const CartPage: React.FC = () => {
 
     setIsLoading(true);
     try {
-      const updatedCart = await updateCartItem(cartToken, itemKey, newQuantity);
+      const { cart: updatedCart, cartToken: newCartToken } = await updateCartItem(cartToken, itemKey, newQuantity);
       setCart(updatedCart);
+      setCartToken(newCartToken);
     } catch (error) {
       console.error("Failed to update quantity:", error);
     } finally {

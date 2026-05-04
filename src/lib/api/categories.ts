@@ -6,7 +6,9 @@ export async function getCategories(): Promise<Category[]> {
     const pages = [1, 2, 3, 4, 5];
     const results = await Promise.all(
       pages.map(page =>
-        fetchStoreApi<any[]>(`products/categories?per_page=100&page=${page}`).catch(() => ({ data: [] }))
+        fetchStoreApi<any[]>(`products/categories?per_page=100&page=${page}`, null, {
+          next: { revalidate: 86400, tags: ['categories'] }
+        }).catch(() => ({ data: [] }))
       )
     );
     console.log("categories:", results);

@@ -11,19 +11,29 @@ function getAuthHeader(): Record<string, string> {
   return { Authorization: `Basic ${auth}` };
 }
 
-export async function wcFetch(endpoint: string) {
+export async function wcFetch(endpoint: string, options?: RequestInit & { next?: { revalidate?: number; tags?: string[] } }) {
   const cleanBaseUrl = API_URL?.endsWith('/') ? API_URL.slice(0, -1) : API_URL;
-  // Add cache-buster for Vercel stability
-  const separator = endpoint.includes('?') ? '&' : '?';
-  const url = `${cleanBaseUrl}/${endpoint}${separator}_cb=${Date.now()}`;
+  const isNoStore = options?.cache === 'no-store' || (!options?.next && !options?.cache);
   
-  const res = await fetch(url, {
+  let url = `${cleanBaseUrl}/${endpoint}`;
+  if (isNoStore) {
+    const separator = endpoint.includes('?') ? '&' : '?';
+    url += `${separator}_cb=${Date.now()}`;
+  }
+  
+  const fetchOptions: RequestInit = {
+    ...options,
     headers: {
       ...getAuthHeader(),
+      ...options?.headers,
     },
-    // Using no-store for critical data lookups on Vercel
-    cache: 'no-store'
-  });
+  };
+
+  if (!options?.cache && !options?.next) {
+    fetchOptions.cache = 'no-store';
+  }
+
+  const res = await fetch(url, fetchOptions);
 
   if (!res.ok) {
     const errorBody = await res.text().catch(() => "No error body");
@@ -42,12 +52,17 @@ export async function wcFetch(endpoint: string) {
 export async function fetchStoreApi<T>(
   endpoint: string,
   cartToken?: string | null,
-  options?: RequestInit,
+  options?: RequestInit & { next?: { revalidate?: number; tags?: string[] } },
   nonce?: string | null
 ): Promise<{ data: T; cartToken: string | null; nonce: string | null; headers: Headers }> {
   const cleanBaseUrl = STORE_URL?.endsWith('/') ? STORE_URL.slice(0, -1) : STORE_URL;
-  const separator = endpoint.includes('?') ? '&' : '?';
-  const url = `${cleanBaseUrl}/wp-json/wc/store/v1/${endpoint}${separator}_cb=${Date.now()}`;
+  const isNoStore = options?.cache === 'no-store' || (!options?.next && !options?.cache);
+  
+  let url = `${cleanBaseUrl}/wp-json/wc/store/v1/${endpoint}`;
+  if (isNoStore) {
+    const separator = endpoint.includes('?') ? '&' : '?';
+    url += `${separator}_cb=${Date.now()}`;
+  }
   
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
@@ -58,11 +73,16 @@ export async function fetchStoreApi<T>(
     ...options?.headers,
   };
 
-  const response = await fetch(url, {
+  const fetchOptions: RequestInit = {
     ...options,
     headers,
-    cache: 'no-store',
-  });
+  };
+
+  if (!options?.cache && !options?.next) {
+    fetchOptions.cache = 'no-store';
+  }
+
+  const response = await fetch(url, fetchOptions);
 
   if (!response.ok) {
     const body = await response.text();

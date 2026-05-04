@@ -33,7 +33,9 @@ function normalizeStoreProduct(raw: any): Product {
 export async function getProducts(options: { limit?: number } = {}): Promise<Product[]> {
   try {
     const limit = options.limit || 20;
-    const { data } = await fetchStoreApi<any[]>(`products?per_page=${limit}`);
+    const { data } = await fetchStoreApi<any[]>(`products?per_page=${limit}`, null, {
+      next: { revalidate: 3600, tags: ['products'] }
+    });
     console.log("products:", data);
     return data.map(normalizeStoreProduct);
   } catch (error) {
@@ -44,7 +46,9 @@ export async function getProducts(options: { limit?: number } = {}): Promise<Pro
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   try {
-    const { data } = await fetchStoreApi<any[]>(`products?slug=${slug}`);
+    const { data } = await fetchStoreApi<any[]>(`products?slug=${slug}`, null, {
+      next: { revalidate: 3600, tags: ['products', `product-${slug}`] }
+    });
     if (!data || !data.length) return null;
     const rawData = data[0];
     const product = normalizeStoreProduct(rawData);
@@ -53,7 +57,9 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
     if (rawData.has_options && rawData.variations && rawData.variations.length > 0) {
       try {
         const variationsResponses = await Promise.all(
-          rawData.variations.map((v: any) => wcFetch(`products/${product.id}/variations/${v.id}`))
+          rawData.variations.map((v: any) => wcFetch(`products/${product.id}/variations/${v.id}`, {
+            next: { revalidate: 3600, tags: ['products', `product-${product.id}-variations`] }
+          }))
         );
 
         const uniqueVariants = new Map<string, any>();
@@ -91,7 +97,9 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
     const isNameplate = product.categories.some((c: any) => (c.slug || '').includes('nameplate') || (c.name || '').toLowerCase().includes('nameplate'));
     if (isNameplate) {
       try {
-        const v3Product = await wcFetch(`products/${product.id}`);
+        const v3Product = await wcFetch(`products/${product.id}`, {
+          next: { revalidate: 3600, tags: ['products', `product-${product.id}`] }
+        });
         const metaData = v3Product.meta_data || [];
         const boxMeta = metaData.find((m: any) => m.key === '_np_box')?.value;
         const bgMeta = metaData.find((m: any) => m.key === '_np_bg')?.value;
@@ -140,7 +148,9 @@ export async function getProductsByCategory(
     // Use encoded category ID or slug
     const encodedCat = encodeURIComponent(categoryId);
     const { data, headers } = await fetchStoreApi<any[]>(
-      `products?category=${encodedCat}&page=${page}&per_page=${perPage}${sortParams}`
+      `products?category=${encodedCat}&page=${page}&per_page=${perPage}${sortParams}`,
+      null,
+      { next: { revalidate: 3600, tags: ['products', `category-${categoryId}`] } }
     );
     console.log("products data:", data, "url:", STORE_URL?.endsWith('/') ? STORE_URL.slice(0, -1) : STORE_URL);
 
@@ -158,7 +168,9 @@ export async function getProductsByCategory(
     try {
       const encodedCat = encodeURIComponent(categoryId);
       const { data, headers } = await fetchStoreApi<any[]>(
-        `products?category=${encodedCat}&page=${page}&per_page=${perPage}`
+        `products?category=${encodedCat}&page=${page}&per_page=${perPage}`,
+        null,
+        { next: { revalidate: 3600, tags: ['products', `category-${categoryId}`] } }
       );
       const total = parseInt(headers.get('x-wp-total') || '0');
       const totalPages = parseInt(headers.get('x-wp-totalpages') || '0');
