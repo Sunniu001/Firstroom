@@ -244,13 +244,16 @@ export const CheckoutPage: React.FC = () => {
       }
 
       // 2. Place the order
+      // Use the newly fetched token if we just registered, otherwise use existing user token
+      const currentToken = useAuthStore.getState().user?.token || user?.token;
+      
       const result = await placeOrder(
         cartToken,
         billing,
         selectedItemIds,
         cart.items,
         paymentMethod,
-        user?.token
+        currentToken
       );
 
       // Refresh the cart from the server to reflect only the remaining (unselected) items

@@ -199,8 +199,10 @@ export async function placeOrder(
   paymentMethod: string = 'razorpay',
   authToken?: string
 ): Promise<CheckoutResult> {
-  // Step 0: Fetch the cart to obtain the Nonce header required for checkout POST
-  const { nonce, cartToken: freshToken } = await fetchStoreApi<StoreCart>('cart', cartToken);
+  // Step 0: Fetch the cart to obtain the Nonce header and SYNC it with the user if authToken is provided
+  const { nonce, cartToken: freshToken } = await fetchStoreApi<StoreCart>('cart', cartToken, {
+    headers: authToken ? { 'Authorization': `Bearer ${authToken}` } : {}
+  });
   let tempToken = freshToken || cartToken;
 
   // Step 1: Find items to temporarily remove (unselected)
