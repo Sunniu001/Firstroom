@@ -199,7 +199,51 @@ export const CheckoutPage: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      // 1. Place the order
+      // 1. If not logged in, register first using account_email
+      if (!user && billing.account_email && billing.password) {
+        const regRes = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            firstName: billing.first_name,
+            lastName: billing.last_name,
+            email: billing.account_email,
+            password: billing.password,
+          }),
+        });
+        
+        if (!regRes.ok) {
+          const regData = await regRes.json();
+          if (regData.code !== 'registration-error-email-exists') {
+            throw new Error(regData.message || 'Registration failed.');
+          }
+        }
+
+        // Silent login
+        await nextAuthSignIn('credentials', {
+          email: billing.account_email,
+          password: billing.password,
+          redirect: false,
+        });
+
+        // Sync store
+        const sessionRes = await fetch('/api/auth/session');
+        if (sessionRes.ok) {
+          const session = await sessionRes.json();
+          if (session.user) {
+            useAuthStore.getState().setUser({
+              id: session.wpId,
+              email: session.user.email,
+              firstName: session.wpFirstName,
+              lastName: session.wpLastName,
+              displayName: session.user.name,
+              token: session.wpToken,
+            });
+          }
+        }
+      }
+
+      // 2. Place the order
       const result = await placeOrder(
         cartToken,
         billing,
@@ -243,33 +287,48 @@ export const CheckoutPage: React.FC = () => {
     );
   }
 
-  if (!user) {
-    return (
-      <div className={styles.checkoutContainer}>
-        <div style={{ textAlign: 'center', padding: '100px 0' }}>
-          <h1 className={styles.pageTitle}>Checkout</h1>
-          <p style={{ color: '#666', marginBottom: '30px' }}>Please login or create an account to continue with your purchase.</p>
-          <button 
-            className={styles.placeOrderBtn} 
-            style={{ maxWidth: '300px', margin: '0 auto' }}
-            onClick={openLoginModal}
-          >
-            LOGIN / SIGN UP
-          </button>
-          <p style={{ marginTop: '20px' }}>
-            <Link href="/cart" style={{ color: '#8FA899', textDecoration: 'underline' }}>Back to Cart</Link>
-          </p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className={styles.checkoutContainer}>
       <button className={styles.backLink} onClick={() => router.back()}>
         ← Back to Cart
       </button>
       <h1 className={styles.pageTitle}>Checkout</h1>
+
+      {/* ── NEW: ACCOUNT SECTION ── */}
+      <div className={styles.accountSection} style={{ marginBottom: '40px', padding: '30px', backgroundColor: '#f9f9f9', borderRadius: '8px' }}>
+        <h2 className={styles.sectionTitle} style={{ marginTop: 0 }}>Account Information</h2>
+        {user ? (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#8FA899' }}></div>
+            <p style={{ margin: 0, fontSize: '1rem' }}>
+              Logged in as: <strong>{user.email}</strong>
+            </p>
+          </div>
+        ) : (
+          <div className={styles.formGrid}>
+            <div className={styles.formGroup}>
+              <label>Account Email<span className={styles.required}>*</span></label>
+              <input
+                className={styles.formInput} type="email"
+                name="account_email" value={billing.account_email || ''}
+                onChange={handleChange} required
+                placeholder="email@example.com"
+              />
+              <small style={{ color: '#888', marginTop: '5px', display: 'block' }}>This will be your primary login and order tracking email.</small>
+            </div>
+            <div className={styles.formGroup}>
+              <label>Password<span className={styles.required}>*</span></label>
+              <input
+                className={styles.formInput} type="password"
+                name="password" value={billing.password || ''}
+                onChange={handleChange} required
+                placeholder="Choose a password (min. 8 characters)"
+                minLength={8}
+              />
+            </div>
+          </div>
+        )}
+      </div>
 
       <form onSubmit={handleSubmit}>
         <div className={styles.checkoutGrid}>
@@ -373,13 +432,14 @@ export const CheckoutPage: React.FC = () => {
               </div>
 
               <div className={`${styles.formGroup} ${styles.formGroupFull}`}>
-                <label>Email Address<span className={styles.required}>*</span></label>
+                <label>Billing Email Address<span className={styles.required}>*</span></label>
                 <input
                   className={styles.formInput} type="email"
                   name="email" value={billing.email}
                   onChange={handleChange} required
-                  placeholder="your@email.com"
+                  placeholder="Billing contact email"
                 />
+                <small style={{ color: '#888', marginTop: '5px', display: 'block' }}>Email for invoices and payment updates (can be different from account).</small>
               </div>
             </div>
           </div>

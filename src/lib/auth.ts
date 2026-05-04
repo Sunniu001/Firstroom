@@ -97,11 +97,32 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           }
 
           // Get JWT token for social user
-          const jwtRes = await fetch(`${WP_URL}/wp-json/jwt-auth/v1/token`, {
+          let jwtRes = await fetch(`${WP_URL}/wp-json/jwt-auth/v1/token`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username: email, password: socialPassword }),
           });
+
+          // If JWT fails, the user might have a different password (traditional email user).
+          // We will update their password to the social one to link the accounts.
+          if (!jwtRes.ok && customer) {
+            await fetch(`${WC_API}/customers/${customer.id}`, {
+              ...fetchOpts,
+              method: 'PUT',
+              body: JSON.stringify({
+                password: socialPassword,
+                meta_data: [{ key: '_social_auth_pwd', value: socialPassword }]
+              }),
+            });
+
+            // Try JWT again with the updated password
+            jwtRes = await fetch(`${WP_URL}/wp-json/jwt-auth/v1/token`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ username: email, password: socialPassword }),
+            });
+          }
+
           const jwtData = await jwtRes.json();
 
           if (jwtRes.ok) {

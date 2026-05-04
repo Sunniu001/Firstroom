@@ -172,9 +172,9 @@ export interface BillingDetails {
   state: string;
   postcode: string;
   country: string;
-  email: string;
+  email: string; // This will be Billing Email
   phone: string;
-  create_account?: boolean;
+  account_email?: string; // This will be Account Email
   password?: string;
 }
 
