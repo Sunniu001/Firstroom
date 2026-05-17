@@ -40,17 +40,23 @@
 
 .mainImageContainer {
   flex: 1;
-  background-color: #f9f9f9;
-  border: 1px solid #f0f0f0;
-  border-radius: 4px;
+  background-color: #fafafa;
+  border: 1px solid #f2f2f2;
+  border-radius: 8px;
   overflow: hidden;
   height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
 }
 
 .mainImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain; /* Preserves exact aspect ratio and razor-sharp native pixel detail */
   display: block;
 }
 
@@ -69,17 +75,51 @@
 
 @media (max-width: 768px) {
   .galleryContainer {
-    flex-direction: column-reverse;
+    flex-direction: column-reverse !important;
+    gap: 12px !important;
   }
   
+  .mainImageContainer {
+    height: auto !important;
+    aspect-ratio: 1 !important;
+    width: 100% !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 4px !important;
+    background-color: transparent !important;
+  }
+
+  .mainImg {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 4px !important;
+  }
+
   .thumbnailList {
-    flex-direction: row;
-    width: 100%;
-    overflow-x: auto;
+    flex-direction: row !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+    gap: 10px !important;
+    padding: 4px 0 !important;
+    scrollbar-width: none !important;
+  }
+
+  .thumbnailList::-webkit-scrollbar {
+    display: none !important;
   }
   
   .thumbnailBtn {
-    width: 60px;
-    flex-shrink: 0;
+    width: 68px !important;
+    height: 68px !important;
+    flex-shrink: 0 !important;
+    border-radius: 4px !important;
+    border: 1.5px solid #eee !important;
+    transition: border-color 0.2s ease;
+  }
+
+  .thumbnailBtn.active {
+    border-color: #B53939 !important; /* Signature brand red active border */
+    border-width: 2px !important;
   }
 }

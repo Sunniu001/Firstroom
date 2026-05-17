@@ -1,8 +1,21 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import styles from "./page.module.css";
 import Link from "next/link";
 
-export default async function Home() {
+export default function Home() {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -12,7 +25,14 @@ export default async function Home() {
         <section className={styles.hero}>
           <div className={styles.heroBackground} />
           <div className={styles.heroOverlay} />
-          <div className={styles.heroContent}>
+          <div 
+            className={styles.heroContent}
+            style={{
+              transform: `translateY(${scrollY * 0.35}px)`,
+              opacity: Math.max(0, 1 - scrollY / 500),
+              transition: "transform 0.1s ease-out, opacity 0.1s ease-out"
+            }}
+          >
             <h1 className={styles.heroTitle}>Luxury Walls. Personal Stories.<br />Timeless Design.</h1>
             <p className={styles.heroSubtitle}>
               Crafted for refined interiors, our bespoke wallpapers transform blank walls into evocative expressions of identity.

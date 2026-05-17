@@ -89,18 +89,31 @@ export const CategoryProductGrid: React.FC<CategoryProductGridProps> = ({ produc
       )}
 
       <Grid columns={4} gap="md">
-        {products.map((product) => (
-          <Link key={product.id} href={`/products/${product.slug}`} style={{ textDecoration: "none", color: "inherit" }}>
-            <Card
-              title={product.name}
-              price={`₹${product.price}`}
-              category={showCategory ? product.categories?.[0]?.name : undefined}
-              unit={unit}
-              image={product.images?.[0]?.src}
-            />
+        {products.map((product) => {
+          const displayPrice = (() => {
+            if (product.variants && product.variants.length > 0) {
+              const prices = product.variants.map(v => v.price).filter(p => typeof p === 'number' && !isNaN(p) && p > 0);
+              if (prices.length > 0) {
+                const minPrice = Math.min(...prices);
+                const maxPrice = Math.max(...prices);
+                return minPrice !== maxPrice ? `₹${minPrice} - ₹${maxPrice}` : `₹${minPrice}`;
+              }
+            }
+            return `₹${product.price}`;
+          })();
 
-          </Link>
-        ))}
+          return (
+            <Link key={product.id} href={`/products/${product.slug}`} style={{ textDecoration: "none", color: "inherit" }}>
+              <Card
+                title={product.name}
+                price={displayPrice}
+                category={showCategory ? product.categories?.[0]?.name : undefined}
+                unit={unit}
+                image={product.images?.[0]?.src}
+              />
+            </Link>
+          );
+        })}
 
       </Grid>
 

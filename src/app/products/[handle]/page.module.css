@@ -41,6 +41,8 @@
   grid-template-columns: 1fr 1fr;
   gap: 80px;
   align-items: flex-start;
+  position: relative;
+  z-index: 10; /* Promote stacking context to overlay modals cleanly on top of page siblings */
 }
 
 
@@ -67,7 +69,7 @@
   font-family: var(--font-serif);
   font-size: clamp(1.2rem, 3vw, 1.5rem);
   font-weight: 600;
-  color: var(--accent-color);
+  color: var(--accent-color); /* Restored to the signature brand red */
 
   margin-bottom: 12px;
   display: flex;

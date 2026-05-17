@@ -26,6 +26,9 @@
     height: 50vh;
     min-height: 300px;
   }
+  .heroBg {
+    background-attachment: scroll !important;
+  }
 }
 
 .heroBg {

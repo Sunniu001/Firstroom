@@ -23,8 +23,11 @@
 
 @media (max-width: 768px) {
   .heroSection {
-    height: 40vh;
-    min-height: 250px;
+    height: 50vh;
+    min-height: 300px;
+  }
+  .heroBg {
+    background-attachment: scroll !important;
   }
 }
 

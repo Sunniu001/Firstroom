@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Caveat:wght@400;700&family=Dancing+Script:wght@400;700&family=Pacifico&family=Playball&family=Sacramento&family=Satisfy&family=Yellowtail&display=swap');
 
 .container {
-  margin-top: var(--spacing-sm);
-  margin-bottom: var(--spacing-sm);
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .title {

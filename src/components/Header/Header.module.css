@@ -175,9 +175,22 @@
 }
 
 @media (max-width: 900px) {
+  .container {
+    padding: 0 16px !important;
+  }
+
+  .center {
+    display: none !important;
+  }
+
+  .left {
+    flex: 2 !important;
+  }
+
   .logoContainer img {
-    height: 100px !important; 
+    height: 48px !important; 
     width: auto !important;
+    max-height: 48px !important;
   }
 
   .right .iconButton:first-child,
@@ -405,7 +418,7 @@
 
 .mobileMenuHeader {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   padding: 1rem 1.5rem;
   border-bottom: 1px solid #eee;
@@ -500,13 +513,13 @@
 
 .mobileNavLink {
   font-family: var(--font-lato), 'Lato', sans-serif;
-  font-size: 1.15rem;
+  font-size: 0.95rem;
   font-weight: 500;
   color: #1a1a1a;
   text-decoration: none;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding: 1rem 0;
+  letter-spacing: 0.08em;
+  padding: 0.75rem 0;
   border-bottom: 1px solid #eee;
 }
 

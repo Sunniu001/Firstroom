@@ -15,13 +15,23 @@ export const FrameSizeSelector: React.FC<FrameSizeSelectorProps> = ({
 }) => {
   if (!variants || variants.length === 0) return null;
 
+  // Extract the WooCommerce attribute name dynamically from the first variant
+  const firstVariantAttrs = variants[0]?.attributes || {};
+  const rawAttributeName = Object.keys(firstVariantAttrs)[0] || 'Size';
+  
+  // Format the label beautifully (e.g. "pa_frame-size" -> "Frame Size", "pa_size" -> "Size")
+  const displayLabel = rawAttributeName
+    .replace(/^pa_/, '')
+    .replace(/-/g, ' ')
+    .replace(/\b\w/g, c => c.toUpperCase());
+
   return (
     <div className={styles.container}>
-      <span className={styles.label}>Frame Size</span>
+      <span className={styles.label}>{displayLabel}</span>
       <div className={styles.optionsContainer}>
         {variants.map((variant) => {
           const attrs = variant.attributes || {};
-          const sizeLabel = attrs['Frame Size'] || Object.values(attrs)[0] || `Variant ${variant.id}`;
+          const sizeLabel = attrs[rawAttributeName] || Object.values(attrs)[0] || `Variant ${variant.id}`;
           
           return (
             <button

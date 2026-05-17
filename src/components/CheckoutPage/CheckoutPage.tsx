@@ -34,7 +34,7 @@ const INDIA_STATES = [
 const initialBilling: BillingDetails = {
   first_name: '', last_name: '', company: '',
   address_1: '', address_2: '',
-  city: '', state: 'Jharkhand', postcode: '',
+  city: '', state: 'Delhi', postcode: '',
   country: 'IN', email: '', phone: '',
 };
 
@@ -70,6 +70,35 @@ export const CheckoutPage: React.FC = () => {
       fetch();
     }
   }, [cartToken, cart, cartLastSyncedAt, setCart, setIsLoading]);
+
+  useEffect(() => {
+    if (user) {
+      setBilling(prev => ({
+        ...prev,
+        first_name: prev.first_name || user.firstName || user.displayName?.split(' ')[0] || '',
+        last_name: prev.last_name || user.lastName || user.displayName?.split(' ').slice(1).join(' ') || '',
+        email: prev.email || user.email || '',
+      }));
+    }
+  }, [user]);
+
+  useEffect(() => {
+    try {
+      const cached = localStorage.getItem('cart-shipping-address');
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        setBilling(prev => ({
+          ...prev,
+          address_1: prev.address_1 || parsed.address_1 || '',
+          city: prev.city || parsed.city || '',
+          postcode: prev.postcode || parsed.postcode || '',
+          state: prev.state && prev.state !== 'Delhi' ? prev.state : (parsed.state || 'Delhi'),
+        }));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }, []);
 
   const selectedItems = useMemo(() => {
     if (!cart) return [];
@@ -290,6 +319,14 @@ export const CheckoutPage: React.FC = () => {
 
           <div>
             <h2 className={styles.sectionTitle}>Billing Details</h2>
+            {user?.email && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '1.5rem', background: '#f5f9f6', padding: '0.75rem 1rem', borderRadius: '6px', border: '1px solid #d4ebd9' }}>
+                <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#2d5a27' }}></div>
+                <p style={{ margin: 0, fontSize: '0.9rem', color: '#2d5a27' }}>
+                  Ordering as: <strong>{user.email}</strong>
+                </p>
+              </div>
+            )}
             <div className={styles.formGrid}>
 
               <div className={styles.formGroup}>

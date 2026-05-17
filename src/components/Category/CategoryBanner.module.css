@@ -1,0 +1,314 @@
+.bannerContainer {
+  position: relative;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 50px;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FAF7F2; /* soft linen cream background */
+  height: 380px; /* elegant desktop height limit */
+  min-height: 380px;
+}
+
+.bannerBackgroundImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: center center;
+  transition: transform 0.1s cubic-bezier(0.1, 0.8, 0.2, 1);
+  z-index: 1;
+}
+
+.bannerOverlayContent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr 1fr; /* 3 columns matching desktop arch graphic location */
+  align-items: center;
+  padding: 30px 60px;
+  box-sizing: border-box;
+  z-index: 2;
+}
+
+.bannerLeftCol {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding-left: 170px; /* Pushed further right to center in illustration clearance space */
+  margin-top: -35px; /* Shifted vertically upward to sit beautifully and clear bottom flora elements */
+  box-sizing: border-box;
+}
+
+.bannerCenterCol {
+  /* Center spacer to frame background arch graphic clear of text */
+}
+
+.bannerRightCol {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.bannerDescriptionOver {
+  font-family: var(--font-sans);
+  font-size: clamp(0.78rem, 1.4vw, 0.95rem);
+  line-height: 1.65;
+  color: #2D261F; /* charcoal brown to blend with linen look */
+  margin: 0;
+  text-align: left;
+  font-weight: 300;
+  max-width: 320px;
+}
+
+.bannerSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 50px;
+  min-height: 380px;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+}
+
+.bannerTextContent {
+  flex: 1.25;
+  padding: 50px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.bannerTagline {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  margin-bottom: 12px;
+}
+
+.bannerTitle {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3.8vw, 3.2rem);
+  font-weight: 400;
+  line-height: 1.15;
+  margin: 0 0 20px 0;
+  letter-spacing: -0.01em;
+}
+
+.bannerDescription {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  margin: 0;
+  opacity: 0.85;
+  max-width: 580px;
+}
+
+.bannerImageWrapper {
+  flex: 1;
+  align-self: stretch;
+  position: relative;
+  overflow: hidden;
+}
+
+.bannerImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Typography styles inside the banner */
+.pageHeaderTitleWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 18px;
+  position: relative;
+}
+
+.pageHeaderAccent {
+  font-family: var(--font-playfair), var(--font-serif);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: #8fa899; /* soft theme active sage */
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  margin-bottom: -5px;
+  display: block;
+}
+
+.pageHeaderScriptTitle {
+  font-family: var(--font-pinyon), 'Pinyon Script', cursive;
+  font-size: clamp(3.2rem, 7vw, 4.8rem);
+  font-weight: 400;
+  color: #738c7d; /* Premium sage accent color */
+  line-height: 0.9;
+  margin: 0;
+  text-align: center;
+  letter-spacing: -0.01em;
+  padding: 5px 0;
+}
+
+.pageHeaderTitle {
+  font-family: var(--font-playfair), var(--font-serif);
+  font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+  font-weight: 400;
+  color: #1a1a1a;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.pageHeaderSuffix {
+  font-family: var(--font-playfair), var(--font-serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: #777777;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  margin-top: -3px;
+  display: block;
+  text-transform: lowercase;
+}
+
+@media (max-width: 992px) {
+  .bannerTextContent {
+    padding: 40px;
+  }
+}
+
+/* Responsive Mobile Optimized Banners */
+@media (max-width: 768px) {
+  .bannerContainer {
+    position: relative !important;
+    flex-direction: row !important;
+    height: 180px !important;
+    min-height: 180px !important;
+    margin-bottom: 30px !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    background-color: #FAF7F2 !important;
+  }
+
+  .bannerBackgroundImage {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: right center !important;
+    z-index: 1 !important;
+    /* Adjust initial parallax scale offset for mobile viewport */
+    transform: scale(1.25) !important;
+  }
+
+  .bannerOverlayContent {
+    position: absolute !important;
+    inset: 0 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    padding: 20px 24px !important;
+    width: 100% !important;
+    background: linear-gradient(90deg, rgba(250, 247, 242, 0.95) 45%, rgba(250, 247, 242, 0.7) 70%, rgba(250, 247, 242, 0) 100%) !important;
+    z-index: 2 !important;
+    gap: 0 !important;
+  }
+
+  .bannerLeftCol {
+    width: 60% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    text-align: left !important;
+    align-items: flex-start !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .bannerRightCol {
+    display: none !important;
+  }
+
+  .bannerCenterCol {
+    display: none !important;
+  }
+
+  .pageHeaderTitleWrapper {
+    margin-bottom: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  .pageHeaderAccent {
+    font-size: 0.85rem !important;
+    color: #555 !important;
+  }
+
+  .pageHeaderScriptTitle {
+    font-size: 2.2rem !important;
+    line-height: 1.1 !important;
+    padding: 4px 0 !important;
+  }
+
+  .pageHeaderTitle {
+    font-size: 1.2rem !important;
+    letter-spacing: 0.05em !important;
+    line-height: 1.2 !important;
+  }
+
+  .pageHeaderSuffix {
+    font-size: 0.8rem !important;
+    color: #555 !important;
+  }
+
+  .bannerDescriptionOver {
+    display: none !important;
+  }
+
+  .bannerSection {
+    flex-direction: column-reverse;
+    min-height: auto;
+    margin-bottom: 40px;
+  }
+  
+  .bannerTextContent {
+    padding: 35px 24px;
+    flex: none;
+  }
+  
+  .bannerImageWrapper {
+    width: 100%;
+    height: 240px;
+    flex: none;
+  }
+  
+  .bannerTitle {
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+  }
+  
+  .bannerDescription {
+    font-size: 0.9rem;
+  }
+}

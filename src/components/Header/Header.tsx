@@ -320,9 +320,6 @@ export const Header: React.FC = () => {
       <div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.mobileMenuOpen : ''}`}>
         {/* Mobile Menu Header with Icons */}
         <div className={styles.mobileMenuHeader}>
-          <div className={styles.mobileMenuLeft}>
-            <Image src="/images/Logo.png" alt="Logo" width={180} height={50} style={{ objectFit: 'contain' }} />
-          </div>
           <div className={styles.mobileMenuIcons}>
             <button className={styles.mobileIconBtn} onClick={() => { setIsMobileMenuOpen(false); setIsSearchOpen(true); }}>
               <SearchIcon />
@@ -397,12 +394,12 @@ export const Header: React.FC = () => {
               <div className={styles.mobileAccountTitle}>MY ACCOUNT</div>
               {(user || session) ? (
                 <>
-                  <Link href="/account?section=orders" className={styles.mobileNavLink} style={{ fontSize: '1rem', border: 'none', textTransform: 'uppercase' }} onClick={() => setIsMobileMenuOpen(false)}>Orders</Link>
-                  <Link href="/account" className={styles.mobileNavLink} style={{ fontSize: '1rem', border: 'none', textTransform: 'uppercase' }} onClick={() => setIsMobileMenuOpen(false)}>My Profile</Link>
-                  <button className={styles.mobileNavLink} style={{ fontSize: '1rem', border: 'none', background: 'none', textAlign: 'left', cursor: 'pointer', textTransform: 'uppercase' }} onClick={handleLogout}>Log out</button>
+                  <Link href="/account?section=orders" className={styles.mobileNavLink} style={{ fontSize: '0.95rem', border: 'none', textTransform: 'uppercase' }} onClick={() => setIsMobileMenuOpen(false)}>Orders</Link>
+                  <Link href="/account" className={styles.mobileNavLink} style={{ fontSize: '0.95rem', border: 'none', textTransform: 'uppercase' }} onClick={() => setIsMobileMenuOpen(false)}>My Profile</Link>
+                  <button className={styles.mobileNavLink} style={{ fontSize: '0.95rem', border: 'none', background: 'none', textAlign: 'left', cursor: 'pointer', textTransform: 'uppercase' }} onClick={handleLogout}>Log out</button>
                 </>
               ) : (
-                <button className={styles.mobileNavLink} style={{ fontSize: '1rem', border: 'none', background: 'none', textAlign: 'left', cursor: 'pointer', textTransform: 'uppercase' }} onClick={() => { setIsMobileMenuOpen(false); openLoginModal(); }}>Login / Sign Up</button>
+                <button className={styles.mobileNavLink} style={{ fontSize: '0.95rem', border: 'none', background: 'none', textAlign: 'left', cursor: 'pointer', textTransform: 'uppercase' }} onClick={() => { setIsMobileMenuOpen(false); openLoginModal(); }}>Login / Sign Up</button>
               )}
             </div>
           </nav>

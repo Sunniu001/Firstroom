@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./page.module.css";
 import Link from "next/link";
 
@@ -8,6 +8,63 @@ export default function CustomDesign() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentSlide2, setCurrentSlide2] = useState(0);
   const [currentSlide3, setCurrentSlide3] = useState(0);
+  const [scrollY, setScrollY] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeStep, setActiveStep] = useState(0);
+
+  const PROCESS_STEPS = [
+    {
+      image: "/images/Personal-Consultation-scaled.webp",
+      title: "Personal Consultation",
+      desc: "A collaborative session where we explore your story, aesthetic preferences, and vision to establish a profound design direction."
+    },
+    {
+      image: "/images/Thoughtful-Ideation-Visual-Detailing-scaled.webp",
+      title: "Thoughtful Ideation & Detailing",
+      desc: "Transforming insights into highly curated mood boards, hand sketches, and elaborate space concepts crafted specifically for your walls."
+    },
+    {
+      image: "/images/Hand-Painted-Motiffs-copy-scaled.webp",
+      title: "Hand-Painted Originals",
+      desc: "Our master artists create bespoke murals and motifs by hand, capturing details and textures that standard digital designs cannot replicate."
+    },
+    {
+      image: "/images/Customized-Design-Concepts-scaled.webp",
+      title: "Customised Design Concepts",
+      desc: "Refining select designs to fit your exact wall dimensions, color schemas, and architectural boundaries with digital precision."
+    },
+    {
+      image: "/images/Collaborated-Installations-scaled.webp",
+      title: "Collaborated Installation",
+      desc: "Working hand-in-hand with professional installers to guarantee that the final execution fits seamlessly, effortlessly, and beautifully."
+    }
+  ];
+
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    const track = scrollRef.current;
+    const scrollPosition = track.scrollLeft;
+    const firstChild = track.firstElementChild as HTMLElement;
+    if (!firstChild) return;
+    const cardWidth = firstChild.clientWidth + 24; // Card width + gap (1.5rem = 24px)
+    const index = Math.round(scrollPosition / cardWidth);
+    if (index >= 0 && index < PROCESS_STEPS.length) {
+      setActiveStep(index);
+    }
+  };
+
+  const scrollToStep = (index: number) => {
+    if (!scrollRef.current) return;
+    const track = scrollRef.current;
+    const firstChild = track.firstElementChild as HTMLElement;
+    if (!firstChild) return;
+    const cardWidth = firstChild.clientWidth + 24;
+    track.scrollTo({
+      left: index * cardWidth,
+      behavior: "smooth"
+    });
+    setActiveStep(index);
+  };
   
   const slides = [
     "/images/sd.webp",
@@ -25,6 +82,11 @@ export default function CustomDesign() {
   ];
 
   useEffect(() => {
+    const handleScrollEvent = () => {
+      setScrollY(window.scrollY);
+    };
+    window.addEventListener("scroll", handleScrollEvent, { passive: true });
+
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 4000);
@@ -35,6 +97,7 @@ export default function CustomDesign() {
       setCurrentSlide3((prev) => (prev + 1) % slides3.length);
     }, 5000);
     return () => {
+      window.removeEventListener("scroll", handleScrollEvent);
       clearInterval(timer);
       clearInterval(timer2);
       clearInterval(timer3);
@@ -56,7 +119,16 @@ export default function CustomDesign() {
             <source src="/images/Custom%20Page%20Hero%20Video.mp4" type="video/mp4" />
           </video>
           <div className={styles.heroOverlay}>
-            <h1 className={styles.heroTitle}>Designing The First Room Of Your Story.</h1>
+            <h1 
+              className={styles.heroTitle}
+              style={{
+                transform: `translateY(${scrollY * 0.35}px)`,
+                opacity: Math.max(0, 1 - scrollY / 400),
+                transition: "transform 0.1s ease-out, opacity 0.1s ease-out"
+              }}
+            >
+              Designing The First Room Of Your Story.
+            </h1>
           </div>
         </section>
 
@@ -71,7 +143,7 @@ export default function CustomDesign() {
             </Link>
           </div>
 
-          <div className={styles.processRow}>
+          <div className={styles.processRow} ref={scrollRef} onScroll={handleScroll}>
             <div className={styles.processItem}>
               <div className={styles.processImageWrapper}>
                 <img src="/images/Personal-Consultation-scaled.webp" alt="Personal Consultation" />
@@ -102,6 +174,18 @@ export default function CustomDesign() {
               </div>
               <span className={styles.processLabel}>Collaborated Installation</span>
             </div>
+          </div>
+
+          {/* Responsive slider dots for mobile viewports */}
+          <div className={styles.dotsWrapper}>
+            {[0, 1, 2, 3, 4].map((idx) => (
+              <button
+                key={idx}
+                className={`${styles.sliderDot} ${activeStep === idx ? styles.activeDot : ""}`}
+                onClick={() => scrollToStep(idx)}
+                aria-label={`Go to step ${idx + 1}`}
+              />
+            ))}
           </div>
         </section>
 

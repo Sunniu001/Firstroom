@@ -126,13 +126,14 @@
   .featureBlock {
     grid-template-columns: 1fr 1fr;
     gap: 80px;
+    align-items: stretch; /* Force both columns to match height perfectly */
   }
 }
 
 .featureContent {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-self: stretch; /* Stretch to match sibling card height */
 }
 
 .featureTitle {
@@ -165,12 +166,12 @@
 }
 
 .featureIllustration {
-  width: 100%;
-  max-width: 220px;
+  width: 220px;
   height: auto;
-  object-fit: contain;
   align-self: center;
-  /* Centered as requested */
+  display: block;
+  margin-top: auto; /* Push illustration to the absolute bottom of the column */
+  padding-top: 2rem; /* Spacing safety buffer from text */
 }
 
 .featureContentRight {

@@ -46,7 +46,7 @@
 .content {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 2px; /* Reduced vertical gap for closer text grouping */
   padding-top: 4px;
 }
 
@@ -83,14 +83,14 @@
 .priceContainer {
   display: flex;
   align-items: baseline;
-  margin-top: 4px;
+  margin-top: 0px; /* Aligned tightly with name text */
 }
 
 .price {
   font-family: var(--font-serif);
-  font-size: 0.95rem;
-  font-weight: 400;
-  color: #1a1a1a;
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: #2C5E43; /* Rich organic emerald-forest green with premium vibrancy & contrast */
 }
 
 .unit {

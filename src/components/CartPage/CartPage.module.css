@@ -136,9 +136,9 @@
 
 /* Price & Subtotal */
 .priceCol, .subtotalCol {
-  font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: 1.1rem;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 1.05rem;
 }
 
 /* Quantity */
@@ -184,7 +184,7 @@
   background: #fdfdfd;
   border: 1px solid var(--border-color);
   padding: 2rem;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
 }
 
 .totalsTitle {
@@ -376,4 +376,168 @@
   font-size: 0.75rem;
   color: #666;
   font-weight: 400;
+}
+
+/* PREMIUM ADDRESS EDITOR MODAL */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px); /* Premium glassmorphism blur */
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.modalContent {
+  background: #ffffff;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 12px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+  padding: 2.5rem;
+  position: relative;
+  text-align: left;
+  font-family: var(--font-sans);
+  animation: slideUp 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 600px) {
+  .modalContent {
+    max-width: 95%;
+    padding: 1.5rem;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+
+  .hiddenCol {
+    display: none !important;
+  }
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.modalTitle {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.modalCloseBtn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-secondary);
+  line-height: 1;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.modalCloseBtn:hover {
+  color: #111;
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.modalField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.modalField label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  letter-spacing: 0.5px;
+}
+
+.modalInput, .modalSelect {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 0.95rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  outline: none;
+  background-color: #fff;
+  transition: border-color 0.2s;
+}
+
+.modalInput:focus, .modalSelect:focus {
+  border-color: #111;
+}
+
+.modalActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.modalSubmitBtn {
+  flex: 1;
+  background: #111;
+  color: white;
+  border: none;
+  padding: 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 6px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: opacity 0.2s;
+}
+
+.modalSubmitBtn:hover {
+  opacity: 0.9;
+}
+
+.modalCancelBtn {
+  flex: 1;
+  background: #fff;
+  border: 1px solid var(--border-color);
+  color: #111;
+  padding: 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 6px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-align: center;
+  transition: background-color 0.2s;
+}
+
+.modalCancelBtn:hover {
+  background-color: #f9f9f9;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }

@@ -197,20 +197,20 @@ export const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
         </>
       )}
 
+      {isVariable && product.variants && (
+        <FrameSizeSelector 
+          variants={product.variants} 
+          selectedVariantId={selectedVariantId} 
+          onSelect={setSelectedVariantId} 
+        />
+      )}
+
       {isNameplate && (
         <NameplatePersonalizer
           productImage={product.nameplateMeta?.bg || product.images[0]?.src || ''}
           nameplateMeta={product.nameplateMeta}
           data={nameplateData}
           onChange={setNameplateData}
-        />
-      )}
-
-      {!isNameplate && isVariable && product.variants && (
-        <FrameSizeSelector 
-          variants={product.variants} 
-          selectedVariantId={selectedVariantId} 
-          onSelect={setSelectedVariantId} 
         />
       )}
 
@@ -261,20 +261,7 @@ export const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
         />
       )}
 
-      <div className={styles.footerNotes}>
-        <span className={styles.footerNote}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
-          Free Shipping
-        </span>
-        <span className={styles.footerNote}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg>
-          15 days return policy
-        </span>
-        <span className={styles.footerNote}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-          100% Original Product
-        </span>
-      </div>
+      {/* Footer Notes (Intentionally removed to keep actions layout minimalist & clean) */}
     </div>
   );
 };

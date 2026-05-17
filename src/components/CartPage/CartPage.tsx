@@ -1,6 +1,15 @@
 'use client';
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+
+const INDIA_STATES = [
+  'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh',
+  'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka',
+  'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram',
+  'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu',
+  'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal',
+  'Delhi', 'Jammu & Kashmir', 'Ladakh', 'Puducherry',
+];
 import { useCartStore } from '@/store/cartStore';
 import { updateCartItem, getCart } from '@/lib/api/cart';
 import { useRouter } from 'next/navigation';
@@ -22,6 +31,46 @@ export const CartPage: React.FC = () => {
     toggleItemSelection,
     selectAllItems,
   } = useCartStore();
+
+  const [address, setAddress] = useState({
+    address_1: 'NEAR SHIV MANDIR Pundag Ranchi',
+    city: 'RANCHI',
+    postcode: '834004',
+    state: 'Delhi'
+  });
+  const [isEditingAddress, setIsEditingAddress] = useState(false);
+  const [tempAddress, setTempAddress] = useState({
+    address_1: '',
+    city: '',
+    postcode: '',
+    state: ''
+  });
+
+  useEffect(() => {
+    try {
+      const cached = localStorage.getItem('cart-shipping-address');
+      if (cached) {
+        setAddress(JSON.parse(cached));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }, []);
+
+  const handleOpenEditor = () => {
+    setTempAddress(address);
+    setIsEditingAddress(true);
+  };
+
+  const handleSaveAddress = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!tempAddress.address_1 || !tempAddress.city || !tempAddress.postcode || !tempAddress.state) {
+      return;
+    }
+    setAddress(tempAddress);
+    localStorage.setItem('cart-shipping-address', JSON.stringify(tempAddress));
+    setIsEditingAddress(false);
+  };
 
   useEffect(() => {
     const shouldRevalidate =
@@ -152,7 +201,7 @@ export const CartPage: React.FC = () => {
                     {item.isWallpaper && <span className={styles.priceUnit}> /sqft</span>}
                   </div>
                   
-                  <div className={styles.quantityCol}>
+                  <div className={`${styles.quantityCol} ${item.isWallpaper ? styles.hiddenCol : ''}`}>
                     {!item.isWallpaper && (
                       <div className={styles.qtyControl}>
                         <button 
@@ -196,9 +245,9 @@ export const CartPage: React.FC = () => {
             <div className={styles.shipmentValue}>
               <strong>Free shipping</strong>
               <span className={styles.shippingAddress}>
-                Shipping to <strong>NEAR SHIV MANDIR Pundag Ranchi, RANCHI 834004, Jharkhand.</strong>
+                Shipping to <strong>{address.address_1}, {address.city} {address.postcode}, {address.state}.</strong>
               </span>
-              <div className={styles.changeAddress}>
+              <div className={styles.changeAddress} onClick={handleOpenEditor}>
                 Change address 🚚
               </div>
             </div>
@@ -227,6 +276,81 @@ export const CartPage: React.FC = () => {
           </Link>
         </div>
       </div>
+
+      {isEditingAddress && (
+        <div className={styles.modalOverlay} onClick={() => setIsEditingAddress(false)}>
+          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <h3 className={styles.modalTitle}>Update Shipping Address</h3>
+              <button className={styles.modalCloseBtn} onClick={() => setIsEditingAddress(false)}>
+                &times;
+              </button>
+            </div>
+            
+            <form className={styles.modalForm} onSubmit={handleSaveAddress}>
+              <div className={styles.modalField}>
+                <label>Street Address</label>
+                <input 
+                  type="text" 
+                  className={styles.modalInput}
+                  value={tempAddress.address_1}
+                  onChange={(e) => setTempAddress({ ...tempAddress, address_1: e.target.value })}
+                  placeholder="e.g. Near Shiv Mandir, Pundag"
+                  required
+                />
+              </div>
+              
+              <div className={styles.modalField}>
+                <label>City</label>
+                <input 
+                  type="text" 
+                  className={styles.modalInput}
+                  value={tempAddress.city}
+                  onChange={(e) => setTempAddress({ ...tempAddress, city: e.target.value })}
+                  placeholder="e.g. Ranchi"
+                  required
+                />
+              </div>
+              
+              <div className={styles.modalField}>
+                <label>State</label>
+                <select 
+                  className={styles.modalSelect}
+                  value={tempAddress.state}
+                  onChange={(e) => setTempAddress({ ...tempAddress, state: e.target.value })}
+                  required
+                >
+                  <option value="">Select State</option>
+                  {INDIA_STATES.map(s => (
+                    <option key={s} value={s}>{s}</option>
+                  ))}
+                </select>
+              </div>
+              
+              <div className={styles.modalField}>
+                <label>PIN Code</label>
+                <input 
+                  type="text" 
+                  className={styles.modalInput}
+                  value={tempAddress.postcode}
+                  onChange={(e) => setTempAddress({ ...tempAddress, postcode: e.target.value })}
+                  placeholder="e.g. 834004"
+                  required
+                />
+              </div>
+              
+              <div className={styles.modalActions}>
+                <button type="submit" className={styles.modalSubmitBtn}>
+                  Update Address
+                </button>
+                <button type="button" className={styles.modalCancelBtn} onClick={() => setIsEditingAddress(false)}>
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,9 +1,23 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
 import { StoryAccordion } from "./StoryAccordion";
 
 export default function OurStory() {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <div className={styles.container}>
       <main className={styles.main}>
@@ -11,7 +25,16 @@ export default function OurStory() {
         <section className={styles.heroSection}>
           <div className={styles.heroBg} />
           <div className={styles.heroOverlay}>
-            <h1 className={styles.heroTitle}>About Us</h1>
+            <h1 
+              className={styles.heroTitle}
+              style={{
+                transform: `translateY(${scrollY * 0.35}px)`,
+                opacity: Math.max(0, 1 - scrollY / 300),
+                transition: "transform 0.1s ease-out, opacity 0.1s ease-out"
+              }}
+            >
+              About Us
+            </h1>
           </div>
         </section>
 

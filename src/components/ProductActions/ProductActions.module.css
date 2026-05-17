@@ -265,6 +265,23 @@
   .footerNotes {
     /* Maintain space-between distribution on tablets */
   }
+
+  .materialOptions {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    padding-bottom: 6px !important;
+    scrollbar-width: none !important;
+  }
+
+  .materialOptions::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .materialBtn {
+    flex-shrink: 0 !important;
+    font-size: 0.82rem !important;
+    padding: 0.6rem 1rem !important;
+  }
 }
 
 @media (max-width: 480px) {

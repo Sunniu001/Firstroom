@@ -8,7 +8,6 @@ import Link from 'next/link';
 import { ProductAccordion } from '@/components/ProductAccordion/ProductAccordion';
 
 import { SocialShare } from '@/components/SocialShare/SocialShare';
-import { ProductFeatures } from '@/components/ProductFeatures/ProductFeatures';
 import { notFound } from 'next/navigation';
 import styles from './page.module.css';
 
@@ -70,7 +69,18 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
           <div className={styles.productInfo}>
             <h1 className={styles.title}>{product.name}</h1>
             <p className={styles.price}>
-              ₹{product.price} {isWallpaper && <span className={styles.unit}>/sqft</span>}
+              {(() => {
+                if (product.variants && product.variants.length > 0) {
+                  const prices = product.variants.map(v => v.price).filter(p => typeof p === 'number' && !isNaN(p) && p > 0);
+                  if (prices.length > 0) {
+                    const minPrice = Math.min(...prices);
+                    const maxPrice = Math.max(...prices);
+                    return minPrice !== maxPrice ? `₹${minPrice} - ₹${maxPrice}` : `₹${minPrice}`;
+                  }
+                }
+                return `₹${product.price}`;
+              })()}
+              {isWallpaper && <span className={styles.unit}>/sqft</span>}
             </p>
 
             <ProductActions product={product} />
@@ -82,7 +92,6 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
           categories={product.categories.map((category) => category.name)}
         />
         <SocialShare />
-        <ProductFeatures />
       </main>
     </div>
   );

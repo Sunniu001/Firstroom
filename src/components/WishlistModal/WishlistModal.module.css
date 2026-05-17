@@ -3,7 +3,7 @@
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.45);
-  z-index: 200;
+  z-index: 99999; /* Elevated to sit on top of any product page accordion elements */
 }
 
 /* Modal box */
@@ -12,7 +12,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 201;
+  z-index: 100000; /* Safely floats over overlay and page headers */
   background: #fff;
   width: 90%;
   max-width: 480px;

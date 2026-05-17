@@ -287,14 +287,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 44px;
+  padding: 14px 24px;
   background-color: #000;
   color: #fff;
   border-radius: 4px;
   text-decoration: none;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   transition: all 0.3s ease;
+  letter-spacing: 0.02em;
 }
 
 .checkoutBtn:hover {
@@ -308,20 +309,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 44px;
-  border: 1px solid #eee;
-  background-color: #fff;
-  color: #333;
+  padding: 14px 24px;
+  background-color: #000;
+  color: #fff;
   border-radius: 4px;
   text-decoration: none;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   transition: all 0.3s ease;
+  letter-spacing: 0.02em;
 }
 
 .viewCartBtn:hover {
   background-color: #B53939;
-  border-color: #B53939;
   color: #fff;
 }
 
@@ -388,8 +388,9 @@
   }
 
   .checkoutBtn, .viewCartBtn {
-    height: 48px;
-    font-size: 0.9rem;
+    height: auto;
+    padding: 14px 24px;
+    font-size: 0.95rem;
   }
 
   .footer {
