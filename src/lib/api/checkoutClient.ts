@@ -14,7 +14,8 @@ export async function placeOrderClient(
   selectedItemKeys: string[],
   allItems: CheckoutCartItemInput[],
   paymentMethod: string = 'razorpay',
-  authToken?: string
+  authToken?: string,
+  customerId?: number
 ): Promise<CheckoutResult> {
   const selectedItems = allItems.filter((item) => selectedItemKeys.includes(item.id));
 
@@ -41,6 +42,7 @@ export async function placeOrderClient(
       })),
       paymentMethod,
       authToken,
+      customerId,
     }),
   });
 

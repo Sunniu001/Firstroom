@@ -138,12 +138,22 @@ export const ProductActions: React.FC<ProductActionsProps> = ({ product }) => {
         // Update existing line item quantity
         const newQuantity = existingItem.quantity + finalQuantity;
         const { cart: updatedCart, cartToken: newCartToken } = await updateCartItem(cartToken, existingItem.id, newQuantity);
+        if (customData) {
+           useCartStore.getState().setLocalItemData(existingItem.id, customData);
+        }
         setCart(updatedCart);
         setCartToken(newCartToken);
         setIsOpen(true);
       } else {
         // Add as new line item (or first time)
+        const oldCartKeys = cart?.items.map(i => i.id) || [];
         const { cart: newCart, cartToken: newCartToken } = await addToCart(cartToken, productId, finalQuantity, variationPayload, customData);
+        if (customData && newCart) {
+           const newItem = newCart.items.find(i => !oldCartKeys.includes(i.id));
+           if (newItem) {
+              useCartStore.getState().setLocalItemData(newItem.id, customData);
+           }
+        }
         setCart(newCart);
         setCartToken(newCartToken);
         setIsOpen(true);

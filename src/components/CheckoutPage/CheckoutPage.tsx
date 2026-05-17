@@ -42,7 +42,7 @@ export const CheckoutPage: React.FC = () => {
   const router = useRouter();
   const {
     cart, cartToken, cartLastSyncedAt, setCart, setIsLoading, isLoading,
-    selectedItemIds, clearSelection,
+    selectedItemIds, clearSelection, localItemData,
   } = useCartStore();
   const { user } = useAuthStore();
 
@@ -100,10 +100,20 @@ export const CheckoutPage: React.FC = () => {
     }
   }, []);
 
-  const selectedItems = useMemo(() => {
+  const mergedCartItems = useMemo(() => {
     if (!cart) return [];
-    return cart.items.filter(item => selectedItemIds.includes(item.id));
-  }, [cart, selectedItemIds]);
+    return cart.items.map(item => {
+      const localData = localItemData?.[item.id];
+      if (localData) {
+        return { ...item, customData: { ...(item.customData || {}), ...localData } };
+      }
+      return item;
+    });
+  }, [cart, localItemData]);
+
+  const selectedItems = useMemo(() => {
+    return mergedCartItems.filter(item => selectedItemIds.includes(item.id));
+  }, [mergedCartItems, selectedItemIds]);
 
   const subtotal = useMemo(() =>
     selectedItems.reduce((sum, item) => sum + parseFloat(item.price.amount) * item.quantity, 0),
@@ -265,9 +275,10 @@ export const CheckoutPage: React.FC = () => {
         cartToken,
         billing,
         selectedItemIds,
-        cart.items,
+        mergedCartItems,
         paymentMethod,
-        currentToken
+        currentToken,
+        user?.id
       );
 
       setPhase('finalizing');

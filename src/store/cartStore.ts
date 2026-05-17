@@ -9,6 +9,7 @@ interface CartState {
   isOpen: boolean;
   isLoading: boolean;
   selectedItemIds: string[];
+  localItemData: Record<string, Record<string, string>>;
   
   // Actions
   setCart: (cart: NormalizedCart | null) => void;
@@ -18,6 +19,8 @@ interface CartState {
   toggleItemSelection: (itemId: string) => void;
   selectAllItems: (itemIds: string[]) => void;
   clearSelection: () => void;
+  setLocalItemData: (itemKey: string, data: Record<string, string>) => void;
+  clearLocalItemData: (itemKey: string) => void;
 }
 
 export const useCartStore = create<CartState>()(
@@ -29,6 +32,7 @@ export const useCartStore = create<CartState>()(
       isOpen: false,
       isLoading: false,
       selectedItemIds: [],
+      localItemData: {},
 
       setCart: (cart) => set({ cart, cartLastSyncedAt: Date.now() }),
       setCartToken: (cartToken) => set({ cartToken }),
@@ -44,15 +48,24 @@ export const useCartStore = create<CartState>()(
       }),
       selectAllItems: (itemIds) => set({ selectedItemIds: itemIds }),
       clearSelection: () => set({ selectedItemIds: [] }),
+      setLocalItemData: (itemKey, data) => set((state) => ({
+        localItemData: { ...state.localItemData, [itemKey]: data }
+      })),
+      clearLocalItemData: (itemKey) => set((state) => {
+        const newData = { ...state.localItemData };
+        delete newData[itemKey];
+        return { localItemData: newData };
+      }),
     }),
     {
       name: 'cart-storage',
-      // Persist token, cart snapshot, and selection for fast hydration.
+      // Persist token, cart snapshot, selection, and local custom data for fast hydration.
       partialize: (state) => ({ 
         cartToken: state.cartToken,
         cart: state.cart,
         cartLastSyncedAt: state.cartLastSyncedAt,
-        selectedItemIds: state.selectedItemIds 
+        selectedItemIds: state.selectedItemIds,
+        localItemData: state.localItemData
       }),
     }
   )

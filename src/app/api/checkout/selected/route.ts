@@ -18,6 +18,7 @@ interface CheckoutPayload {
   cartItems: CheckoutCartItem[];
   paymentMethod: string;
   authToken?: string;
+  customerId?: number;
 }
 
 function parsePositiveInt(value: string | number | undefined): number | null {
@@ -127,6 +128,7 @@ export async function POST(req: NextRequest) {
       cartItems,
       paymentMethod,
       authToken,
+      customerId,
     } = body;
 
     if (!cartToken || !billing || !Array.isArray(selectedItemKeys) || !Array.isArray(cartItems)) {
@@ -164,7 +166,7 @@ export async function POST(req: NextRequest) {
       if (item.customData && Object.keys(item.customData).length > 0) {
         lineItem.meta_data = Object.entries(item.customData)
           .filter(([key]) => !key.startsWith('_'))
-          .map(([key, value]) => ({ key, value }));
+          .map(([key, value]) => ({ key: String(key), value: String(value) }));
       }
 
       return lineItem;
@@ -173,7 +175,18 @@ export async function POST(req: NextRequest) {
     const normalizedBilling = normalizeBillingAddress(billing);
     const wcPaymentMethod = mapPaymentMethod(paymentMethod);
 
-    const orderPayload = {
+    // Compile a fallback summary of custom data to append to the order notes
+    let customDataNotes = '';
+    selectedItems.forEach(item => {
+      if (item.customData && Object.keys(item.customData).length > 0) {
+        customDataNotes += `\n- Item: ${item.key}\n`;
+        Object.entries(item.customData).forEach(([k, v]) => {
+          if (!k.startsWith('_')) customDataNotes += `  ${k}: ${v}\n`;
+        });
+      }
+    });
+
+    const orderPayload: Record<string, any> = {
       set_paid: false,
       status: 'pending',
       payment_method: wcPaymentMethod,
@@ -181,7 +194,13 @@ export async function POST(req: NextRequest) {
       billing: normalizedBilling,
       shipping: normalizedBilling,
       line_items: lineItems,
+      customer_note: customDataNotes ? `Customization Details:${customDataNotes}` : '',
     };
+    if (customerId) {
+      orderPayload.customer_id = customerId;
+    }
+
+    console.log('[DEBUG] Sending WooCommerce Order Payload:', JSON.stringify(orderPayload, null, 2));
 
     const orderData = await wcFetch<Record<string, unknown>>('orders', {
       method: 'POST',

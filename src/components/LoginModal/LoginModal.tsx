@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { signIn as nextAuthSignIn } from 'next-auth/react';
 import { useAuthStore } from '@/store/authStore';
 import { useUIStore } from '@/store/uiStore';
@@ -11,17 +11,23 @@ type Mode = 'login' | 'register';
 
 export const LoginModal: React.FC = () => {
   const router = useRouter();
-  const { setUser } = useAuthStore();
+  const pathname = usePathname();
+  const { user, setUser } = useAuthStore();
   const { loginModalOpen, closeLoginModal } = useUIStore();
   const [mode, setMode] = useState<Mode>('login');
+
+  const isCheckoutPage = pathname === '/checkout';
+  const isForced = isCheckoutPage && !user;
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({
     firstName: '', lastName: '', email: '', password: '', confirmPassword: '',
   });
 
-  if (!loginModalOpen) return null;
+  const shouldShow = loginModalOpen || isForced;
+  if (!shouldShow) return null;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -127,9 +133,9 @@ export const LoginModal: React.FC = () => {
   };
 
   return (
-    <div className={styles.overlay} onClick={closeLoginModal}>
+    <div className={styles.overlay} onClick={isForced ? undefined : closeLoginModal}>
       <div className={styles.modal} onClick={e => e.stopPropagation()}>
-        <button className={styles.closeBtn} onClick={closeLoginModal}>✕</button>
+        {!isForced && <button className={styles.closeBtn} onClick={closeLoginModal}>✕</button>}
 
         {mode === 'login' ? (
           <>
@@ -218,13 +224,46 @@ export const LoginModal: React.FC = () => {
               </div>
               <div className={styles.formGroup}>
                 <label className={styles.label}>Password</label>
-                <input className={styles.input} type="password" name="password"
-                  value={form.password} onChange={handleChange} required placeholder="Min. 8 characters" minLength={8} />
+                <div className={styles.inputWrapper}>
+                  <input
+                    className={styles.input}
+                    type={showPassword ? 'text' : 'password'}
+                    name="password"
+                    value={form.password}
+                    onChange={handleChange}
+                    required
+                    placeholder="Min. 8 characters"
+                    minLength={8}
+                  />
+                  <button type="button" className={styles.eyeBtn} onClick={() => setShowPassword(v => !v)}>
+                    {showPassword ? (
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                    ) : (
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    )}
+                  </button>
+                </div>
               </div>
               <div className={styles.formGroup}>
                 <label className={styles.label}>Confirm Password</label>
-                <input className={styles.input} type="password" name="confirmPassword"
-                  value={form.confirmPassword} onChange={handleChange} required placeholder="••••••••" />
+                <div className={styles.inputWrapper}>
+                  <input
+                    className={styles.input}
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    name="confirmPassword"
+                    value={form.confirmPassword}
+                    onChange={handleChange}
+                    required
+                    placeholder="••••••••"
+                  />
+                  <button type="button" className={styles.eyeBtn} onClick={() => setShowConfirmPassword(v => !v)}>
+                    {showConfirmPassword ? (
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                    ) : (
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    )}
+                  </button>
+                </div>
               </div>
               <button className={styles.submitBtn} type="submit" disabled={isLoading}>
                 {isLoading ? 'CREATING...' : 'CREATE ACCOUNT'} →
@@ -237,6 +276,28 @@ export const LoginModal: React.FC = () => {
               </button>
             </p>
           </>
+        )}
+
+        {isForced && (
+          <div style={{ marginTop: '1.5rem', textAlign: 'center', borderTop: '1px solid #eee', paddingTop: '1.25rem' }}>
+            <button 
+              type="button" 
+              onClick={() => router.push('/cart')}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: '#8FA899',
+                fontFamily: 'var(--font-sans)',
+                fontSize: '0.88rem',
+                textDecoration: 'underline',
+                cursor: 'pointer',
+                letterSpacing: '0.05em',
+                fontWeight: '500'
+              }}
+            >
+              ← Return to Cart
+            </button>
+          </div>
         )}
       </div>
     </div>
