@@ -81,31 +81,49 @@ const CATEGORY_BANNERS: Record<string, {
   'kids-wallpaper': {
     tagline: "WHIMSICAL & DREAMY",
     description: "Soft, whimsical illustrations designed to spark wonder, turning nurseries and bedrooms into safe, inspiring environments of endless imagination.",
+    backgroundColor: "#F4F1ED",
+    textColor: "#2B2B2B",
+    accentColor: "#E07B53",
     sideImage: "/images/Artistic Wallpaper Category Banner.webp"
   },
   'nameplate': {
     tagline: "ELEGANT WELCOME",
     description: "Handcrafted with premium woods, polished brass, and traditional details to welcome guests to your home with distinct refinement and personalization.",
+    backgroundColor: "#2B3A2C",
+    textColor: "#F9F6F0",
+    accentColor: "#E8D5B7",
     sideImage: "/images/Artistic Wallpaper Category Banner.webp"
   },
   'desk-quote': {
     tagline: "ARTFUL ACCENTS",
     description: "Elegant inspirational highlights designed to elevate your workspace or creative corners, pairing premium materials with thoughtful typography.",
+    backgroundColor: "#F4F1ED",
+    textColor: "#2B2B2B",
+    accentColor: "#E07B53",
     sideImage: "/images/Artistic Wallpaper Category Banner.webp"
   },
   'decals': {
     tagline: "MODERN MOTIFS",
     description: "Elegant wall transfers and self-adhesive patterns designed to seamlessly accent your surfaces with modern architectural details.",
+    backgroundColor: "#2B3A2C",
+    textColor: "#F9F6F0",
+    accentColor: "#E8D5B7",
     sideImage: "/images/Artistic Wallpaper Category Banner.webp"
   },
   'frame': {
     tagline: "CURATED ART",
     description: "High-fidelity prints framed in exquisite moldings, bringing gallery-grade refinement and custom layouts to your home gallery walls.",
+    backgroundColor: "#262626",
+    textColor: "#F9F6F0",
+    accentColor: "#A38B5C",
     sideImage: "/images/Artistic Wallpaper Category Banner.webp"
   },
   'home-decor': {
     tagline: "ELEGANT INTERIORS",
     description: "Discover our curated collection of luxury home accents, designed and handcrafted to welcome refined style into every corner of your home.",
+    backgroundColor: "#F4F1ED",
+    textColor: "#2B2B2B",
+    accentColor: "#E07B53",
     sideImage: "/images/Artistic Wallpaper Category Banner.webp"
   }
 };
