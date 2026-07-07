@@ -68,6 +68,9 @@
             "padding-inline-end": 0
           },
           "blocks": {
+            "stepper": {
+              "type": "fr-product-stepper"
+            },
             "group_icgrde": {
               "type": "group",
               "name": "Header",
@@ -256,6 +259,12 @@
               },
               "block_order": []
             },
+            "custom-actions": {
+              "type": "fr-product-actions"
+            },
+            "trust-badges": {
+              "type": "fr-trust-badges"
+            },
             "text_aEtTtq": {
               "type": "text",
               "name": "Product description",
@@ -284,10 +293,13 @@
             }
           },
           "block_order": [
+            "stepper",
             "group_icgrde",
             "divider_VJhene",
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi",
+            "custom-actions",
+            "trust-badges",
             "text_aEtTtq"
           ]
         }
