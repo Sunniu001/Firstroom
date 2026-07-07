@@ -227,9 +227,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const qtyInput = container.querySelector('#fr-qty-input');
 
   let currentUnit = 'ft';
-  
-  const addToCartBtn = document.querySelector('button[name="add"]');
-  const addToCartTextEl = addToCartBtn ? addToCartBtn.querySelector('.add-to-cart-text__content span span') || addToCartBtn.querySelector('span') : null;
 
   function setUnit(unit) {
     if(unit === 'ft' && currentUnit === 'in') {
@@ -269,26 +266,32 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
 
-    if (addToCartBtn) {
+    const addToCartBtns = document.querySelectorAll('button[name="add"]');
+    addToCartBtns.forEach(btn => {
+      const textEl = btn.querySelector('.add-to-cart-text__content span span') || btn.querySelector('span');
       if (w === 0 || h === 0 || areaSqFt < minArea) {
-        addToCartBtn.disabled = true;
-        if (addToCartTextEl) {
-          if (!addToCartBtn.dataset.originalText) {
-            addToCartBtn.dataset.originalText = addToCartTextEl.textContent;
+        btn.disabled = true;
+        btn.style.pointerEvents = 'none';
+        btn.style.opacity = '0.5';
+        if (textEl) {
+          if (!btn.dataset.originalText) {
+            btn.dataset.originalText = textEl.textContent.trim();
           }
           if (w === 0 || h === 0) {
-            addToCartTextEl.textContent = "Enter Dimensions";
+            textEl.textContent = "Enter Dimensions";
           } else {
-            addToCartTextEl.textContent = `Minimum ${minArea} sqft`;
+            textEl.textContent = `Minimum ${minArea} sqft`;
           }
         }
       } else {
-        addToCartBtn.disabled = false;
-        if (addToCartTextEl && addToCartBtn.dataset.originalText) {
-          addToCartTextEl.textContent = addToCartBtn.dataset.originalText;
+        btn.disabled = false;
+        btn.style.pointerEvents = 'auto';
+        btn.style.opacity = '1';
+        if (textEl && btn.dataset.originalText) {
+          textEl.textContent = btn.dataset.originalText;
         }
       }
-    }
+    });
 
     if(areaSqFt < minArea) areaSqFt = minArea;
 
