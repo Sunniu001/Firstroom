@@ -22,26 +22,26 @@
   <div class="fr-dim-header">
     <h3 class="fr-dim-title">Wall dimensions</h3>
     <div class="fr-dim-toggle">
-      <button type="button" class="fr-dim-unit active" data-unit="cm">CM</button>
+      <button type="button" class="fr-dim-unit active" data-unit="ft">FT</button>
       <button type="button" class="fr-dim-unit" data-unit="in">IN</button>
     </div>
   </div>
 
   <div class="fr-dim-inputs">
     <div class="fr-dim-input-group">
-      <label for="fr-dim-width">Width (<span class="unit-label">cm</span>):</label>
-      <input type="number" id="fr-dim-width" placeholder="e.g. 300" min="1">
+      <label for="fr-dim-width">Width (<span class="unit-label">ft</span>):</label>
+      <input type="number" id="fr-dim-width" value="5" min="1" step="any">
     </div>
     <div class="fr-dim-input-group">
-      <label for="fr-dim-height">Height (<span class="unit-label">cm</span>):</label>
-      <input type="number" id="fr-dim-height" placeholder="e.g. 250" min="1">
+      <label for="fr-dim-height">Height (<span class="unit-label">ft</span>):</label>
+      <input type="number" id="fr-dim-height" value="5" min="1" step="any">
     </div>
   </div>
 
   <details class="fr-dim-accordion">
     <summary>How to measure your wall</summary>
     <div class="fr-dim-accordion-content">
-      <p>Measure the maximum width and height of your wall. We automatically add 5cm (or 2in) to the dimensions for trimming during installation to ensure a perfect fit.</p>
+      <p>Measure the maximum width and height of your wall. We automatically add 2 inches to the dimensions for trimming during installation to ensure a perfect fit. <strong>(Minimum order: 25 sq ft)</strong></p>
     </div>
   </details>
 
@@ -57,13 +57,12 @@
       <input type="hidden" name="properties[Width]" id="prop_width" value="">
       <input type="hidden" name="properties[Height]" id="prop_height" value="">
 
-      <div class="fr-dim-price-display" style="display: none;">
+      <div class="fr-dim-price-display">
         <span class="fr-dim-price-label">Custom Price:</span>
         <span class="fr-dim-price-value" id="fr-dim-total-price"></span>
       </div>
 
-      <button type="button" id="fr-calc-btn" class="fr-btn-calc">VIEW YOUR CUSTOM PRICE</button>
-      <button type="submit" id="fr-add-to-cart-btn" class="fr-btn-add" style="display: none;" disabled>
+      <button type="submit" id="fr-add-to-cart-btn" class="fr-btn-add">
         ADD TO CART
       </button>
     {%- endform -%}
@@ -213,14 +212,12 @@ document.addEventListener('DOMContentLoaded', function() {
   const basePriceCents = {{ product.price | default: 18000 }}; 
   const minArea = {{ block.settings.minimum_area | default: 25 }};
   
-  const btnCm = container.querySelector('[data-unit="cm"]');
+  const btnFt = container.querySelector('[data-unit="ft"]');
   const btnIn = container.querySelector('[data-unit="in"]');
   const labels = container.querySelectorAll('.unit-label');
   const widthInput = container.querySelector('#fr-dim-width');
   const heightInput = container.querySelector('#fr-dim-height');
   
-  const calcBtn = container.querySelector('#fr-calc-btn');
-  const addBtn = container.querySelector('#fr-add-to-cart-btn');
   const priceDisplay = container.querySelector('.fr-dim-price-display');
   const priceValue = container.querySelector('#fr-dim-total-price');
 
@@ -229,52 +226,33 @@ document.addEventListener('DOMContentLoaded', function() {
   const propHeight = container.querySelector('#prop_height');
   const qtyInput = container.querySelector('#fr-qty-input');
 
-  let currentUnit = 'cm';
+  let currentUnit = 'ft';
 
   function setUnit(unit) {
     currentUnit = unit;
-    if(unit === 'cm') {
-      btnCm.classList.add('active');
+    if(unit === 'ft') {
+      btnFt.classList.add('active');
       btnIn.classList.remove('active');
-      labels.forEach(l => l.textContent = 'cm');
-      widthInput.placeholder = 'e.g. 300';
-      heightInput.placeholder = 'e.g. 250';
+      labels.forEach(l => l.textContent = 'ft');
     } else {
       btnIn.classList.add('active');
-      btnCm.classList.remove('active');
+      btnFt.classList.remove('active');
       labels.forEach(l => l.textContent = 'in');
-      widthInput.placeholder = 'e.g. 120';
-      heightInput.placeholder = 'e.g. 100';
     }
-    resetCalc();
+    calculatePrice();
   }
 
-  function resetCalc() {
-    calcBtn.style.display = 'block';
-    addBtn.style.display = 'none';
-    priceDisplay.style.display = 'none';
-    addBtn.disabled = true;
-  }
-
-  btnCm.addEventListener('click', () => setUnit('cm'));
-  btnIn.addEventListener('click', () => setUnit('in'));
-  widthInput.addEventListener('input', resetCalc);
-  heightInput.addEventListener('input', resetCalc);
-
-  calcBtn.addEventListener('click', () => {
-    const w = parseFloat(widthInput.value);
-    const h = parseFloat(heightInput.value);
-
-    if(!w || !h || w <= 0 || h <= 0) {
-      alert('Please enter valid width and height dimensions.');
-      return;
-    }
+  function calculatePrice() {
+    const w = parseFloat(widthInput.value) || 0;
+    const h = parseFloat(heightInput.value) || 0;
 
     let areaSqFt = 0;
-    if(currentUnit === 'cm') {
-      areaSqFt = ((w + 5) * (h + 5)) / 929.03;
-    } else {
-      areaSqFt = ((w + 2) * (h + 2)) / 144;
+    if(w > 0 && h > 0) {
+      if(currentUnit === 'ft') {
+        areaSqFt = ((w * 12 + 2) * (h * 12 + 2)) / 144.0;
+      } else {
+        areaSqFt = ((w + 2) * (h + 2)) / 144.0;
+      }
     }
 
     if(areaSqFt < minArea) areaSqFt = minArea;
@@ -289,11 +267,13 @@ document.addEventListener('DOMContentLoaded', function() {
     propHeight.value = h + ' ' + currentUnit;
     
     qtyInput.value = Math.ceil(areaSqFt);
+  }
 
-    calcBtn.style.display = 'none';
-    priceDisplay.style.display = 'block';
-    addBtn.style.display = 'block';
-    addBtn.disabled = false;
-  });
+  btnFt.addEventListener('click', () => setUnit('ft'));
+  btnIn.addEventListener('click', () => setUnit('in'));
+  widthInput.addEventListener('input', calculatePrice);
+  heightInput.addEventListener('input', calculatePrice);
+
+  calculatePrice();
 });
 </script>
