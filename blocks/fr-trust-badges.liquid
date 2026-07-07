@@ -1,0 +1,91 @@
+<div class="fr-trust-badges" {{ block.shopify_attributes }}>
+  <div class="fr-shipping-box">
+    <strong>Shipping in 2-5 working days</strong>
+    <p>Paid measurement & installation support in all major cities.</p>
+  </div>
+  <div class="fr-badges-grid">
+    <div class="fr-badge-item">
+      <div class="fr-stars">★★★★★</div>
+      <strong>4.95/5 RATING</strong>
+      <span>12,000+ Happy Homes</span>
+    </div>
+    <div class="fr-badge-item">
+      <div class="fr-icon">🌐</div>
+      <strong>GLOBAL DELIVERY</strong>
+      <span>Express Shipping</span>
+    </div>
+    <div class="fr-badge-item">
+      <div class="fr-icon">🌱</div>
+      <strong>CARBON NEUTRAL</strong>
+      <span>Eco-certified production</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .fr-trust-badges {
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .fr-shipping-box {
+    text-align: center;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .fr-shipping-box strong {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 0.25rem;
+  }
+  .fr-shipping-box p {
+    font-size: 12px;
+    color: #666;
+    margin: 0;
+  }
+  .fr-badges-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .fr-badge-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.25rem;
+  }
+  .fr-stars {
+    color: #cda87a;
+    font-size: 14px;
+  }
+  .fr-icon {
+    font-size: 18px;
+    color: #cda87a;
+    margin-bottom: 2px;
+  }
+  .fr-badge-item strong {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .fr-badge-item span {
+    font-size: 9px;
+    color: #666;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "FR - Trust Badges",
+  "settings": [],
+  "presets": [
+    {
+      "name": "FR - Trust Badges"
+    }
+  ]
+}
+{% endschema %}
