@@ -120,7 +120,7 @@
       "name": "FR Video Section",
       "settings": {
         "title": "When Your Vision Becomes Your Space",
-        "shopify_video": "shopify://files/videos/Landing page video.mp4",
+        "shopify_video": "",
         "video_url": ""
       }
     }
