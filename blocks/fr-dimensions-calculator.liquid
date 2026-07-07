@@ -52,7 +52,13 @@
     </div>
   </details>
 
-  <product-form-component class="product-form">
+  <product-form-component 
+    class="product-form"
+    data-section-id="{{ section.id }}"
+    data-product-id="{{ product.id }}"
+    data-product-url="{{ product.url }}"
+    on:submit="/handleSubmit"
+  >
     {%- form 'product', product, id: product_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
       <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
       <input type="hidden" name="quantity" value="1" id="fr-qty-input">
@@ -69,7 +75,7 @@
         <span class="fr-dim-price-value" id="fr-dim-total-price"></span>
       </div>
 
-      <button type="submit" id="fr-add-to-cart-btn" class="fr-btn-add">
+      <button type="submit" name="add" id="fr-add-to-cart-btn" class="fr-btn-add">
         ADD TO CART
       </button>
     {%- endform -%}
