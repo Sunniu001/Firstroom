@@ -210,7 +210,7 @@
             },
             "text_aEtTtq": {
               "type": "text",
-              "name": "Product description",
+              "name": "Product Description",
               "settings": {
                 "text": "{{ closest.product.description }}",
                 "width": "100%",
