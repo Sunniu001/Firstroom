@@ -227,17 +227,31 @@ document.addEventListener('DOMContentLoaded', function() {
   const qtyInput = container.querySelector('#fr-qty-input');
 
   let currentUnit = 'ft';
+  
+  const addToCartBtn = document.querySelector('button[name="add"]');
+  const addToCartTextEl = addToCartBtn ? addToCartBtn.querySelector('.add-to-cart-text__content span span') || addToCartBtn.querySelector('span') : null;
 
   function setUnit(unit) {
-    currentUnit = unit;
-    if(unit === 'ft') {
+    if(unit === 'ft' && currentUnit === 'in') {
       btnFt.classList.add('active');
       btnIn.classList.remove('active');
       labels.forEach(l => l.textContent = 'ft');
-    } else {
+      currentUnit = 'ft';
+      
+      let w = parseFloat(widthInput.value) || 0;
+      let h = parseFloat(heightInput.value) || 0;
+      widthInput.value = w > 0 ? (w / 12).toFixed(2).replace(/\.00$/, '') : '';
+      heightInput.value = h > 0 ? (h / 12).toFixed(2).replace(/\.00$/, '') : '';
+    } else if(unit === 'in' && currentUnit === 'ft') {
       btnIn.classList.add('active');
       btnFt.classList.remove('active');
       labels.forEach(l => l.textContent = 'in');
+      currentUnit = 'in';
+      
+      let w = parseFloat(widthInput.value) || 0;
+      let h = parseFloat(heightInput.value) || 0;
+      widthInput.value = w > 0 ? (w * 12).toFixed(2).replace(/\.00$/, '') : '';
+      heightInput.value = h > 0 ? (h * 12).toFixed(2).replace(/\.00$/, '') : '';
     }
     calculatePrice();
   }
@@ -252,6 +266,27 @@ document.addEventListener('DOMContentLoaded', function() {
         areaSqFt = ((w * 12 + 2) * (h * 12 + 2)) / 144.0;
       } else {
         areaSqFt = ((w + 2) * (h + 2)) / 144.0;
+      }
+    }
+
+    if (addToCartBtn) {
+      if (w === 0 || h === 0 || areaSqFt < minArea) {
+        addToCartBtn.disabled = true;
+        if (addToCartTextEl) {
+          if (!addToCartBtn.dataset.originalText) {
+            addToCartBtn.dataset.originalText = addToCartTextEl.textContent;
+          }
+          if (w === 0 || h === 0) {
+            addToCartTextEl.textContent = "Enter Dimensions";
+          } else {
+            addToCartTextEl.textContent = `Minimum ${minArea} sqft`;
+          }
+        }
+      } else {
+        addToCartBtn.disabled = false;
+        if (addToCartTextEl && addToCartBtn.dataset.originalText) {
+          addToCartTextEl.textContent = addToCartBtn.dataset.originalText;
+        }
       }
     }
 
