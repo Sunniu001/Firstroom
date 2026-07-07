@@ -20,7 +20,7 @@
 {%- assign product_form_id = 'product-form-' | append: section.id -%}
 <div class="fr-dimensions-wrapper" {{ block.shopify_attributes }}>
   <div class="fr-dim-header">
-    <h3 class="fr-dim-title">Wall dimensions</h3>
+    <h3 class="fr-dim-title">Enter Dimensions <span style="font-weight: 400; font-size: 11px; color: #777;">(Minimum Order: {{ block.settings.minimum_area | default: 25 }} Sq.Ft.)</span></h3>
     <div class="fr-dim-toggle">
       <button type="button" class="fr-dim-unit active" data-unit="ft">FT</button>
       <button type="button" class="fr-dim-unit" data-unit="in">IN</button>
@@ -29,13 +29,20 @@
 
   <div class="fr-dim-inputs">
     <div class="fr-dim-input-group">
-      <label for="fr-dim-width">Width (<span class="unit-label">ft</span>):</label>
-      <input type="number" id="fr-dim-width" value="5" min="1" step="any">
-    </div>
-    <div class="fr-dim-input-group">
-      <label for="fr-dim-height">Height (<span class="unit-label">ft</span>):</label>
+      <label for="fr-dim-height">Height (<span class="unit-label">feet</span>) <span style="color: #d32f2f;">*</span></label>
       <input type="number" id="fr-dim-height" value="5" min="1" step="any">
     </div>
+    <div class="fr-dim-input-group">
+      <label for="fr-dim-width">Width (<span class="unit-label">feet</span>) <span style="color: #d32f2f;">*</span></label>
+      <input type="number" id="fr-dim-width" value="5" min="1" step="any">
+    </div>
+  </div>
+  
+  <div class="fr-dim-total-area-display" style="margin-bottom: 5px; font-size: 13px; color: #111;">
+    Total Area: <strong id="fr-dim-calculated-area">25.00</strong> sq.ft.
+  </div>
+  <div id="fr-dim-error-msg" style="color: #d32f2f; font-size: 13px; margin-bottom: 15px; display: none;">
+    Minimum order is {{ block.settings.minimum_area | default: 25 }} sq.ft. Please increase dimensions.
   </div>
 
   <details class="fr-dim-accordion">
@@ -232,7 +239,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if(unit === 'ft' && currentUnit === 'in') {
       btnFt.classList.add('active');
       btnIn.classList.remove('active');
-      labels.forEach(l => l.textContent = 'ft');
+      labels.forEach(l => l.textContent = 'feet');
       currentUnit = 'ft';
       
       let w = parseFloat(widthInput.value) || 0;
@@ -242,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function() {
     } else if(unit === 'in' && currentUnit === 'ft') {
       btnIn.classList.add('active');
       btnFt.classList.remove('active');
-      labels.forEach(l => l.textContent = 'in');
+      labels.forEach(l => l.textContent = 'inches');
       currentUnit = 'in';
       
       let w = parseFloat(widthInput.value) || 0;
@@ -266,13 +273,21 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
 
-    const addToCartBtns = document.querySelectorAll('button[name="add"]');
+    const areaDisplay = document.getElementById('fr-dim-calculated-area');
+    const errorMsg = document.getElementById('fr-dim-error-msg');
+    
+    if (areaDisplay) {
+      areaDisplay.textContent = areaSqFt.toFixed(2);
+    }
+
+    const addToCartBtns = document.querySelectorAll('button[name="add"], #fr-add-to-cart-btn');
     addToCartBtns.forEach(btn => {
       const textEl = btn.querySelector('.add-to-cart-text__content span span') || btn.querySelector('span');
       if (w === 0 || h === 0 || areaSqFt < minArea) {
         btn.disabled = true;
         btn.style.pointerEvents = 'none';
         btn.style.opacity = '0.5';
+        if (errorMsg) errorMsg.style.display = 'block';
         if (textEl) {
           if (!btn.dataset.originalText) {
             btn.dataset.originalText = textEl.textContent.trim();
@@ -287,6 +302,7 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.disabled = false;
         btn.style.pointerEvents = 'auto';
         btn.style.opacity = '1';
+        if (errorMsg) errorMsg.style.display = 'none';
         if (textEl && btn.dataset.originalText) {
           textEl.textContent = btn.dataset.originalText;
         }
