@@ -102,12 +102,14 @@
   .variant-picker--right .variant-option {
     text-align: right;
     justify-content: right;
+  }
+  
   /* Custom Material Finish Cards */
   .fr-material-option-group {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
-    margin-top: 10px;
+    margin-top: 15px;
   }
   .fr-material-option-group .variant-option__button-label {
     padding: 0 !important;
@@ -119,7 +121,7 @@
   .fr-custom-finish-card {
     display: flex;
     flex-direction: column;
-    width: 140px;
+    width: 150px;
     border: 1px solid #e5e5e5;
     border-radius: 4px;
     overflow: hidden;
@@ -128,31 +130,33 @@
     transition: all 0.2s;
   }
   .fr-finish-image {
-    height: 80px;
+    height: 85px;
     position: relative;
     background-color: #f5f5f5;
   }
-  .fr-finish-image.fr-finish-feather-finish { background: url("https://cdn.shopify.com/s/files/1/0885/8739/9478/files/canvas.jpg") center/cover no-repeat; }
-  .fr-finish-image.fr-finish-leather-finish { background: url("https://cdn.shopify.com/s/files/1/0885/8739/9478/files/handmade.jpg") center/cover no-repeat; }
-  .fr-finish-image.fr-finish-line-texture { background: url("https://cdn.shopify.com/s/files/1/0885/8739/9478/files/sandstone.jpg") center/cover no-repeat; }
+  .fr-finish-image.fr-finish-feather-finish, .fr-finish-image.fr-finish-canvas { background: url("https://cdn.shopify.com/s/files/1/0885/8739/9478/files/canvas.jpg") center/cover no-repeat; }
+  .fr-finish-image.fr-finish-leather-finish, .fr-finish-image.fr-finish-handmade { background: url("https://cdn.shopify.com/s/files/1/0885/8739/9478/files/handmade.jpg") center/cover no-repeat; }
+  .fr-finish-image.fr-finish-line-texture, .fr-finish-image.fr-finish-sandstone { background: url("https://cdn.shopify.com/s/files/1/0885/8739/9478/files/sandstone.jpg") center/cover no-repeat; }
+  .fr-finish-image.fr-finish-silk-sheen { background: url("https://cdn.shopify.com/s/files/1/0885/8739/9478/files/silk.jpg") center/cover no-repeat; }
   
   .fr-finish-check {
     position: absolute;
     top: 8px;
     right: 8px;
-    width: 20px !important;
-    height: 20px !important;
+    width: 22px !important;
+    height: 22px !important;
     color: #000;
     opacity: 0;
     transition: opacity 0.2s;
   }
   
   input:checked + .fr-custom-finish-card .fr-finish-check { opacity: 1; }
-  input:checked + .fr-custom-finish-card { border-color: #000; box-shadow: 0 0 0 1px #000; }
+  input:checked + .fr-custom-finish-card { border-color: #b58c67; box-shadow: 0 0 0 1px #b58c67; }
   
-  .fr-finish-content { padding: 12px; }
-  .fr-finish-content strong { display: block; font-size: 13px; margin-bottom: 4px; line-height: 1.2; }
-  .fr-finish-tag { font-size: 8px; color: #888; text-transform: uppercase; margin-left: 4px; }
-  .fr-finish-desc { font-size: 10px; color: #333; margin-bottom: 8px; line-height: 1.3; }
-  .fr-finish-sub { font-size: 9px; color: #888; line-height: 1.3; }
+  .fr-finish-content { padding: 12px 14px; text-align: left; }
+  .fr-finish-title { font-size: 14px; color: #111; font-weight: 500; margin-bottom: 2px; }
+  .fr-finish-tag { font-size: 10px; color: #888; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
+  .fr-finish-desc { font-size: 11px; color: #666; font-style: italic; margin-bottom: 12px; line-height: 1.3; }
+  .fr-finish-divider { width: 100%; height: 1px; background-color: #eee; margin-bottom: 12px; }
+  .fr-finish-sub { font-size: 10px; color: #888; line-height: 1.4; }
 {% endstylesheet %}
