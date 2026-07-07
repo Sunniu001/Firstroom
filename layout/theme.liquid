@@ -545,9 +545,74 @@
           checkoutBtn.parentElement.insertBefore(viewCartBtn, checkoutBtn);
         }
 
+        var lastCartFetch = 0;
+        var wallpaperTitles = [];
+
+        function tryHideWallpaperQty() {
+          var now = Date.now();
+          if (now - lastCartFetch > 2000) {
+            lastCartFetch = now;
+            fetch('/cart.js').then(r => r.json()).then(cart => {
+              wallpaperTitles = [];
+              cart.items.forEach(function(item) {
+                var isWallpaper = false;
+                if (item.properties) {
+                  if (typeof item.properties === 'object' && !Array.isArray(item.properties)) {
+                    if (item.properties['_areapro_enabled']) isWallpaper = true;
+                  } else if (Array.isArray(item.properties)) {
+                    for (var i=0; i<item.properties.length; i++) {
+                      if (item.properties[i].name === '_areapro_enabled') isWallpaper = true;
+                    }
+                  }
+                }
+                if (isWallpaper && item.product_title) {
+                  wallpaperTitles.push(item.product_title.trim());
+                }
+              });
+              hideQty();
+            });
+          } else {
+            hideQty();
+          }
+        }
+
+        function hideQty() {
+           if (wallpaperTitles.length === 0) return;
+           var allEls = document.querySelectorAll('button, div, span, a');
+           var qtyContainers = [];
+           for (var i = 0; i < allEls.length; i++) {
+              if (allEls[i].textContent.trim() === '+' && allEls[i].offsetParent !== null) {
+                 var parent = allEls[i].parentElement;
+                 if (parent && parent.textContent.includes('-') && qtyContainers.indexOf(parent) === -1) {
+                    qtyContainers.push(parent);
+                 }
+              }
+           }
+           
+           qtyContainers.forEach(function(container) {
+              var curr = container;
+              var isWallpaper = false;
+              for (var j = 0; j < 8; j++) {
+                 if (!curr) break;
+                 for (var k = 0; k < wallpaperTitles.length; k++) {
+                    if (curr.textContent.includes(wallpaperTitles[k])) {
+                       isWallpaper = true;
+                       break;
+                    }
+                 }
+                 if (isWallpaper) break;
+                 curr = curr.parentElement;
+              }
+              if (isWallpaper) {
+                 container.style.setProperty('display', 'none', 'important');
+              }
+           });
+        }
+
         // Persistent observer — Cart Pilot rebuilds its DOM on every drawer open
         var obs = new MutationObserver(function() {
           tryInjectViewCart();
+          tryHideWallpaperQty();
         });
         obs.observe(document.body, { childList: true, subtree: true });
       })();
