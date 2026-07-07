@@ -1,193 +1,95 @@
 'use server';
 
-import { fetchStoreApi } from './client';
-import { StoreCart, NormalizedCart } from '@/types/product';
+import { shopifyFetch } from '../shopify';
+import { NormalizedCart, NormalizedCartItem } from '@/types/product';
 
-const SESSION_TTL_MS = 2 * 60 * 1000;
-
-interface CachedSession {
-  cartToken: string | null;
-  nonce: string | null;
-  updatedAt: number;
+function parseGid(gid: string): number {
+  const matches = gid.match(/\/(\d+)$/);
+  return matches ? parseInt(matches[1], 10) : 0;
 }
 
-const sessionCache = new Map<string, CachedSession>();
-
-function getSessionCacheKey(cartToken: string | null): string {
-  return cartToken || '__guest__';
+function toProductGid(id: string | number): string {
+  if (typeof id === 'string' && id.startsWith('gid://')) return id;
+  return `gid://shopify/Product/${id}`;
 }
 
-function readSessionCache(cartToken: string | null): CachedSession | null {
-  const cached = sessionCache.get(getSessionCacheKey(cartToken));
-  if (!cached) return null;
-  if (Date.now() - cached.updatedAt > SESSION_TTL_MS) {
-    sessionCache.delete(getSessionCacheKey(cartToken));
-    return null;
-  }
-  return cached;
+function toVariantGid(id: string | number): string {
+  if (typeof id === 'string' && id.startsWith('gid://')) return id;
+  return `gid://shopify/ProductVariant/${id}`;
 }
 
-function writeSessionCache(inputToken: string | null, cartToken: string | null, nonce: string | null): void {
-  if (!cartToken && !nonce) return;
-
-  const payload: CachedSession = {
-    cartToken: cartToken || inputToken,
-    nonce,
-    updatedAt: Date.now(),
-  };
-
-  sessionCache.set(getSessionCacheKey(inputToken), payload);
-  if (payload.cartToken) {
-    sessionCache.set(getSessionCacheKey(payload.cartToken), payload);
-  }
-}
-
-function clearSessionCache(cartToken: string | null): void {
-  sessionCache.delete(getSessionCacheKey(cartToken));
-}
-
-function isNonceOrSessionError(error: unknown): boolean {
-  const message = error instanceof Error ? error.message.toLowerCase() : '';
-  return (
-    message.includes('nonce') ||
-    message.includes('cookie') ||
-    message.includes('session') ||
-    message.includes('cart-token') ||
-    message.includes('woocommerce store api error')
-  );
-}
-
-async function getFreshSession(cartToken: string | null): Promise<{ cartToken: string | null; nonce: string | null }> {
-  const { cartToken: nextToken, nonce } = await fetchStoreApi<StoreCart>('cart', cartToken);
-  writeSessionCache(cartToken, nextToken || cartToken, nonce);
-  return { cartToken: nextToken || cartToken, nonce };
-}
-
-async function resolveSession(cartToken: string | null, forceRefresh: boolean): Promise<{ cartToken: string | null; nonce: string | null }> {
-  if (!forceRefresh) {
-    const cached = readSessionCache(cartToken);
-    if (cached?.nonce) {
-      return { cartToken: cached.cartToken, nonce: cached.nonce };
-    }
-  }
-
-  return getFreshSession(cartToken);
-}
-
-async function mutateCart(
-  endpoint: 'cart/add-item' | 'cart/update-item' | 'cart/remove-item',
-  cartToken: string | null,
-  body: Record<string, unknown>
-): Promise<{ cart: NormalizedCart; cartToken: string }> {
-  let activeToken = cartToken;
-
-  for (let attempt = 0; attempt < 2; attempt++) {
-    const forceRefresh = attempt > 0;
-    const { cartToken: sessionToken, nonce } = await resolveSession(activeToken, forceRefresh);
-    activeToken = sessionToken || activeToken;
-
-    try {
-      const { data, cartToken: nextToken, nonce: nextNonce } = await fetchStoreApi<StoreCart>(
-        endpoint,
-        activeToken,
-        {
-          method: 'POST',
-          body: JSON.stringify(body),
-        },
-        nonce
-      );
-
-      const finalToken = (nextToken || activeToken) as string;
-      writeSessionCache(activeToken, finalToken, nextNonce || nonce);
-
-      return {
-        cart: normalizeCart(data),
-        cartToken: finalToken,
-      };
-    } catch (error) {
-      clearSessionCache(activeToken);
-      if (attempt === 0 && isNonceOrSessionError(error)) {
-        continue;
-      }
-      throw error;
-    }
-  }
-
-  throw new Error('Cart mutation failed after nonce/session retry.');
-}
-
-function normalizeCart(storeCart: StoreCart): NormalizedCart {
-  const minorUnit = storeCart.totals.currency_minor_unit || 2;
-  const divisor = Math.pow(10, minorUnit);
-
-  return {
-    id: storeCart.cart_token,
-    totalQuantity: storeCart.items.length,
-    items: storeCart.items.map((item) => {
-      let customData: Record<string, string> | undefined;
-
-      if (item.item_data && Array.isArray(item.item_data)) {
-        customData = item.item_data.reduce((acc, curr) => {
-          acc[curr.key] = curr.value;
-          return acc;
-        }, {} as Record<string, string>);
-      }
-
-      const extensions = (item as any).extensions;
-      if (!customData && extensions?.custom_data) {
-        customData = extensions.custom_data;
-      }
-
-      const hiddenVariationId = customData?._variation_id;
-      const variationIdRaw =
-        (item as any).variation_id ||
-        (item as any).variation?.id ||
-        hiddenVariationId;
-      const parsedVariationId = variationIdRaw ? Number(variationIdRaw) : NaN;
-
-      if (customData) {
-        customData = Object.entries(customData).reduce((acc, [key, value]) => {
-          if (!key.startsWith('_')) {
-            acc[key] = value;
+async function getFirstVariantId(productId: string): Promise<string> {
+  const gid = toProductGid(productId);
+  const { body } = await shopifyFetch<{ node: { variants?: { edges?: any[] } } }>({
+    query: `
+      query GetProductVariants($id: ID!) {
+        node(id: $id) {
+          ... on Product {
+            variants(first: 1) {
+              edges {
+                node {
+                  id
+                }
+              }
+            }
           }
-          return acc;
-        }, {} as Record<string, string>);
-
-        if (Object.keys(customData).length === 0) {
-          customData = undefined;
         }
       }
+    `,
+    variables: { id: gid },
+  });
 
-      const sku = item.sku || '';
+  const variantId = body.node?.variants?.edges?.[0]?.node?.id;
+  if (!variantId) {
+    throw new Error(`Could not find any variants for product ID ${productId}`);
+  }
+  return variantId;
+}
+
+function normalizeCart(shopifyCart: any): NormalizedCart {
+  return {
+    id: shopifyCart.id,
+    totalQuantity: shopifyCart.totalQuantity || 0,
+    items: (shopifyCart.lines?.edges || []).map((edge: any) => {
+      const line = edge.node;
+      const variant = line.merchandise;
+      const product = variant.product;
+      const img = variant.image?.url || product.images?.edges?.[0]?.node?.url || '';
+
+      const customData: Record<string, string> = {};
+      (line.attributes || []).forEach((attr: any) => {
+        customData[attr.key] = attr.value;
+      });
+
       const isWallpaper =
-        (customData && Object.keys(customData).some((key) => key.toLowerCase().includes('area'))) ||
-        sku.startsWith('FMWPAR') ||
-        item.name.toLowerCase().includes('shade');
+        customData['Area'] !== undefined ||
+        product.title.toLowerCase().includes('wallpaper') ||
+        variant.sku?.startsWith('FMWPAR');
 
       return {
-        id: item.key,
-        productId: String(item.product_id || item.id),
-        variationId: Number.isFinite(parsedVariationId) && parsedVariationId > 0 ? parsedVariationId : undefined,
-        quantity: item.quantity,
-        title: item.name,
-        image: item.images?.[0]?.src || '',
-        sku,
+        id: line.id,
+        productId: String(parseGid(product.id)),
+        variationId: parseGid(variant.id),
+        quantity: line.quantity,
+        title: product.title,
+        image: img,
+        sku: variant.sku || '',
         isWallpaper,
         price: {
-          amount: String(parseInt(item.prices.price) / divisor),
-          currencyCode: item.prices.currency_code,
+          amount: variant.price?.amount || '0',
+          currencyCode: variant.price?.currencyCode || 'INR',
         },
-        customData,
+        customData: Object.keys(customData).length > 0 ? customData : undefined,
       };
     }),
     cost: {
       subtotalAmount: {
-        amount: String(parseInt(storeCart.totals.total_items) / divisor),
-        currencyCode: storeCart.totals.currency_code,
+        amount: shopifyCart.cost?.subtotalAmount?.amount || '0',
+        currencyCode: shopifyCart.cost?.subtotalAmount?.currencyCode || 'INR',
       },
       totalAmount: {
-        amount: String(parseInt(storeCart.totals.total_price) / divisor),
-        currencyCode: storeCart.totals.currency_code,
+        amount: shopifyCart.cost?.totalAmount?.amount || '0',
+        currencyCode: shopifyCart.cost?.totalAmount?.currencyCode || 'INR',
       },
     },
   };
@@ -197,11 +99,69 @@ export async function getCart(cartToken: string | null): Promise<NormalizedCart 
   if (!cartToken) return null;
 
   try {
-    const { data, cartToken: nextToken, nonce } = await fetchStoreApi<StoreCart>('cart', cartToken);
-    writeSessionCache(cartToken, nextToken || cartToken, nonce);
-    return normalizeCart(data);
+    const { body } = await shopifyFetch<{ cart: any }>({
+      query: `
+        query GetCart($id: ID!) {
+          cart(id: $id) {
+            id
+            checkoutUrl
+            totalQuantity
+            lines(first: 100) {
+              edges {
+                node {
+                  id
+                  quantity
+                  merchandise {
+                    ... on ProductVariant {
+                      id
+                      title
+                      price {
+                        amount
+                        currencyCode
+                      }
+                      sku
+                      product {
+                        id
+                        title
+                        handle
+                        images(first: 1) {
+                          edges {
+                            node {
+                              url
+                              altText
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                  attributes {
+                    key
+                    value
+                  }
+                }
+              }
+            }
+            cost {
+              subtotalAmount {
+                amount
+                currencyCode
+              }
+              totalAmount {
+                amount
+                currencyCode
+              }
+            }
+          }
+        }
+      `,
+      variables: { id: cartToken },
+    });
+
+    if (!body.cart) return null;
+    return normalizeCart(body.cart);
   } catch (error) {
-    console.error('Error fetching cart:', error);
+    console.error('Error fetching cart from Shopify:', error);
     return null;
   }
 }
@@ -213,24 +173,186 @@ export async function addToCart(
   variation?: Array<{ attribute: string; value: string }>,
   customData?: Record<string, string>
 ): Promise<{ cart: NormalizedCart; cartToken: string }> {
-  const payload: Record<string, unknown> = {
-    id: productId,
-    quantity,
-  };
+  void variation; // variation resolution handled via _variation_id in customData or first variant search
 
-  if (variation) {
-    payload.variation = variation;
+  let variantId = '';
+  if (customData?._variation_id) {
+    variantId = toVariantGid(customData._variation_id);
+  } else {
+    variantId = await getFirstVariantId(productId);
   }
 
+  const customAttributes: Array<{ key: string; value: string }> = [];
   if (customData) {
-    payload.item_data = Object.entries(customData).map(([key, value]) => ({ key, value }));
-    payload.extensions = {
-      custom_data: customData,
-      metadata: Object.entries(customData).map(([key, value]) => ({ key, value })),
+    Object.entries(customData).forEach(([key, value]) => {
+      if (!key.startsWith('_')) {
+        customAttributes.push({ key, value });
+      }
+    });
+  }
+
+  if (!cartToken) {
+    const { body } = await shopifyFetch<{ cartCreate: { cart: any } }>({
+      query: `
+        mutation CartCreate($input: CartInput!) {
+          cartCreate(input: $input) {
+            cart {
+              id
+              checkoutUrl
+              totalQuantity
+              lines(first: 100) {
+                edges {
+                  node {
+                    id
+                    quantity
+                    merchandise {
+                      ... on ProductVariant {
+                        id
+                        title
+                        price {
+                          amount
+                          currencyCode
+                        }
+                        sku
+                        product {
+                          id
+                          title
+                          handle
+                          images(first: 1) {
+                            edges {
+                              node {
+                                url
+                                altText
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                    attributes {
+                      key
+                      value
+                    }
+                  }
+                }
+              }
+              cost {
+                subtotalAmount {
+                  amount
+                  currencyCode
+                }
+                totalAmount {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+      `,
+      variables: {
+        input: {
+          lines: [
+            {
+              merchandiseId: variantId,
+              quantity,
+              attributes: customAttributes,
+            },
+          ],
+        },
+      },
+    });
+
+    const newCart = body.cartCreate?.cart;
+    if (!newCart) {
+      throw new Error('Failed to create cart on Shopify.');
+    }
+
+    return {
+      cart: normalizeCart(newCart),
+      cartToken: newCart.id,
     };
   }
 
-  return mutateCart('cart/add-item', cartToken, payload);
+  const { body } = await shopifyFetch<{ cartLinesAdd: { cart: any } }>({
+    query: `
+      mutation CartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
+        cartLinesAdd(cartId: $cartId, lines: $lines) {
+          cart {
+            id
+            checkoutUrl
+            totalQuantity
+            lines(first: 100) {
+              edges {
+                node {
+                  id
+                  quantity
+                  merchandise {
+                    ... on ProductVariant {
+                      id
+                      title
+                      price {
+                        amount
+                        currencyCode
+                      }
+                      sku
+                      product {
+                        id
+                        title
+                        handle
+                        images(first: 1) {
+                          edges {
+                            node {
+                              url
+                              altText
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                  attributes {
+                    key
+                    value
+                  }
+                }
+              }
+            }
+            cost {
+              subtotalAmount {
+                amount
+                currencyCode
+              }
+              totalAmount {
+                amount
+                currencyCode
+              }
+            }
+          }
+        }
+      }
+    `,
+    variables: {
+      cartId: cartToken,
+      lines: [
+        {
+          merchandiseId: variantId,
+          quantity,
+          attributes: customAttributes,
+        },
+      ],
+    },
+  });
+
+  const updatedCart = body.cartLinesAdd?.cart;
+  if (!updatedCart) {
+    throw new Error('Failed to add line item to Shopify cart.');
+  }
+
+  return {
+    cart: normalizeCart(updatedCart),
+    cartToken: updatedCart.id,
+  };
 }
 
 export async function updateCartItem(
@@ -238,19 +360,163 @@ export async function updateCartItem(
   itemKey: string,
   quantity: number
 ): Promise<{ cart: NormalizedCart; cartToken: string }> {
-  return mutateCart('cart/update-item', cartToken, {
-    key: itemKey,
-    quantity,
+  const { body } = await shopifyFetch<{ cartLinesUpdate: { cart: any } }>({
+    query: `
+      mutation CartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
+        cartLinesUpdate(cartId: $cartId, lines: $lines) {
+          cart {
+            id
+            checkoutUrl
+            totalQuantity
+            lines(first: 100) {
+              edges {
+                node {
+                  id
+                  quantity
+                  merchandise {
+                    ... on ProductVariant {
+                      id
+                      title
+                      price {
+                        amount
+                        currencyCode
+                      }
+                      sku
+                      product {
+                        id
+                        title
+                        handle
+                        images(first: 1) {
+                          edges {
+                            node {
+                              url
+                              altText
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                  attributes {
+                    key
+                    value
+                  }
+                }
+              }
+            }
+            cost {
+              subtotalAmount {
+                amount
+                currencyCode
+              }
+              totalAmount {
+                amount
+                currencyCode
+              }
+            }
+          }
+        }
+      }
+    `,
+    variables: {
+      cartId: cartToken,
+      lines: [
+        {
+          id: itemKey,
+          quantity,
+        },
+      ],
+    },
   });
+
+  const updatedCart = body.cartLinesUpdate?.cart;
+  if (!updatedCart) {
+    throw new Error('Failed to update line item in Shopify cart.');
+  }
+
+  return {
+    cart: normalizeCart(updatedCart),
+    cartToken: updatedCart.id,
+  };
 }
 
 export async function removeCartItem(
   cartToken: string,
   itemKey: string
 ): Promise<{ cart: NormalizedCart; cartToken: string }> {
-  return mutateCart('cart/remove-item', cartToken, {
-    key: itemKey,
+  const { body } = await shopifyFetch<{ cartLinesRemove: { cart: any } }>({
+    query: `
+      mutation CartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {
+        cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
+          cart {
+            id
+            checkoutUrl
+            totalQuantity
+            lines(first: 100) {
+              edges {
+                node {
+                  id
+                  quantity
+                  merchandise {
+                    ... on ProductVariant {
+                      id
+                      title
+                      price {
+                        amount
+                        currencyCode
+                      }
+                      sku
+                      product {
+                        id
+                        title
+                        handle
+                        images(first: 1) {
+                          edges {
+                            node {
+                              url
+                              altText
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                  attributes {
+                    key
+                    value
+                  }
+                }
+              }
+            }
+            cost {
+              subtotalAmount {
+                amount
+                currencyCode
+              }
+              totalAmount {
+                amount
+                currencyCode
+              }
+            }
+          }
+        }
+      }
+    `,
+    variables: {
+      cartId: cartToken,
+      lineIds: [itemKey],
+    },
   });
+
+  const updatedCart = body.cartLinesRemove?.cart;
+  if (!updatedCart) {
+    throw new Error('Failed to remove line item from Shopify cart.');
+  }
+
+  return {
+    cart: normalizeCart(updatedCart),
+    cartToken: updatedCart.id,
+  };
 }
 
 export interface BillingDetails {

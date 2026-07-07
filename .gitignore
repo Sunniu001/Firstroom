@@ -30,8 +30,10 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# env files (keep .env.example as a template)
+.env.local
+.env.production
+.env.development
 
 # vercel
 .vercel
@@ -39,3 +41,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# temp & scratch working directories
+/scratch/
+/temp-config/
+/temp-pull/
+/temp-theme/
+
+# test scripts
+test-*.js
+test_*.js

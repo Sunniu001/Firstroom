@@ -1,0 +1,57 @@
+{% comment %}
+  fr-cart-wallpaper-display.liquid
+  Server-side Liquid approach — injects CSS only when wallpaper items
+  are in the cart. Uses Liquid cart object, no JavaScript needed.
+{% endcomment %}
+
+{% comment %} Check if any cart item has wallpaper properties {% endcomment %}
+{% assign has_wallpaper_items = false %}
+{% for item in cart.items %}
+  {% if item.properties['Area (sq.ft)'] or item.properties['Height (ft)'] %}
+    {% assign has_wallpaper_items = true %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{% if has_wallpaper_items %}
+<style>
+  /*
+    First Room Collective — Wallpaper Cart Fix
+    Hides the +/- quantity stepper for cart items sold by sq.ft
+  */
+
+  /* Hide the entire quantity-input web component */
+  quantity-input {
+    display: none !important;
+  }
+
+  /* Hide +/- buttons directly (fallback) */
+  .cart-item button[name="minus"],
+  .cart-item button[name="plus"],
+  .cart-item .quantity__button {
+    display: none !important;
+  }
+
+  /* Hide the number input */
+  .cart-item .quantity__input,
+  .cart-item input[type="number"][name*="update"] {
+    display: none !important;
+  }
+
+  /* Hide the entire quantity wrapper container */
+  .cart-item__quantity-wrapper,
+  .cart-item__quantity,
+  .cart-item [class*="quantity"] {
+    display: none !important;
+  }
+
+  /* Show a clean sq.ft inline label next to the price instead */
+  .cart-item__price-wrapper::before {
+    content: attr(data-sqft) " sq.ft · ";
+    font-size: 0.85rem;
+    color: #666;
+    display: block;
+    margin-bottom: 4px;
+  }
+</style>
+{% endif %}

@@ -1,0 +1,409 @@
+{% comment %}
+  Nameplate Personalizer block for Standalone Shopify.
+  Place inside the product form on your product page template.
+  
+  Requires Shopify Metafields:
+  - custom.np_bg (File reference or URL string of the mockup background)
+  - custom.np_box (Single line text: "x,y,w,h" coordinates relative to the image size)
+  - custom.np_text_color (Single line text: "light" or "dark")
+{% endcomment %}
+
+{%- assign np_bg = product.metafields.custom.np_bg.value | default: product.metafields.custom.np_bg -%}
+{%- assign np_box = product.metafields.custom.np_box.value | default: product.metafields.custom.np_box -%}
+{%- assign np_text_color = product.metafields.custom.np_text_color.value | default: product.metafields.custom.np_text_color | default: 'dark' -%}
+
+{%- if np_bg != blank -%}
+  <!-- Font Loader -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Caveat:wght@700&family=Dancing+Script:wght@700&family=Pacifico&family=Playball&family=Sacramento&family=Satisfy&family=Yellowtail&display=swap" rel="stylesheet">
+
+  <div class="fr-personalizer-container" id="fr-nameplate-personalizer">
+    <h3 class="fr-personalizer-title">Personalize Your Nameplate</h3>
+    
+    <div class="fr-controls-row">
+      <div class="fr-control-group">
+        <div class="fr-label-row">
+          <label class="fr-label" for="fr-np-name-input">Enter Name</label>
+          <span class="fr-char-count" id="fr-np-char-count">(0/20)</span>
+        </div>
+        <input 
+          type="text" 
+          id="fr-np-name-input"
+          name="properties[Name]" 
+          placeholder="Type name here..." 
+          class="fr-input-field" 
+          maxlength="20"
+          required
+        >
+      </div>
+
+      <div class="fr-control-group">
+        <div class="fr-label-row">
+          <label class="fr-label" for="fr-np-font-select">Choose Font</label>
+        </div>
+        <select 
+          id="fr-np-font-select" 
+          name="properties[Font]" 
+          class="fr-select-field"
+        >
+          <option value="'Dancing Script', cursive">Apricot</option>
+          <option value="'Pacifico', cursive">Dreambig</option>
+          <option value="'Playball', cursive">Vintage Lander</option>
+          <option value="'Alex Brush', cursive">Ballerina</option>
+          <option value="'Caveat', cursive">Sweet Chocolate</option>
+          <option value="'Satisfy', cursive">Hello</option>
+          <option value="'Sacramento', cursive">Riviera</option>
+          <option value="'Yellowtail', cursive">Signatra</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Preview Mockup -->
+    <div class="fr-mockup-wrapper">
+      <div class="fr-mockup-container" id="fr-np-mockup">
+        {%- if np_bg.cloudinary_src != blank -%}
+          <img src="{{ np_bg }}" alt="Nameplate Preview" id="fr-np-bg-img" class="fr-mockup-image">
+        {%- elsif np_bg contains 'cdn.shopify.com' or np_bg contains '/' -%}
+          <img src="{{ np_bg }}" alt="Nameplate Preview" id="fr-np-bg-img" class="fr-mockup-image">
+        {%- else -%}
+          <img src="{{ np_bg | image_url: width: 800 }}" alt="Nameplate Preview" id="fr-np-bg-img" class="fr-mockup-image">
+        {%- endif -%}
+        <div class="fr-mockup-text-overlay" id="fr-np-text-overlay">Your Name</div>
+        
+        <button type="button" class="fr-zoom-btn" id="fr-np-zoom-btn" title="Zoom Preview">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            <line x1="11" y1="8" x2="11" y2="14"></line>
+            <line x1="8" y1="11" x2="14" y2="11"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+    
+    <p class="fr-personalizer-disclaimer">Preview is approximate. Final hand-crafted layout may vary.</p>
+  </div>
+
+  <!-- Zoom Modal -->
+  <div class="fr-zoom-modal" id="fr-np-zoom-modal">
+    <div class="fr-modal-overlay" id="fr-np-modal-close-overlay"></div>
+    <div class="fr-modal-content">
+      <button type="button" class="fr-modal-close" id="fr-np-modal-close-btn">&times;</button>
+      <div class="fr-modal-body" id="fr-np-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Styles -->
+  <style>
+    .fr-personalizer-container {
+      margin: 1.5rem 0;
+      padding: 1.5rem;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 8px;
+      background: #fafafa;
+      font-family: inherit;
+    }
+    .fr-personalizer-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 1.25rem;
+      color: #1a1a1a;
+      letter-spacing: 0.5px;
+    }
+    .fr-controls-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .fr-control-group {
+      flex: 1 1 200px;
+      display: flex;
+      flex-direction: column;
+    }
+    .fr-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .fr-label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #555;
+    }
+    .fr-char-count {
+      font-size: 0.75rem;
+      color: #888;
+    }
+    .fr-input-field {
+      padding: 0.75rem 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+      background: #ffffff;
+      color: #1a1a1a;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .fr-input-field:focus {
+      border-color: #1a1a1a;
+    }
+    .fr-select-field {
+      padding: 0.75rem 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      outline: none;
+      background: #ffffff;
+      color: #1a1a1a;
+      width: 100%;
+      cursor: pointer;
+      box-sizing: border-box;
+    }
+    .fr-mockup-wrapper {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: center;
+    }
+    .fr-mockup-container {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      background: #e8e8e8;
+    }
+    .fr-mockup-image {
+      display: block;
+      width: 100%;
+      height: auto;
+      user-select: none;
+    }
+    .fr-mockup-text-overlay {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      line-height: 1.2;
+      pointer-events: none;
+      transform-origin: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      box-sizing: border-box;
+      padding: 4px;
+      font-size: 2rem;
+    }
+    .fr-zoom-btn {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(0,0,0,0.15);
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #333;
+      transition: background 0.2s, transform 0.2s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .fr-zoom-btn:hover {
+      background: #ffffff;
+      transform: scale(1.05);
+    }
+    .fr-personalizer-disclaimer {
+      font-size: 0.75rem;
+      color: #888;
+      text-align: center;
+      margin-top: 1rem;
+      margin-bottom: 0;
+    }
+
+    /* Modal Styles */
+    .fr-zoom-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 99999;
+      align-items: center;
+      justify-content: center;
+    }
+    .fr-modal-overlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+    }
+    .fr-modal-content {
+      position: relative;
+      background: #fff;
+      border-radius: 8px;
+      padding: 1.5rem;
+      width: 90%;
+      max-width: 700px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      z-index: 2;
+    }
+    .fr-modal-close {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      font-size: 2rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #888;
+      transition: color 0.2s;
+    }
+    .fr-modal-close:hover {
+      color: #333;
+    }
+    .fr-zoom-modal.active {
+      display: flex;
+    }
+    .fr-zoomed-mockup {
+      max-width: 100% !important;
+    }
+  </style>
+
+  <!-- Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const personalizer = document.getElementById('fr-nameplate-personalizer');
+      if (!personalizer) return;
+
+      const nameInput = document.getElementById('fr-np-name-input');
+      const fontSelect = document.getElementById('fr-np-font-select');
+      const charCount = document.getElementById('fr-np-char-count');
+      const textOverlay = document.getElementById('fr-np-text-overlay');
+      const bgImg = document.getElementById('fr-np-bg-img');
+      const zoomBtn = document.getElementById('fr-np-zoom-btn');
+      const modal = document.getElementById('fr-np-zoom-modal');
+      const modalBody = document.getElementById('fr-np-modal-body');
+      const closeOverlay = document.getElementById('fr-np-modal-close-overlay');
+      const closeBtn = document.getElementById('fr-np-modal-close-btn');
+
+      // Box Coordinates Metafield values
+      const coordsRaw = "{{ np_box }}";
+      const textColor = "{{ np_text_color }}";
+      let boxCoords = null;
+
+      if (coordsRaw && coordsRaw.includes(',')) {
+        const parts = coordsRaw.split(',').map(Number);
+        if (parts.length === 4 && !parts.some(isNaN)) {
+          boxCoords = { x: parts[0], y: parts[1], w: parts[2], h: parts[3] };
+        }
+      }
+
+      function updateOverlayStyles(element, isLarge = false) {
+        const nameText = nameInput.value.trim() || 'Your Name';
+        element.textContent = nameText;
+        element.style.fontFamily = fontSelect.value;
+
+        // Apply text color and shadows
+        if (textColor === 'light') {
+          element.style.color = '#ffffff';
+          element.style.textShadow = '1px 1px 0 #ccc, 2px 2px 0 #bbb, 3px 3px 4px rgba(0,0,0,0.3)';
+        } else {
+          element.style.color = '#1a1a1a';
+          element.style.textShadow = '1px 1px 0 #555, 2px 2px 0 #444, 3px 3px 4px rgba(0,0,0,0.4)';
+        }
+
+        // Apply dynamic font sizes
+        const baseFontSize = isLarge ? 5.5 : 2.5;
+        const sizeMultiplier = isLarge ? 0.2 : 0.1;
+        const calculatedSize = Math.max(1.0, baseFontSize - (nameText.length > 10 ? (nameText.length - 10) * sizeMultiplier : 0));
+        element.style.fontSize = calculatedSize + 'rem';
+
+        // Apply coordinate bounds if image is loaded
+        const currentImg = element.previousElementSibling;
+        if (boxCoords && currentImg && currentImg.naturalWidth) {
+          const natW = currentImg.naturalWidth;
+          const natH = currentImg.naturalHeight;
+          element.style.top = ((boxCoords.y / natH) * 100) + '%';
+          element.style.left = ((boxCoords.x / natW) * 100) + '%';
+          element.style.width = ((boxCoords.w / natW) * 100) + '%';
+          element.style.height = ((boxCoords.h / natH) * 100) + '%';
+          element.style.transform = 'none';
+        } else {
+          // Fallback centering if no coordinate coords
+          element.style.top = '50%';
+          element.style.left = '50%';
+          element.style.width = '80%';
+          element.style.transform = 'translate(-50%, -50%)';
+        }
+      }
+
+      function handleInputChange() {
+        const textVal = nameInput.value;
+        charCount.textContent = `(${textVal.length}/20)`;
+        updateOverlayStyles(textOverlay, false);
+      }
+
+      // Listen to controls
+      nameInput.addEventListener('input', handleInputChange);
+      fontSelect.addEventListener('change', handleInputChange);
+
+      if (bgImg.complete) {
+        handleInputChange();
+      } else {
+        bgImg.addEventListener('load', handleInputChange);
+      }
+
+      // Zoom Capabilities
+      zoomBtn.addEventListener('click', function() {
+        // Clone the mockup container and insert it in the modal
+        modalBody.innerHTML = '';
+        const clone = document.getElementById('fr-np-mockup').cloneNode(true);
+        clone.id = 'fr-np-mockup-zoomed';
+        clone.classList.add('fr-zoomed-mockup');
+        
+        // Remove the zoom button from clone
+        const clonedZoomBtn = clone.querySelector('#fr-np-zoom-btn');
+        if (clonedZoomBtn) clonedZoomBtn.remove();
+        
+        modalBody.appendChild(clone);
+        modal.classList.add('active');
+        
+        // Update overlay styling on the cloned node
+        const clonedOverlay = clone.querySelector('#fr-np-text-overlay');
+        const clonedImg = clone.querySelector('#fr-np-bg-img');
+
+        const updateClonedOverlay = () => {
+          updateOverlayStyles(clonedOverlay, true);
+        };
+
+        if (clonedImg.complete) {
+          updateClonedOverlay();
+        } else {
+          clonedImg.addEventListener('load', updateClonedOverlay);
+        }
+      });
+
+      function closeModal() {
+        modal.classList.remove('active');
+        modalBody.innerHTML = '';
+      }
+
+      closeOverlay.addEventListener('click', closeModal);
+      closeBtn.addEventListener('click', closeModal);
+    });
+  </script>
+{%- endif -%}

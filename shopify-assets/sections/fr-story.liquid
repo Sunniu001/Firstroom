@@ -1,0 +1,393 @@
+<section class="fr-story" id="fr-story-{{ section.id }}" style="background-color: {{ section.settings.section_bg }};">
+  
+  <!-- Section 1: Hero Banner -->
+  {%- if section.settings.show_hero and section.settings.hero_image != blank -%}
+    <div class="fr-story__hero" style="background-image: linear-gradient(rgba(0, 0, 0, {{ section.settings.hero_overlay_opacity | divided_by: 100.0 }}), rgba(0, 0, 0, {{ section.settings.hero_overlay_opacity | divided_by: 100.0 }})), url('{{ section.settings.hero_image | image_url: width: 2400 }}'); height: {{ section.settings.hero_height }}vh;">
+      <div class="fr-story__hero-content">
+        <h1 class="fr-story__hero-title">{{ section.settings.hero_title }}</h1>
+      </div>
+    </div>
+  {%- elsif section.settings.show_hero -%}
+    <div class="fr-story__hero fr-story__hero--no-img" style="height: 25vh; background-color: #faf8f5;">
+      <div class="fr-story__hero-content">
+        <h1 class="fr-story__hero-title" style="color: #1a1a1a;">{{ section.settings.hero_title }}</h1>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <!-- Section 2: Intro Statement -->
+  <div class="fr-story__intro">
+    <div class="fr-story__wrapper fr-story__wrapper--narrow">
+      <h2 class="fr-story__intro-title">{{ section.settings.intro_title }}</h2>
+      <div class="fr-story__intro-text">
+        {{ section.settings.intro_text }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: About The Founders -->
+  <div class="fr-story__founders" style="background-color: {{ section.settings.founders_bg }};">
+    <div class="fr-story__wrapper">
+      <div class="fr-story__founders-grid">
+        <div class="fr-story__founder-image-wrapper">
+          {%- if section.settings.founders_image != blank -%}
+            <img
+              src="{{ section.settings.founders_image | image_url: width: 1000 }}"
+              alt="{{ section.settings.founders_title | escape }}"
+              class="fr-story__founder-img"
+              loading="lazy"
+            >
+          {%- else -%}
+            {{ 'image' | placeholder_svg_tag: 'fr-story__placeholder' }}
+          {%- endif -%}
+        </div>
+        <div class="fr-story__founder-content">
+          <h2 class="fr-story__section-title">{{ section.settings.founders_title }}</h2>
+          <div class="fr-story__bio-text">
+            {{ section.settings.founders_bio }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: Tradition Collage -->
+  <div class="fr-story__tradition">
+    <div class="fr-story__wrapper">
+      <h2 class="fr-story__section-title fr-story__text-center">{{ section.settings.tradition_title }}</h2>
+      <div class="fr-story__tradition-collage-wrapper">
+        {%- if section.settings.tradition_image != blank -%}
+          <img
+            src="{{ section.settings.tradition_image | image_url: width: 1600 }}"
+            alt="{{ section.settings.tradition_title | escape }}"
+            class="fr-story__tradition-img"
+            loading="lazy"
+          >
+        {%- else -%}
+          {{ 'image' | placeholder_svg_tag: 'fr-story__placeholder' }}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<style>
+  .fr-story {
+    font-family: 'Lato', system-ui, sans-serif;
+    line-height: 1.7;
+    color: #4a4a4a;
+    overflow-x: hidden;
+  }
+
+  .fr-story__wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .fr-story__wrapper--narrow {
+    max-width: 800px;
+  }
+
+  .fr-story__text-center {
+    text-align: center;
+  }
+
+  /* Hero Section */
+  .fr-story__hero {
+    position: relative;
+    width: 100%;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .fr-story__hero--no-img {
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .fr-story__hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 0 20px;
+  }
+
+  .fr-story__hero-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: 0.01em;
+    margin: 0;
+    color: #ffffff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Intro Section Styling */
+  .fr-story__intro {
+    padding: 80px 0;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .fr-story__intro {
+      padding: 60px 0;
+    }
+  }
+
+  .fr-story__intro-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 1.25;
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: #1a1a1a;
+  }
+
+  @media (max-width: 768px) {
+    .fr-story__intro-title {
+      font-size: 28px;
+    }
+  }
+
+  .fr-story__intro-text {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.85;
+    color: #4a4a4a;
+  }
+
+  .fr-story__intro-text p {
+    margin: 0 0 15px 0;
+  }
+  .fr-story__intro-text p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Founders Block Styling */
+  .fr-story__founders {
+    padding: 80px 0;
+  }
+
+  @media (max-width: 768px) {
+    .fr-story__founders {
+      padding: 50px 0;
+    }
+  }
+
+  .fr-story__founders-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  @media (min-width: 768px) {
+    .fr-story__founders-grid {
+      grid-template-columns: 1fr 1.2fr;
+      gap: 80px;
+    }
+  }
+
+  .fr-story__founder-image-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background-color: #faf8f5;
+  }
+
+  /* Image corners are sharp/straight per screenshots */
+  .fr-story__founder-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .fr-story__section-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1.25;
+    margin-top: 0;
+    margin-bottom: 25px;
+    letter-spacing: 0.01em;
+    color: #1a1a1a;
+  }
+
+  .fr-story__bio-text {
+    font-size: 15px;
+    line-height: 1.75;
+    color: #4a4a4a;
+  }
+
+  .fr-story__bio-text p {
+    margin: 0 0 20px 0;
+  }
+  .fr-story__bio-text p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Tradition Block Styling */
+  .fr-story__tradition {
+    padding: 80px 0 100px 0;
+  }
+
+  @media (max-width: 768px) {
+    .fr-story__tradition {
+      padding: 50px 0 60px 0;
+    }
+  }
+
+  .fr-story__tradition-collage-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: #faf8f5;
+  }
+
+  .fr-story__tradition-img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .fr-story__placeholder {
+    width: 100%;
+    height: 100%;
+    background-color: #faf8f5;
+    color: #cccccc;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "FR About Us Page",
+  "tag": "section",
+  "class": "fr-story-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Theme settings"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Hero Banner settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_hero",
+      "label": "Show Hero Banner",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Background Image"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Hero Title",
+      "default": "About Us"
+    },
+    {
+      "type": "range",
+      "id": "hero_height",
+      "min": 40,
+      "max": 90,
+      "step": 5,
+      "unit": "vh",
+      "label": "Hero Height",
+      "default": 65
+    },
+    {
+      "type": "range",
+      "id": "hero_overlay_opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "label": "Hero Overlay Opacity",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Intro Statement settings"
+    },
+    {
+      "type": "text",
+      "id": "intro_title",
+      "label": "Intro Heading",
+      "default": "Nature-Inspired Designs, Handcrafted With Care"
+    },
+    {
+      "type": "richtext",
+      "id": "intro_text",
+      "label": "Intro Narrative",
+      "default": "<p>At <strong>First Room Collective</strong>, every creation begins with intention. Inspired by the quiet beauty of nature and the poetry of everyday moments, our designs celebrate the richness of Indian craftsmanship while embracing contemporary elegance. From hand-painted wallpapers to bespoke frames, each piece is thoughtfully crafted to feel personal, timeless, and deeply connected to your story.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Founders Bio settings"
+    },
+    {
+      "type": "text",
+      "id": "founders_title",
+      "label": "Founders Section Title",
+      "default": "About The Founders"
+    },
+    {
+      "type": "image_picker",
+      "id": "founders_image",
+      "label": "Founders Image"
+    },
+    {
+      "type": "richtext",
+      "id": "founders_bio",
+      "label": "Founders Biography",
+      "default": "<p>First Room Collective was co-founded by <strong>Dharya Gambhir and Ranjana Gambhir</strong>, two creative minds whose backgrounds span design, interiors, architecture, fashion, and brand strategy. United by a shared vision, they set out to create spaces that feel soulful, personal, and deeply connected to culture.</p><p>For them, a home is more than a space—it is a sanctuary and a reflection of identity. Drawing inspiration from India's rich artistic heritage and collaborating with master artisans across the country, their work celebrates handcrafted techniques, intricate motifs, and the timeless art of storytelling through design.</p><p>What began as a response to the absence of emotionally resonant décor has grown into a pursuit of <strong>mindful, slow design</strong>—where every creation is thoughtfully crafted to honour tradition while bringing meaning, beauty, and individuality to the spaces we live in.</p>"
+    },
+    {
+      "type": "color",
+      "id": "founders_bg",
+      "label": "Founders Section Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Tradition Section settings"
+    },
+    {
+      "type": "text",
+      "id": "tradition_title",
+      "label": "Tradition Section Title",
+      "default": "Tradition In Every Thread"
+    },
+    {
+      "type": "image_picker",
+      "id": "tradition_image",
+      "label": "Tradition Collage Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "FR About Us Page"
+    }
+  ]
+}
+{% endschema %}

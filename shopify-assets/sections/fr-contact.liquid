@@ -1,0 +1,683 @@
+<section class="fr-contact" id="fr-contact-{{ section.id }}" style="background-color: {{ section.settings.section_bg }};">
+  
+  {%- if section.settings.show_banner and section.settings.banner_image != blank -%}
+    <div class="fr-contact__hero" style="background-image: linear-gradient(rgba(0, 0, 0, {{ section.settings.banner_overlay_opacity | divided_by: 100.0 }}), rgba(0, 0, 0, {{ section.settings.banner_overlay_opacity | divided_by: 100.0 }})), url('{{ section.settings.banner_image | image_url: width: 2400 }}'); height: {{ section.settings.banner_height }}vh;">
+      <div class="fr-contact__hero-content">
+        <h1 class="fr-contact__hero-title">{{ section.settings.banner_title }}</h1>
+      </div>
+    </div>
+  {%- elsif section.settings.show_banner -%}
+    <div class="fr-contact__hero fr-contact__hero--no-img" style="height: 20vh; background-color: #faf8f5;">
+      <div class="fr-contact__hero-content">
+        <h1 class="fr-contact__hero-title" style="color: #1a1a1a;">{{ section.settings.banner_title }}</h1>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <div class="fr-contact__wrapper">
+    <div class="fr-contact__grid">
+      
+      <!-- Left Column: Customer Care & Work With Us -->
+      <div class="fr-contact__info-card">
+        
+        <!-- Part 1: Customer Care -->
+        <div class="fr-contact__info-group">
+          <h2 class="fr-contact__serif-title">{{ section.settings.info_title }}</h2>
+          <div class="fr-contact__details-list">
+            {%- if section.settings.phone != blank -%}
+              <div class="fr-contact__detail-item">
+                <span class="fr-contact__detail-label">WHATSAPP</span>
+                <a href="https://wa.me/{{ section.settings.phone | replace: ' ', '' | replace: '+', '' }}" target="_blank" class="fr-contact__detail-value">{{ section.settings.phone }}</a>
+              </div>
+            {%- endif -%}
+
+            {%- if section.settings.email != blank -%}
+              <div class="fr-contact__detail-item">
+                <span class="fr-contact__detail-label">EMAIL</span>
+                <a href="mailto:{{ section.settings.email }}" class="fr-contact__detail-value">{{ section.settings.email }}</a>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+
+        <!-- Part 2: Work With Us -->
+        <div class="fr-contact__info-group fr-contact__info-group--work">
+          <h2 class="fr-contact__serif-title">{{ section.settings.work_title }}</h2>
+          <div class="fr-contact__work-text">
+            {{ section.settings.work_text }}
+          </div>
+          {%- if section.settings.work_email != blank -%}
+            <a href="mailto:{{ section.settings.work_email }}" class="fr-contact__work-email" style="color: {{ section.settings.accent_color }};">{{ section.settings.work_email }}</a>
+          {%- endif -%}
+        </div>
+
+      </div>
+
+      <!-- Right Column: Contact Form -->
+      <div class="fr-contact__form-card">
+        <h2 class="fr-contact__serif-title">{{ section.settings.form_title }}</h2>
+        {%- if section.settings.form_text != blank -%}
+          <p class="fr-contact__form-desc">{{ section.settings.form_text }}</p>
+        {%- endif -%}
+
+        {%- form 'contact', id: 'ContactForm', class: 'fr-contact__form' -%}
+          {%- if form.posted_successfully? -%}
+            <div class="fr-contact__form-status fr-contact__form-status--success" tabindex="-1" autofocus>
+              <svg aria-hidden="true" focusable="false" role="presentation" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="7" stroke-linecap="round" stroke-linejoin="round"></circle><path d="M5.5 8l1.5 1.5L10.5 6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              <span>Thanks for contacting us! We'll get back to you as soon as possible.</span>
+            </div>
+          {%- elsif form.errors -%}
+            <div class="fr-contact__form-status fr-contact__form-status--error" tabindex="-1" autofocus>
+              <svg aria-hidden="true" focusable="false" role="presentation" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="7" stroke-linecap="round" stroke-linejoin="round"></circle><line x1="8" y1="5" x2="8" y2="8" stroke-linecap="round" stroke-linejoin="round"></line><line x1="8" y1="11" x2="8.01" y2="11" stroke-linecap="round" stroke-linejoin="round"></line></svg>
+              <span>Please adjust: {{ form.errors | default_errors }}</span>
+            </div>
+          {%- endif -%}
+
+          <!-- Full Name Field -->
+          <div class="fr-contact__form-field">
+            <label class="fr-contact__field-label">Full Name *</label>
+            <div class="fr-contact__form-row">
+              <input
+                type="text"
+                name="contact[first_name]"
+                value="{% if customer %}{{ customer.first_name }}{% endif %}"
+                placeholder="First name"
+                class="fr-contact__input"
+                required
+              >
+              <input
+                type="text"
+                name="contact[last_name]"
+                value="{% if customer %}{{ customer.last_name }}{% endif %}"
+                placeholder="Last name"
+                class="fr-contact__input"
+                required
+              >
+            </div>
+          </div>
+          
+          <!-- Email Fields -->
+          <div class="fr-contact__form-field">
+            <label class="fr-contact__field-label">Email *</label>
+            <div class="fr-contact__form-row">
+              <div class="fr-contact__input-group">
+                <input
+                  type="email"
+                  id="ContactForm-email"
+                  name="contact[email]"
+                  value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                  placeholder="you@company.com"
+                  class="fr-contact__input"
+                  required
+                  aria-required="true"
+                  spellcheck="false"
+                  autocapitalize="off"
+                >
+                <span class="fr-contact__helper-text">Email</span>
+              </div>
+              <div class="fr-contact__input-group">
+                <input
+                  type="email"
+                  id="ContactForm-confirm-email"
+                  placeholder=""
+                  class="fr-contact__input"
+                  required
+                  spellcheck="false"
+                  autocapitalize="off"
+                >
+                <span class="fr-contact__helper-text">Confirm Email</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phone Number Field -->
+          <div class="fr-contact__form-field">
+            <label class="fr-contact__field-label">Phone number</label>
+            <div class="fr-contact__phone-container">
+              <div class="fr-contact__country-code">
+                <span class="fr-contact__flag">🇮🇳</span>
+                <span class="fr-contact__code">+91</span>
+                <span class="fr-contact__arrow">▼</span>
+              </div>
+              <input
+                type="tel"
+                id="ContactForm-phone"
+                name="contact[phone]"
+                pattern="[0-9\- \+\(\)]*"
+                value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+                placeholder="Phone"
+                class="fr-contact__phone-input"
+              >
+            </div>
+          </div>
+
+          <!-- Message Field -->
+          <div class="fr-contact__form-field">
+            <textarea
+              rows="6"
+              id="ContactForm-body"
+              name="contact[body]"
+              placeholder="Message"
+              class="fr-contact__textarea"
+              required
+              aria-required="true"
+            >{% if form.body %}{{ form.body }}{% endif %}</textarea>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="fr-contact__form-actions">
+            <button
+              type="submit"
+              class="fr-contact__submit-btn"
+              style="background-color: {{ section.settings.button_bg }}; color: {{ section.settings.button_text_color }};"
+            >
+              SEND MESSAGE
+            </button>
+          </div>
+        {%- endform -%}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  #fr-contact-{{ section.id }} {
+    font-family: 'Lato', system-ui, sans-serif;
+    line-height: 1.6;
+    color: #1a1a1a;
+  }
+
+  .fr-contact__hero {
+    position: relative;
+    width: 100%;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .fr-contact__hero--no-img {
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .fr-contact__hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 0 20px;
+  }
+
+  .fr-contact__hero-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    margin: 0;
+    color: #ffffff;
+  }
+
+  .fr-contact__wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 24px;
+  }
+
+  @media (max-width: 768px) {
+    .fr-contact__wrapper {
+      padding: 50px 20px;
+    }
+  }
+
+  .fr-contact__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 60px;
+  }
+
+  @media (min-width: 992px) {
+    .fr-contact__grid {
+      grid-template-columns: 1fr 1.2fr;
+      gap: 100px;
+    }
+  }
+
+  .fr-contact__serif-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 36px;
+    font-weight: 400;
+    color: #1a1a1a;
+    margin-top: 0;
+    margin-bottom: 25px;
+    letter-spacing: 0.01em;
+  }
+
+  .fr-contact__form-desc {
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 15px;
+    color: #666;
+    margin-top: -15px;
+    margin-bottom: 30px;
+  }
+
+  /* Info Column Styling */
+  .fr-contact__info-card {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+  }
+
+  .fr-contact__details-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .fr-contact__detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .fr-contact__detail-label {
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #999;
+  }
+
+  .fr-contact__detail-value {
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #1a1a1a;
+    text-decoration: none;
+    line-height: 1.4;
+    display: inline-block;
+  }
+
+  .fr-contact__detail-value:hover {
+    color: {{ section.settings.accent_color }};
+  }
+
+  .fr-contact__info-group--work {
+    border-top: 1px solid #eee;
+    padding-top: 40px;
+  }
+
+  .fr-contact__work-text {
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 15px;
+    color: #4a4a4a;
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+
+  .fr-contact__work-text p {
+    margin: 0 0 15px 0;
+  }
+
+  .fr-contact__work-email {
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  /* Form Column Styling */
+  .fr-contact__form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .fr-contact__form-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  @media (min-width: 576px) {
+    .fr-contact__form-row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .fr-contact__form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .fr-contact__field-label {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #1a1a1a;
+  }
+
+  .fr-contact__input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .fr-contact__helper-text {
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 11px;
+    color: #999;
+  }
+
+  .fr-contact__input,
+  .fr-contact__textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 14px;
+    color: #1a1a1a;
+    background-color: #ffffff;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .fr-contact__input:focus,
+  .fr-contact__textarea:focus {
+    outline: none;
+    border-color: #1a1a1a;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.02);
+  }
+
+  .fr-contact__textarea {
+    resize: vertical;
+    margin-top: 6px;
+  }
+
+  /* Phone Selector Container */
+  .fr-contact__phone-container {
+    display: flex;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    background-color: #ffffff;
+    overflow: hidden;
+    transition: border-color 0.2s ease-in-out;
+  }
+
+  .fr-contact__phone-container:focus-within {
+    border-color: #1a1a1a;
+  }
+
+  .fr-contact__country-code {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 14px;
+    background-color: #fafafa;
+    border-right: 1px solid #d1d5db;
+    user-select: none;
+  }
+
+  .fr-contact__flag {
+    font-size: 16px;
+  }
+
+  .fr-contact__code {
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 14px;
+    color: #1a1a1a;
+  }
+
+  .fr-contact__arrow {
+    font-size: 8px;
+    color: #999;
+  }
+
+  .fr-contact__phone-input {
+    flex-grow: 1;
+    border: none;
+    padding: 12px 14px;
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 14px;
+    color: #1a1a1a;
+  }
+
+  .fr-contact__phone-input:focus {
+    outline: none;
+  }
+
+  .fr-contact__submit-btn {
+    border: none;
+    padding: 14px 40px;
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+    display: inline-block;
+    border-radius: 4px;
+  }
+
+  .fr-contact__submit-btn:hover {
+    opacity: 0.95;
+    background-color: {{ section.settings.accent_color }} !important;
+    color: #ffffff !important;
+  }
+
+  .fr-contact__form-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .fr-contact__form-status--success {
+    background-color: #ecfdf5;
+    color: #047857;
+    border: 1px solid #a7f3d0;
+  }
+
+  .fr-contact__form-status--error {
+    background-color: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fca5a5;
+  }
+
+  .fr-contact__email-error {
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 12px;
+    color: {{ section.settings.accent_color }} !important;
+    margin-top: 4px;
+  }
+</style>
+
+<script>
+  (function() {
+    function initContactForm() {
+      const form = document.getElementById('ContactForm');
+      if (!form) return;
+
+      const emailInput = document.getElementById('ContactForm-email');
+      const confirmEmailInput = document.getElementById('ContactForm-confirm-email');
+
+      form.addEventListener('submit', function(e) {
+        // Clear any previous error message
+        const existingError = form.querySelector('.fr-contact__email-error');
+        if (existingError) {
+          existingError.remove();
+        }
+
+        if (emailInput.value !== confirmEmailInput.value) {
+          e.preventDefault();
+          
+          const errorDiv = document.createElement('div');
+          errorDiv.className = 'fr-contact__email-error';
+          errorDiv.textContent = 'Emails do not match. Please verify your email.';
+          
+          confirmEmailInput.parentNode.appendChild(errorDiv);
+          confirmEmailInput.focus();
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', initContactForm);
+    document.addEventListener('shopify:section:load', initContactForm);
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      initContactForm();
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "FR Contact Page",
+  "tag": "section",
+  "class": "fr-contact-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero Banner settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_banner",
+      "label": "Show Banner",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner Background Image"
+    },
+    {
+      "type": "text",
+      "id": "banner_title",
+      "label": "Banner Title",
+      "default": "Contact Us"
+    },
+    {
+      "type": "range",
+      "id": "banner_height",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "vh",
+      "label": "Banner Height",
+      "default": 35
+    },
+    {
+      "type": "range",
+      "id": "banner_overlay_opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "label": "Banner Overlay Opacity",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Customer Care settings"
+    },
+    {
+      "type": "text",
+      "id": "info_title",
+      "label": "Info Section Title",
+      "default": "Customer Care"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "WhatsApp/Phone Number",
+      "default": "+91 96507 06644"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email Address",
+      "default": "support@firstroom.in"
+    },
+    {
+      "type": "header",
+      "content": "Work With Us settings"
+    },
+    {
+      "type": "text",
+      "id": "work_title",
+      "label": "Work Section Title",
+      "default": "Work With Us:"
+    },
+    {
+      "type": "richtext",
+      "id": "work_text",
+      "label": "Work Section Paragraphs",
+      "default": "<p>We’re open to exciting collaborations and passionate individuals to join our journey. If you’re reaching out, ensure your application includes your CV, portfolio (preferably a link), and a dose of genuine enthusiasm.</p><p>Due to the high volume of applications, we're only able to respond to candidates shortlisted for an interview.</p><p>Send in your CV + updated portfolio (preferably a link) to:</p>"
+    },
+    {
+      "type": "text",
+      "id": "work_email",
+      "label": "Work Email",
+      "default": "firstroom2019@gmail.com"
+    },
+    {
+      "type": "header",
+      "content": "Contact Form settings"
+    },
+    {
+      "type": "text",
+      "id": "form_title",
+      "label": "Form Title",
+      "default": "Get In Touch"
+    },
+    {
+      "type": "text",
+      "id": "form_text",
+      "label": "Form Subheading",
+      "default": "We’d be happy to connect with you."
+    },
+    {
+      "type": "header",
+      "content": "Color settings"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Section Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent / Highlight Color",
+      "default": "#B53939"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Button Background Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "FR Contact Page"
+    }
+  ]
+}
+{% endschema %}

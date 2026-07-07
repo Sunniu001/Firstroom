@@ -1,0 +1,109 @@
+<section class="fr-story-hero" id="fr-story-hero-{{ section.id }}">
+  {%- if section.settings.hero_image != blank -%}
+    <div
+      class="fr-story-hero__bg"
+      style="
+        background-image: linear-gradient(
+          rgba(0,0,0,{{ section.settings.overlay_opacity | divided_by: 100.0 }}),
+          rgba(0,0,0,{{ section.settings.overlay_opacity | divided_by: 100.0 }})
+        ), url('{{ section.settings.hero_image | image_url: width: 2400 }}');
+        height: {{ section.settings.hero_height }}vh;
+      "
+    >
+      <div class="fr-story-hero__content">
+        <h1 class="fr-story-hero__title">{{ section.settings.hero_title }}</h1>
+      </div>
+    </div>
+  {%- else -%}
+    <div class="fr-story-hero__bg fr-story-hero__bg--plain" style="height: {{ section.settings.hero_height }}vh;">
+      <div class="fr-story-hero__content">
+        <h1 class="fr-story-hero__title fr-story-hero__title--dark">{{ section.settings.hero_title }}</h1>
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+<style>
+  .fr-story-hero__bg {
+    width: 100%;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .fr-story-hero__bg--plain {
+    background-color: #faf8f5;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .fr-story-hero__content {
+    text-align: center;
+    padding: 0 20px;
+  }
+
+  .fr-story-hero__title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: 0.01em;
+    margin: 0;
+    color: #ffffff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  }
+
+  .fr-story-hero__title--dark {
+    color: #1a1a1a;
+    text-shadow: none;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "FR Story Hero",
+  "tag": "section",
+  "class": "fr-story-hero-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Background Image"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Hero Title",
+      "default": "About Us"
+    },
+    {
+      "type": "range",
+      "id": "hero_height",
+      "min": 40,
+      "max": 90,
+      "step": 5,
+      "unit": "vh",
+      "label": "Hero Height",
+      "default": 65
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "label": "Dark Overlay Opacity",
+      "default": 15
+    }
+  ],
+  "presets": [
+    {
+      "name": "FR Story Hero"
+    }
+  ]
+}
+{% endschema %}

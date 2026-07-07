@@ -1,0 +1,219 @@
+<section class="fr-feature-split" id="fr-feature-{{ section.id }}">
+  <div class="fr-feature-split__block fr-feature-split__block--{{ section.settings.image_position }}">
+
+    {%- if section.settings.image_position == 'right' -%}
+      <div class="fr-feature-split__content">
+        <h2 class="fr-feature-split__title">{{ section.settings.title }}</h2>
+        <p class="fr-feature-split__text">{{ section.settings.text }}</p>
+        {%- if section.settings.illustration != blank -%}
+          <img
+            src="{{ section.settings.illustration | image_url: width: 440 }}"
+            alt="{{ section.settings.illustration.alt | default: 'Illustration' }}"
+            class="fr-feature-split__illustration"
+            loading="lazy"
+          >
+        {%- endif -%}
+      </div>
+      <div class="fr-feature-split__image-wrapper fr-feature-split__image-wrapper--right">
+        {%- if section.settings.image != blank -%}
+          <img
+            src="{{ section.settings.image | image_url: width: 1200 }}"
+            alt="{{ section.settings.image.alt | default: section.settings.title }}"
+            class="fr-feature-split__image"
+            loading="lazy"
+          >
+        {%- endif -%}
+      </div>
+
+    {%- else -%}
+      <div class="fr-feature-split__image-wrapper fr-feature-split__image-wrapper--left">
+        {%- if section.settings.image != blank -%}
+          <img
+            src="{{ section.settings.image | image_url: width: 1200 }}"
+            alt="{{ section.settings.image.alt | default: section.settings.title }}"
+            class="fr-feature-split__image"
+            loading="lazy"
+          >
+        {%- endif -%}
+      </div>
+      <div class="fr-feature-split__content fr-feature-split__content--right">
+        <h2 class="fr-feature-split__title">{{ section.settings.title }}</h2>
+        <p class="fr-feature-split__text">{{ section.settings.text }}</p>
+        {%- if section.settings.illustration != blank -%}
+          <img
+            src="{{ section.settings.illustration | image_url: width: 440 }}"
+            alt="{{ section.settings.illustration.alt | default: 'Illustration' }}"
+            class="fr-feature-split__illustration"
+            loading="lazy"
+          >
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+<style>
+  #fr-feature-{{ section.id }} {
+    padding: 100px 40px;
+    width: 100%;
+    background-color: {{ section.settings.bg_color }};
+  }
+
+  @media (max-width: 768px) {
+    #fr-feature-{{ section.id }} {
+      padding: 60px 24px;
+    }
+  }
+
+  .fr-feature-split__block {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  @media (min-width: 768px) {
+    .fr-feature-split__block {
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: stretch;
+    }
+  }
+
+  .fr-feature-split__content {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+  }
+
+  .fr-feature-split__content--right {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .fr-feature-split__title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 32px;
+    font-weight: 400;
+    color: #1a1a1a;
+    margin-bottom: 40px;
+    line-height: 1.2;
+    text-align: left;
+  }
+
+  @media (max-width: 768px) {
+    .fr-feature-split__title {
+      font-size: 28px;
+      margin-bottom: 24px;
+    }
+  }
+
+  .fr-feature-split__text {
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 16px;
+    color: #4a4a4a;
+    line-height: 1.6;
+    margin-bottom: 50px;
+  }
+
+  @media (max-width: 768px) {
+    .fr-feature-split__text {
+      margin-bottom: 30px;
+    }
+  }
+
+  .fr-feature-split__illustration {
+    width: 220px;
+    height: auto;
+    align-self: center;
+    display: block;
+    margin-top: auto;
+    padding-top: 2rem;
+  }
+
+  .fr-feature-split__image-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+  }
+
+  @media (max-width: 768px) {
+    .fr-feature-split__image-wrapper {
+      aspect-ratio: 1 / 1;
+    }
+  }
+
+  .fr-feature-split__image-wrapper--right {
+    border-radius: 0 80px 0 80px;
+  }
+
+  .fr-feature-split__image-wrapper--left {
+    border-radius: 80px 0 80px 0;
+  }
+
+  .fr-feature-split__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "FR Feature Split",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image Position",
+      "options": [
+        { "value": "right", "label": "Right (Text Left)" },
+        { "value": "left", "label": "Left (Text Right)" }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Main Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "illustration",
+      "label": "Decorative Illustration (optional)"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Cultural Motifs, Modern Aesthetic"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Description Text",
+      "default": "Our collections blend timeless Indian art with contemporary design sensibilities ideal for today's sophisticated spaces."
+    }
+  ],
+  "presets": [
+    {
+      "name": "FR Feature Split",
+      "settings": {
+        "image_position": "right",
+        "title": "Cultural Motifs, Modern Aesthetic"
+      }
+    }
+  ]
+}
+{% endschema %}

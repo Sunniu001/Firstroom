@@ -1,0 +1,756 @@
+<!-- sections/fr-header.liquid -->
+<section class="fr-header-wrapper" id="fr-header-{{ section.id }}">
+  
+  {%- if section.settings.show_top_bar -%}
+    <!-- ── Top social bar ──────────────────────────────────── -->
+    <div class="fr-top-bar">
+      <div class="fr-top-bar__inner">
+        <div class="fr-top-bar__social">
+          {%- if section.settings.instagram_url != blank -%}
+            <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener noreferrer" class="fr-top-bar__link" aria-label="Instagram">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+              </svg>
+            </a>
+          {%- endif -%}
+          {%- if section.settings.pinterest_url != blank -%}
+            <a href="{{ section.settings.pinterest_url }}" target="_blank" rel="noopener noreferrer" class="fr-top-bar__link" aria-label="Pinterest">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z" />
+              </svg>
+            </a>
+          {%- endif -%}
+          {%- if section.settings.whatsapp_url != blank -%}
+            <a href="{{ section.settings.whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="fr-top-bar__link" aria-label="WhatsApp">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+              </svg>
+            </a>
+          {%- endif -%}
+          {%- if section.settings.phone_number != blank -%}
+            <span class="fr-top-bar__divider"></span>
+            <a href="tel:{{ section.settings.phone_link }}" class="fr-top-bar__phone">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02L6.62 10.79z" />
+              </svg>
+              <span>{{ section.settings.phone_number }}</span>
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <!-- ── Main nav bar ────────────────────────────────────── -->
+  <div class="fr-main-bar">
+    <div class="fr-header-container">
+      
+      <!-- Left: Logo -->
+      <div class="fr-header__left">
+        <a href="{{ routes.root_url }}" class="fr-header__logo-link">
+          {%- if section.settings.logo != blank -%}
+            <img 
+              src="{{ section.settings.logo | image_url: width: 500 }}" 
+              alt="{{ shop.name }}" 
+              class="fr-header__logo-img" 
+              style="max-width: {{ section.settings.logo_width }}px;"
+              width="{{ section.settings.logo.width }}"
+              height="{{ section.settings.logo.height }}"
+            >
+          {%- else -%}
+            <span class="fr-header__logo-text">{{ shop.name }}</span>
+          {%- endif -%}
+        </a>
+      </div>
+
+      <!-- Center: Desktop Navigation -->
+      <div class="fr-header__center">
+        <nav class="fr-header__nav" aria-label="Primary navigation">
+          {%- for link in linklists[section.settings.menu].links -%}
+            <div class="fr-header__nav-item">
+              <a href="{{ link.url }}" class="fr-header__nav-link">{{ link.title | upcase }}</a>
+              {%- if link.links != blank -%}
+                <div class="fr-header__dropdown">
+                  {%- for childlink in link.links -%}
+                    <a href="{{ childlink.url }}" class="fr-header__dropdown-item">{{ childlink.title }}</a>
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </nav>
+      </div>
+
+      <!-- Right: Utility Icons -->
+      <div class="fr-header__right">
+        <!-- Search -->
+        <a href="{{ routes.search_url }}" class="fr-header__icon-btn fr-search-toggle" aria-label="Search">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+        </a>
+
+        <!-- Wishlist -->
+        <a href="/pages/wishlist" class="fr-header__icon-btn" aria-label="Wishlist">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+          </svg>
+        </a>
+
+        <!-- Cart Bag -->
+        <a href="{{ routes.cart_url }}" class="fr-header__icon-btn fr-cart-toggle" aria-label="Cart" id="fr-cart-icon-bubble">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <path d="M16 10a4 4 0 0 1-8 0" />
+          </svg>
+          <span class="fr-header__badge" id="fr-cart-badge" style="{% if cart.item_count == 0 %}display:none;{% endif %}">
+            {{ cart.item_count }}
+          </span>
+        </a>
+
+        <!-- Account -->
+        {%- if shop.customer_accounts_enabled -%}
+          <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="fr-header__icon-btn" aria-label="Account">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </a>
+        {%- endif -%}
+
+        <!-- Hamburger (Mobile Only) -->
+        <button class="fr-header__mobile-toggle" aria-label="Toggle menu" id="fr-mobile-menu-trigger">
+          <div class="fr-hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Mobile Menu Slide-Out ──────────────────────────────── -->
+  <div class="fr-mobile-drawer" id="fr-mobile-nav-drawer">
+    <div class="fr-mobile-drawer__overlay" id="fr-mobile-nav-overlay"></div>
+    <div class="fr-mobile-drawer__content">
+      <div class="fr-mobile-drawer__header">
+        <button class="fr-mobile-drawer__close" id="fr-mobile-nav-close" aria-label="Close menu">&times;</button>
+      </div>
+      <nav class="fr-mobile-nav">
+        {%- for link in linklists[section.settings.menu].links -%}
+          {%- if link.links != blank -%}
+            <div class="fr-mobile-nav__accordion">
+              <div class="fr-mobile-nav__accordion-header">
+                <a href="{{ link.url }}">{{ link.title }}</a>
+                <button class="fr-mobile-nav__accordion-toggle">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+              </div>
+              <div class="fr-mobile-nav__accordion-content">
+                {%- for childlink in link.links -%}
+                  <a href="{{ childlink.url }}" class="fr-mobile-nav__sublink">{{ childlink.title }}</a>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- else -%}
+            <a href="{{ link.url }}" class="fr-mobile-nav__link">{{ link.title }}</a>
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if shop.customer_accounts_enabled -%}
+          <div class="fr-mobile-nav__account">
+            {%- if customer -%}
+              <a href="{{ routes.account_url }}" class="fr-mobile-nav__link">Account</a>
+              <a href="{{ routes.account_logout_url }}" class="fr-mobile-nav__link fr-mobile-nav__link--logout">Log out</a>
+            {%- else -%}
+              <a href="{{ routes.account_login_url }}" class="fr-mobile-nav__link">Log in</a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </nav>
+    </div>
+  </div>
+
+</section>
+
+<!-- Styles -->
+<style>
+  .fr-header-wrapper {
+    position: relative;
+    width: 100%;
+    z-index: 1000;
+    background-color: #ffffff;
+    font-family: 'Lato', system-ui, sans-serif;
+  }
+
+  .fr-header-wrapper.sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  /* ── Top Bar ── */
+  .fr-top-bar {
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #ebebeb;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  .fr-top-bar__inner {
+    width: 100%;
+    padding: 0 40px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  @media (max-width: 900px) {
+    .fr-top-bar__inner {
+      padding: 0 16px;
+    }
+  }
+
+  .fr-top-bar__social {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .fr-top-bar__link {
+    display: flex;
+    align-items: center;
+    color: #444;
+    transition: color 0.2s ease;
+  }
+
+  .fr-top-bar__link:hover {
+    color: #000;
+  }
+
+  .fr-top-bar__divider {
+    width: 1px;
+    height: 14px;
+    background-color: #ccc;
+    display: inline-block;
+    margin: 0 0.25rem;
+  }
+
+  .fr-top-bar__phone {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: #333;
+    font-size: 0.75rem;
+    font-weight: 400;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .fr-top-bar__phone:hover {
+    color: #000;
+  }
+
+  /* ── Main Nav Bar ── */
+  .fr-main-bar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e8e8e8;
+    width: 100%;
+  }
+
+  .fr-header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+    padding: 0 40px;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    .fr-header-container {
+      height: 60px;
+      padding: 0 16px;
+    }
+  }
+
+  .fr-header__left {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .fr-header__logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .fr-header__logo-img {
+    display: block;
+    height: auto;
+    max-height: 56px;
+    object-fit: contain;
+  }
+
+  @media (max-width: 900px) {
+    .fr-header__logo-img {
+      max-height: 44px;
+    }
+  }
+
+  .fr-header__logo-text {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .fr-header__center {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+  }
+
+  @media (max-width: 900px) {
+    .fr-header__center {
+      display: none;
+    }
+  }
+
+  .fr-header__nav {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .fr-header__nav-item {
+    position: relative;
+  }
+
+  .fr-header__nav-link {
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    text-decoration: none;
+    padding: 24px 0;
+    display: block;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+  }
+
+  .fr-header__nav-link:hover {
+    color: #B53939;
+  }
+
+  .fr-header__dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #ffffff;
+    border: 1px solid #e8e8e8;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
+    min-width: 200px;
+    display: none;
+    flex-direction: column;
+    padding: 0.5rem 0;
+    z-index: 200;
+  }
+
+  .fr-header__nav-item:hover .fr-header__dropdown {
+    display: flex;
+  }
+
+  .fr-header__dropdown-item {
+    padding: 0.65rem 1.25rem;
+    font-size: 0.82rem;
+    font-weight: 400;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .fr-header__dropdown-item:hover {
+    background-color: #f8f8f8;
+    color: #B53939;
+  }
+
+  .fr-header__right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1.1rem;
+  }
+
+  .fr-header__icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1a1a1a;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    transition: color 0.2s ease;
+    text-decoration: none;
+    position: relative;
+  }
+
+  .fr-header__icon-btn:hover {
+    color: #555;
+  }
+
+  .fr-header__badge {
+    position: absolute;
+    top: -6px;
+    right: -7px;
+    background-color: #B53939;
+    color: #ffffff;
+    font-size: 0.6rem;
+    font-weight: 700;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2px;
+  }
+
+  /* ── Mobile menu hamburger ── */
+  .fr-header__mobile-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+  }
+
+  @media (max-width: 900px) {
+    .fr-header__mobile-toggle {
+      display: flex;
+    }
+  }
+
+  .fr-hamburger {
+    width: 24px;
+    height: 16px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .fr-hamburger span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background-color: #1a1a1a;
+    border-radius: 2px;
+  }
+
+  /* ── Mobile Drawer ── */
+  .fr-mobile-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .fr-mobile-drawer.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .fr-mobile-drawer__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+  }
+
+  .fr-mobile-drawer__content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 85%;
+    max-width: 340px;
+    background: #ffffff;
+    box-shadow: -4px 0 20px rgba(0,0,0,0.15);
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    overflow-y: auto;
+  }
+
+  .fr-mobile-drawer.active .fr-mobile-drawer__content {
+    transform: translateX(0);
+  }
+
+  .fr-mobile-drawer__header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+  }
+
+  .fr-mobile-drawer__close {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+    color: #333;
+  }
+
+  .fr-mobile-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .fr-mobile-nav__link {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #1a1a1a;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .fr-mobile-nav__accordion {
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 8px;
+  }
+
+  .fr-mobile-nav__accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .fr-mobile-nav__accordion-header a {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #1a1a1a;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .fr-mobile-nav__accordion-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    color: #666;
+    transition: transform 0.25s;
+  }
+
+  .fr-mobile-nav__accordion-toggle.active {
+    transform: rotate(180deg);
+  }
+
+  .fr-mobile-nav__accordion-content {
+    display: none;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 10px 0 10px 15px;
+  }
+
+  .fr-mobile-nav__accordion-content.active {
+    display: flex;
+  }
+
+  .fr-mobile-nav__sublink {
+    font-size: 0.88rem;
+    color: #555;
+    text-decoration: none;
+  }
+
+  .fr-mobile-nav__account {
+    margin-top: 2rem;
+    border-top: 1px dashed #ddd;
+    padding-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .fr-mobile-nav__link--logout {
+    color: #B53939;
+  }
+</style>
+
+<!-- Scripts -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const headerWrapper = document.getElementById('fr-header-{{ section.id }}');
+    if (!headerWrapper) return;
+
+    // Sticky Scroll Action
+    {%- if section.settings.sticky_header -%}
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 40) {
+          headerWrapper.classList.add('sticky');
+        } else {
+          headerWrapper.classList.remove('sticky');
+        }
+      });
+    {%- endif -%}
+
+    // Mobile Drawer Drawer Triggering
+    const drawer = document.getElementById('fr-mobile-nav-drawer');
+    const trigger = document.getElementById('fr-mobile-menu-trigger');
+    const closeBtn = document.getElementById('fr-mobile-nav-close');
+    const overlay = document.getElementById('fr-mobile-nav-overlay');
+
+    if (drawer && trigger) {
+      trigger.addEventListener('click', () => drawer.classList.add('active'));
+    }
+    if (drawer && closeBtn) {
+      closeBtn.addEventListener('click', () => drawer.classList.remove('active'));
+    }
+    if (drawer && overlay) {
+      overlay.addEventListener('click', () => drawer.classList.remove('active'));
+    }
+
+    // Accordion Toggle
+    const accordions = headerWrapper.querySelectorAll('.fr-mobile-nav__accordion');
+    accordions.forEach(acc => {
+      const toggle = acc.querySelector('.fr-mobile-nav__accordion-toggle');
+      const content = acc.querySelector('.fr-mobile-nav__accordion-content');
+      if (toggle && content) {
+        toggle.addEventListener('click', function() {
+          toggle.classList.toggle('active');
+          content.classList.toggle('active');
+        });
+      }
+    });
+
+    // Sync Cart Badge
+    function syncCartCount() {
+      fetch('/cart.js')
+        .then(res => res.json())
+        .then(cart => {
+          const badge = document.getElementById('fr-cart-badge');
+          if (badge) {
+            badge.textContent = cart.item_count;
+            if (cart.item_count > 0) {
+              badge.style.display = 'flex';
+            } else {
+              badge.style.display = 'none';
+            }
+          }
+        })
+        .catch(err => console.error('Error syncing cart:', err));
+    }
+
+    // Listen to standard theme cart updates
+    document.addEventListener('cart:updated', syncCartCount);
+    document.addEventListener('cart:change', syncCartCount);
+    
+    // Initial sync
+    syncCartCount();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "FR Custom Header",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Announcement Bar Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_top_bar",
+      "label": "Show Top Announcement Bar",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "instagram_url",
+      "label": "Instagram Profile Link",
+      "default": "https://www.instagram.com/firstroom.in"
+    },
+    {
+      "type": "text",
+      "id": "pinterest_url",
+      "label": "Pinterest Profile Link",
+      "default": "https://www.pinterest.com/firstroom0001/"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_url",
+      "label": "WhatsApp Link",
+      "default": "https://api.whatsapp.com/send/?phone=%2B919650706644&text&type=phone_number&app_absent=0"
+    },
+    {
+      "type": "text",
+      "id": "phone_number",
+      "label": "Phone Number Display",
+      "default": "093108 45706"
+    },
+    {
+      "type": "text",
+      "id": "phone_link",
+      "label": "Phone Tel Link Link",
+      "default": "+919310845706"
+    },
+    {
+      "type": "header",
+      "content": "Main Header Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo Image"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Logo Max Width",
+      "min": 50,
+      "max": 300,
+      "step": 5,
+      "unit": "px",
+      "default": 180
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu Selection",
+      "default": "main-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky_header",
+      "label": "Make Header Sticky on Scroll",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,1224 @@
+<section class="fr-account" id="fr-account-{{ section.id }}">
+  {%- if customer -%}
+    <script>
+      // Redirect to custom designed /pages/my-account page only if not already on it
+      if (window.location.pathname !== '/pages/my-account') {
+        window.location.replace('/pages/my-account' + window.location.hash);
+      }
+    </script>
+    <div class="fr-account__container">
+      
+      <!-- Left Column: Sidebar -->
+      <aside class="fr-account__sidebar">
+        <div class="fr-account__user-info">
+          <h2 class="fr-account__user-name">
+            {{ customer.first_name | default: 'Account' }} {{ customer.last_name }}
+          </h2>
+          <p class="fr-account__user-email">{{ customer.email }}</p>
+        </div>
+
+        <nav class="fr-account__nav">
+          <button type="button" class="fr-account__nav-btn fr-account-nav-btn" data-tab="profile">
+            Account info
+          </button>
+          <button type="button" class="fr-account__nav-btn fr-account-nav-btn active" data-tab="orders">
+            My order
+          </button>
+          <button type="button" class="fr-account__nav-btn fr-account-nav-btn" data-tab="addresses">
+            My address
+          </button>
+          <button type="button" class="fr-account__nav-btn fr-account-nav-btn" data-tab="password">
+            Change password
+          </button>
+          <a href="{{ routes.account_logout_url }}" class="fr-account__nav-link fr-account__nav-link--logout">
+            Log Out
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Right Column: Content Panel -->
+      <main class="fr-account__content">
+        
+        <!-- Tab 1: Account Info -->
+        <div class="fr-account__panel fr-account-panel" data-panel="profile">
+          <h3 class="fr-account__panel-title">Account Info</h3>
+          
+          {%- if customer.default_address -%}
+            {%- form 'customer_address', customer.default_address, class: 'fr-account__form' -%}
+              <div class="fr-account__form-grid">
+                <div class="fr-account__field">
+                  <label for="profile-first-name">First Name <span class="required">*</span></label>
+                  <input type="text" id="profile-first-name" name="address[first_name]" value="{{ customer.first_name }}" placeholder="First name" required>
+                </div>
+                <div class="fr-account__field">
+                  <label for="profile-last-name">Last Name <span class="required">*</span></label>
+                  <input type="text" id="profile-last-name" name="address[last_name]" value="{{ customer.last_name }}" placeholder="Last name" required>
+                </div>
+              </div>
+
+              <div class="fr-account__field">
+                <label for="profile-email">Email Address <span class="required">*</span></label>
+                <input type="email" id="profile-email" value="{{ customer.email }}" placeholder="Email address" disabled class="disabled-field">
+                <small class="field-hint">Email address cannot be changed. Please contact support if you need to update it.</small>
+              </div>
+
+              <div class="fr-account__field">
+                <label for="profile-phone">Phone Number <span class="optional">(Optional)</span></label>
+                <input type="tel" id="profile-phone" name="address[phone]" value="{{ customer.phone | default: customer.default_address.phone }}" placeholder="+91 XXXXXXXXXX">
+              </div>
+
+              <button type="submit" class="fr-account__btn-primary">SAVE CHANGES</button>
+            {%- endform -%}
+          {%- else -%}
+            {%- form 'customer_address', customer.new_address, class: 'fr-account__form' -%}
+              <input type="hidden" name="address[default]" value="true">
+              <div class="fr-account__form-grid">
+                <div class="fr-account__field">
+                  <label for="profile-first-name-new">First Name <span class="required">*</span></label>
+                  <input type="text" id="profile-first-name-new" name="address[first_name]" value="{{ customer.first_name }}" placeholder="First name" required>
+                </div>
+                <div class="fr-account__field">
+                  <label for="profile-last-name-new">Last Name <span class="required">*</span></label>
+                  <input type="text" id="profile-last-name-new" name="address[last_name]" value="{{ customer.last_name }}" placeholder="Last name" required>
+                </div>
+              </div>
+
+              <div class="fr-account__field">
+                <label for="profile-email-new">Email Address <span class="required">*</span></label>
+                <input type="email" id="profile-email-new" value="{{ customer.email }}" placeholder="Email address" disabled class="disabled-field">
+                <small class="field-hint">Email address cannot be changed. Please contact support if you need to update it.</small>
+              </div>
+
+              <div class="fr-account__field">
+                <label for="profile-phone-new">Phone Number <span class="optional">(Optional)</span></label>
+                <input type="tel" id="profile-phone-new" name="address[phone]" value="{{ customer.phone }}" placeholder="+91 XXXXXXXXXX">
+              </div>
+
+              <button type="submit" class="fr-account__btn-primary">SAVE CHANGES</button>
+            {%- endform -%}
+          {%- endif -%}
+        </div>
+
+        <!-- Tab 2: My Order -->
+        <div class="fr-account__panel fr-account-panel active" data-panel="orders">
+          <h3 class="fr-account__panel-title">My Orders</h3>
+          
+          <!-- Orders Table Container -->
+          <div class="fr-account__table-container">
+            
+            <table class="fr-account__table" data-order-table="all">
+              <thead>
+                <tr>
+                  <th>PRODUCTS</th>
+                  <th class="text-center">SIZE IN SQ FEET</th>
+                  <th class="text-center">PRICE</th>
+                  <th class="text-center">STATUS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%- assign orders_exist = false -%}
+                {%- for order in customer.orders -%}
+                  {%- for line_item in order.line_items -%}
+                    {%- assign orders_exist = true -%}
+                    
+                    <!-- Check if wallpaper -->
+                    {%- assign is_wallpaper = false -%}
+                    {%- for property in line_item.properties -%}
+                      {%- if property.first == 'Area (sq.ft)' or property.first == 'Height (ft)' or property.first == 'Width (ft)' or property.first == 'Area' -%}
+                        {%- assign is_wallpaper = true -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                    {%- assign product_title_downcase = line_item.product.title | downcase -%}
+                    {%- if line_item.product.tags contains 'wallpaper' or line_item.variant.sku contains 'FMWPAR' or product_title_downcase contains 'wallpaper' -%}
+                      {%- assign is_wallpaper = true -%}
+                    {%- endif -%}
+
+                    <tr>
+                      <td class="fr-account__product-cell">
+                        <div class="fr-account__product-info">
+                          <div class="fr-account__product-img">
+                            {%- if line_item.image != blank -%}
+                              <img src="{{ line_item.image | image_url: width: 120 }}" alt="{{ line_item.title | escape }}" loading="lazy">
+                            {%- else -%}
+                              {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                            {%- endif -%}
+                          </div>
+                          <div class="fr-account__product-meta">
+                            <span class="fr-account__product-title">{{ line_item.product.title | default: line_item.title }}</span>
+                            <span class="fr-account__order-date">{{ order.created_at | date: "%d %b %Y" }}</span>
+                            <div class="fr-account__line-properties">
+                              {%- if is_wallpaper -%}
+                                {%- for property in line_item.properties -%}
+                                  {%- assign prop_first = property.first | downcase -%}
+                                  {%- unless property.last == blank or prop_first == 'area' or prop_first == 'area (sq.ft)' -%}
+                                    <span>
+                                      {%- if prop_first contains 'height' -%}
+                                        Height: {{ property.last }}
+                                      {%- elsif prop_first contains 'width' -%}
+                                        Width: {{ property.last }}
+                                      {%- elsif prop_first contains 'material' -%}
+                                        Material: {{ property.last }}
+                                      {%- else -%}
+                                        {{ property.first }}: {{ property.last }}
+                                      {%- endif -%}
+                                    </span>
+                                  {%- endunless -%}
+                                {%- endfor -%}
+                              {%- else -%}
+                                {%- for option in line_item.options_with_values -%}
+                                  <span>{{ option.name }}: {{ option.value }}</span>
+                                {%- endfor -%}
+                                {%- for property in line_item.properties -%}
+                                  {%- unless property.last == blank or property.first.first == '_' -%}
+                                    <span>{{ property.first }}: {{ property.last }}</span>
+                                  {%- endunless -%}
+                                {%- endfor -%}
+                              {%- endif -%}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="text-center">
+                        {%- if is_wallpaper -%}
+                          {%- if line_item.properties['Area (sq.ft)'] != blank -%}
+                            {{ line_item.properties['Area (sq.ft)'] }}
+                          {%- elsif line_item.properties['Area'] != blank -%}
+                            {{ line_item.properties['Area'] }}
+                          {%- else -%}
+                            {{ line_item.quantity }}.00
+                          {%- endif -%}
+                        {%- else -%}
+                          -
+                        {%- endif -%}
+                      </td>
+                      <td class="text-center font-medium">
+                        {{ line_item.final_line_price | money_without_trailing_zeros }}
+                      </td>
+                      <td class="text-center">
+                        <div class="fr-account__status-col">
+                          {%- if order.fulfillment_status == 'fulfilled' -%}
+                            <span class="status-badge status-delivered">DELIVERED</span>
+                          {%- else -%}
+                            <span class="status-badge status-pending">PENDING</span>
+                          {%- endif -%}
+                          <a href="{{ order.customer_url }}" class="fr-account__details-link">VIEW DETAILS</a>
+                        </div>
+                      </td>
+                    </tr>
+
+                  {%- endfor -%}
+                {%- endfor -%}
+
+                {%- if orders_exist == false -%}
+                  <tr>
+                    <td colspan="4" class="text-center fr-account__empty-table">
+                      No orders found.
+                    </td>
+                  </tr>
+                {%- endif -%}
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+
+        <!-- Tab 3: My Address (Merged Tab) -->
+        <div class="fr-account__panel fr-account-panel" data-panel="addresses">
+          <h3 class="fr-account__panel-title">My Address</h3>
+          
+          <div class="fr-addresses__action-bar">
+            <button type="button" class="fr-account__btn-primary" id="toggle-add-address-btn">
+              ADD NEW ADDRESS
+            </button>
+          </div>
+
+          <!-- Add Address Form -->
+          <div class="fr-addresses__form-panel hide" id="add-address-panel">
+            <h4 class="fr-addresses__sub-title">Add New Address</h4>
+            
+            {%- form 'customer_address', customer.new_address, class: 'fr-account__form' -%}
+              <input type="hidden" name="address[country]" value="India">
+              
+              <div class="fr-account__form-grid">
+                <div class="fr-account__field">
+                  <label for="AddressFirstNameNew">First Name <span class="required">*</span></label>
+                  <input type="text" id="AddressFirstNameNew" name="address[first_name]" placeholder="First name" required>
+                </div>
+                <div class="fr-account__field">
+                  <label for="AddressLastNameNew">Last Name <span class="required">*</span></label>
+                  <input type="text" id="AddressLastNameNew" name="address[last_name]" placeholder="Last name" required>
+                </div>
+              </div>
+
+              <div class="fr-account__form-grid">
+                <div class="fr-account__field">
+                  <label for="AddressEmailNew">Email <span class="required">*</span></label>
+                  <input type="email" id="AddressEmailNew" value="{{ customer.email }}" disabled class="disabled-field">
+                </div>
+                <div class="fr-account__field">
+                  <label for="AddressPhoneNew">Phone Number <span class="required">*</span></label>
+                  <input type="tel" id="AddressPhoneNew" name="address[phone]" placeholder="+91 XXXXXXXXXX" required>
+                </div>
+              </div>
+
+              <div class="fr-account__field">
+                <label for="AddressAddress1New">Address <span class="required">*</span></label>
+                <input type="text" id="AddressAddress1New" name="address[address1]" placeholder="Street address, Apartment, Suite, etc." required>
+              </div>
+
+              <div class="fr-account__form-grid">
+                <div class="fr-account__field">
+                  <label for="AddressCityNew">City <span class="required">*</span></label>
+                  <input type="text" id="AddressCityNew" name="address[city]" placeholder="City" required>
+                </div>
+                <div class="fr-account__field">
+                  <label for="AddressProvinceNew">State <span class="required">*</span></label>
+                  <select id="AddressProvinceNew" name="address[province]" required>
+                    <option value="" disabled selected>Select State</option>
+                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                    <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                    <option value="Assam">Assam</option>
+                    <option value="Bihar">Bihar</option>
+                    <option value="Chhattisgarh">Chhattisgarh</option>
+                    <option value="Goa">Goa</option>
+                    <option value="Gujarat">Gujarat</option>
+                    <option value="Haryana">Haryana</option>
+                    <option value="Himachal Pradesh">Himachal Pradesh</option>
+                    <option value="Jharkhand">Jharkhand</option>
+                    <option value="Karnataka">Karnataka</option>
+                    <option value="Kerala">Kerala</option>
+                    <option value="Madhya Pradesh">Madhya Pradesh</option>
+                    <option value="Maharashtra">Maharashtra</option>
+                    <option value="Manipur">Manipur</option>
+                    <option value="Meghalaya">Meghalaya</option>
+                    <option value="Mizoram">Mizoram</option>
+                    <option value="Nagaland">Nagaland</option>
+                    <option value="Odisha">Odisha</option>
+                    <option value="Punjab">Punjab</option>
+                    <option value="Rajasthan">Rajasthan</option>
+                    <option value="Sikkim">Sikkim</option>
+                    <option value="Tamil Nadu">Tamil Nadu</option>
+                    <option value="Telangana">Telangana</option>
+                    <option value="Tripura">Tripura</option>
+                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                    <option value="Uttarakhand">Uttarakhand</option>
+                    <option value="West Bengal">West Bengal</option>
+                    <option value="Delhi">Delhi</option>
+                  </select>
+                </div>
+                <div class="fr-account__field">
+                  <label for="AddressZipNew">Pincode <span class="required">*</span></label>
+                  <input type="text" id="AddressZipNew" name="address[zip]" placeholder="Pincode" required>
+                </div>
+              </div>
+
+              <div class="fr-addresses__checkbox-field">
+                <input type="checkbox" id="address_default_address_new" name="address[default]" value="1">
+                <label for="address_default_address_new">Set as default address</label>
+              </div>
+
+              <div class="fr-addresses__form-buttons">
+                <button type="submit" class="fr-account__btn-primary">SAVE ADDRESS</button>
+                <button type="button" class="fr-account__btn-secondary cancel-add-btn">CANCEL</button>
+              </div>
+            {%- endform -%}
+          </div>
+
+          <!-- Existing Address List Grid -->
+          <div class="fr-addresses__list" id="address-list-container">
+            {%- if customer.addresses.size > 0 -%}
+              <div class="fr-addresses__grid">
+                {%- for address in customer.addresses -%}
+                  <div class="fr-addresses__card {% if address == customer.default_address %}default-card{% endif %}">
+                    <div class="fr-addresses__card-header">
+                      <h4 class="fr-addresses__card-name">
+                        {{ address.first_name }} {{ address.last_name }}
+                        {%- if address == customer.default_address -%}
+                          <span class="default-badge">DEFAULT</span>
+                        {%- endif -%}
+                      </h4>
+                    </div>
+
+                    <div class="fr-addresses__card-body">
+                      <p class="fr-addresses__card-text">
+                        {{ address.address1 }}<br>
+                        {%- if address.address2 != blank -%}{{ address.address2 }}<br>{%- endif -%}
+                        {{ address.city }}, {{ address.province }} - {{ address.zip }}<br>
+                        India
+                      </p>
+                      {%- if address.phone != blank -%}
+                        <p class="fr-addresses__card-phone">
+                          <strong>Phone:</strong> {{ address.phone }}
+                        </p>
+                      {%- endif -%}
+                    </div>
+
+                    <div class="fr-addresses__card-actions">
+                      <button type="button" class="fr-addresses__edit-btn" data-edit-address-id="{{ address.id }}">Edit</button>
+                      <form class="fr-addresses__delete-form" method="post" action="/account/addresses/{{ address.id }}" onsubmit="return confirm('Are you sure you want to delete this address?');">
+                        <input type="hidden" name="_method" value="delete">
+                        <button type="submit" class="fr-addresses__delete-btn">Delete</button>
+                      </form>
+                    </div>
+
+                    <!-- Edit Form Panel (Inline per Address) -->
+                    <div class="fr-addresses__edit-form-panel hide" id="edit-address-panel-{{ address.id }}">
+                      <h4 class="fr-addresses__sub-title text-left">Edit Address</h4>
+                      {%- form 'customer_address', address, class: 'fr-account__form' -%}
+                        <input type="hidden" name="address[country]" value="India">
+                        
+                        <div class="fr-account__form-grid">
+                          <div class="fr-account__field">
+                            <label for="AddressFirstName_{{ address.id }}">First Name <span class="required">*</span></label>
+                            <input type="text" id="AddressFirstName_{{ address.id }}" name="address[first_name]" value="{{ form.first_name }}" required>
+                          </div>
+                          <div class="fr-account__field">
+                            <label for="AddressLastName_{{ address.id }}">Last Name <span class="required">*</span></label>
+                            <input type="text" id="AddressLastName_{{ address.id }}" name="address[last_name]" value="{{ form.last_name }}" required>
+                          </div>
+                        </div>
+
+                        <div class="fr-account__form-grid">
+                          <div class="fr-account__field">
+                            <label for="AddressEmail_{{ address.id }}">Email <span class="required">*</span></label>
+                            <input type="email" id="AddressEmail_{{ address.id }}" value="{{ customer.email }}" disabled class="disabled-field">
+                          </div>
+                          <div class="fr-account__field">
+                            <label for="AddressPhone_{{ address.id }}">Phone Number <span class="required">*</span></label>
+                            <input type="tel" id="AddressPhone_{{ address.id }}" name="address[phone]" value="{{ form.phone }}" required>
+                          </div>
+                        </div>
+
+                        <div class="fr-account__field">
+                          <label for="AddressAddress1_{{ address.id }}">Address <span class="required">*</span></label>
+                          <input type="text" id="AddressAddress1_{{ address.id }}" name="address[address1]" value="{{ form.address1 }}" required>
+                        </div>
+
+                        <div class="fr-account__form-grid">
+                          <div class="fr-account__field">
+                            <label for="AddressCity_{{ address.id }}">City <span class="required">*</span></label>
+                            <input type="text" id="AddressCity_{{ address.id }}" name="address[city]" value="{{ form.city }}" required>
+                          </div>
+                          <div class="fr-account__field">
+                            <label for="AddressProvince_{{ address.id }}">State <span class="required">*</span></label>
+                            <select id="AddressProvince_{{ address.id }}" name="address[province]" required>
+                              <option value="{{ form.province }}" selected>{{ form.province }}</option>
+                              <option value="Andhra Pradesh">Andhra Pradesh</option>
+                              <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                              <option value="Assam">Assam</option>
+                              <option value="Bihar">Bihar</option>
+                              <option value="Chhattisgarh">Chhattisgarh</option>
+                              <option value="Goa">Goa</option>
+                              <option value="Gujarat">Gujarat</option>
+                              <option value="Haryana">Haryana</option>
+                              <option value="Himachal Pradesh">Himachal Pradesh</option>
+                              <option value="Jharkhand">Jharkhand</option>
+                              <option value="Karnataka">Karnataka</option>
+                              <option value="Kerala">Kerala</option>
+                              <option value="Madhya Pradesh">Madhya Pradesh</option>
+                              <option value="Maharashtra">Maharashtra</option>
+                              <option value="Manipur">Manipur</option>
+                              <option value="Meghalaya">Meghalaya</option>
+                              <option value="Mizoram">Mizoram</option>
+                              <option value="Nagaland">Nagaland</option>
+                              <option value="Odisha">Odisha</option>
+                              <option value="Punjab">Punjab</option>
+                              <option value="Rajasthan">Rajasthan</option>
+                              <option value="Sikkim">Sikkim</option>
+                              <option value="Tamil Nadu">Tamil Nadu</option>
+                              <option value="Telangana">Telangana</option>
+                              <option value="Tripura">Tripura</option>
+                              <option value="Uttar Pradesh">Uttar Pradesh</option>
+                              <option value="Uttarakhand">Uttarakhand</option>
+                              <option value="West Bengal">West Bengal</option>
+                              <option value="Delhi">Delhi</option>
+                            </select>
+                          </div>
+                          <div class="fr-account__field">
+                            <label for="AddressZip_{{ address.id }}">Pincode <span class="required">*</span></label>
+                            <input type="text" id="AddressZip_{{ address.id }}" name="address[zip]" value="{{ form.zip }}" required>
+                          </div>
+                        </div>
+
+                        <div class="fr-addresses__checkbox-field">
+                          {{ form.set_as_default_checkbox }}
+                          <label for="address_default_address_{{ address.id }}">Set as default address</label>
+                        </div>
+
+                        <div class="fr-addresses__form-buttons">
+                          <button type="submit" class="fr-account__btn-primary">UPDATE ADDRESS</button>
+                          <button type="button" class="fr-account__btn-secondary cancel-edit-btn" data-cancel-address-id="{{ address.id }}">CANCEL</button>
+                        </div>
+                      {%- endform -%}
+                    </div>
+                  </div>
+                {%- endfor -%}
+              </div>
+            {%- else -%}
+              <div class="fr-addresses__empty">
+                <p>No addresses found. Add an address to use during checkout.</p>
+              </div>
+            {%- endif -%}
+          </div>
+
+        </div>
+
+        <!-- Tab 4: Change Password -->
+        <div class="fr-account__panel fr-account-panel" data-panel="password">
+          <h3 class="fr-account__panel-title">Change Password</h3>
+          <p class="fr-account__password-desc">
+            For security reasons, password updates are completed via a secure recovery process. 
+            Click the button below to request a password reset email linked to your account.
+          </p>
+
+          {%- form 'recover_customer_password', class: 'fr-account__password-form' -%}
+            <input type="hidden" name="email" value="{{ customer.email }}">
+            
+            {%- if form.posted_successfully? -%}
+              <div class="fr-account__message success">
+                A password reset link has been successfully sent to your email address ({{ customer.email }}).
+              </div>
+            {%- endif -%}
+
+            {%- if form.errors -%}
+              <div class="fr-account__message error">
+                {{ form.errors | default_errors }}
+              </div>
+            {%- endif -%}
+
+            <button type="submit" class="fr-account__btn-primary">SEND PASSWORD RESET LINK</button>
+          {%- endform -%}
+        </div>
+
+      </main>
+
+    </div>
+  {%- else -%}
+    <!-- Non-logged in users redirect helper -->
+    <script>
+      window.location.href = "/customer_authentication/login?return_to=" + encodeURIComponent(window.location.pathname);
+    </script>
+    <div class="fr-account__loading" style="padding: 120px 24px; text-align: center;">
+      <h3 style="font-family: 'Playfair Display', Georgia, serif; font-size: 1.5rem; margin-bottom: 16px;">Redirecting you to login...</h3>
+      <p style="font-size: 0.9rem; color: #666; margin-bottom: 24px;">Please wait while we establish a secure connection.</p>
+      <a href="/customer_authentication/login?return_to={{ request.path | url_encode }}" class="fr-account__btn-primary" style="display: inline-flex; align-items: center; justify-content: center; text-decoration: none;">
+        CLICK HERE IF NOT REDIRECTED
+      </a>
+    </div>
+  {%- endif -%}
+</section>
+
+<style>
+  .fr-account {
+    font-family: 'Lato', system-ui, sans-serif;
+    color: #1a1a1a;
+    background-color: #ffffff;
+    padding: 60px 0 100px 0;
+  }
+
+  .fr-account__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  @media (min-width: 768px) {
+    .fr-account__container {
+      grid-template-columns: 260px 1fr;
+      gap: 60px;
+    }
+  }
+
+  /* ── Sidebar Styling ── */
+  .fr-account__sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .fr-account__user-info {
+    border-bottom: 1px solid #ebebeb;
+    padding-bottom: 20px;
+  }
+
+  .fr-account__user-name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin: 0 0 6px 0;
+    color: #000;
+  }
+
+  .fr-account__user-email {
+    font-size: 0.88rem;
+    color: #666;
+    margin: 0;
+  }
+
+  .fr-account__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .fr-account__nav-btn,
+  .fr-account__nav-link {
+    display: block;
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: left;
+    color: #4a4a4a;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: 2px;
+    text-decoration: none;
+    font-family: 'Lato', system-ui, sans-serif;
+    transition: all 0.2s ease;
+  }
+
+  .fr-account__nav-btn:hover,
+  .fr-account__nav-link:hover {
+    background-color: #f7f7f7;
+    color: #000;
+  }
+
+  .fr-account__nav-btn.active {
+    background-color: #1a1a1a;
+    color: #ffffff;
+  }
+
+  .fr-account__nav-link--logout {
+    margin-top: 10px;
+    color: #999;
+  }
+
+  .fr-account__nav-link--logout:hover {
+    color: #666;
+  }
+
+  /* ── Content Panel Styling ── */
+  .fr-account__content {
+    background-color: #ffffff;
+    min-height: 400px;
+  }
+
+  .fr-account__panel {
+    display: none;
+  }
+
+  .fr-account__panel.active {
+    display: block;
+  }
+
+  .fr-account__panel-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.75rem;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 30px;
+  }
+
+  /* ── Profile/Account Form ── */
+  .fr-account__form {
+    max-width: 700px;
+  }
+
+  .fr-account__form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  @media (min-width: 576px) {
+    .fr-account__form-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .fr-account__field {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .fr-account__field label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #1a1a1a;
+  }
+
+  .fr-account__field label span.required {
+    color: #B53939;
+  }
+
+  .fr-account__field label span.optional {
+    color: #888;
+    font-weight: 400;
+  }
+
+  .fr-account__field input,
+  .fr-account__field select {
+    width: 100%;
+    height: 48px;
+    border: 1px solid #ddd;
+    padding: 0 16px;
+    font-size: 0.92rem;
+    font-family: 'Lato', system-ui, sans-serif;
+    color: #1a1a1a;
+    border-radius: 2px;
+    background-color: #ffffff;
+    transition: border-color 0.25s ease;
+  }
+
+  .fr-account__field input:focus,
+  .fr-account__field select:focus {
+    outline: none;
+    border-color: #1a1a1a;
+  }
+
+  .fr-account__field input.disabled-field {
+    background-color: #f7f7f7;
+    color: #777;
+    border-color: #ddd;
+    cursor: not-allowed;
+  }
+
+  .fr-account__field .field-hint {
+    font-size: 0.78rem;
+    color: #888;
+    line-height: 1.4;
+  }
+
+  .fr-account__btn-primary {
+    height: 48px;
+    padding: 0 32px;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    border: 1px solid #1a1a1a;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.25s ease;
+    margin-top: 10px;
+    font-family: 'Lato', system-ui, sans-serif;
+  }
+
+  .fr-account__btn-primary:hover {
+    background-color: #ffffff;
+    color: #1a1a1a;
+  }
+
+  /* ── My Order Table and Tabs ── */
+  .fr-account__orders-tabs {
+    display: flex;
+    border-bottom: 1px solid #ebebeb;
+    gap: 30px;
+    margin-bottom: 24px;
+  }
+
+  .fr-account__orders-tab-btn {
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #888;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 12px 0;
+    cursor: pointer;
+    font-family: 'Lato', system-ui, sans-serif;
+    transition: all 0.2s ease;
+  }
+
+  .fr-account__orders-tab-btn:hover {
+    color: #000;
+  }
+
+  .fr-account__orders-tab-btn.active {
+    color: #000;
+    border-bottom-color: #1a1a1a;
+  }
+
+  .fr-account__table-container {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .fr-account__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    min-width: 700px;
+  }
+
+  .fr-account__table.hide {
+    display: none;
+  }
+
+  .fr-account__table th {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: #888;
+    padding: 12px 16px;
+    border-bottom: 1px solid #ebebeb;
+    text-align: left;
+    background-color: #fcfcfc;
+  }
+
+  .fr-account__table td {
+    padding: 24px 16px;
+    border-bottom: 1px solid #f2f2f2;
+    vertical-align: middle;
+  }
+
+  .text-center {
+    text-align: center !important;
+  }
+
+  .font-medium {
+    font-weight: 500;
+  }
+
+  .fr-account__empty-table {
+    padding: 40px 16px !important;
+    color: #888;
+    font-style: italic;
+  }
+
+  /* Product Details Cell */
+  .fr-account__product-cell {
+    max-width: 320px;
+  }
+
+  .fr-account__product-info {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .fr-account__product-img {
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+    background-color: #faf8f5;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .fr-account__product-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .fr-account__product-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .fr-account__product-title {
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+
+  .fr-account__order-date {
+    font-size: 0.78rem;
+    color: #888;
+  }
+
+  .fr-account__line-properties {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 4px;
+    font-size: 0.75rem;
+    color: #666;
+  }
+
+  /* Status and view detail column */
+  .fr-account__status-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .status-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 4px 10px;
+    border-radius: 2px;
+    display: inline-block;
+  }
+
+  .status-badge.status-delivered {
+    background-color: #eaf6ed;
+    color: #2b7040;
+  }
+
+  .status-badge.status-pending {
+    background-color: #f7f7f7;
+    color: #4a4a4a;
+  }
+
+  .fr-account__details-link {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: #1a1a1a;
+    text-decoration: underline;
+    transition: color 0.15s ease;
+  }
+
+  .fr-account__details-link:hover {
+    color: #B53939;
+  }
+
+  /* ── Address Tab Specifics ── */
+  .fr-addresses__action-bar {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .fr-addresses__sub-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.35rem;
+    font-weight: 500;
+    margin-top: 0;
+    margin-bottom: 24px;
+    color: #1a1a1a;
+  }
+
+  .fr-addresses__form-panel {
+    border: 1px solid #ebebeb;
+    padding: 30px;
+    margin-bottom: 40px;
+    background-color: #fafafa;
+    border-radius: 2px;
+  }
+
+  .fr-addresses__form-panel.hide,
+  .fr-addresses__edit-form-panel.hide {
+    display: none;
+  }
+
+  .fr-addresses__checkbox-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+    font-size: 0.88rem;
+    color: #4a4a4a;
+  }
+
+  .fr-addresses__checkbox-field input {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+
+  .fr-addresses__form-buttons {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .fr-account__btn-secondary {
+    height: 48px;
+    padding: 0 32px;
+    background-color: transparent;
+    color: #4a4a4a;
+    font-size: 0.88rem;
+    font-weight: 600;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s ease;
+    font-family: 'Lato', system-ui, sans-serif;
+  }
+
+  .fr-account__btn-secondary:hover {
+    border-color: #1a1a1a;
+    color: #000;
+  }
+
+  .fr-addresses__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  @media (min-width: 600px) {
+    .fr-addresses__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .fr-addresses__card {
+    border: 1px solid #ebebeb;
+    padding: 24px;
+    border-radius: 2px;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.25s ease;
+    position: relative;
+  }
+
+  .fr-addresses__card.default-card {
+    border-color: #1a1a1a;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+  }
+
+  .fr-addresses__card-name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #000;
+  }
+
+  .default-badge {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+
+  .fr-addresses__card-text {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: #555;
+    margin-top: 0;
+    margin-bottom: 12px;
+  }
+
+  .fr-addresses__card-phone {
+    font-size: 0.85rem;
+    color: #666;
+    margin: 0 0 20px 0;
+  }
+
+  .fr-addresses__card-actions {
+    display: flex;
+    gap: 16px;
+    border-top: 1px solid #ebebeb;
+    padding-top: 16px;
+    margin-top: auto;
+  }
+
+  .fr-addresses__edit-btn,
+  .fr-addresses__delete-btn {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    padding: 4px 0;
+    transition: color 0.15s ease;
+  }
+
+  .fr-addresses__edit-btn {
+    color: #1a1a1a;
+    text-decoration: underline;
+  }
+
+  .fr-addresses__edit-btn:hover {
+    color: #B53939;
+  }
+
+  .fr-addresses__delete-btn {
+    color: #999;
+  }
+
+  .fr-addresses__delete-btn:hover {
+    color: #B53939;
+  }
+
+  .fr-addresses__delete-form {
+    display: inline;
+  }
+
+  .fr-addresses__edit-form-panel {
+    border-top: 1px solid #ebebeb;
+    padding-top: 24px;
+    margin-top: 20px;
+    width: 100%;
+  }
+
+  .fr-addresses__empty {
+    text-align: center;
+    padding: 60px 0;
+    color: #777;
+    font-style: italic;
+    border: 1px dashed #ccc;
+    border-radius: 2px;
+  }
+
+  /* ── Password Reset Panel ── */
+  .fr-account__password-desc {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    max-width: 600px;
+  }
+
+  .fr-account__password-form {
+    max-width: 600px;
+  }
+
+  .fr-account__message {
+    padding: 12px 16px;
+    font-size: 0.88rem;
+    border-radius: 2px;
+    margin-bottom: 20px;
+    line-height: 1.4;
+  }
+
+  .fr-account__message.success {
+    background-color: #eaf6ed;
+    color: #2b7040;
+    border: 1px solid #d4ede0;
+  }
+
+  .fr-account__message.error {
+    background-color: #fbf1f1;
+    color: #b53939;
+    border: 1px solid #f5dede;
+  }
+</style>
+
+<script>
+  (function() {
+    function switchTab(tabId) {
+      // Hide all panels
+      document.querySelectorAll('.fr-account-panel').forEach(function(panel) {
+        panel.classList.remove('active');
+      });
+      document.querySelectorAll('.fr-account-nav-btn').forEach(function(btn) {
+        btn.classList.remove('active');
+      });
+
+      // Show target panel
+      var targetPanel = document.querySelector('.fr-account-panel[data-panel="' + tabId + '"]');
+      var targetBtn = document.querySelector('.fr-account-nav-btn[data-tab="' + tabId + '"]');
+
+      if (targetPanel && targetBtn) {
+        targetPanel.classList.add('active');
+        targetBtn.classList.add('active');
+      }
+    }
+
+    function initTabs() {
+      // Set active tab based on URL Hash
+      var hash = window.location.hash.replace('#', '') || 'orders';
+      // Fallback/validation: check if hash is one of our tabs
+      if (hash !== 'profile' && hash !== 'orders' && hash !== 'addresses' && hash !== 'password') {
+        hash = 'orders';
+      }
+      switchTab(hash);
+
+      // Bind tab links
+      var tabButtons = document.querySelectorAll('.fr-account-nav-btn[data-tab]');
+      tabButtons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          var tab = this.getAttribute('data-tab');
+          if (tab) {
+            window.location.hash = tab;
+            switchTab(tab);
+          }
+        });
+      });
+
+      // Handle popstate/hashchange
+      window.addEventListener('hashchange', function() {
+        var hash = window.location.hash.replace('#', '') || 'orders';
+        if (hash === 'profile' || hash === 'orders' || hash === 'addresses' || hash === 'password') {
+          switchTab(hash);
+        }
+      });
+
+      // Bind Addresses Management Form Panel Toggles
+      var toggleAddBtn = document.getElementById('toggle-add-address-btn');
+      var addAddressPanel = document.getElementById('add-address-panel');
+      var cancelAddBtn = document.querySelector('.cancel-add-btn');
+      var listContainer = document.getElementById('address-list-container');
+
+      if (toggleAddBtn && addAddressPanel) {
+        toggleAddBtn.addEventListener('click', function() {
+          addAddressPanel.classList.remove('hide');
+          toggleAddBtn.classList.add('hide');
+          if (listContainer) listContainer.classList.add('hide');
+        });
+      }
+
+      if (cancelAddBtn && addAddressPanel && toggleAddBtn) {
+        cancelAddBtn.addEventListener('click', function() {
+          addAddressPanel.classList.add('hide');
+          toggleAddBtn.classList.remove('hide');
+          if (listContainer) listContainer.classList.remove('hide');
+        });
+      }
+
+      var editButtons = document.querySelectorAll('[data-edit-address-id]');
+      editButtons.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var id = this.getAttribute('data-edit-address-id');
+          var panel = document.getElementById('edit-address-panel-' + id);
+          if (panel) {
+            panel.classList.toggle('hide');
+          }
+        });
+      });
+
+      var cancelEditButtons = document.querySelectorAll('[data-cancel-address-id]');
+      cancelEditButtons.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var id = this.getAttribute('data-cancel-address-id');
+          var panel = document.getElementById('edit-address-panel-' + id);
+          if (panel) {
+            panel.classList.add('hide');
+          }
+        });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', initTabs);
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      initTabs();
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "FR Customer Dashboard",
+  "tag": "section",
+  "class": "fr-customer-dashboard-section",
+  "settings": []
+}
+{% endschema %}

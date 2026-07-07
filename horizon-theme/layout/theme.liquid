@@ -1,0 +1,616 @@
+<!doctype html>
+<html
+  {% if request.design_mode %}
+    class="shopify-design-mode"
+  {% endif %}
+  lang="{{ request.locale.iso_code }}"
+>
+  <head>
+    {%- if settings.favicon != blank -%}
+      <link
+        rel="icon"
+        type="image/png"
+        href="{{ settings.favicon | image_url: width: 32, height: 32 }}"
+      >
+    {%- endif -%}
+
+    {% comment %} This a way to wait for main content to load when navigating to a new page so that the view transitions can work consistently {% endcomment %}
+    {% if settings.transition_to_main_product or settings.page_transition_enabled %}
+      <link
+        rel="expect"
+        href="#MainContent"
+        blocking="render"
+        id="view-transition-render-blocker"
+      >
+    {% endif %}
+
+    {%- render 'meta-tags' -%}
+    {%- render 'stylesheets' -%}
+    {%- render 'fonts' -%}
+    {%- render 'scripts' -%}
+    {%- render 'theme-styles-variables' -%}
+    {%- render 'color-palette' -%}
+
+    {% if request.design_mode %}
+      {%- render 'theme-editor' -%}
+    {% endif %}
+
+    {{ content_for_header }}
+    <!-- Custom CSS Overrides for Header Icons spacing, sizing, and colors -->
+    <style>
+      /* Group icons closer */
+      header-actions {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+      }
+
+      /* Reduce wrapper width visually to group icons without overriding hidden display states */
+      .header-actions__action,
+      .search-action,
+      .header-actions__action .svg-wrapper,
+      .search-action .svg-wrapper,
+      .fr-header-avatar-container {
+        width: 30px !important;
+        height: 44px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        position: relative !important;
+      }
+
+      /* Prevent any icon or badge clipping */
+      .header-actions__action,
+      .search-action,
+      .header-actions__action .svg-wrapper,
+      .search-action .svg-wrapper,
+      .fr-header-avatar-container,
+      cart-icon,
+      .header-actions__cart-icon {
+        overflow: visible !important;
+      }
+
+      /* Make the SVG icons themselves uniform size */
+      .header-actions__action svg,
+      .fr-header-avatar-btn svg {
+        width: 18px !important;
+        height: 18px !important;
+      }
+      .search-action svg {
+        width: 19px !important;
+        height: 19px !important;
+      }
+
+      /* Push the account icon further away to the right */
+      .fr-header-avatar-container,
+      .account-button {
+        margin-left: 14px !important;
+      }
+
+      /* Resized and repositioned Cart count bubble */
+      .cart-bubble {
+        width: 15px !important;
+        height: 15px !important;
+        position: absolute !important;
+        top: 6px !important;
+        right: -3px !important;
+        z-index: 10 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        overflow: visible !important;
+      }
+      /* Force Cart count bubble background to be red and disable mask clipping */
+      .cart-bubble__background {
+        background-color: #c2593f !important;
+      }
+      .header-actions__cart-icon.header-actions__cart-icon--has-cart svg {
+        mask: none !important;
+        -webkit-mask: none !important;
+      }
+      .cart-bubble__text {
+        font-size: 9px !important;
+        color: #fff !important;
+        font-weight: 700 !important;
+        line-height: 1 !important;
+      }
+
+      /* Resized and repositioned Wishlist count badge */
+      .wishlist-count-badge {
+        background-color: #c2593f !important;
+        width: 15px !important;
+        height: 15px !important;
+        font-size: 9px !important;
+        color: #fff !important;
+        font-weight: 700 !important;
+        top: 6px !important;
+        right: -3px !important;
+        position: absolute !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        line-height: 1 !important;
+        overflow: visible !important;
+      }
+
+      /* ========================================== */
+      /* Hide Old Theme Cart Drawer (Cart Pilot active) */
+      /* ========================================== */
+      #shopify-section-cart-drawer-section,
+      #cart-drawer,
+      #cart-drawer .theme-drawer__dialog,
+      #cart-drawer + .theme-drawer__overlay,
+      theme-drawer#cart-drawer,
+      theme-drawer#cart-drawer::backdrop,
+      cart-drawer-component {
+        display: none !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        opacity: 0 !important;
+        width: 0 !important;
+        height: 0 !important;
+        overflow: hidden !important;
+      }
+
+      /* ========================================== */
+      /* Cart Page Custom Styles                    */
+      /* ========================================== */
+      .cart-page {
+        margin-top: 24px !important;
+      }
+      .cart-page .cart-items__select {
+        grid-area: checkbox !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+      .cart-page .fr-cart-item-checkbox,
+      .cart-page .fr-cart-select-all {
+        appearance: checkbox !important;
+        -webkit-appearance: checkbox !important;
+        width: 16px !important;
+        height: 16px !important;
+        cursor: pointer !important;
+        position: relative !important;
+        z-index: 10 !important;
+        pointer-events: auto !important;
+      }
+      .cart-page .cart-items__media {
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        grid-area: media !important;
+      }
+      .cart-page thead.visually-hidden {
+        position: static !important;
+        width: auto !important;
+        height: auto !important;
+        overflow: visible !important;
+        clip: auto !important;
+        display: table-header-group !important;
+      }
+      .cart-page .cart-items__table thead tr {
+        display: grid !important;
+        grid-template-columns: 40px 100px 1fr 120px 140px 120px !important;
+        border-bottom: 1px solid #ebebeb !important;
+        padding-bottom: 10px !important;
+        margin-bottom: 16px !important;
+      }
+      .cart-page .cart-items__table thead th {
+        font-size: 11px !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        color: #666666 !important;
+        text-align: left !important;
+        display: block !important;
+      }
+      .cart-page .cart-items__table thead th:last-child {
+        text-align: right !important;
+      }
+      .cart-page .cart-items__table-row {
+        display: grid !important;
+        grid-template-columns: 40px 100px 1fr 120px 140px 120px !important;
+        grid-template-areas: 'checkbox media details unit-price quantity subtotal' !important;
+        align-items: center !important;
+        border-bottom: 1px solid #f0f0f0 !important;
+        padding-bottom: 16px !important;
+        margin-bottom: 16px !important;
+        transition: opacity 0.2s ease !important;
+      }
+      .cart-page .cart-items__table-row.is-unchecked {
+        opacity: 0.4 !important;
+      }
+      .cart-page .cart-items__details {
+        grid-area: details !important;
+        display: grid !important;
+        grid-template-columns: 1fr 120px !important;
+        align-items: center !important;
+        gap: 16px !important;
+        color: #333333 !important;
+      }
+      .cart-page .cart-items__title {
+        color: #c2593f !important;
+        font-weight: 500 !important;
+        font-size: 14.5px !important;
+        text-decoration: none !important;
+      }
+      .cart-page .cart-items__title:hover {
+        text-decoration: underline !important;
+      }
+      .cart-page .cart-items__unit-price-wrapper {
+        grid-area: unit-price !important;
+        display: flex !important;
+        align-items: center !important;
+        font-size: 13.5px !important;
+        font-weight: 500 !important;
+        color: #333333 !important;
+      }
+      .cart-page .cart-items__quantity {
+        grid-area: quantity !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+      }
+      .cart-page .cart-items__price {
+        grid-area: subtotal !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        font-size: 13.5px !important;
+        font-weight: 600 !important;
+        color: #333333 !important;
+      }
+      .cart-page .cart-summary {
+        background-color: #fcfcfb !important;
+        border: 1px solid #ebebeb !important;
+        border-radius: 8px !important;
+        padding: 24px !important;
+      }
+      .cart-page .cart-summary__inner {
+        padding: 0 !important;
+        gap: 16px !important;
+      }
+      .cart-page .cart-summary__inner::before {
+        content: "Cart Totals";
+        display: block !important;
+        font-family: var(--font-heading--family), serif;
+        font-size: 20px !important;
+        font-weight: bold !important;
+        color: #111111 !important;
+        width: 100% !important;
+        border-bottom: 1px solid #ebebeb !important;
+        padding-bottom: 12px !important;
+        margin-bottom: 8px !important;
+        text-align: left !important;
+      }
+      .cart-page details.cart-discount {
+        display: block !important;
+        width: 100% !important;
+        border: none !important;
+        margin-top: 12px !important;
+        padding: 0 !important;
+      }
+      .cart-page details.cart-discount summary {
+        pointer-events: none !important;
+        list-style: none !important;
+        display: block !important;
+        font-weight: 600 !important;
+        font-size: 13px !important;
+        color: #333333 !important;
+        margin-bottom: 8px !important;
+        border: none !important;
+        padding: 0 !important;
+        text-align: left !important;
+      }
+      .cart-page details.cart-discount summary::-webkit-details-marker {
+        display: none !important;
+      }
+      .cart-page details.cart-discount summary .cart-totals__icon {
+        display: none !important;
+      }
+      .cart-page details.cart-discount[open] .details-content {
+        display: block !important;
+        padding: 0 !important;
+      }
+      .cart-page .cart-discount__form {
+        display: flex !important;
+        gap: 8px !important;
+        width: 100% !important;
+      }
+      .cart-page .cart-discount__input {
+        flex: 1 !important;
+        border: 1px solid #dcdcd8 !important;
+        border-radius: 4px !important;
+        padding: 10px 12px !important;
+        font-size: 12.5px !important;
+        text-transform: uppercase !important;
+        background-color: #ffffff !important;
+      }
+      .cart-page .cart-discount__button {
+        background-color: #ebebeb !important;
+        color: #333333 !important;
+        border: none !important;
+        border-radius: 4px !important;
+        padding: 10px 14px !important;
+        font-size: 11px !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        cursor: pointer !important;
+        white-space: nowrap !important;
+      }
+      .cart-page .cart-discount__button:hover {
+        background-color: #dcdcd8 !important;
+      }
+      .cart-page .cart__checkout-button {
+        background-color: #000000 !important;
+        color: #ffffff !important;
+        font-weight: bold !important;
+        border-radius: 4px !important;
+        font-size: 13px !important;
+        height: 48px !important;
+        text-transform: uppercase !important;
+        border: none !important;
+        width: 100% !important;
+        margin-top: 12px !important;
+        cursor: pointer !important;
+      }
+
+      /* ========================================== */
+      /* Floating Chat Widget Style                 */
+      /* ========================================== */
+      shopify-chat,
+      .shopify-chat-dummy,
+      .shopify-chat-button {
+        --shopify-chat-color-button-background: #c2593f !important;
+        --shopify-chat-color-button-icon: #ffffff !important;
+        --shopify-chat-color-primary: #c2593f !important;
+      }
+    </style>
+  </head>
+
+  <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
+    {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
+
+    {% render 'chat-drawer' %}
+
+    <div class="page-wrapper">
+      <div id="header-group">
+        {% sections 'header-group' %}
+      </div>
+
+      <script>
+        // Inline header height and menu style calculations to prevent layout shift
+        // Note: Updates in calculateHeaderGroupHeight(), updateTransparentHeaderOffset() and setHeaderMenuStyle() utilities.js should be kept in sync with this function
+        (function setHeaderHeighCustomProperties() {
+          /*
+           * Header calculation functions for maintaining CSS variables
+           * Mimic calculateHeaderGroupHeight() in utilities.js
+           */
+          const header = document.querySelector('header-component');
+          const headerGroup = document.querySelector('#header-group');
+          const hasHeaderSection = headerGroup?.querySelector('.header-section');
+
+          if (!header || !headerGroup) return;
+
+          const headerTopRow = header.querySelector('.header__row--top');
+          const headerHeight = header.offsetHeight;
+
+          // Calculate the total height of the header group
+          let headerGroupHeight = 0;
+          const children = headerGroup.children;
+          for (let i = 0; i < children.length; i++) {
+            const element = children[i];
+            if (element === header || !(element instanceof HTMLElement)) continue;
+            headerGroupHeight += element.offsetHeight;
+          }
+
+          // Check for transparent header special case
+          if (header.hasAttribute('transparent') && header.parentElement?.nextElementSibling) {
+            headerGroupHeight += headerHeight;
+          }
+
+          // Set CSS variables
+          document.body.style.setProperty('--header-height', `${headerHeight}px`);
+          document.body.style.setProperty('--header-group-height', `${headerGroupHeight}px`);
+
+          if (headerTopRow) {
+            window.requestAnimationFrame(function () {
+              document.body.style.setProperty('--top-row-height', `${headerTopRow.offsetHeight}px`);
+            });
+          }
+
+          /**
+           * Updates CSS custom properties for transparent header offset calculation
+           * Mimic updateTransparentHeaderOffset() in utilities.js
+           */
+
+          if (!hasHeaderSection || !header?.hasAttribute('transparent')) {
+            document.body.style.setProperty('--transparent-header-offset-boolean', '0');
+            return;
+          }
+
+          const hasImmediateSection = hasHeaderSection.nextElementSibling?.classList.contains('shopify-section');
+
+          const shouldApplyOffset = !hasImmediateSection ? '1' : '0';
+          document.body.style.setProperty('--transparent-header-offset-boolean', shouldApplyOffset);
+        })();
+
+        (function setHeaderMenuStyle() {
+          const headerComponent = document.querySelector('#header-component');
+          if (headerComponent) {
+            const isTouchDevice = 'ontouchstart' in window && navigator.maxTouchPoints > 0;
+            const overflowList = headerComponent?.querySelector('overflow-list');
+            const hasReachedMinimum = overflowList && overflowList.hasAttribute('minimum-reached');
+            headerComponent.dataset.menuStyle = isTouchDevice || hasReachedMinimum ? 'drawer' : 'menu';
+          }
+        })();
+      </script>
+
+      <main
+        id="MainContent"
+        class="content-for-layout"
+        role="main"
+        data-page-transition-enabled="{{ settings.page_transition_enabled }}"
+        data-product-transition="{{ settings.transition_to_main_product }}"
+        data-template="{{ template }}"
+      >
+        {{ content_for_layout }}
+      </main>
+
+      <footer>
+        {% sections 'footer-group' %}
+      </footer>
+    </div>
+
+    {% comment %}Old cart drawer disabled — Cart Pilot app handles the drawer now{% endcomment %}
+    {% comment %}{% render 'cart-drawer', render_wrapper: true %}{% endcomment %}
+    {% render 'theme-drawer' %}
+
+    {% render 'search-modal' %}
+
+    {% if settings.quick_add or settings.mobile_quick_add %}
+      {% render 'quick-add-modal' %}
+    {% endif %}
+    <!-- Inject 'View Cart' button into Cart Pilot drawer -->
+    <script>
+      (function() {
+        if (window.location.pathname === '/cart') {
+          // If we are on the cart page, hide Cart Pilot drawer and any dialog/overlays
+          var style = document.createElement('style');
+          style.textContent = `
+            [class*="cart-pilot"], [id*="cart-pilot"], [data-cart-pilot], [class*="cartpilot"], [id*="cartpilot"] {
+              display: none !important;
+              visibility: hidden !important;
+              pointer-events: none !important;
+            }
+          `;
+          document.head.appendChild(style);
+
+          var hideObs = new MutationObserver(function() {
+            var allEls = document.querySelectorAll('a, span, div');
+            for (var i = 0; i < allEls.length; i++) {
+              if (allEls[i].textContent.includes('Powered by Cart Pilot')) {
+                var cpDrawer = allEls[i].closest('[role="dialog"], [class*="drawer"], [class*="sidebar"], [class*="cart"], div');
+                if (cpDrawer && cpDrawer.style.display !== 'none') {
+                  cpDrawer.style.setProperty('display', 'none', 'important');
+                  cpDrawer.style.setProperty('visibility', 'hidden', 'important');
+                  cpDrawer.style.setProperty('pointer-events', 'none', 'important');
+                  var overlay = cpDrawer.parentElement.querySelector('[class*="overlay"], [class*="backdrop"]');
+                  if (overlay) {
+                    overlay.style.setProperty('display', 'none', 'important');
+                    overlay.style.setProperty('visibility', 'hidden', 'important');
+                  }
+                }
+              }
+            }
+          });
+          hideObs.observe(document.body, { childList: true, subtree: true });
+          return;
+        }
+
+        function tryInjectViewCart() {
+          // Already injected? Skip.
+          if (document.querySelector('.fr-view-cart-btn')) return;
+
+          // Find Cart Pilot's checkout button by text content
+          var btns = document.querySelectorAll('a, button');
+          var checkoutBtn = null;
+          for (var j = 0; j < btns.length; j++) {
+            var txt = btns[j].textContent.trim().toLowerCase();
+            if (txt.includes('checkout') && btns[j].offsetParent !== null) {
+              // Make sure it's inside a Cart Pilot context (not the cart page checkout)
+              if (btns[j].closest('.cart-page')) continue;
+              checkoutBtn = btns[j];
+              break;
+            }
+          }
+          if (!checkoutBtn) return;
+
+          // Create View Cart button
+          var viewCartBtn = document.createElement('a');
+          viewCartBtn.href = '/cart';
+          viewCartBtn.className = 'fr-view-cart-btn';
+          viewCartBtn.textContent = 'View Cart';
+          viewCartBtn.style.cssText = 'display:block;text-align:center;padding:10px 0;margin-bottom:8px;color:#000;font-weight:600;font-size:14px;text-decoration:none;border:2px solid #000;border-radius:4px;transition:all 0.2s ease;cursor:pointer;';
+          viewCartBtn.addEventListener('mouseenter', function() {
+            this.style.backgroundColor = '#000';
+            this.style.color = '#fff';
+          });
+          viewCartBtn.addEventListener('mouseleave', function() {
+            this.style.backgroundColor = 'transparent';
+            this.style.color = '#000';
+          });
+
+          // Insert before the checkout button
+          checkoutBtn.parentElement.insertBefore(viewCartBtn, checkoutBtn);
+        }
+
+        // Persistent observer — Cart Pilot rebuilds its DOM on every drawer open
+        var obs = new MutationObserver(function() {
+          tryInjectViewCart();
+        });
+        obs.observe(document.body, { childList: true, subtree: true });
+      })();
+    </script>
+
+    <!-- Restore unselected cart items silently after selective checkout -->
+    <script>
+      (function() {
+        var pending = localStorage.getItem('fr_pending_cart_items');
+        var restorePending = localStorage.getItem('fr_restore_pending');
+
+        if (restorePending === 'true' && pending) {
+          // Immediately consume the flag to prevent loop
+          localStorage.removeItem('fr_restore_pending');
+
+          // Force-hide all drawer elements to avoid visual disruption/flashing
+          var style = document.createElement('style');
+          style.textContent = `
+            .cart-drawer, .cart-drawer-overlay, [data-cart-drawer], .cart-drawer__overlay,
+            [class*="cart-pilot"], [id*="cart-pilot"], [data-cart-pilot], [class*="cartpilot"], [id*="cartpilot"] {
+              display: none !important;
+              visibility: hidden !important;
+              pointer-events: none !important;
+            }
+          `;
+          document.head.appendChild(style);
+
+          try {
+            var items = JSON.parse(pending);
+            if (items && items.length > 0) {
+              var updates = {};
+              items.forEach(function(item) {
+                updates[item.id] = item.quantity;
+              });
+
+              // Create a temporary hidden iframe to make the request
+              // This completely bypasses Cart Pilot / theme fetch overrides in the parent window,
+              // preventing the cart drawer from automatically opening.
+              var iframe = document.createElement('iframe');
+              iframe.style.display = 'none';
+              iframe.onload = function() {
+                iframe.contentWindow.fetch('/cart/update.js', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ updates: updates })
+                })
+                .then(function(res) {
+                  if (res.ok) {
+                    localStorage.removeItem('fr_pending_cart_items');
+                  }
+                  window.location.reload();
+                })
+                .catch(function() {
+                  window.location.reload();
+                });
+              };
+              document.body.appendChild(iframe);
+            }
+          } catch(e) {
+            localStorage.removeItem('fr_pending_cart_items');
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>

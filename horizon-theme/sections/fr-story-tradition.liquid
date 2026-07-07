@@ -1,0 +1,131 @@
+<section class="fr-story-tradition" id="fr-story-tradition-{{ section.id }}" style="background-color: {{ section.settings.bg_color }}; padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px 0;">
+  <div class="fr-story-tradition__wrapper">
+    {%- if section.settings.title != blank -%}
+      <h2 class="fr-story-tradition__title">{{ section.settings.title }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subtitle != blank -%}
+      <p class="fr-story-tradition__subtitle">{{ section.settings.subtitle }}</p>
+    {%- endif -%}
+    <div class="fr-story-tradition__image-wrapper">
+      {%- if section.settings.image != blank -%}
+        <img
+          src="{{ section.settings.image | image_url: width: 1800 }}"
+          alt="{{ section.settings.title | escape }}"
+          class="fr-story-tradition__img"
+          loading="lazy"
+        >
+      {%- else -%}
+        {{ 'image' | placeholder_svg_tag: 'fr-story-tradition__placeholder' }}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  .fr-story-tradition {
+    font-family: 'Lato', system-ui, sans-serif;
+  }
+
+  .fr-story-tradition__wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .fr-story-tradition__title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(24px, 3vw, 34px);
+    font-weight: 400;
+    line-height: 1.25;
+    margin-top: 0;
+    margin-bottom: 16px;
+    text-align: center;
+    color: #1a1a1a;
+  }
+
+  .fr-story-tradition__subtitle {
+    font-size: 15px;
+    line-height: 1.75;
+    color: #4a4a4a;
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 40px auto;
+  }
+
+  .fr-story-tradition__image-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: #faf8f5;
+  }
+
+  .fr-story-tradition__img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .fr-story-tradition__placeholder {
+    width: 100%;
+    min-height: 400px;
+    background-color: #faf8f5;
+    color: #cccccc;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "FR Story Tradition",
+  "tag": "section",
+  "class": "fr-story-tradition-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Tradition In Every Thread"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle (optional)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Collage / Full-Width Image"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "FR Story Tradition"
+    }
+  ]
+}
+{% endschema %}
