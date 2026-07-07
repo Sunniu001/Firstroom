@@ -101,6 +101,8 @@
             {%- assign option_name_downcased = product_option.name | downcase -%}
             {%- if option_name_downcased == 'material' or option_name_downcased == 'paper finish' -%}
               <div class="fr-material-option-group">
+            {%- elsif option_name_downcased == 'frame size' or option_name_downcased == 'size' -%}
+              <div class="fr-material-option-group">
             {%- endif -%}
             {%- for product_option_value in product_option.values -%}
               {% if product_option_value.size > longest_value and option_id_attribute %}
@@ -168,6 +170,38 @@
                         {%- elsif finish_name == 'Leather Finish' or finish_name == 'Handmade' -%}Master bedrooms, Living Room & cozy dens
                         {%- elsif finish_name == 'Silk Sheen' -%}Dining rooms, master bedrooms & opulent spaces
                         {%- else -%}Entryways, feature walls & main living areas{%- endif -%}
+                      </div>
+                    </div>
+                  </div>
+                {% elsif option_name_downcased == 'frame size' or option_name_downcased == 'size' %}
+                  {% assign finish_name = product_option_value | escape %}
+                  <div class="fr-custom-finish-card">
+                    {% liquid
+                      assign bg_image = product_option_value.variant.featured_media
+                      assign bg_style = ''
+                      if bg_image != blank
+                        assign bg_image_url = bg_image | image_url: width: 300
+                        assign bg_style = 'background: url(' | append: bg_image_url | append: ') center/cover no-repeat;'
+                      endif
+                    %}
+                    <div class="fr-finish-image fr-size-{{ finish_name | handleize }}" {% if bg_style != blank %}style="{{ bg_style }}"{% endif %}>
+                      <svg class="fr-finish-check" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="10" fill="#222"/><path d="M9 12l2 2 4-4" stroke="#fff" stroke-width="2" fill="none"/></svg>
+                    </div>
+                    <div class="fr-finish-content">
+                      <div class="fr-finish-title">{{ finish_name }}</div>
+                      <div class="fr-finish-tag">
+                        {%- if finish_name contains '16x20' or finish_name contains '16 x 20' -%}LARGE
+                        {%- elsif finish_name contains '12x16' or finish_name contains '12 x 16' -%}MEDIUM
+                        {%- else -%}SMALL{%- endif -%}
+                      </div>
+                      <div class="fr-finish-desc">
+                        {%- if finish_name contains '16x20' or finish_name contains '16 x 20' -%}Perfect for main living areas
+                        {%- elsif finish_name contains '12x16' or finish_name contains '12 x 16' -%}Great for bedrooms
+                        {%- else -%}Ideal for gallery walls{%- endif -%}
+                      </div>
+                      <div class="fr-finish-divider"></div>
+                      <div class="fr-finish-sub">
+                        Includes premium quality frame & mounting hardware
                       </div>
                     </div>
                   </div>
