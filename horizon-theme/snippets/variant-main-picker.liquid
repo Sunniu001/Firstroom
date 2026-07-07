@@ -138,7 +138,15 @@
                 {% if option_name_downcased == 'material' or option_name_downcased == 'paper finish' %}
                   {% assign finish_name = product_option_value | escape %}
                   <div class="fr-custom-finish-card">
-                    <div class="fr-finish-image fr-finish-{{ finish_name | handleize }}">
+                    {% liquid
+                      assign bg_image = product_option_value.variant.featured_media
+                      assign bg_style = ''
+                      if bg_image != blank
+                        assign bg_image_url = bg_image | image_url: width: 300
+                        assign bg_style = 'background: url(' | append: bg_image_url | append: ') center/cover no-repeat;'
+                      endif
+                    %}
+                    <div class="fr-finish-image fr-finish-{{ finish_name | handleize }}" {% if bg_style != blank %}style="{{ bg_style }}"{% endif %}>
                       <svg class="fr-finish-check" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="10" fill="#222"/><path d="M9 12l2 2 4-4" stroke="#fff" stroke-width="2" fill="none"/></svg>
                     </div>
                     <div class="fr-finish-content">
