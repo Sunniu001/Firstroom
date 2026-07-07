@@ -79,7 +79,7 @@
                 "align_baseline": false,
                 "horizontal_alignment_flex_direction_column": "flex-start",
                 "vertical_alignment_flex_direction_column": "center",
-                "gap": 12,
+                "gap": 9,
                 "width": "fill",
                 "custom_width": 100,
                 "width_mobile": "fill",
@@ -134,6 +134,32 @@
                   },
                   "blocks": {}
                 },
+                "text_hQdApw": {
+                  "type": "text",
+                  "name": "Product Description",
+                  "settings": {
+                    "text": "{{ closest.product.description }}",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "custom",
+                    "font": "var(--font-subheading--family)",
+                    "font_size": "1rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
                 "price_tVjtKg": {
                   "type": "price",
                   "settings": {
@@ -159,8 +185,21 @@
               },
               "block_order": [
                 "text_xrnftG",
+                "text_hQdApw",
                 "price_tVjtKg"
               ]
+            },
+            "divider_B3e4Am": {
+              "type": "_divider",
+              "name": "t:names.divider",
+              "settings": {
+                "thickness": 1,
+                "corner_radius": "square",
+                "width_percent": 100,
+                "padding-block-start": 0,
+                "padding-block-end": 20
+              },
+              "blocks": {}
             },
             "custom-actions": {
               "type": "fr-product-actions",
@@ -175,6 +214,18 @@
             "stepper": {
               "type": "fr-product-stepper",
               "settings": {},
+              "blocks": {}
+            },
+            "divider_FNxy3q": {
+              "type": "_divider",
+              "name": "t:names.divider",
+              "settings": {
+                "thickness": 1,
+                "corner_radius": "square",
+                "width_percent": 100,
+                "padding-block-start": 0,
+                "padding-block-end": 20
+              },
               "blocks": {}
             },
             "variant_picker_R3rGDr": {
@@ -201,42 +252,17 @@
               "type": "fr-trust-badges",
               "settings": {},
               "blocks": {}
-            },
-            "text_aEtTtq": {
-              "type": "text",
-              "name": "Product Description",
-              "settings": {
-                "text": "{{ closest.product.description }}",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-primary--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
             }
           },
           "block_order": [
             "group_icgrde",
+            "divider_B3e4Am",
             "custom-actions",
             "stepper",
+            "divider_FNxy3q",
             "variant_picker_R3rGDr",
             "dimensions_calculator",
-            "trust-badges",
-            "text_aEtTtq"
+            "trust-badges"
           ]
         }
       },
