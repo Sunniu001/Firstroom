@@ -50,6 +50,8 @@
   .fr-breadcrumbs {
     padding-top: {{ section.settings.padding_top }}px;
     padding-bottom: {{ section.settings.padding_bottom }}px;
+    padding-left: {{ section.settings.padding_left }}px;
+    padding-right: {{ section.settings.padding_right }}px;
     font-size: {{ section.settings.font_size }}px;
     color: {{ section.settings.text_color }};
     font-family: inherit;
@@ -111,6 +113,26 @@
       "unit": "px",
       "label": "Bottom Padding",
       "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Left Padding",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Right Padding",
+      "default": 0
     },
     {
       "type": "range",
