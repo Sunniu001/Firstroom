@@ -1,0 +1,119 @@
+<div class="fr-product-tabs-section page-width" id="{{ section.id }}">
+  <div class="fr-tabs-header">
+    <button class="fr-tab-btn active" data-target="tab-description">Description</button>
+    <button class="fr-tab-btn" data-target="tab-material">Material</button>
+    <button class="fr-tab-btn" data-target="tab-shipping">Shipping</button>
+    <button class="fr-tab-btn" data-target="tab-quality">Quality & Installation</button>
+  </div>
+  
+  <div class="fr-tabs-content">
+    <div class="fr-tab-panel active" id="tab-description">
+      {{ section.settings.description_html | default: product.description }}
+    </div>
+    <div class="fr-tab-panel" id="tab-material">
+      {{ section.settings.material_html }}
+    </div>
+    <div class="fr-tab-panel" id="tab-shipping">
+      {{ section.settings.shipping_html }}
+    </div>
+    <div class="fr-tab-panel" id="tab-quality">
+      {{ section.settings.quality_html }}
+    </div>
+  </div>
+</div>
+
+<style>
+  .fr-product-tabs-section {
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+    border-top: 1px solid #e5e5e5;
+    padding-top: 2rem;
+  }
+  .fr-tabs-header {
+    display: flex;
+    gap: 2rem;
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 2rem;
+  }
+  .fr-tab-btn {
+    background: none;
+    border: none;
+    padding: 0 0 1rem 0;
+    font-size: 14px;
+    color: #666;
+    cursor: pointer;
+    position: relative;
+  }
+  .fr-tab-btn.active {
+    color: #000;
+  }
+  .fr-tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #000;
+  }
+  .fr-tab-panel {
+    display: none;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #333;
+  }
+  .fr-tab-panel.active {
+    display: block;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const section = document.getElementById('{{ section.id }}');
+    const btns = section.querySelectorAll('.fr-tab-btn');
+    const panels = section.querySelectorAll('.fr-tab-panel');
+    
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        btns.forEach(b => b.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        
+        btn.classList.add('active');
+        section.querySelector('#' + btn.dataset.target).classList.add('active');
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "FR - Product Tabs",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "description_html",
+      "label": "Description Override (Leave blank to use product description)"
+    },
+    {
+      "type": "richtext",
+      "id": "material_html",
+      "label": "Material Content"
+    },
+    {
+      "type": "richtext",
+      "id": "shipping_html",
+      "label": "Shipping Content"
+    },
+    {
+      "type": "richtext",
+      "id": "quality_html",
+      "label": "Quality & Installation Content"
+    }
+  ],
+  "presets": [
+    {
+      "name": "FR - Product Tabs"
+    }
+  ]
+}
+{% endschema %}

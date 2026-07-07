@@ -1,0 +1,83 @@
+<div class="fr-actions-container" {{ block.shopify_attributes }}>
+  <a href="{{ block.settings.order_link }}" class="fr-action-btn fr-btn-primary">
+    {{ block.settings.order_text }}
+  </a>
+  <a href="{{ block.settings.specialist_link }}" class="fr-action-btn fr-btn-secondary">
+    <span class="fr-status-dot"></span>
+    {{ block.settings.specialist_text }}
+  </a>
+</div>
+
+<style>
+  .fr-actions-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .fr-action-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    font-size: 14px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: opacity 0.2s ease;
+  }
+  .fr-action-btn:hover {
+    opacity: 0.8;
+  }
+  .fr-btn-primary {
+    background: #000;
+    color: #fff;
+  }
+  .fr-btn-secondary {
+    background: #fff;
+    color: #000;
+    border: 1px solid #e0e0e0;
+    gap: 0.5rem;
+  }
+  .fr-status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #4CAF50;
+    border-radius: 50%;
+    display: inline-block;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "FR - Custom Actions",
+  "settings": [
+    {
+      "type": "text",
+      "id": "order_text",
+      "label": "Primary Button Text",
+      "default": "Order directly"
+    },
+    {
+      "type": "url",
+      "id": "order_link",
+      "label": "Primary Button Link"
+    },
+    {
+      "type": "text",
+      "id": "specialist_text",
+      "label": "Secondary Button Text",
+      "default": "Talk to a specialist"
+    },
+    {
+      "type": "url",
+      "id": "specialist_link",
+      "label": "Secondary Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "FR - Custom Actions"
+    }
+  ]
+}
+{% endschema %}
