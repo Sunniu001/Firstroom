@@ -1,9 +1,9 @@
 <div class="fr-product-tabs-section page-width" id="{{ section.id }}" style="padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px; padding-left: {{ section.settings.padding_left }}px; padding-right: {{ section.settings.padding_right }}px;">
   <div class="fr-tabs-header">
-    <button class="fr-tab-btn active" data-target="tab-description">Description</button>
-    <button class="fr-tab-btn" data-target="tab-material">Material</button>
-    <button class="fr-tab-btn" data-target="tab-shipping">Shipping</button>
-    <button class="fr-tab-btn" data-target="tab-quality">Quality & Installation</button>
+    <button class="fr-tab-btn active" data-target="tab-description">{{ section.settings.tab_title_description | default: 'Description' }}</button>
+    <button class="fr-tab-btn" data-target="tab-material">{{ section.settings.tab_title_material | default: 'Material' }}</button>
+    <button class="fr-tab-btn" data-target="tab-shipping">{{ section.settings.tab_title_shipping | default: 'Shipping' }}</button>
+    <button class="fr-tab-btn" data-target="tab-quality">{{ section.settings.tab_title_quality | default: 'Quality & Installation' }}</button>
   </div>
   
   <div class="fr-tabs-content">
@@ -84,9 +84,21 @@
   "name": "FR - Product Tabs",
   "settings": [
     {
+      "type": "text",
+      "id": "tab_title_description",
+      "label": "Description Tab Title",
+      "default": "Description"
+    },
+    {
       "type": "richtext",
       "id": "description_html",
       "label": "Description Override (Leave blank to use product description)"
+    },
+    {
+      "type": "text",
+      "id": "tab_title_material",
+      "label": "Material Tab Title",
+      "default": "Material"
     },
     {
       "type": "richtext",
@@ -94,9 +106,21 @@
       "label": "Material Content"
     },
     {
+      "type": "text",
+      "id": "tab_title_shipping",
+      "label": "Shipping Tab Title",
+      "default": "Shipping"
+    },
+    {
       "type": "richtext",
       "id": "shipping_html",
       "label": "Shipping Content"
+    },
+    {
+      "type": "text",
+      "id": "tab_title_quality",
+      "label": "Quality Tab Title",
+      "default": "Quality & Installation"
     },
     {
       "type": "richtext",
