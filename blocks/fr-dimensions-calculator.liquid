@@ -260,9 +260,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let areaSqFt = 0;
     if(w > 0 && h > 0) {
       if(currentUnit === 'ft') {
-        areaSqFt = ((w * 12 + 2) * (h * 12 + 2)) / 144.0;
+        areaSqFt = (w * h);
       } else {
-        areaSqFt = ((w + 2) * (h + 2)) / 144.0;
+        areaSqFt = (w * h) / 144.0;
       }
     }
 
