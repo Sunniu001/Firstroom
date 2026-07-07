@@ -1,0 +1,138 @@
+<nav class="fr-breadcrumbs page-width" role="navigation" aria-label="breadcrumbs">
+  <ol class="fr-breadcrumbs__list">
+    <li class="fr-breadcrumbs__item">
+      <a href="{{ routes.root_url }}">Home</a>
+    </li>
+    {%- if template contains 'page' -%}
+      <li class="fr-breadcrumbs__item">
+        <span aria-current="page">{{ page.title }}</span>
+      </li>
+    {%- elsif template contains 'product' -%}
+      {%- if collection.url -%}
+        <li class="fr-breadcrumbs__item">
+          <a href="{{ collection.url }}">{{ collection.title }}</a>
+        </li>
+      {%- else -%}
+        {%- assign fallback_collection = product.collections.first -%}
+        {%- if fallback_collection -%}
+          <li class="fr-breadcrumbs__item">
+            <a href="{{ fallback_collection.url }}">{{ fallback_collection.title }}</a>
+          </li>
+        {%- endif -%}
+      {%- endif -%}
+      <li class="fr-breadcrumbs__item">
+        <span aria-current="page">{{ product.title }}</span>
+      </li>
+    {%- elsif template contains 'collection' and collection.handle -%}
+      <li class="fr-breadcrumbs__item">
+        <span aria-current="page">{{ collection.title }}</span>
+      </li>
+    {%- elsif template == 'blog' -%}
+      <li class="fr-breadcrumbs__item">
+        <span aria-current="page">{{ blog.title }}</span>
+      </li>
+    {%- elsif template == 'article' -%}
+      <li class="fr-breadcrumbs__item">
+        <a href="{{ blog.url }}">{{ blog.title }}</a>
+      </li>
+      <li class="fr-breadcrumbs__item">
+        <span aria-current="page">{{ article.title }}</span>
+      </li>
+    {%- else -%}
+      <li class="fr-breadcrumbs__item">
+        <span aria-current="page">{{ page_title }}</span>
+      </li>
+    {%- endif -%}
+  </ol>
+</nav>
+
+<style>
+  .fr-breadcrumbs {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    font-size: {{ section.settings.font_size }}px;
+    color: {{ section.settings.text_color }};
+    font-family: inherit;
+  }
+  .fr-breadcrumbs__list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .fr-breadcrumbs__item {
+    display: flex;
+    align-items: center;
+  }
+  .fr-breadcrumbs__item:not(:last-child)::after {
+    content: "›";
+    display: inline-block;
+    margin-left: 8px;
+    opacity: 0.6;
+  }
+  .fr-breadcrumbs__item a {
+    text-decoration: none;
+    color: inherit;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+  }
+  .fr-breadcrumbs__item a:hover {
+    opacity: 1;
+    text-decoration: underline;
+  }
+  .fr-breadcrumbs__item span {
+    opacity: 1;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "FR Breadcrumbs",
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Font Size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#333333"
+    }
+  ],
+  "presets": [
+    {
+      "name": "FR Breadcrumbs"
+    }
+  ]
+}
+{% endschema %}
