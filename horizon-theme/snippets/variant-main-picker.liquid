@@ -98,8 +98,8 @@
               {%- if variant_style == 'swatch' -%}
                 <span class="variant-option__swatch-value">{{ product_option.selected_value }}</span>
               {%- endif %}
-            </legend>
-            {%- if product_option.name == 'Material' -%}
+            {%- assign option_name_downcased = product_option.name | downcase -%}
+            {%- if option_name_downcased == 'material' or option_name_downcased == 'paper finish' -%}
               <div class="fr-material-option-group">
             {%- endif -%}
             {%- for product_option_value in product_option.values -%}
@@ -135,7 +135,35 @@
                     data-current-checked="false"
                   {% endif %}
                 >
-                {% if variant_style == 'swatch' %}
+                {% if option_name_downcased == 'material' or option_name_downcased == 'paper finish' %}
+                  {% assign finish_name = product_option_value | escape %}
+                  <div class="fr-custom-finish-card">
+                    <div class="fr-finish-image fr-finish-{{ finish_name | handleize }}">
+                      <svg class="fr-finish-check" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="10" fill="#222"/><path d="M9 12l2 2 4-4" stroke="#fff" stroke-width="2" fill="none"/></svg>
+                    </div>
+                    <div class="fr-finish-content">
+                      <div class="fr-finish-title">{{ finish_name }}</div>
+                      <div class="fr-finish-tag">
+                        {%- if finish_name == 'Feather Finish' or finish_name == 'Canvas' -%}PREMIUM
+                        {%- elsif finish_name == 'Leather Finish' or finish_name == 'Handmade' -%}LUXURY
+                        {%- else -%}SUPER LUXURY{%- endif -%}
+                      </div>
+                      <div class="fr-finish-desc">
+                        {%- if finish_name == 'Feather Finish' or finish_name == 'Canvas' -%}Even texture, vibrant colors
+                        {%- elsif finish_name == 'Leather Finish' or finish_name == 'Handmade' -%}Natural, earthy feel
+                        {%- elsif finish_name == 'Silk Sheen' -%}Soft sheen and ultra premium
+                        {%- else -%}Rough texture, painting look{%- endif -%}
+                      </div>
+                      <div class="fr-finish-divider"></div>
+                      <div class="fr-finish-sub">
+                        {%- if finish_name == 'Feather Finish' or finish_name == 'Canvas' -%}Bedrooms, home offices & family lounges
+                        {%- elsif finish_name == 'Leather Finish' or finish_name == 'Handmade' -%}Master bedrooms, Living Room & cozy dens
+                        {%- elsif finish_name == 'Silk Sheen' -%}Dining rooms, master bedrooms & opulent spaces
+                        {%- else -%}Entryways, feature walls & main living areas{%- endif -%}
+                      </div>
+                    </div>
+                  </div>
+                {% elsif variant_style == 'swatch' %}
                   {% liquid
                     assign featured_media = product_option_value.variant.featured_media
 
@@ -152,49 +180,23 @@
                     mode: 'unscaled'
                   %}
                 {% else %}
-                  {% if product_option.name == 'Material' %}
-                    {% assign finish_name = product_option_value | escape %}
-                    <div class="fr-custom-finish-card">
-                      <div class="fr-finish-image fr-finish-{{ finish_name | handleize }}">
-                        <svg class="fr-finish-check" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M9 12l2 2 4-4" stroke="#fff" stroke-width="2" fill="none"/></svg>
-                      </div>
-                      <div class="fr-finish-content">
-                        <strong>{{ finish_name }} <span class="fr-finish-tag">
-                          {%- if finish_name == 'Feather Finish' -%}PREMIUM
-                          {%- elsif finish_name == 'Leather Finish' -%}LUXURY
-                          {%- else -%}SUPER LUXURY{%- endif -%}
-                        </span></strong>
-                        <p class="fr-finish-desc">
-                          {%- if finish_name == 'Feather Finish' -%}Even texture, vibrant colors.
-                          {%- elsif finish_name == 'Leather Finish' -%}Natural, earthy feel.
-                          {%- else -%}Rough texture, painting look.{%- endif -%}
-                        </p>
-                        <p class="fr-finish-sub">
-                          {%- if finish_name == 'Feather Finish' -%}Bedrooms, home offices & family lounges.
-                          {%- elsif finish_name == 'Leather Finish' -%}Master bedrooms, Living Room & cozy dens.
-                          {%- else -%}Entryways, feature walls & main living areas.{%- endif -%}
-                        </p>
-                      </div>
-                    </div>
-                  {% else %}
-                    {% if product_option_value.available == true %}
-                      <span
-                        class="variant-option__button-label__pill"
-                        data-key="variant-option-pill"
-                      ></span>
-                    {% endif %}
+                  {% if product_option_value.available == true %}
                     <span
-                      class="variant-option__button-label__text"
-                      data-key="variant-option-text"
-                    >
-                      {{- product_option_value | escape -}}
-                    </span>
+                      class="variant-option__button-label__pill"
+                      data-key="variant-option-pill"
+                    ></span>
                   {% endif %}
+                  <span
+                    class="variant-option__button-label__text"
+                    data-key="variant-option-text"
+                  >
+                    {{- product_option_value | escape -}}
+                  </span>
                 {% endif %}
                 {% render 'strikethrough-variant', product_option: product_option_value %}
               </label>
             {%- endfor -%}
-            {%- if product_option.name == 'Material' -%}
+            {%- if option_name_downcased == 'material' or option_name_downcased == 'paper finish' -%}
               </div>
             {%- endif -%}
             {% if option_id_attribute %}
