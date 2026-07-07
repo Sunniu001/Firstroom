@@ -99,6 +99,9 @@
                 <span class="variant-option__swatch-value">{{ product_option.selected_value }}</span>
               {%- endif %}
             </legend>
+            {%- if product_option.name == 'Material' -%}
+              <div class="fr-material-option-group">
+            {%- endif -%}
             {%- for product_option_value in product_option.values -%}
               {% if product_option_value.size > longest_value and option_id_attribute %}
                 {% assign longest_value = product_option_value.size %}
@@ -153,7 +156,7 @@
                     {% assign finish_name = product_option_value | escape %}
                     <div class="fr-custom-finish-card">
                       <div class="fr-finish-image fr-finish-{{ finish_name | handleize }}">
-                        <svg class="fr-finish-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M9 12l2 2 4-4" stroke="#fff" stroke-width="2" fill="none"/></svg>
+                        <svg class="fr-finish-check" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M9 12l2 2 4-4" stroke="#fff" stroke-width="2" fill="none"/></svg>
                       </div>
                       <div class="fr-finish-content">
                         <strong>{{ finish_name }} <span class="fr-finish-tag">
@@ -191,6 +194,9 @@
                 {% render 'strikethrough-variant', product_option: product_option_value %}
               </label>
             {%- endfor -%}
+            {%- if product_option.name == 'Material' -%}
+              </div>
+            {%- endif -%}
             {% if option_id_attribute %}
               {% style %}
                 [data-option-id="{{ fieldset_id }}"] {
