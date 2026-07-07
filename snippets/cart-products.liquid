@@ -92,6 +92,7 @@
             >
               {%- if template.name == 'cart' -%}
                 <th
+                  class="cart-items__select"
                   scope="col"
                   style="width: 40px; display: flex; align-items: center; justify-content: center; padding-bottom: 10px;"
                 >
@@ -100,6 +101,7 @@
               {%- endif -%}
               <th
                 id="productImage"
+                class="cart-items__media"
                 scope="col"
                 role="columnheader"
               >
@@ -107,22 +109,16 @@
               </th>
               <th
                 id="productInformation"
+                class="cart-items__details"
                 scope="col"
                 role="columnheader"
               >
                 {{ 'content.product_information' | t }}
               </th>
-              {%- if template.name == 'cart' -%}
-                <th
-                  id="productPrice"
-                  scope="col"
-                  role="columnheader"
-                >
-                  Price
-                </th>
-              {%- endif -%}
+
               <th
                 id="quantity"
+                class="cart-items__quantity"
                 scope="col"
                 role="columnheader"
               >
@@ -130,6 +126,7 @@
               </th>
               <th
                 id="productTotal"
+                class="cart-items__price"
                 scope="col"
                 role="columnheader"
               >
@@ -468,11 +465,11 @@
     --cart-item-price-width: 6rem;
 
     display: grid;
-    grid-template-columns: clamp(2.5rem, 15cqi, 7.5rem) minmax(0, 1fr) minmax(var(--cart-item-price-width), auto);
+    grid-template-columns: auto clamp(2.5rem, 15cqi, 7.5rem) minmax(0, 1fr) minmax(var(--cart-item-price-width), auto);
     grid-template-areas:
-      'media details price'
-      'media quantity price'
-      'media error error';
+      'select media details price'
+      'select media quantity price'
+      'select media error error';
     column-gap: var(--gap-md);
     align-items: start;
     padding-bottom: var(--cart-items-gap);
@@ -481,14 +478,14 @@
 
   /* Cart drawer: separate grid areas for variants and unit price */
   .cart-drawer .cart-items__table-row--full-width-variants {
-    grid-template-columns: clamp(2.5rem, 15cqi, 7.5rem) minmax(0, 1fr) auto;
+    grid-template-columns: auto clamp(2.5rem, 15cqi, 7.5rem) minmax(0, 1fr) auto;
     grid-template-rows: repeat(4, min-content) 1fr;
     grid-template-areas:
-      'media details price'
-      'media variants variants'
-      'media unit_price unit_price'
-      'media quantity quantity'
-      'media error error';
+      'select media details price'
+      'select media variants variants'
+      'select media unit_price unit_price'
+      'select media quantity quantity'
+      'select media error error';
 
     .cart-items__details {
       display: contents;
@@ -569,6 +566,10 @@
     border-block-end: none;
     padding-block-end: 0;
     margin-bottom: 0;
+  }
+
+  .cart-items__select {
+    grid-area: select;
   }
 
   .cart-items__details {
@@ -733,11 +734,11 @@
     .cart-items__table-row {
       --cart-item-price-width: 6rem;
 
-      grid-template-columns: 7.5rem 1fr 1fr minmax(var(--cart-item-price-width), auto);
+      grid-template-columns: auto 7.5rem 1fr 1fr minmax(var(--cart-item-price-width), auto);
       grid-template-rows: min-content 1fr;
       grid-template-areas:
-        'media details quantity price'
-        'media details error error';
+        'select media details quantity price'
+        'select media details error error';
     }
 
     .cart-items__quantity,
@@ -760,10 +761,10 @@
     .cart-drawer .cart-items__table-row--full-width-variants {
       grid-template-rows: min-content min-content min-content 1fr;
       grid-template-areas:
-        'media details quantity price'
-        'media variants variants variants'
-        'media unit_price unit_price unit_price'
-        'media error error error';
+        'select media details quantity price'
+        'select media variants variants variants'
+        'select media unit_price unit_price unit_price'
+        'select media error error error';
 
       .cart-items__quantity,
       .cart-items__price {
