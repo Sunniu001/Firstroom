@@ -1,0 +1,181 @@
+<div class="fr-recommendations-section page-width" id="{{ section.id }}">
+  <div class="fr-recommendations-header">
+    <h2 class="fr-recommendations-title">{{ section.settings.title }}</h2>
+    <div class="fr-recommendations-nav">
+      <button class="fr-carousel-nav-btn fr-rec-prev" aria-label="Previous">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#999" stroke-width="1.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      </button>
+      <button class="fr-carousel-nav-btn fr-rec-next" aria-label="Next">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#111" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  {%- if section.settings.product_list != blank -%}
+    <div class="fr-recommendations-carousel">
+      <div class="fr-recommendations-track">
+        {%- for product in section.settings.product_list -%}
+          <div class="fr-recommendation-card">
+            {% render 'product-card', product_card_product: product %}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- else -%}
+    <product-recommendations class="fr-recommendations-carousel" data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit=8">
+      {%- if recommendations.performed and recommendations.products_count > 0 -%}
+        <div class="fr-recommendations-track">
+          {%- for product in recommendations.products -%}
+            <div class="fr-recommendation-card">
+              <a href="{{ product.url }}" class="fr-rec-img-link">
+                <img src="{{ product.featured_image | img_url: '600x' }}" alt="{{ product.title }}" loading="lazy">
+              </a>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </product-recommendations>
+  {%- endif -%}
+</div>
+
+<style>
+  .fr-recommendations-section {
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+  }
+  .fr-recommendations-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  .fr-recommendations-title {
+    font-size: 22px;
+    font-weight: 500;
+    color: #222;
+    margin: 0;
+  }
+  .fr-recommendations-nav {
+    display: flex;
+    gap: 1rem;
+  }
+  .fr-carousel-nav-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    transition: opacity 0.2s;
+  }
+  .fr-carousel-nav-btn:hover {
+    opacity: 0.6;
+  }
+  .fr-recommendations-carousel {
+    display: block;
+    overflow: hidden;
+  }
+  .fr-recommendations-track {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .fr-recommendations-track::-webkit-scrollbar {
+    display: none;
+  }
+  .fr-recommendation-card {
+    flex: 0 0 calc(25% - 12px);
+    scroll-snap-align: start;
+  }
+  @media (max-width: 900px) {
+    .fr-recommendation-card { flex: 0 0 calc(33.333% - 11px); }
+  }
+  @media (max-width: 600px) {
+    .fr-recommendation-card { flex: 0 0 calc(50% - 8px); }
+  }
+  
+  .fr-rec-img-link {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4/5;
+    overflow: hidden;
+  }
+  .fr-rec-img-link img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  .fr-rec-img-link:hover img {
+    transform: scale(1.03);
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // If using dynamic recommendations, we need to fetch them
+    const recComponent = document.querySelector('product-recommendations.fr-recommendations-carousel');
+    if (recComponent && !recComponent.querySelector('.fr-recommendations-track')) {
+      fetch(recComponent.dataset.url)
+        .then(response => response.text())
+        .then(text => {
+          const html = document.createElement('div');
+          html.innerHTML = text;
+          const recommendations = html.querySelector('.fr-recommendations-track');
+          if (recommendations && recommendations.innerHTML.trim().length) {
+            recComponent.innerHTML = recommendations.outerHTML;
+            initNav();
+          }
+        })
+        .catch(e => {
+          console.error(e);
+        });
+    } else {
+      initNav();
+    }
+
+    function initNav() {
+      const section = document.getElementById('{{ section.id }}');
+      const track = section.querySelector('.fr-recommendations-track');
+      const prevBtn = section.querySelector('.fr-rec-prev');
+      const nextBtn = section.querySelector('.fr-rec-next');
+      
+      if (track && prevBtn && nextBtn) {
+        nextBtn.addEventListener('click', () => {
+          const scrollAmount = track.clientWidth > 600 ? track.clientWidth / 2 : track.clientWidth;
+          track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        });
+        prevBtn.addEventListener('click', () => {
+          const scrollAmount = track.clientWidth > 600 ? track.clientWidth / 2 : track.clientWidth;
+          track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        });
+      }
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "FR Recommended Products",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Recommended products"
+    },
+    {
+      "type": "product_list",
+      "id": "product_list",
+      "label": "Select specific products (Optional)",
+      "info": "If left blank, Shopify will auto-generate recommendations based on the current product."
+    }
+  ],
+  "presets": [
+    {
+      "name": "FR Recommended Products"
+    }
+  ]
+}
+{% endschema %}

@@ -418,10 +418,24 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
+    },
+    "fr_product_tabs": {
+      "type": "fr-product-tabs",
+      "settings": {}
+    },
+    "fr_customer_reviews": {
+      "type": "fr-customer-reviews",
+      "settings": {}
+    },
+    "fr_recommended_products": {
+      "type": "fr-recommended-products",
+      "settings": {}
     }
   },
   "order": [
     "main",
-    "product_recommendations_qggXJq"
+    "fr_product_tabs",
+    "fr_customer_reviews",
+    "fr_recommended_products"
   ]
 }
