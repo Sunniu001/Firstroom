@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "story": {
+      "type": "fr-story",
+      "settings": {
+        "hero_title": "About Us",
+        "intro_title": "Nature-Inspired Designs, Handcrafted With Care",
+        "founders_title": "The Founders",
+        "tradition_title": "Our Tradition"
+      }
+    }
+  },
+  "order": [
+    "story"
+  ]
+}

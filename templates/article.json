@@ -35,19 +35,7 @@
           },
           "blocks": {}
         },
-        "blog-post-details": {
-          "type": "_blog-post-info-text",
-          "name": "Details",
-          "settings": {
-            "show_date": true,
-            "show_author": false,
-            "alignment": "center",
-            "show_alignment": true,
-            "padding-block-start": 0,
-            "padding-block-end": 0
-          },
-          "blocks": {}
-        },
+
         "blog-post-image": {
           "type": "image",
           "name": "Featured image",
@@ -68,18 +56,12 @@
             "padding-inline-end": 0
           },
           "blocks": {}
-        },
-        "blog-post-content": {
-          "type": "_blog-post-content",
-          "settings": {},
-          "blocks": {}
         }
       },
       "block_order": [
         "blog-post-title",
-        "blog-post-details",
-        "blog-post-image",
-        "blog-post-content"
+
+        "blog-post-image"
       ],
       "settings": {
         "content_direction": "column",
