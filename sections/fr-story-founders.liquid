@@ -1,0 +1,190 @@
+<section class="fr-story-founders" id="fr-story-founders-{{ section.id }}" style="background-color: {{ section.settings.bg_color }}; padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px 0;">
+  <div class="fr-story-founders__wrapper">
+    <div class="fr-story-founders__grid">
+
+      {%- if section.settings.image_position == 'right' -%}
+        <!-- Text first, image second -->
+        <div class="fr-story-founders__content">
+          <h2 class="fr-story-founders__title">{{ section.settings.title }}</h2>
+          <div class="fr-story-founders__bio">
+            {{ section.settings.bio_text }}
+          </div>
+        </div>
+        <div class="fr-story-founders__image-wrapper">
+          {%- if section.settings.founders_image != blank -%}
+            <img
+              src="{{ section.settings.founders_image | image_url: width: 1000 }}"
+              alt="{{ section.settings.title | escape }}"
+              class="fr-story-founders__img"
+              loading="lazy"
+            >
+          {%- else -%}
+            {{ 'image' | placeholder_svg_tag: 'fr-story-founders__placeholder' }}
+          {%- endif -%}
+        </div>
+      {%- else -%}
+        <!-- Image first, text second -->
+        <div class="fr-story-founders__image-wrapper">
+          {%- if section.settings.founders_image != blank -%}
+            <img
+              src="{{ section.settings.founders_image | image_url: width: 1000 }}"
+              alt="{{ section.settings.title | escape }}"
+              class="fr-story-founders__img"
+              loading="lazy"
+            >
+          {%- else -%}
+            {{ 'image' | placeholder_svg_tag: 'fr-story-founders__placeholder' }}
+          {%- endif -%}
+        </div>
+        <div class="fr-story-founders__content">
+          <h2 class="fr-story-founders__title">{{ section.settings.title }}</h2>
+          <div class="fr-story-founders__bio">
+            {{ section.settings.bio_text }}
+          </div>
+        </div>
+      {%- endif -%}
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .fr-story-founders {
+    font-family: 'Lato', system-ui, sans-serif;
+  }
+
+  .fr-story-founders__wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .fr-story-founders__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  @media (min-width: 768px) {
+    .fr-story-founders__grid {
+      grid-template-columns: 1fr 1.2fr;
+      gap: 80px;
+    }
+  }
+
+  .fr-story-founders__image-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background-color: #faf8f5;
+  }
+
+  .fr-story-founders__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .fr-story-founders__placeholder {
+    width: 100%;
+    height: 100%;
+    background-color: #faf8f5;
+    color: #cccccc;
+  }
+
+  .fr-story-founders__title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(24px, 2.8vw, 32px);
+    font-weight: 400;
+    line-height: 1.25;
+    margin-top: 0;
+    margin-bottom: 24px;
+    letter-spacing: 0.01em;
+    color: #1a1a1a;
+  }
+
+  .fr-story-founders__bio {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #4a4a4a;
+  }
+
+  .fr-story-founders__bio p {
+    margin: 0 0 20px 0;
+  }
+
+  .fr-story-founders__bio p:last-child {
+    margin-bottom: 0;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "FR Story Founders",
+  "tag": "section",
+  "class": "fr-story-founders-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "About The Founders"
+    },
+    {
+      "type": "image_picker",
+      "id": "founders_image",
+      "label": "Founders Image"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image Position",
+      "options": [
+        { "value": "left", "label": "Image Left" },
+        { "value": "right", "label": "Image Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "richtext",
+      "id": "bio_text",
+      "label": "Biography Text",
+      "default": "<p>First Room Collective was co-founded by <strong>Dharya Gambhir and Ranjana Gambhir</strong>, two creative minds whose backgrounds span design, interiors, architecture, fashion, and brand strategy. United by a shared vision, they set out to create spaces that feel soulful, personal, and deeply connected to culture.</p><p>For them, a home is more than a space—it is a sanctuary and a reflection of identity. Drawing inspiration from India's rich artistic heritage and collaborating with master artisans across the country, their work celebrates handcrafted techniques, intricate motifs, and the timeless art of storytelling through design.</p><p>What began as a response to the absence of emotionally resonant décor has grown into a pursuit of <strong>mindful, slow design</strong>—where every creation is thoughtfully crafted to honour tradition while bringing meaning, beauty, and individuality to the spaces we live in.</p>"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#faf8f5"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "FR Story Founders"
+    }
+  ]
+}
+{% endschema %}
