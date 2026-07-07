@@ -149,7 +149,7 @@
                     mode: 'unscaled'
                   %}
                 {% else %}
-                  {% if product_option.name == 'Paper finish' %}
+                  {% if product_option.name == 'Material' %}
                     {% assign finish_name = product_option_value | escape %}
                     <div class="fr-custom-finish-card">
                       <div class="fr-finish-image fr-finish-{{ finish_name | handleize }}">
@@ -157,21 +157,19 @@
                       </div>
                       <div class="fr-finish-content">
                         <strong>{{ finish_name }} <span class="fr-finish-tag">
-                          {%- if finish_name == 'Canvas' -%}PREMIUM
-                          {%- elsif finish_name == 'Handmade' -%}LUXURY
+                          {%- if finish_name == 'Feather Finish' -%}PREMIUM
+                          {%- elsif finish_name == 'Leather Finish' -%}LUXURY
                           {%- else -%}SUPER LUXURY{%- endif -%}
                         </span></strong>
                         <p class="fr-finish-desc">
-                          {%- if finish_name == 'Canvas' -%}Even texture, vibrant colors.
-                          {%- elsif finish_name == 'Handmade' -%}Natural, earthy feel.
-                          {%- elsif finish_name == 'Sandstone' -%}Rough texture, painting look.
-                          {%- else -%}Soft sheen and ultra-smooth.{%- endif -%}
+                          {%- if finish_name == 'Feather Finish' -%}Even texture, vibrant colors.
+                          {%- elsif finish_name == 'Leather Finish' -%}Natural, earthy feel.
+                          {%- else -%}Rough texture, painting look.{%- endif -%}
                         </p>
                         <p class="fr-finish-sub">
-                          {%- if finish_name == 'Canvas' -%}Bedrooms, home offices & family lounges.
-                          {%- elsif finish_name == 'Handmade' -%}Master bedrooms, Living Room & cozy dens.
-                          {%- elsif finish_name == 'Sandstone' -%}Entryways, feature walls & main living areas.
-                          {%- else -%}Dining rooms, master bedrooms & opulent spaces.{%- endif -%}
+                          {%- if finish_name == 'Feather Finish' -%}Bedrooms, home offices & family lounges.
+                          {%- elsif finish_name == 'Leather Finish' -%}Master bedrooms, Living Room & cozy dens.
+                          {%- else -%}Entryways, feature walls & main living areas.{%- endif -%}
                         </p>
                       </div>
                     </div>
