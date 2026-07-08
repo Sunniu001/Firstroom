@@ -68,10 +68,9 @@
           <span class="buy-buttons-block__bar">
         {%- endif -%}
         {%- if block_settings.show_final_price_showcase -%}
-          <product-price 
+          <fr-price-showcase 
             class="fr-final-price-showcase"
-            data-block-id="{{ block.id }}-final-price"
-            data-product-id="{{ product.id }}"
+            data-raw-price="{{ product.selected_or_first_available_variant.price | default: 0 }}"
           >
             <span class="fr-dim-price-label">Total Price:</span>
             <span class="fr-dim-price-value">
@@ -80,9 +79,9 @@
                 show_unit_price: false
               %}
             </span>
-          </product-price>
+          </fr-price-showcase>
           <style>
-            product-price.fr-final-price-showcase {
+            fr-price-showcase.fr-final-price-showcase {
               display: flex;
               justify-content: space-between;
               align-items: center;
@@ -92,70 +91,64 @@
               border-radius: 8px;
               border: 1px solid #eee;
             }
-            product-price.fr-final-price-showcase .fr-dim-price-label {
+            fr-price-showcase.fr-final-price-showcase .fr-dim-price-label {
               font-size: 14px;
               font-weight: 600;
               color: #333;
             }
-            product-price.fr-final-price-showcase .fr-dim-price-value {
+            fr-price-showcase.fr-final-price-showcase .fr-dim-price-value {
               font-size: 18px;
               font-weight: 700;
               color: #111;
             }
-            product-price.fr-final-price-showcase .price-item__group {
+            fr-price-showcase.fr-final-price-showcase .price-item__group {
               display: flex;
               align-items: center;
               gap: 8px;
             }
           </style>
           <script>
-            document.addEventListener('DOMContentLoaded', () => {
-              const finalPriceContainers = document.querySelectorAll('product-price.fr-final-price-showcase');
-              if (!finalPriceContainers.length) return;
-              
-              finalPriceContainers.forEach(container => {
-                const form = container.closest('form') || container.closest('.product-form') || document.querySelector('form[action*="/cart/add"]');
-                if (!form) return;
-                
-                const qtyInput = form.querySelector('input[name="quantity"]');
-                if (!qtyInput) return;
-                
-                let baseRawPrice = {{ product.selected_or_first_available_variant.price | default: 0 }};
-                
-                document.addEventListener('fr:variant-changed', (e) => {
-                   if (e.detail && e.detail.raw_price) {
-                     baseRawPrice = e.detail.raw_price;
-                     updateTotal();
-                   }
-                });
-
-                function updateTotal() {
-                   const qty = parseInt(qtyInput.value) || 1;
-                   const totalCents = baseRawPrice * qty;
-                   const totalStr = "Rs. " + (totalCents / 100).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                   
-                   const priceValueEl = container.querySelector('.price');
-                   if (priceValueEl) {
-                     priceValueEl.innerHTML = totalStr;
-                   }
+            if (!customElements.get('fr-price-showcase')) {
+              customElements.define('fr-price-showcase', class extends HTMLElement {
+                connectedCallback() {
+                  this.form = this.closest('form') || document.querySelector('form[action*="/cart/add"]');
+                  this.updateTotal = this.updateTotal.bind(this);
+                  
+                  if (this.form) {
+                    this.form.addEventListener('change', this.updateTotal);
+                    this.form.addEventListener('click', () => setTimeout(this.updateTotal, 50));
+                  }
+                  
+                  this.variantChangeListener = (e) => {
+                     if (e.detail && e.detail.raw_price) {
+                       this.dataset.rawPrice = e.detail.raw_price;
+                       this.updateTotal();
+                     }
+                  };
+                  document.addEventListener('fr:variant-changed', this.variantChangeListener);
+                  
+                  // Run initial calculation after a tiny delay to ensure price HTML is fully parsed
+                  setTimeout(this.updateTotal, 50);
                 }
                 
-                qtyInput.addEventListener('change', updateTotal);
-                
-                const observer = new MutationObserver(updateTotal);
-                observer.observe(qtyInput, { attributes: true, attributeFilter: ['value'] });
-                
-                const qtyWrapper = qtyInput.closest('quantity-input, .quantity');
-                if (qtyWrapper) {
-                  qtyWrapper.addEventListener('click', () => {
-                    setTimeout(updateTotal, 50);
-                  });
+                disconnectedCallback() {
+                  document.removeEventListener('fr:variant-changed', this.variantChangeListener);
                 }
                 
-                // Initial update
-                setTimeout(updateTotal, 100);
+                updateTotal() {
+                  const qtyInput = this.form ? this.form.querySelector('input[name="quantity"]') : null;
+                  const qty = qtyInput ? (parseInt(qtyInput.value) || 1) : 1;
+                  const baseRawPrice = parseInt(this.dataset.rawPrice) || 0;
+                  const totalCents = baseRawPrice * qty;
+                  const totalStr = "Rs. " + (totalCents / 100).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                  
+                  const priceValueEl = this.querySelector('.price') || this.querySelector('.price-item');
+                  if (priceValueEl) {
+                    priceValueEl.innerHTML = totalStr;
+                  }
+                }
               });
-            });
+            }
           </script>
         {%- endif -%}
         <div
