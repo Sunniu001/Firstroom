@@ -134,7 +134,7 @@
                    const totalCents = baseRawPrice * qty;
                    const totalStr = "Rs. " + (totalCents / 100).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                    
-                   const priceValueEl = container.querySelector('.price-item');
+                   const priceValueEl = container.querySelector('.price');
                    if (priceValueEl) {
                      priceValueEl.innerHTML = totalStr;
                    }
