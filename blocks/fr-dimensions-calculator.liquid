@@ -75,8 +75,19 @@
         <span class="fr-dim-price-value" id="fr-dim-total-price"></span>
       </div>
 
-      <button type="submit" name="add" id="fr-add-to-cart-btn" class="fr-btn-add">
-        ADD TO CART
+      <button type="submit" name="add" id="fr-add-to-cart-btn" class="button button--primary" style="width: 100%;">
+        <span class="add-to-cart-text">
+          <span aria-hidden="true" class="svg-wrapper add-to-cart-icon">
+            {{- 'icon-add-to-cart.svg' | inline_asset_content -}}
+          </span>
+          <span class="add-to-cart-text__content">
+            <span>
+              <span>
+                ADD TO CART
+              </span>
+            </span>
+          </span>
+        </span>
       </button>
     {%- endform -%}
   </product-form-component>
@@ -181,7 +192,7 @@
   padding-top: 10px;
   line-height: 1.5;
 }
-.fr-btn-calc, .fr-btn-add {
+.fr-btn-calc {
   width: 100%;
   background: #000;
   color: #fff;
@@ -195,7 +206,7 @@
   text-transform: uppercase;
   transition: background 0.2s;
 }
-.fr-btn-calc:hover, .fr-btn-add:hover {
+.fr-btn-calc:hover {
   background: #333;
 }
 .fr-dim-price-display {
