@@ -24,6 +24,10 @@
   assign fieldset_index = 0
 %}
 
+{% if product_resource.type contains 'Nameplate' or template.suffix contains 'nameplate' %}
+  {% render 'fr-nameplate-preview', product: product_resource %}
+{% endif %}
+
 {% unless product_resource.has_only_default_variant %}
   {% if has_custom_variant_buttons %}
     {% render 'variant-button-custom-styles', block_settings: block_settings, block_id: block.id %}
