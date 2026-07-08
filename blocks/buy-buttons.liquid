@@ -67,6 +67,44 @@
           {%- render 'gift-card-recipient-form', product: product, form: form, section: section, block: block -%}
           <span class="buy-buttons-block__bar">
         {%- endif -%}
+        {%- if block_settings.show_final_price_showcase -%}
+          <div class="fr-final-price-showcase">
+            <span class="fr-dim-price-label">Total Price:</span>
+            <span class="fr-dim-price-value">
+              {% render 'price',
+                product_resource: product,
+                show_unit_price: false
+              %}
+            </span>
+          </div>
+          <style>
+            .fr-final-price-showcase {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              background: #fcfcfc;
+              padding: 16px 20px;
+              margin-bottom: 20px;
+              border-radius: 8px;
+              border: 1px solid #eee;
+            }
+            .fr-final-price-showcase .fr-dim-price-label {
+              font-size: 14px;
+              font-weight: 600;
+              color: #333;
+            }
+            .fr-final-price-showcase .fr-dim-price-value {
+              font-size: 18px;
+              font-weight: 700;
+              color: #111;
+            }
+            .fr-final-price-showcase .price-item__group {
+              display: flex;
+              align-items: center;
+              gap: 8px;
+            }
+          </style>
+        {%- endif -%}
         <div
           class="product-form-buttons spacing-style{% if block_settings.stacking %} product-form-buttons--stacked{% endif %}"
           style="{% render 'spacing-style', settings: block_settings %}"
@@ -385,6 +423,12 @@
       "type": "checkbox",
       "id": "show_pickup_availability",
       "label": "t:settings.show_pickup_availability",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_final_price_showcase",
+      "label": "Show Final Price Showcase",
       "default": true
     },
     {
