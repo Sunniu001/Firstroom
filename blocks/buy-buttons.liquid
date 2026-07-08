@@ -108,6 +108,55 @@
               gap: 8px;
             }
           </style>
+          <script>
+            document.addEventListener('DOMContentLoaded', () => {
+              const finalPriceContainers = document.querySelectorAll('product-price.fr-final-price-showcase');
+              if (!finalPriceContainers.length) return;
+              
+              finalPriceContainers.forEach(container => {
+                const form = container.closest('form') || container.closest('.product-form') || document.querySelector('form[action*="/cart/add"]');
+                if (!form) return;
+                
+                const qtyInput = form.querySelector('input[name="quantity"]');
+                if (!qtyInput) return;
+                
+                let baseRawPrice = {{ product.selected_or_first_available_variant.price | default: 0 }};
+                
+                document.addEventListener('fr:variant-changed', (e) => {
+                   if (e.detail && e.detail.raw_price) {
+                     baseRawPrice = e.detail.raw_price;
+                     updateTotal();
+                   }
+                });
+
+                function updateTotal() {
+                   const qty = parseInt(qtyInput.value) || 1;
+                   const totalCents = baseRawPrice * qty;
+                   const totalStr = "Rs. " + (totalCents / 100).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                   
+                   const priceValueEl = container.querySelector('.price-item');
+                   if (priceValueEl) {
+                     priceValueEl.innerHTML = totalStr;
+                   }
+                }
+                
+                qtyInput.addEventListener('change', updateTotal);
+                
+                const observer = new MutationObserver(updateTotal);
+                observer.observe(qtyInput, { attributes: true, attributeFilter: ['value'] });
+                
+                const qtyWrapper = qtyInput.closest('quantity-input, .quantity');
+                if (qtyWrapper) {
+                  qtyWrapper.addEventListener('click', () => {
+                    setTimeout(updateTotal, 50);
+                  });
+                }
+                
+                // Initial update
+                setTimeout(updateTotal, 100);
+              });
+            });
+          </script>
         {%- endif -%}
         <div
           class="product-form-buttons spacing-style{% if block_settings.stacking %} product-form-buttons--stacked{% endif %}"

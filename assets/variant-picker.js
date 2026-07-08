@@ -109,6 +109,11 @@ export default class VariantPicker extends Component {
                 el.closest('.price-item__group')?.classList.add('hidden');
               }
             });
+            
+            // Dispatch event for quantity calculations
+            document.dispatchEvent(new CustomEvent('fr:variant-changed', {
+              detail: { raw_price: variantData.raw_price }
+            }));
           }
         }
       } catch (e) {
