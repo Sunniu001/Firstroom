@@ -1,0 +1,861 @@
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign mm_bg = product.metafields.mockupmate.mm_bg.value | default: product.metafields.mockupmate.mm_bg -%}
+{%- assign mm_box = product.metafields.mockupmate.mm_box.value | default: product.metafields.mockupmate.mm_box -%}
+{%- assign mm_text_color = product.metafields.mockupmate.mm_text_color.value | default: product.metafields.mockupmate.mm_text_color | default: 'dark' -%}
+{%- assign mm_max_chars = product.metafields.mockupmate.mm_max_chars.value | default: product.metafields.mockupmate.mm_max_chars | default: 20 -%}
+
+<!-- Custom Script Fonts for Overlay Previews -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Caveat:wght@700&family=Dancing+Script:wght@700&family=Pacifico&family=Playball&family=Sacramento&family=Satisfy&family=Yellowtail&display=swap" rel="stylesheet">
+
+<div 
+  class="mockupmate-personalizer-wrapper" 
+  id="mockupmate-block-{{ block.id }}" 
+  data-product-id="{{ product.id }}"
+  style="
+    {% if block.settings.show_card_wrapper %}
+      background: {{ block.settings.bg_color }};
+      border: 1px solid {{ block.settings.border_color }};
+      border-radius: {{ block.settings.border_radius }}px;
+      padding: {{ block.settings.padding }}px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+    {% else %}
+      background: transparent;
+      border: none;
+      padding: 0;
+      box-shadow: none;
+    {% endif %}
+    --text-color: {{ block.settings.text_color }};
+    --accent-color: {{ block.settings.accent_color }};
+    --border-color: {{ block.settings.border_color }};
+    --border-radius: {{ block.settings.border_radius }}px;
+  "
+>
+  
+  {% if block.settings.show_title %}
+    <!-- Sleek Premium Title & Subtitle -->
+    <div class="mm-header-group">
+      <span class="mm-badge" style="background: {{ block.settings.accent_color }}15; color: {{ block.settings.accent_color }}">Personalize</span>
+      <h3 class="mm-title" style="color: {{ block.settings.text_color }}">Customize Your Product</h3>
+      <p class="mm-subtitle" style="color: {{ block.settings.text_color }}90">Type your name below to see a live preview instantly.</p>
+    </div>
+  {% endif %}
+
+  {% if block.settings.show_price_variants %}
+    <!-- Price & Variant Selectors (Optional) -->
+    <div class="mm-price-row">
+      <span class="mm-price" id="mm-price-{{ block.id }}" style="color: {{ block.settings.accent_color }}">
+        {{ current_variant.price | money }}
+      </span>
+      {% if current_variant.compare_at_price > current_variant.price %}
+        <span class="mm-compare-price" id="mm-compare-{{ block.id }}">{{ current_variant.compare_at_price | money }}</span>
+      {% endif %}
+    </div>
+
+    {%- unless product.has_only_default_variant -%}
+      <div class="mm-variants-container">
+        {%- for option in product.options_with_values -%}
+          <div class="mm-option-group">
+            <label class="mm-option-label" style="color: {{ block.settings.text_color }}">{{ option.name }}</label>
+            <div class="mm-pill-grid mm-option-buttons-{{ block.id }}" data-option-index="{{ forloop.index0 }}">
+              {%- for value in option.values -%}
+                <button
+                  type="button"
+                  class="mm-pill-btn {% if option.selected_value == value %}selected{% endif %}"
+                  data-value="{{ value | escape }}"
+                  style="--accent-color: {{ block.settings.accent_color }}"
+                >
+                  {{ value }}
+                </button>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endunless -%}
+  {% endif %}
+
+  <!-- Inputs Section -->
+  <div class="mm-inputs-grid">
+    <div class="mm-field-group">
+      <div class="mm-label-row">
+        <label class="mm-label" for="mm-input-text-{{ block.id }}">Enter Text</label>
+        <span class="mm-char-counter" id="mm-char-counter-{{ block.id }}">(0/{{ mm_max_chars }})</span>
+      </div>
+      <input
+        type="text"
+        id="mm-input-text-{{ block.id }}"
+        name="properties[Name]"
+        placeholder="e.g. Charlotte"
+        class="mm-text-input"
+        maxlength="{{ mm_max_chars }}"
+        required
+      >
+    </div>
+
+    <div class="mm-field-group">
+      <label class="mm-label" for="mm-input-font-{{ block.id }}">Choose Script Font</label>
+      <select id="mm-input-font-{{ block.id }}" name="properties[Font]" class="mm-select">
+        <option value="'Dancing Script', cursive">Apricot (Dancing Script)</option>
+        <option value="'Pacifico', cursive">Dreambig (Pacifico)</option>
+        <option value="'Playball', cursive">Vintage Lander (Playball)</option>
+        <option value="'Alex Brush', cursive">Ballerina (Alex Brush)</option>
+        <option value="'Caveat', cursive">Sweet Chocolate (Caveat)</option>
+        <option value="'Satisfy', cursive">Hello (Satisfy)</option>
+        <option value="'Sacramento', cursive">Riviera (Sacramento)</option>
+        <option value="'Yellowtail', cursive">Signatra (Yellowtail)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Interactive Mockup Preview -->
+  {%- if mm_bg != blank -%}
+    <div class="mm-preview-section">
+      <label class="mm-label">Live Preview</label>
+      <div class="mm-mockup-frame">
+        <div class="mm-mockup-container" id="mm-mockup-{{ block.id }}">
+          {%- if mm_bg contains 'cdn.shopify.com' or mm_bg contains '/' -%}
+            <img src="{{ mm_bg }}" alt="Custom Mockup Preview" id="mm-bg-img-{{ block.id }}" class="mm-bg-img" width="800" height="800" loading="eager">
+          {%- else -%}
+            <img src="{{ mm_bg | image_url: width: 800 }}" alt="Custom Mockup Preview" id="mm-bg-img-{{ block.id }}" class="mm-bg-img" width="800" height="800" loading="eager">
+          {%- endif -%}
+          <div class="mm-text-overlay" id="mm-overlay-{{ block.id }}">Your Name</div>
+          
+          <button type="button" class="mm-zoom-btn" id="mm-zoom-btn-{{ block.id }}" title="Zoom Preview">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+          </button>
+        </div>
+      </div>
+      <p class="mm-disclaimer">⚡ Live digital mockup. Final handcrafted placement may vary slightly.</p>
+    </div>
+  {%- endif -%}
+
+  <!-- Zoom Modal -->
+  <div class="mm-modal" id="mm-modal-{{ block.id }}">
+    <div class="mm-modal-overlay" id="mm-modal-overlay-{{ block.id }}"></div>
+    <div class="mm-modal-content">
+      <button type="button" class="mm-modal-close" id="mm-modal-close-{{ block.id }}">&times;</button>
+      <div id="mm-modal-body-{{ block.id }}"></div>
+    </div>
+  </div>
+
+  <!-- Total Price and Add to Cart Button -->
+  <div class="mm-footer-section">
+    {% if block.settings.show_price_variants %}
+      <div class="mm-total-price-group">
+        <span class="mm-total-label">Total Price:</span>
+        <span class="mm-total-amount" id="mm-total-price-{{ block.id }}" style="color: {{ block.settings.accent_color }}">
+          {{ current_variant.price | money }}
+        </span>
+      </div>
+    {% endif %}
+
+    <button type="button" class="mm-add-cart-btn" id="mm-addcart-btn-{{ block.id }}" style="background: {{ block.settings.accent_color }}; border-color: {{ block.settings.accent_color }}">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+      <span>{{ block.settings.button_text }}</span>
+    </button>
+  </div>
+
+  <!-- Variants Data -->
+  <script type="application/json" id="mm-variants-json-{{ block.id }}">
+    {{ product.variants | json }}
+  </script>
+</div>
+
+<style>
+  .mockupmate-personalizer-wrapper {
+    font-family: inherit;
+    margin: 2rem 0;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    width: 100%;
+  }
+  
+  .mm-header-group {
+    margin-bottom: 1.5rem;
+  }
+  .mm-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+  }
+  .mm-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin: 0 0 0.25rem 0;
+    letter-spacing: -0.5px;
+    font-family: inherit;
+  }
+  .mm-subtitle {
+    font-size: 0.875rem;
+    margin: 0;
+    font-family: inherit;
+  }
+
+  .mm-price-row {
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .mm-price {
+    font-size: 1.6rem;
+    font-weight: 800;
+  }
+  .mm-compare-price {
+    font-size: 1.15rem;
+    text-decoration: line-through;
+    color: #9ca3af;
+  }
+
+  .mm-option-group {
+    margin-bottom: 1rem;
+  }
+  .mm-option-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  .mm-pill-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .mm-pill-btn {
+    background: #ffffff;
+    border: 1.5px solid var(--border-color);
+    padding: 0.625rem 1.15rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #4b5563;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .mm-pill-btn:hover {
+    border-color: #9ca3af;
+    color: #1f2937;
+  }
+  .mm-pill-btn.selected {
+    background: var(--accent-color);
+    color: #ffffff;
+    border-color: var(--accent-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .mm-inputs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .mm-field-group {
+    display: flex;
+    flex-direction: column;
+  }
+  .mm-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  .mm-label {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--text-color);
+  }
+  .mm-char-counter {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #9ca3af;
+  }
+
+  .mm-text-input {
+    background: #f9fafb;
+    border: 1.5px solid var(--border-color);
+    padding: 0.75rem 1rem;
+    border-radius: calc(var(--border-radius) / 2);
+    font-size: 1rem;
+    font-weight: 500;
+    color: #111827;
+    width: 100%;
+    outline: none;
+    box-sizing: border-box;
+    font-family: inherit;
+    transition: all 0.2s ease;
+  }
+  .mm-text-input:focus {
+    border-color: var(--accent-color);
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  .mm-select {
+    background: #f9fafb;
+    border: 1.5px solid var(--border-color);
+    padding: 0.75rem 1rem;
+    border-radius: calc(var(--border-radius) / 2);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #111827;
+    width: 100%;
+    outline: none;
+    box-sizing: border-box;
+    font-family: inherit;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E");
+    background-position: right 0.75rem center;
+    background-repeat: no-repeat;
+    background-size: 1.25rem;
+    appearance: none;
+    transition: all 0.2s ease;
+  }
+  .mm-select:focus {
+    border-color: var(--accent-color);
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  .mm-preview-section {
+    margin-bottom: 1.75rem;
+  }
+  .mm-preview-section .mm-label {
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .mm-mockup-frame {
+    background: transparent;
+    border-radius: 8px;
+    padding: 0px;
+    border: none;
+  }
+  .mm-mockup-container {
+    position: relative;
+    width: 100%;
+    border-radius: calc(var(--border-radius) / 2);
+    overflow: hidden;
+    background: #f3f4f6;
+    display: block; /* Adaptive aspect ratio based on natural image size */
+  }
+  .mm-bg-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    user-select: none;
+  }
+  .mm-text-overlay {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.2;
+    pointer-events: none;
+    box-sizing: border-box;
+    padding: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mm-zoom-btn {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #1f2937;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  .mm-zoom-btn:hover {
+    background: #ffffff;
+    transform: scale(1.08);
+  }
+
+  .mm-disclaimer {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #9ca3af;
+    text-align: center;
+    margin: 0.75rem 0 0 0;
+  }
+
+  /* Modal */
+  .mm-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100000;
+    align-items: center;
+    justify-content: center;
+  }
+  .mm-modal.active {
+    display: flex;
+  }
+  .mm-modal-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(17, 24, 39, 0.7);
+    backdrop-filter: blur(8px);
+  }
+  .mm-modal-content {
+    position: relative;
+    background: #ffffff;
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    width: 90%;
+    max-width: 650px;
+    max-height: 90vh;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    z-index: 2;
+    overflow: hidden;
+  }
+  .mm-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    font-size: 2.25rem;
+    font-weight: 300;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #9ca3af;
+    line-height: 1;
+    z-index: 10;
+  }
+  .mm-modal-close:hover {
+    color: #1f2937;
+  }
+
+  /* Footer & ATC Button */
+  .mm-footer-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    flex-wrap: wrap;
+  }
+  .mm-total-price-group {
+    display: flex;
+    flex-direction: column;
+  }
+  .mm-total-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .mm-total-amount {
+    font-size: 1.85rem;
+    font-weight: 800;
+  }
+
+  .mm-add-cart-btn {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: #ffffff;
+    border: 1.5px solid transparent;
+    padding: 0.95rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    border-radius: calc(var(--border-radius) / 2);
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-family: inherit;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+  }
+  .mm-add-cart-btn:hover {
+    filter: brightness(1.06);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px -5px rgba(0, 0, 0, 0.15);
+  }
+  .mm-add-cart-btn:active {
+    transform: translateY(0);
+  }
+  .mm-add-cart-btn:disabled {
+    background: #d1d5db !important;
+    border-color: #d1d5db !important;
+    color: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+</style>
+
+<script>
+  (document.ready || function(cb) {
+    if (document.readyState !== 'loading') cb();
+    else document.addEventListener('DOMContentLoaded', cb);
+  })(function() {
+    const blockId = "{{ block.id }}";
+    const container = document.getElementById(`mockupmate-block-${blockId}`);
+    if (!container) return;
+
+    let variants = [];
+    try {
+      const el = document.getElementById(`mm-variants-json-${blockId}`);
+      if (el) variants = JSON.parse(el.textContent) || [];
+    } catch(e) { console.error('Variants JSON parsing error', e); }
+
+    // Money formatter
+    const formatMoney = function(cents) {
+      const hasINR = "{{ 100 | money }}".includes('₹');
+      if (hasINR) {
+        return '₹' + (cents / 100).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+      return '$' + (cents / 100).toFixed(2);
+    };
+
+    // Current selection tracking
+    let selectedOptions = [];
+    const optionPillGroups = container.querySelectorAll('.mm-option-buttons-' + blockId);
+    optionPillGroups.forEach(g => {
+      const selectedBtn = g.querySelector('.selected');
+      if (selectedBtn) {
+        selectedOptions.push(selectedBtn.getAttribute('data-value'));
+      }
+    });
+
+    const getMatchingVariant = () => {
+      if (variants.length === 1 && selectedOptions.length === 0) return variants[0];
+
+      // Fallback: If option button selectors are not shown, find variant from standard product page form input
+      if (optionPillGroups.length === 0 || !container.querySelector('.mm-variants-container')) {
+        const nativeIdInput = container.closest('form[action="/cart/add"]')
+          ? container.closest('form[action="/cart/add"]').querySelector('input[name="id"]')
+          : document.querySelector('form[action="/cart/add"] input[name="id"]') || document.querySelector('input[name="id"]');
+        if (nativeIdInput) {
+          const nativeId = Number(nativeIdInput.value);
+          const matched = variants.find(v => v.id === nativeId);
+          if (matched) return matched;
+        }
+      }
+
+      return variants.find(v => selectedOptions.every((val, index) => v[`option${index+1}`] === val));
+    };
+
+    const priceEl = document.getElementById(`mm-price-${blockId}`);
+    const compareEl = document.getElementById(`mm-compare-${blockId}`);
+    const totalEl = document.getElementById(`mm-total-price-${blockId}`);
+    const addCartBtn = document.getElementById(`mm-addcart-btn-${blockId}`);
+
+    const updateUIForVariant = () => {
+      const variant = getMatchingVariant();
+      if (!variant) return;
+
+      const formattedPrice = formatMoney(variant.price);
+      if (priceEl) priceEl.textContent = formattedPrice;
+      if (totalEl) totalEl.textContent = formattedPrice;
+
+      if (variant.compare_at_price && variant.compare_at_price > variant.price) {
+        if (compareEl) {
+          compareEl.textContent = formatMoney(variant.compare_at_price);
+          compareEl.style.display = 'inline';
+        }
+      } else {
+        if (compareEl) compareEl.style.display = 'none';
+      }
+
+      if (addCartBtn) {
+        addCartBtn.disabled = !variant.available;
+        const btnTextSpan = addCartBtn.querySelector('span');
+        if (btnTextSpan) {
+          btnTextSpan.textContent = variant.available ? "{{ block.settings.button_text }}" : "SOLD OUT";
+        }
+      }
+    };
+
+    // Watch for variant change on native selectors (Dawn/other theme support)
+    const nativeIdInput = document.querySelector('form[action="/cart/add"] input[name="id"]');
+    if (nativeIdInput) {
+      // Create custom observer on native input change
+      const observer = new MutationObserver(function() {
+        updateUIForVariant();
+      });
+      observer.observe(nativeIdInput, { attributes: true, attributeFilter: ['value'] });
+      // Fallback: poll input value for themes that don't trigger mutation
+      setInterval(updateUIForVariant, 1000);
+    }
+
+    optionPillGroups.forEach((group, index) => {
+      group.addEventListener('click', e => {
+        const btn = e.target.closest('.mm-pill-btn');
+        if (!btn) return;
+        group.querySelectorAll('.mm-pill-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedOptions[index] = btn.getAttribute('data-value');
+        
+        const variant = getMatchingVariant();
+        if (variant) {
+          const newUrl = new URL(window.location.href);
+          newUrl.searchParams.set('variant', variant.id);
+          window.history.replaceState({}, '', newUrl.toString());
+        }
+        updateUIForVariant();
+      });
+    });
+
+    // Mockup Canvas Logic
+    const coordsRaw = "{{ mm_box }}";
+    const textTheme = "{{ mm_text_color }}";
+    let boxCoords = null;
+    if (coordsRaw && coordsRaw.includes(',')) {
+      const parts = coordsRaw.split(',').map(Number);
+      if (parts.length === 4 && !parts.some(isNaN)) {
+        boxCoords = { x: parts[0], y: parts[1], w: parts[2], h: parts[3] };
+      }
+    }
+
+    const textInput = document.getElementById(`mm-input-text-${blockId}`);
+    const fontSelect = document.getElementById(`mm-input-font-${blockId}`);
+    const charCounter = document.getElementById(`mm-char-counter-${blockId}`);
+    const bgImg = document.getElementById(`mm-bg-img-${blockId}`);
+    const overlay = document.getElementById(`mm-overlay-${blockId}`);
+    const zoomBtn = document.getElementById(`mm-zoom-btn-${blockId}`);
+    
+    const modal = document.getElementById(`mm-modal-${blockId}`);
+    const modalBody = document.getElementById(`mm-modal-body-${blockId}`);
+    const modalOverlay = document.getElementById(`mm-modal-overlay-${blockId}`);
+    const modalClose = document.getElementById(`mm-modal-close-${blockId}`);
+
+    function applyTextOverlay(el, img, isZoomed) {
+      if (!el) return;
+      const val = textInput ? (textInput.value.trim() || 'Your Name') : 'Your Name';
+      el.textContent = val;
+      if (fontSelect) el.style.fontFamily = fontSelect.value;
+      
+      el.style.color = textTheme === 'light' ? '#ffffff' : '#111827';
+      el.style.textShadow = textTheme === 'light'
+        ? '1px 1px 0px rgba(0,0,0,0.15), 2px 2px 3px rgba(0,0,0,0.3)'
+        : '1px 1px 0px rgba(255,255,255,0.8), 2px 2px 3px rgba(0,0,0,0.1)';
+
+      const baseRem = isZoomed ? 6.0 : 2.5;
+      const factor = isZoomed ? 0.22 : 0.1;
+      el.style.fontSize = Math.max(0.8, baseRem - (val.length > 10 ? (val.length - 10) * factor : 0)) + 'rem';
+
+      if (boxCoords && img && img.naturalWidth) {
+        const nW = img.naturalWidth, nH = img.naturalHeight;
+        el.style.top = ((boxCoords.y / nH) * 100) + '%';
+        el.style.left = ((boxCoords.x / nW) * 100) + '%';
+        el.style.width = ((boxCoords.w / nW) * 100) + '%';
+        el.style.height = ((boxCoords.h / nH) * 100) + '%';
+        el.style.transform = 'none';
+      } else {
+        el.style.top = '50%';
+        el.style.left = '50%';
+        el.style.width = '80%';
+        el.style.transform = 'translate(-50%, -50%)';
+      }
+    }
+
+    function refreshPreview() {
+      if (textInput && charCounter) {
+        charCounter.textContent = `(${textInput.value.length}/{{ mm_max_chars }})`;
+      }
+      if (overlay && bgImg) {
+        applyTextOverlay(overlay, bgImg, false);
+      }
+    }
+
+    if (textInput) textInput.addEventListener('input', refreshPreview);
+    if (fontSelect) fontSelect.addEventListener('change', refreshPreview);
+    if (bgImg) {
+      if (bgImg.complete) {
+        refreshPreview();
+      } else {
+        bgImg.addEventListener('load', refreshPreview);
+      }
+    }
+
+    // Zoom Overlay Modal handler
+    if (zoomBtn) {
+      zoomBtn.addEventListener('click', () => {
+        if (!modal || !modalBody) return;
+        modalBody.innerHTML = '';
+        const mockupEl = document.getElementById(`mm-mockup-${blockId}`);
+        if (!mockupEl) return;
+        
+        const clone = mockupEl.cloneNode(true);
+        clone.removeAttribute('id');
+        clone.style.width = '100%';
+        clone.style.aspectRatio = ''; // Remove hardcoded aspect ratio for natural scaling
+        
+        const cloneZoom = clone.querySelector('.mm-zoom-btn');
+        if (cloneZoom) cloneZoom.remove();
+        
+        modalBody.appendChild(clone);
+        modal.classList.add('active');
+        
+        const cloneOverlay = clone.querySelector('.mm-text-overlay');
+        const cloneImg = clone.querySelector('.mm-bg-img');
+        
+        if (cloneImg) {
+          if (cloneImg.complete) {
+            applyTextOverlay(cloneOverlay, cloneImg, true);
+          } else {
+            cloneImg.addEventListener('load', () => applyTextOverlay(cloneOverlay, cloneImg, true));
+          }
+        }
+      });
+    }
+
+    const closeModal = () => {
+      if (modal) {
+        modal.classList.remove('active');
+        if (modalBody) modalBody.innerHTML = '';
+      }
+    };
+    if (modalOverlay) modalOverlay.addEventListener('click', closeModal);
+    if (modalClose) modalClose.addEventListener('click', closeModal);
+
+    // AJAX Add to Cart
+    if (addCartBtn) {
+      addCartBtn.addEventListener('click', async e => {
+        e.preventDefault();
+        if (addCartBtn.disabled) return;
+
+        const valueText = textInput ? textInput.value.trim() : '';
+        if (!valueText) {
+          if (textInput) {
+            textInput.focus();
+            textInput.style.borderColor = '#ef4444';
+            textInput.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
+            setTimeout(() => {
+              textInput.style.borderColor = '';
+              textInput.style.boxShadow = '';
+            }, 2000);
+          }
+          return;
+        }
+
+        const variant = getMatchingVariant();
+        if (!variant) return;
+
+        const fontLabel = fontSelect ? fontSelect.options[fontSelect.selectedIndex].text : '';
+        const originalBtnHTML = addCartBtn.innerHTML;
+        addCartBtn.innerHTML = `
+          <svg class="mm-spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="animation: mm-spin 1s linear infinite;"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 0 10 10"></path></svg>
+          <span>Adding...</span>
+        `;
+        addCartBtn.disabled = true;
+
+        if (!document.getElementById('mm-spinner-styles')) {
+          const style = document.createElement('style');
+          style.id = 'mm-spinner-styles';
+          style.innerHTML = `@keyframes mm-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`;
+          document.head.appendChild(style);
+        }
+
+        try {
+          const res = await fetch('/cart/add.js', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+              id: variant.id,
+              quantity: 1,
+              properties: {
+                'Name': valueText,
+                'Font': fontLabel
+              }
+            })
+          });
+          const data = await res.json();
+          if (res.ok) {
+            addCartBtn.innerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              <span>Added to Cart!</span>
+            `;
+            addCartBtn.style.background = '#059669';
+            addCartBtn.style.borderColor = '#059669';
+
+            fetch('/cart.js')
+              .then(r => r.json())
+              .then(cart => {
+                document.querySelectorAll('[data-cart-count], .cart-count, #cart-count, .cart-icon-bubble span').forEach(el => {
+                  el.textContent = Math.round(cart.item_count);
+                });
+              })
+              .catch(e => console.error('Cart refresh error', e));
+
+            document.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true }));
+
+            setTimeout(() => {
+              addCartBtn.innerHTML = originalBtnHTML;
+              addCartBtn.style.background = '';
+              addCartBtn.style.borderColor = '';
+              addCartBtn.disabled = false;
+            }, 2500);
+          } else {
+            throw new Error(data.description || 'Failed to add item');
+          }
+        } catch(error) {
+          addCartBtn.innerHTML = originalBtnHTML;
+          addCartBtn.disabled = false;
+          alert('Add to Cart failed: ' + error.message);
+        }
+      });
+    }
+
+    updateUIForVariant();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "MockupMate Personalizer",
+  "target": "section",
+  "templates": ["product"],
+  "settings": [
+    { "type": "product", "id": "product", "label": "Product", "autofill": true },
+    { "type": "text", "id": "button_text", "label": "Button Text", "default": "ADD TO CART" },
+    { "type": "header", "content": "Layout & Visibility" },
+    { "type": "checkbox", "id": "show_card_wrapper", "label": "Show Card Container (Border & Background)", "default": true },
+    { "type": "checkbox", "id": "show_title", "label": "Show Personalization Title", "default": true },
+    { "type": "checkbox", "id": "show_price_variants", "label": "Show Price & Variant Selectors", "default": false },
+    { "type": "header", "content": "Theme Colors" },
+    { "type": "color", "id": "bg_color", "label": "Card Background Color", "default": "#ffffff" },
+    { "type": "color", "id": "border_color", "label": "Border Color", "default": "#e5e7eb" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#111827" },
+    { "type": "color", "id": "accent_color", "label": "Accent Color", "default": "#2563eb" },
+    { "type": "range", "id": "border_radius", "label": "Border Radius", "min": 0, "max": 30, "step": 2, "default": 16, "unit": "px" },
+    { "type": "range", "id": "padding", "label": "Card Padding", "min": 0, "max": 40, "step": 4, "default": 24, "unit": "px" }
+  ]
+}
+{% endschema %}
