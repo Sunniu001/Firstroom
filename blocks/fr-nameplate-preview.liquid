@@ -1,5 +1,5 @@
 {%- assign current_variant = product.selected_or_first_available_variant -%}
-{%- assign mm_bg = product.metafields.mockupmate.mm_bg.value | default: product.metafields.mockupmate.mm_bg -%}
+{%- assign mm_bg = product.metafields.mockupmate.mm_bg.value | default: product.metafields.mockupmate.mm_bg | default: product.featured_image -%}
 {%- assign mm_box = product.metafields.mockupmate.mm_box.value | default: product.metafields.mockupmate.mm_box -%}
 {%- assign mm_text_color = product.metafields.mockupmate.mm_text_color.value | default: product.metafields.mockupmate.mm_text_color | default: 'dark' -%}
 {%- assign mm_max_chars = product.metafields.mockupmate.mm_max_chars.value | default: product.metafields.mockupmate.mm_max_chars | default: 20 -%}
@@ -90,13 +90,14 @@
         placeholder="e.g. Charlotte"
         class="mm-text-input"
         maxlength="{{ mm_max_chars }}"
+        form="BuyButtons-ProductForm-{{ section.id }}"
         required
       >
     </div>
 
     <div class="mm-field-group">
       <label class="mm-label" for="mm-input-font-{{ block.id }}">Choose Script Font</label>
-      <select id="mm-input-font-{{ block.id }}" name="properties[Font]" class="mm-select">
+      <select id="mm-input-font-{{ block.id }}" name="properties[Font]" class="mm-select" form="BuyButtons-ProductForm-{{ section.id }}">
         <option value="'Dancing Script', cursive">Apricot (Dancing Script)</option>
         <option value="'Pacifico', cursive">Dreambig (Pacifico)</option>
         <option value="'Playball', cursive">Vintage Lander (Playball)</option>
@@ -138,23 +139,6 @@
       <button type="button" class="mm-modal-close" id="mm-modal-close-{{ block.id }}">&times;</button>
       <div id="mm-modal-body-{{ block.id }}"></div>
     </div>
-  </div>
-
-  <!-- Total Price and Add to Cart Button -->
-  <div class="mm-footer-section">
-    {% if block.settings.show_price_variants %}
-      <div class="mm-total-price-group">
-        <span class="mm-total-label">Total Price:</span>
-        <span class="mm-total-amount" id="mm-total-price-{{ block.id }}" style="color: {{ block.settings.accent_color }}">
-          {{ current_variant.price | money }}
-        </span>
-      </div>
-    {% endif %}
-
-    <button type="button" class="mm-add-cart-btn" id="mm-addcart-btn-{{ block.id }}" style="background: {{ block.settings.accent_color }}; border-color: {{ block.settings.accent_color }}">
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-      <span>{{ block.settings.button_text }}</span>
-    </button>
   </div>
 
   <!-- Variants Data -->
@@ -346,7 +330,7 @@
     border-radius: calc(var(--border-radius) / 2);
     overflow: hidden;
     background: #f3f4f6;
-    display: block; /* Adaptive aspect ratio based on natural image size */
+    display: block;
   }
   .mm-bg-img {
     display: block;
@@ -450,70 +434,6 @@
   .mm-modal-close:hover {
     color: #1f2937;
   }
-
-  /* Footer & ATC Button */
-  .mm-footer-section {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border-color);
-    flex-wrap: wrap;
-  }
-  .mm-total-price-group {
-    display: flex;
-    flex-direction: column;
-  }
-  .mm-total-label {
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: #9ca3af;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  .mm-total-amount {
-    font-size: 1.85rem;
-    font-weight: 800;
-  }
-
-  .mm-add-cart-btn {
-    flex: 1;
-    min-width: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    color: #ffffff;
-    border: 1.5px solid transparent;
-    padding: 0.95rem;
-    font-size: 1.05rem;
-    font-weight: 700;
-    border-radius: calc(var(--border-radius) / 2);
-    cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-family: inherit;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
-  }
-  .mm-add-cart-btn:hover {
-    filter: brightness(1.06);
-    transform: translateY(-2px);
-    box-shadow: 0 12px 24px -5px rgba(0, 0, 0, 0.15);
-  }
-  .mm-add-cart-btn:active {
-    transform: translateY(0);
-  }
-  .mm-add-cart-btn:disabled {
-    background: #d1d5db !important;
-    border-color: #d1d5db !important;
-    color: #9ca3af;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-  }
 </style>
 
 <script>
@@ -531,7 +451,6 @@
       if (el) variants = JSON.parse(el.textContent) || [];
     } catch(e) { console.error('Variants JSON parsing error', e); }
 
-    // Money formatter
     const formatMoney = function(cents) {
       const hasINR = "{{ 100 | money }}".includes('₹');
       if (hasINR) {
@@ -540,7 +459,6 @@
       return '$' + (cents / 100).toFixed(2);
     };
 
-    // Current selection tracking
     let selectedOptions = [];
     const optionPillGroups = container.querySelectorAll('.mm-option-buttons-' + blockId);
     optionPillGroups.forEach(g => {
@@ -552,8 +470,6 @@
 
     const getMatchingVariant = () => {
       if (variants.length === 1 && selectedOptions.length === 0) return variants[0];
-
-      // Fallback: If option button selectors are not shown, find variant from standard product page form input
       if (optionPillGroups.length === 0 || !container.querySelector('.mm-variants-container')) {
         const nativeIdInput = container.closest('form[action="/cart/add"]')
           ? container.closest('form[action="/cart/add"]').querySelector('input[name="id"]')
@@ -564,23 +480,17 @@
           if (matched) return matched;
         }
       }
-
       return variants.find(v => selectedOptions.every((val, index) => v[`option${index+1}`] === val));
     };
 
     const priceEl = document.getElementById(`mm-price-${blockId}`);
     const compareEl = document.getElementById(`mm-compare-${blockId}`);
-    const totalEl = document.getElementById(`mm-total-price-${blockId}`);
-    const addCartBtn = document.getElementById(`mm-addcart-btn-${blockId}`);
 
     const updateUIForVariant = () => {
       const variant = getMatchingVariant();
       if (!variant) return;
-
       const formattedPrice = formatMoney(variant.price);
       if (priceEl) priceEl.textContent = formattedPrice;
-      if (totalEl) totalEl.textContent = formattedPrice;
-
       if (variant.compare_at_price && variant.compare_at_price > variant.price) {
         if (compareEl) {
           compareEl.textContent = formatMoney(variant.compare_at_price);
@@ -589,25 +499,12 @@
       } else {
         if (compareEl) compareEl.style.display = 'none';
       }
-
-      if (addCartBtn) {
-        addCartBtn.disabled = !variant.available;
-        const btnTextSpan = addCartBtn.querySelector('span');
-        if (btnTextSpan) {
-          btnTextSpan.textContent = variant.available ? "{{ block.settings.button_text }}" : "SOLD OUT";
-        }
-      }
     };
 
-    // Watch for variant change on native selectors (Dawn/other theme support)
     const nativeIdInput = document.querySelector('form[action="/cart/add"] input[name="id"]');
     if (nativeIdInput) {
-      // Create custom observer on native input change
-      const observer = new MutationObserver(function() {
-        updateUIForVariant();
-      });
+      const observer = new MutationObserver(function() { updateUIForVariant(); });
       observer.observe(nativeIdInput, { attributes: true, attributeFilter: ['value'] });
-      // Fallback: poll input value for themes that don't trigger mutation
       setInterval(updateUIForVariant, 1000);
     }
 
@@ -618,7 +515,6 @@
         group.querySelectorAll('.mm-pill-btn').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
         selectedOptions[index] = btn.getAttribute('data-value');
-        
         const variant = getMatchingVariant();
         if (variant) {
           const newUrl = new URL(window.location.href);
@@ -629,7 +525,6 @@
       });
     });
 
-    // Mockup Canvas Logic
     const coordsRaw = "{{ mm_box }}";
     const textTheme = "{{ mm_text_color }}";
     let boxCoords = null;
@@ -646,27 +541,61 @@
     const bgImg = document.getElementById(`mm-bg-img-${blockId}`);
     const overlay = document.getElementById(`mm-overlay-${blockId}`);
     const zoomBtn = document.getElementById(`mm-zoom-btn-${blockId}`);
-    
     const modal = document.getElementById(`mm-modal-${blockId}`);
     const modalBody = document.getElementById(`mm-modal-body-${blockId}`);
     const modalOverlay = document.getElementById(`mm-modal-overlay-${blockId}`);
     const modalClose = document.getElementById(`mm-modal-close-${blockId}`);
+    const nativeAddBtn = document.querySelector('button[name="add"], #fr-add-to-cart-btn');
+
+    const updateNativeButtonState = () => {
+      if (!nativeAddBtn) return;
+      const text = textInput.value.trim();
+      const textEl = nativeAddBtn.querySelector('.add-to-cart-text__content span span') || nativeAddBtn.querySelector('span');
+      if (!text) {
+        nativeAddBtn.disabled = true;
+        nativeAddBtn.style.pointerEvents = 'none';
+        nativeAddBtn.style.opacity = '0.5';
+        if (textEl) {
+          if (!nativeAddBtn.dataset.originalText) {
+            nativeAddBtn.dataset.originalText = textEl.textContent.trim();
+          }
+          textEl.textContent = "Enter Name";
+        }
+      } else {
+        nativeAddBtn.disabled = false;
+        nativeAddBtn.style.pointerEvents = 'auto';
+        nativeAddBtn.style.opacity = '1';
+        if (textEl && nativeAddBtn.dataset.originalText) {
+          textEl.textContent = nativeAddBtn.dataset.originalText;
+        }
+      }
+    };
+
+    const updatePreview = () => {
+      const text = textInput.value.trim();
+      const length = text.length;
+      const max = textInput.getAttribute('maxlength') || 20;
+      charCounter.textContent = `(${length}/${max})`;
+      if (!text) {
+        overlay.textContent = 'Your Name';
+        overlay.style.opacity = '0.5';
+      } else {
+        overlay.textContent = text;
+        overlay.style.opacity = '1';
+      }
+      updateNativeButtonState();
+    };
 
     function applyTextOverlay(el, img, isZoomed) {
       if (!el) return;
       const val = textInput ? (textInput.value.trim() || 'Your Name') : 'Your Name';
       el.textContent = val;
       if (fontSelect) el.style.fontFamily = fontSelect.value;
-      
       el.style.color = textTheme === 'light' ? '#ffffff' : '#111827';
-      el.style.textShadow = textTheme === 'light'
-        ? '1px 1px 0px rgba(0,0,0,0.15), 2px 2px 3px rgba(0,0,0,0.3)'
-        : '1px 1px 0px rgba(255,255,255,0.8), 2px 2px 3px rgba(0,0,0,0.1)';
-
+      el.style.textShadow = textTheme === 'light' ? '1px 1px 0px rgba(0,0,0,0.15), 2px 2px 3px rgba(0,0,0,0.3)' : '1px 1px 0px rgba(255,255,255,0.8), 2px 2px 3px rgba(0,0,0,0.1)';
       const baseRem = isZoomed ? 6.0 : 2.5;
       const factor = isZoomed ? 0.22 : 0.1;
       el.style.fontSize = Math.max(0.8, baseRem - (val.length > 10 ? (val.length - 10) * factor : 0)) + 'rem';
-
       if (boxCoords && img && img.naturalWidth) {
         const nW = img.naturalWidth, nH = img.naturalHeight;
         el.style.top = ((boxCoords.y / nH) * 100) + '%';
@@ -683,52 +612,35 @@
     }
 
     function refreshPreview() {
-      if (textInput && charCounter) {
-        charCounter.textContent = `(${textInput.value.length}/{{ mm_max_chars }})`;
-      }
-      if (overlay && bgImg) {
-        applyTextOverlay(overlay, bgImg, false);
-      }
+      updatePreview();
+      if (overlay && bgImg) applyTextOverlay(overlay, bgImg, false);
     }
 
     if (textInput) textInput.addEventListener('input', refreshPreview);
     if (fontSelect) fontSelect.addEventListener('change', refreshPreview);
     if (bgImg) {
-      if (bgImg.complete) {
-        refreshPreview();
-      } else {
-        bgImg.addEventListener('load', refreshPreview);
-      }
+      if (bgImg.complete) refreshPreview();
+      else bgImg.addEventListener('load', refreshPreview);
     }
 
-    // Zoom Overlay Modal handler
     if (zoomBtn) {
       zoomBtn.addEventListener('click', () => {
         if (!modal || !modalBody) return;
         modalBody.innerHTML = '';
         const mockupEl = document.getElementById(`mm-mockup-${blockId}`);
         if (!mockupEl) return;
-        
         const clone = mockupEl.cloneNode(true);
         clone.removeAttribute('id');
         clone.style.width = '100%';
-        clone.style.aspectRatio = ''; // Remove hardcoded aspect ratio for natural scaling
-        
         const cloneZoom = clone.querySelector('.mm-zoom-btn');
         if (cloneZoom) cloneZoom.remove();
-        
         modalBody.appendChild(clone);
         modal.classList.add('active');
-        
         const cloneOverlay = clone.querySelector('.mm-text-overlay');
         const cloneImg = clone.querySelector('.mm-bg-img');
-        
         if (cloneImg) {
-          if (cloneImg.complete) {
-            applyTextOverlay(cloneOverlay, cloneImg, true);
-          } else {
-            cloneImg.addEventListener('load', () => applyTextOverlay(cloneOverlay, cloneImg, true));
-          }
+          if (cloneImg.complete) applyTextOverlay(cloneOverlay, cloneImg, true);
+          else cloneImg.addEventListener('load', () => applyTextOverlay(cloneOverlay, cloneImg, true));
         }
       });
     }
@@ -742,97 +654,7 @@
     if (modalOverlay) modalOverlay.addEventListener('click', closeModal);
     if (modalClose) modalClose.addEventListener('click', closeModal);
 
-    // AJAX Add to Cart
-    if (addCartBtn) {
-      addCartBtn.addEventListener('click', async e => {
-        e.preventDefault();
-        if (addCartBtn.disabled) return;
-
-        const valueText = textInput ? textInput.value.trim() : '';
-        if (!valueText) {
-          if (textInput) {
-            textInput.focus();
-            textInput.style.borderColor = '#ef4444';
-            textInput.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
-            setTimeout(() => {
-              textInput.style.borderColor = '';
-              textInput.style.boxShadow = '';
-            }, 2000);
-          }
-          return;
-        }
-
-        const variant = getMatchingVariant();
-        if (!variant) return;
-
-        const fontLabel = fontSelect ? fontSelect.options[fontSelect.selectedIndex].text : '';
-        const originalBtnHTML = addCartBtn.innerHTML;
-        addCartBtn.innerHTML = `
-          <svg class="mm-spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="animation: mm-spin 1s linear infinite;"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 0 10 10"></path></svg>
-          <span>Adding...</span>
-        `;
-        addCartBtn.disabled = true;
-
-        if (!document.getElementById('mm-spinner-styles')) {
-          const style = document.createElement('style');
-          style.id = 'mm-spinner-styles';
-          style.innerHTML = `@keyframes mm-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`;
-          document.head.appendChild(style);
-        }
-
-        try {
-          const res = await fetch('/cart/add.js', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-              id: variant.id,
-              quantity: 1,
-              properties: {
-                'Name': valueText,
-                'Font': fontLabel
-              }
-            })
-          });
-          const data = await res.json();
-          if (res.ok) {
-            addCartBtn.innerHTML = `
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-              <span>Added to Cart!</span>
-            `;
-            addCartBtn.style.background = '#059669';
-            addCartBtn.style.borderColor = '#059669';
-
-            fetch('/cart.js')
-              .then(r => r.json())
-              .then(cart => {
-                document.querySelectorAll('[data-cart-count], .cart-count, #cart-count, .cart-icon-bubble span').forEach(el => {
-                  el.textContent = Math.round(cart.item_count);
-                });
-              })
-              .catch(e => console.error('Cart refresh error', e));
-
-            document.dispatchEvent(new CustomEvent('cart:refresh', { bubbles: true }));
-
-            setTimeout(() => {
-              addCartBtn.innerHTML = originalBtnHTML;
-              addCartBtn.style.background = '';
-              addCartBtn.style.borderColor = '';
-              addCartBtn.disabled = false;
-            }, 2500);
-          } else {
-            throw new Error(data.description || 'Failed to add item');
-          }
-        } catch(error) {
-          addCartBtn.innerHTML = originalBtnHTML;
-          addCartBtn.disabled = false;
-          alert('Add to Cart failed: ' + error.message);
-        }
-      });
-    }
-
+    updateNativeButtonState();
     updateUIForVariant();
   });
 </script>
