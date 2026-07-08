@@ -316,6 +316,41 @@
       <script type="application/json">
         {{ product_resource.selected_or_first_available_variant | json }}
       </script>
+      <script id="fr-variant-price-map" type="application/json">
+        {%- liquid
+           assign use_currency = settings.currency_code_enabled_product_pages
+           assign is_wallpaper = false
+           assign product_title_downcase = product_resource.title | downcase
+           assign product_type_downcase = product_resource.type | downcase
+           if product_resource.tags contains 'wallpaper' or product_type_downcase contains 'wallpaper' or product_title_downcase contains 'wallpaper'
+             assign is_wallpaper = true
+           endif
+        -%}
+        {
+          {%- for variant in product_resource.variants -%}
+            {%- liquid
+              if use_currency
+                assign formatted_price = variant.price | money_with_currency
+                assign formatted_compare = variant.compare_at_price | money_with_currency
+              else
+                assign formatted_price = variant.price | money
+                assign formatted_compare = variant.compare_at_price | money
+              endif
+              
+              if is_wallpaper
+                assign formatted_price = formatted_price | append: ' / sq. ft.'
+                if variant.compare_at_price
+                  assign formatted_compare = formatted_compare | append: ' / sq. ft.'
+                endif
+              endif
+            -%}
+            "{{ variant.id }}": {
+              "price": {{ formatted_price | json }},
+              "compare_at_price": {% if variant.compare_at_price %}{{ formatted_compare | json }}{% else %}null{% endif %}
+            }{% unless forloop.last %},{% endunless %}
+          {%- endfor -%}
+        }
+      </script>
     </form>
   </variant-picker>
 {% endunless %}

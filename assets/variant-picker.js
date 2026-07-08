@@ -87,6 +87,35 @@ export default class VariantPicker extends Component {
       : undefined;
 
     const optionValueId = selectedOption.dataset.optionValueId ?? '';
+    
+    // Instant Price Update logic
+    const variantIdForPrice = selectedOption.dataset.variantId || null;
+    if (variantIdForPrice && isOnProductPage) {
+      try {
+        const priceMapScript = this.querySelector('#fr-variant-price-map');
+        if (priceMapScript) {
+          const priceMap = JSON.parse(priceMapScript.textContent);
+          const variantData = priceMap[variantIdForPrice];
+          if (variantData) {
+            const priceElements = document.querySelectorAll('product-price .price');
+            priceElements.forEach(el => { el.innerHTML = variantData.price; });
+            const comparePriceElements = document.querySelectorAll('product-price .compare-at-price');
+            comparePriceElements.forEach(el => {
+              if (variantData.compare_at_price) {
+                el.innerHTML = variantData.compare_at_price;
+                el.closest('.price-item__group')?.classList.remove('hidden');
+              } else {
+                el.innerHTML = '';
+                el.closest('.price-item__group')?.classList.add('hidden');
+              }
+            });
+          }
+        }
+      } catch (e) {
+        console.warn('Instant price update failed', e);
+      }
+    }
+
     this.fetchUpdatedSection(this.buildRequestUrl(selectedOption), morphElementSelector, optionValueId);
 
     const url = new URL(window.location.href);
