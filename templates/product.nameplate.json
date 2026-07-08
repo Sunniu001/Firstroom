@@ -281,11 +281,27 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
+            },
+            "mockupmate_preview": {
+              "type": "fr-nameplate-preview",
+              "settings": {
+                "button_text": "ADD TO CART",
+                "show_card_wrapper": false,
+                "show_title": true,
+                "show_price_variants": false,
+                "bg_color": "#ffffff",
+                "border_color": "#e5e7eb",
+                "text_color": "#111827",
+                "accent_color": "#2563eb",
+                "border_radius": 16,
+                "padding": 24
+              }
             }
           },
           "block_order": [
             "group_icgrde",
             "divider_VJhene",
+            "mockupmate_preview",
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi",
             "text_aEtTtq"
@@ -448,26 +464,10 @@
         "padding-block-start": 48,
         "padding-block-end": 48
       }
-    },
-    "mockupmate_preview": {
-      "type": "fr-nameplate-preview",
-      "settings": {
-        "button_text": "ADD TO CART",
-        "show_card_wrapper": true,
-        "show_title": true,
-        "show_price_variants": false,
-        "bg_color": "#ffffff",
-        "border_color": "#e5e7eb",
-        "text_color": "#111827",
-        "accent_color": "#2563eb",
-        "border_radius": 16,
-        "padding": 24
-      }
     }
   },
   "order": [
     "main",
-    "mockupmate_preview",
     "product_recommendations_qggXJq"
   ]
 }
