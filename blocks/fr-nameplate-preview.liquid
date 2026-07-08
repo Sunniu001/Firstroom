@@ -1,5 +1,5 @@
 {%- assign current_variant = product.selected_or_first_available_variant -%}
-{%- assign mm_bg = product.metafields.mockupmate.mm_bg.value | default: product.metafields.mockupmate.mm_bg | default: product.featured_image -%}
+{%- assign mm_bg = block.settings.mockup_image | default: product.metafields.mockupmate.mm_bg.value | default: product.metafields.mockupmate.mm_bg | default: product.featured_image -%}
 {%- assign mm_box = product.metafields.mockupmate.mm_box.value | default: product.metafields.mockupmate.mm_box -%}
 {%- assign mm_text_color = product.metafields.mockupmate.mm_text_color.value | default: product.metafields.mockupmate.mm_text_color | default: 'dark' -%}
 {%- assign mm_max_chars = product.metafields.mockupmate.mm_max_chars.value | default: product.metafields.mockupmate.mm_max_chars | default: 20 -%}
@@ -669,6 +669,8 @@
   ],
   "settings": [
     { "type": "text", "id": "button_text", "label": "Button Text", "default": "ADD TO CART" },
+    { "type": "header", "content": "Mockup Image" },
+    { "type": "image_picker", "id": "mockup_image", "label": "Custom Mockup Image", "info": "Upload an image here. If left blank, it will automatically use the product's primary image." },
     { "type": "header", "content": "Layout & Visibility" },
     { "type": "checkbox", "id": "show_card_wrapper", "label": "Show Card Container (Border & Background)", "default": true },
     { "type": "checkbox", "id": "show_title", "label": "Show Personalization Title", "default": true },
