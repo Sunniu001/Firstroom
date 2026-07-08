@@ -68,7 +68,11 @@
           <span class="buy-buttons-block__bar">
         {%- endif -%}
         {%- if block_settings.show_final_price_showcase -%}
-          <div class="fr-final-price-showcase">
+          <product-price 
+            class="fr-final-price-showcase"
+            data-block-id="{{ block.id }}-final-price"
+            data-product-id="{{ product.id }}"
+          >
             <span class="fr-dim-price-label">Total Price:</span>
             <span class="fr-dim-price-value">
               {% render 'price',
@@ -76,9 +80,9 @@
                 show_unit_price: false
               %}
             </span>
-          </div>
+          </product-price>
           <style>
-            .fr-final-price-showcase {
+            product-price.fr-final-price-showcase {
               display: flex;
               justify-content: space-between;
               align-items: center;
@@ -88,17 +92,17 @@
               border-radius: 8px;
               border: 1px solid #eee;
             }
-            .fr-final-price-showcase .fr-dim-price-label {
+            product-price.fr-final-price-showcase .fr-dim-price-label {
               font-size: 14px;
               font-weight: 600;
               color: #333;
             }
-            .fr-final-price-showcase .fr-dim-price-value {
+            product-price.fr-final-price-showcase .fr-dim-price-value {
               font-size: 18px;
               font-weight: 700;
               color: #111;
             }
-            .fr-final-price-showcase .price-item__group {
+            product-price.fr-final-price-showcase .price-item__group {
               display: flex;
               align-items: center;
               gap: 8px;
