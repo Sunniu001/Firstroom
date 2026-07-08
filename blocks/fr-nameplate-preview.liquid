@@ -11,14 +11,14 @@
 
 <div 
   class="mockupmate-personalizer-wrapper" 
-  id="mockupmate-block-{{ "fr-preview" }}" 
+  id="mockupmate-block-{{ block.id }}" 
   data-product-id="{{ product.id }}"
   style="
-    {% if false %}
-      background: {{ "transparent" }};
-      border: 1px solid {{ "#e5e7eb" }};
-      border-radius: {{ "16" }}px;
-      padding: {{ "24" }}px;
+    {% if block.settings.show_card_wrapper %}
+      background: {{ block.settings.bg_color }};
+      border: 1px solid {{ block.settings.border_color }};
+      border-radius: {{ block.settings.border_radius }}px;
+      padding: {{ block.settings.padding }}px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
     {% else %}
       background: transparent;
@@ -26,30 +26,30 @@
       padding: 0;
       box-shadow: none;
     {% endif %}
-    --text-color: {{ "#111827" }};
-    --accent-color: {{ "#2563eb" }};
-    --border-color: {{ "#e5e7eb" }};
-    --border-radius: {{ "16" }}px;
+    --text-color: {{ block.settings.text_color }};
+    --accent-color: {{ block.settings.accent_color }};
+    --border-color: {{ block.settings.border_color }};
+    --border-radius: {{ block.settings.border_radius }}px;
   "
 >
   
-  {% if true %}
+  {% if block.settings.show_title %}
     <!-- Sleek Premium Title & Subtitle -->
     <div class="mm-header-group">
-      <span class="mm-badge" style="background: {{ "#2563eb" }}15; color: {{ "#2563eb" }}">Personalize</span>
-      <h3 class="mm-title" style="color: {{ "#111827" }}">Customize Your Product</h3>
-      <p class="mm-subtitle" style="color: {{ "#111827" }}90">Type your name below to see a live preview instantly.</p>
+      <span class="mm-badge" style="background: {{ block.settings.accent_color }}15; color: {{ block.settings.accent_color }}">Personalize</span>
+      <h3 class="mm-title" style="color: {{ block.settings.text_color }}">Customize Your Product</h3>
+      <p class="mm-subtitle" style="color: {{ block.settings.text_color }}90">Type your name below to see a live preview instantly.</p>
     </div>
   {% endif %}
 
-  {% if false %}
+  {% if block.settings.show_price_variants %}
     <!-- Price & Variant Selectors (Optional) -->
     <div class="mm-price-row">
-      <span class="mm-price" id="mm-price-{{ "fr-preview" }}" style="color: {{ "#2563eb" }}">
+      <span class="mm-price" id="mm-price-{{ block.id }}" style="color: {{ block.settings.accent_color }}">
         {{ current_variant.price | money }}
       </span>
       {% if current_variant.compare_at_price > current_variant.price %}
-        <span class="mm-compare-price" id="mm-compare-{{ "fr-preview" }}">{{ current_variant.compare_at_price | money }}</span>
+        <span class="mm-compare-price" id="mm-compare-{{ block.id }}">{{ current_variant.compare_at_price | money }}</span>
       {% endif %}
     </div>
 
@@ -57,14 +57,14 @@
       <div class="mm-variants-container">
         {%- for option in product.options_with_values -%}
           <div class="mm-option-group">
-            <label class="mm-option-label" style="color: {{ "#111827" }}">{{ option.name }}</label>
-            <div class="mm-pill-grid mm-option-buttons-{{ "fr-preview" }}" data-option-index="{{ forloop.index0 }}">
+            <label class="mm-option-label" style="color: {{ block.settings.text_color }}">{{ option.name }}</label>
+            <div class="mm-pill-grid mm-option-buttons-{{ block.id }}" data-option-index="{{ forloop.index0 }}">
               {%- for value in option.values -%}
                 <button
                   type="button"
                   class="mm-pill-btn {% if option.selected_value == value %}selected{% endif %}"
                   data-value="{{ value | escape }}"
-                  style="--accent-color: {{ "#2563eb" }}"
+                  style="--accent-color: {{ block.settings.accent_color }}"
                 >
                   {{ value }}
                 </button>
@@ -80,12 +80,12 @@
   <div class="mm-inputs-grid">
     <div class="mm-field-group">
       <div class="mm-label-row">
-        <label class="mm-label" for="mm-input-text-{{ "fr-preview" }}">Enter Text</label>
-        <span class="mm-char-counter" id="mm-char-counter-{{ "fr-preview" }}">(0/{{ mm_max_chars }})</span>
+        <label class="mm-label" for="mm-input-text-{{ block.id }}">Enter Text</label>
+        <span class="mm-char-counter" id="mm-char-counter-{{ block.id }}">(0/{{ mm_max_chars }})</span>
       </div>
       <input
         type="text"
-        id="mm-input-text-{{ "fr-preview" }}"
+        id="mm-input-text-{{ block.id }}"
         name="properties[Name]"
         placeholder="e.g. Charlotte"
         class="mm-text-input"
@@ -95,8 +95,8 @@
     </div>
 
     <div class="mm-field-group">
-      <label class="mm-label" for="mm-input-font-{{ "fr-preview" }}">Choose Script Font</label>
-      <select id="mm-input-font-{{ "fr-preview" }}" name="properties[Font]" class="mm-select">
+      <label class="mm-label" for="mm-input-font-{{ block.id }}">Choose Script Font</label>
+      <select id="mm-input-font-{{ block.id }}" name="properties[Font]" class="mm-select">
         <option value="'Dancing Script', cursive">Apricot (Dancing Script)</option>
         <option value="'Pacifico', cursive">Dreambig (Pacifico)</option>
         <option value="'Playball', cursive">Vintage Lander (Playball)</option>
@@ -114,15 +114,15 @@
     <div class="mm-preview-section">
       <label class="mm-label">Live Preview</label>
       <div class="mm-mockup-frame">
-        <div class="mm-mockup-container" id="mm-mockup-{{ "fr-preview" }}">
+        <div class="mm-mockup-container" id="mm-mockup-{{ block.id }}">
           {%- if mm_bg contains 'cdn.shopify.com' or mm_bg contains '/' -%}
-            <img src="{{ mm_bg }}" alt="Custom Mockup Preview" id="mm-bg-img-{{ "fr-preview" }}" class="mm-bg-img" width="800" height="800" loading="eager">
+            <img src="{{ mm_bg }}" alt="Custom Mockup Preview" id="mm-bg-img-{{ block.id }}" class="mm-bg-img" width="800" height="800" loading="eager">
           {%- else -%}
-            <img src="{{ mm_bg | image_url: width: 800 }}" alt="Custom Mockup Preview" id="mm-bg-img-{{ "fr-preview" }}" class="mm-bg-img" width="800" height="800" loading="eager">
+            <img src="{{ mm_bg | image_url: width: 800 }}" alt="Custom Mockup Preview" id="mm-bg-img-{{ block.id }}" class="mm-bg-img" width="800" height="800" loading="eager">
           {%- endif -%}
-          <div class="mm-text-overlay" id="mm-overlay-{{ "fr-preview" }}">Your Name</div>
+          <div class="mm-text-overlay" id="mm-overlay-{{ block.id }}">Your Name</div>
           
-          <button type="button" class="mm-zoom-btn" id="mm-zoom-btn-{{ "fr-preview" }}" title="Zoom Preview">
+          <button type="button" class="mm-zoom-btn" id="mm-zoom-btn-{{ block.id }}" title="Zoom Preview">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
           </button>
         </div>
@@ -132,33 +132,33 @@
   {%- endif -%}
 
   <!-- Zoom Modal -->
-  <div class="mm-modal" id="mm-modal-{{ "fr-preview" }}">
-    <div class="mm-modal-overlay" id="mm-modal-overlay-{{ "fr-preview" }}"></div>
+  <div class="mm-modal" id="mm-modal-{{ block.id }}">
+    <div class="mm-modal-overlay" id="mm-modal-overlay-{{ block.id }}"></div>
     <div class="mm-modal-content">
-      <button type="button" class="mm-modal-close" id="mm-modal-close-{{ "fr-preview" }}">&times;</button>
-      <div id="mm-modal-body-{{ "fr-preview" }}"></div>
+      <button type="button" class="mm-modal-close" id="mm-modal-close-{{ block.id }}">&times;</button>
+      <div id="mm-modal-body-{{ block.id }}"></div>
     </div>
   </div>
 
   <!-- Total Price and Add to Cart Button -->
   <div class="mm-footer-section">
-    {% if false %}
+    {% if block.settings.show_price_variants %}
       <div class="mm-total-price-group">
         <span class="mm-total-label">Total Price:</span>
-        <span class="mm-total-amount" id="mm-total-price-{{ "fr-preview" }}" style="color: {{ "#2563eb" }}">
+        <span class="mm-total-amount" id="mm-total-price-{{ block.id }}" style="color: {{ block.settings.accent_color }}">
           {{ current_variant.price | money }}
         </span>
       </div>
     {% endif %}
 
-    <button type="button" class="mm-add-cart-btn" id="mm-addcart-btn-{{ "fr-preview" }}" style="background: {{ "#2563eb" }}; border-color: {{ "#2563eb" }}">
+    <button type="button" class="mm-add-cart-btn" id="mm-addcart-btn-{{ block.id }}" style="background: {{ block.settings.accent_color }}; border-color: {{ block.settings.accent_color }}">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
       <span>{{ block.settings.button_text }}</span>
     </button>
   </div>
 
   <!-- Variants Data -->
-  <script type="application/json" id="mm-variants-json-{{ "fr-preview" }}">
+  <script type="application/json" id="mm-variants-json-{{ block.id }}">
     {{ product.variants | json }}
   </script>
 </div>
@@ -521,7 +521,7 @@
     if (document.readyState !== 'loading') cb();
     else document.addEventListener('DOMContentLoaded', cb);
   })(function() {
-    const blockId = "{{ "fr-preview" }}";
+    const blockId = "{{ block.id }}";
     const container = document.getElementById(`mockupmate-block-${blockId}`);
     if (!container) return;
 
@@ -837,4 +837,27 @@
   });
 </script>
 
-
+{% schema %}
+{
+  "name": "MockupMate Personalizer",
+  "presets": [
+    {
+      "name": "MockupMate Personalizer"
+    }
+  ],
+  "settings": [
+    { "type": "text", "id": "button_text", "label": "Button Text", "default": "ADD TO CART" },
+    { "type": "header", "content": "Layout & Visibility" },
+    { "type": "checkbox", "id": "show_card_wrapper", "label": "Show Card Container (Border & Background)", "default": true },
+    { "type": "checkbox", "id": "show_title", "label": "Show Personalization Title", "default": true },
+    { "type": "checkbox", "id": "show_price_variants", "label": "Show Price & Variant Selectors", "default": false },
+    { "type": "header", "content": "Theme Colors" },
+    { "type": "color", "id": "bg_color", "label": "Card Background Color", "default": "#ffffff" },
+    { "type": "color", "id": "border_color", "label": "Border Color", "default": "#e5e7eb" },
+    { "type": "color", "id": "text_color", "label": "Text Color", "default": "#111827" },
+    { "type": "color", "id": "accent_color", "label": "Accent Color", "default": "#2563eb" },
+    { "type": "range", "id": "border_radius", "label": "Border Radius", "min": 0, "max": 30, "step": 2, "default": 16, "unit": "px" },
+    { "type": "range", "id": "padding", "label": "Card Padding", "min": 0, "max": 40, "step": 4, "default": 24, "unit": "px" }
+  ]
+}
+{% endschema %}
