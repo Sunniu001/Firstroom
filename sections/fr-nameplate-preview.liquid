@@ -840,8 +840,11 @@
 {% schema %}
 {
   "name": "MockupMate Personalizer",
-  "target": "section",
-  "templates": ["product"],
+  "presets": [
+    {
+      "name": "MockupMate Personalizer"
+    }
+  ],
   "settings": [
     { "type": "product", "id": "product", "label": "Product", "autofill": true },
     { "type": "text", "id": "button_text", "label": "Button Text", "default": "ADD TO CART" },
