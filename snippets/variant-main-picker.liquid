@@ -108,9 +108,21 @@
               {%- assign is_nameplate = true -%}
             {%- endif -%}
 
+            {%- assign is_frame_size = false -%}
+            {%- assign is_nameplate_size = false -%}
+            {%- if option_name_downcased == 'frame size' or option_name_downcased == 'size' -%}
+              {%- if is_nameplate -%}
+                {%- if option_name_downcased == 'size' -%}
+                  {%- assign is_nameplate_size = true -%}
+                {%- endif -%}
+              {%- else -%}
+                {%- assign is_frame_size = true -%}
+              {%- endif -%}
+            {%- endif -%}
+
             {%- if option_name_downcased == 'material' or option_name_downcased == 'paper finish' -%}
               <div class="fr-material-option-group">
-            {%- elsif option_name_downcased == 'frame size' or option_name_downcased == 'size' -%}
+            {%- elsif is_frame_size or is_nameplate_size -%}
               <div class="fr-material-option-group">
             {%- endif -%}
             {%- for product_option_value in product_option.values -%}
@@ -182,7 +194,7 @@
                       </div>
                     </div>
                   </div>
-                {% elsif (option_name_downcased == 'frame size' or option_name_downcased == 'size') and is_nameplate == false %}
+                {% elsif is_frame_size %}
                   {% assign finish_name = product_option_value | escape %}
                   <div class="fr-custom-finish-card">
                     {% liquid
@@ -214,7 +226,7 @@
                       </div>
                     </div>
                   </div>
-                {% elsif option_name_downcased == 'size' and is_nameplate %}
+                {% elsif is_nameplate_size %}
                   {% assign finish_name = product_option_value | escape %}
                   <div class="fr-custom-finish-card">
                     {% liquid
