@@ -110,11 +110,9 @@
 
             {%- assign is_frame_size = false -%}
             {%- assign is_nameplate_size = false -%}
-            {%- if option_name_downcased == 'frame size' or option_name_downcased == 'size' -%}
+            {%- if option_name_downcased == 'frame size' or option_name_downcased == 'size' or option_name_downcased == 'nameplate size' -%}
               {%- if is_nameplate -%}
-                {%- if option_name_downcased == 'size' -%}
-                  {%- assign is_nameplate_size = true -%}
-                {%- endif -%}
+                {%- assign is_nameplate_size = true -%}
               {%- else -%}
                 {%- assign is_frame_size = true -%}
               {%- endif -%}
