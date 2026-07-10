@@ -156,9 +156,17 @@
     cursor: pointer;
     transition: 0.2s;
   }
-  .fr-wishlist-btn-remove:hover {
+  .fr-wishlist-btn-remove:hover:not(:disabled) {
     background: #c2593f;
     color: #fff;
+  }
+  
+  .fr-wishlist-action-btn:disabled, .fr-wishlist-btn-remove:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #f4f4f4 !important;
+    color: #999 !important;
+    border-color: #ddd !important;
   }
   
   .fr-wishlist-title {
@@ -202,8 +210,8 @@
         </a>
       </div>
       <div class="right-actions">
-        <button class="fr-wishlist-action-btn" onclick="addSelectedToCart()">MOVE TO CART</button>
-        <button class="fr-wishlist-btn-remove" onclick="removeSelectedFromWishlist()">REMOVE FROM WISHLIST</button>
+        <button class="fr-wishlist-action-btn" id="fr-global-move" onclick="addSelectedToCart()" disabled>MOVE TO CART</button>
+        <button class="fr-wishlist-btn-remove" id="fr-global-remove" onclick="removeSelectedFromWishlist()" disabled>REMOVE FROM WISHLIST</button>
       </div>
     </div>
   </div>
@@ -277,6 +285,7 @@
     }
 
     filtered.forEach(product => {
+      const hasOptions = product.variants.length > 1 || product.type === 'Nameplate' || product.type === 'Wallpaper' || product.type === 'Custom Design';
       const variant = product.variants[0];
       const isAvailable = product.available;
       const stockText = isAvailable ? 'IN STOCK' : 'OUT OF STOCK';
@@ -292,7 +301,7 @@
       html += `
         <div class="fr-wishlist-row">
           <div class="fr-wishlist-product-col">
-            <input type="checkbox" class="fr-wishlist-checkbox" value="${product.handle}" data-variant-id="${variant.id}">
+            <input type="checkbox" class="fr-wishlist-checkbox" value="${product.handle}" data-variant-id="${variant.id}" data-has-options="${hasOptions}" onchange="updateGlobalButtons()">
             <img src="${img}" class="fr-wishlist-product-img" alt="">
             <a href="${product.url}" class="fr-wishlist-product-title">${product.title}</a>
           </div>
@@ -303,13 +312,24 @@
             ${stockText}
           </div>
           <div>
-            ${isAvailable ? `<button class="fr-wishlist-action-btn" onclick="addToCart(${variant.id}, '${product.handle}')">MOVE TO CART</button>` : `<button class="fr-wishlist-action-btn" disabled>UNAVAILABLE</button>`}
+            ${isAvailable 
+              ? (hasOptions 
+                  ? `<a href="${product.url}" class="fr-wishlist-action-btn" style="display:inline-block; text-align:center; text-decoration:none; box-sizing:border-box;">SELECT OPTIONS</a>` 
+                  : `<button class="fr-wishlist-action-btn" onclick="addToCart(${variant.id}, '${product.handle}')">MOVE TO CART</button>`)
+              : `<button class="fr-wishlist-action-btn" disabled>UNAVAILABLE</button>`}
           </div>
         </div>
       `;
     });
     
     tbody.innerHTML = html;
+    updateGlobalButtons();
+  }
+
+  function updateGlobalButtons() {
+    const checked = document.querySelectorAll('.fr-wishlist-checkbox:checked').length > 0;
+    document.getElementById('fr-global-move').disabled = !checked;
+    document.getElementById('fr-global-remove').disabled = !checked;
   }
   
   function addToCart(variantId, productHandle) {
@@ -355,11 +375,27 @@
     const checkboxes = document.querySelectorAll('.fr-wishlist-checkbox:checked');
     if (checkboxes.length === 0) return;
     
-    const items = Array.from(checkboxes).map(cb => ({
-      id: parseInt(cb.getAttribute('data-variant-id')),
-      quantity: 1
-    }));
-    const handlesToRemove = Array.from(checkboxes).map(cb => cb.value);
+    const items = [];
+    const handlesToRemove = [];
+    let skippedOptions = false;
+    
+    checkboxes.forEach(cb => {
+      if (cb.getAttribute('data-has-options') === 'true') {
+        skippedOptions = true;
+      } else {
+        items.push({
+          id: parseInt(cb.getAttribute('data-variant-id')),
+          quantity: 1
+        });
+        handlesToRemove.push(cb.value);
+      }
+    });
+
+    if (skippedOptions) {
+      alert('Products requiring custom options were skipped. Please click "SELECT OPTIONS" to configure them individually.');
+    }
+
+    if (items.length === 0) return;
     
     fetch(window.Shopify.routes.root + 'cart/add.js', {
       method: 'POST',
