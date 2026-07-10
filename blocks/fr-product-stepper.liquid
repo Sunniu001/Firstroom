@@ -2,22 +2,22 @@
   <div class="fr-stepper">
     <div class="fr-step">
       <div class="fr-step-circle">1</div>
-      <div class="fr-step-label">Enter size</div>
+      <div class="fr-step-label">{{ block.settings.step_1_text }}</div>
     </div>
     <div class="fr-step-line"></div>
     <div class="fr-step">
       <div class="fr-step-circle">2</div>
-      <div class="fr-step-label">Digital preview</div>
+      <div class="fr-step-label">{{ block.settings.step_2_text }}</div>
     </div>
     <div class="fr-step-line"></div>
     <div class="fr-step">
       <div class="fr-step-circle">3</div>
-      <div class="fr-step-label">Production</div>
+      <div class="fr-step-label">{{ block.settings.step_3_text }}</div>
     </div>
     <div class="fr-step-line"></div>
     <div class="fr-step">
       <div class="fr-step-circle">4</div>
-      <div class="fr-step-label">Delivered</div>
+      <div class="fr-step-label">{{ block.settings.step_4_text }}</div>
     </div>
   </div>
 </div>
@@ -72,6 +72,11 @@
 {
   "name": "FR - Progress Stepper",
   "settings": [
+    { "type": "header", "content": "Steps Text" },
+    { "type": "text", "id": "step_1_text", "label": "Step 1 Text", "default": "Enter size" },
+    { "type": "text", "id": "step_2_text", "label": "Step 2 Text", "default": "Digital preview" },
+    { "type": "text", "id": "step_3_text", "label": "Step 3 Text", "default": "Production" },
+    { "type": "text", "id": "step_4_text", "label": "Step 4 Text", "default": "Delivered" },
     { "type": "header", "content": "Block Padding" },
     { "type": "range", "id": "padding_top", "label": "Top Padding", "min": 0, "max": 100, "step": 4, "default": 0, "unit": "px" },
     { "type": "range", "id": "padding_bottom", "label": "Bottom Padding", "min": 0, "max": 100, "step": 4, "default": 32, "unit": "px" }
