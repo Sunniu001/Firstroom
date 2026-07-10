@@ -219,7 +219,11 @@
                     {% liquid
                       assign bg_image = product_option_value.variant.featured_media
                       assign bg_style = ''
-                      if bg_image != blank
+                      if finish_name contains '17x8' or finish_name contains '17 x 8'
+                        assign bg_style = 'background: url(https://cdn.shopify.com/s/files/1/0777/1183/5294/files/d6742761-4600-411b-a398-1c4d115a6836_1.png?v=1783708142) center/cover no-repeat;'
+                      elsif finish_name contains '12x5' or finish_name contains '12 x 5'
+                        assign bg_style = 'background: url(https://cdn.shopify.com/s/files/1/0777/1183/5294/files/455389c9-482e-410d-b4c1-606028330f93_1.png?v=1783708142) center/cover no-repeat;'
+                      elsif bg_image != blank
                         assign bg_image_url = bg_image | image_url: width: 300
                         assign bg_style = 'background: url(' | append: bg_image_url | append: ') center/cover no-repeat;'
                       endif
