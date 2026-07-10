@@ -197,12 +197,8 @@
             count = Array.isArray(oldItems) ? oldItems.length : 0;
           }
           
-          if (count > 0) {
-            badge.textContent = count;
-            badge.style.display = 'flex';
-          } else {
-            badge.style.display = 'none';
-          }
+          badge.textContent = count;
+          badge.style.display = 'flex';
         } catch (e) {
           badge.style.display = 'none';
         }

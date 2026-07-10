@@ -301,12 +301,43 @@
               </div>
             </volume-pricing>
           {%- endif -%}
-          {% content_for 'block',
-            type: 'add-to-cart',
-            id: 'add-to-cart',
-            can_add_to_cart: can_add_to_cart,
-            add_to_cart_text: add_to_cart_text
-          %}
+          <div style="display: flex; gap: 10px; width: 100%; align-items: stretch;">
+            <div style="flex-grow: 1;">
+              {% content_for 'block',
+                type: 'add-to-cart',
+                id: 'add-to-cart',
+                can_add_to_cart: can_add_to_cart,
+                add_to_cart_text: add_to_cart_text
+              %}
+            </div>
+            <button 
+              type="button" 
+              class="fr-product-wishlist-btn" 
+              onclick="window.frOpenWishlistModal('{{ product.handle }}')"
+              aria-label="Add to wishlist"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </button>
+          </div>
+          
+          <style>
+            .fr-product-wishlist-btn {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 50px;
+              border: 1px solid #111;
+              background: #fff;
+              color: #111;
+              cursor: pointer;
+              transition: 0.2s;
+            }
+            .fr-product-wishlist-btn:hover {
+              background: #f9f9f9;
+            }
+          </style>
 
           {% content_for 'block',
             type: 'accelerated-checkout',
