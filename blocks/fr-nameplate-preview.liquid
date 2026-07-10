@@ -122,11 +122,7 @@
       <label class="mm-label">Live Preview</label>
       <div class="mm-mockup-frame">
         <div class="mm-mockup-container" id="mm-mockup-{{ block.id }}">
-          {%- if mm_bg contains 'cdn.shopify.com' or mm_bg contains '/' -%}
-            <img src="{{ mm_bg }}" alt="Custom Mockup Preview" id="mm-bg-img-{{ block.id }}" class="mm-bg-img" width="800" height="800" loading="eager">
-          {%- else -%}
-            <img src="{{ mm_bg | image_url: width: 800 }}" alt="Custom Mockup Preview" id="mm-bg-img-{{ block.id }}" class="mm-bg-img" width="800" height="800" loading="eager">
-          {%- endif -%}
+          <img src="{{ mm_bg | image_url: width: 800 }}" alt="Custom Mockup Preview" id="mm-bg-img-{{ block.id }}" class="mm-bg-img" width="800" height="800" loading="eager">
           <div class="mm-text-overlay" id="mm-overlay-{{ block.id }}">Your Name</div>
           
           <button type="button" class="mm-zoom-btn" id="mm-zoom-btn-{{ block.id }}" title="Zoom Preview">
