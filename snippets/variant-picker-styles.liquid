@@ -129,6 +129,17 @@
     cursor: pointer;
     background: #fff;
     transition: all 0.2s;
+    position: relative;
+  }
+  .fr-custom-finish-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px transparent;
+    pointer-events: none;
+    transition: all 0.2s;
+    z-index: 2;
   }
   .fr-finish-image {
     height: 85px;
@@ -153,7 +164,8 @@
   }
   
   input:checked + .fr-custom-finish-card .fr-finish-check { opacity: 1; }
-  input:checked + .fr-custom-finish-card { border-color: #b58c67; box-shadow: inset 0 0 0 1px #b58c67; }
+  input:checked + .fr-custom-finish-card { border-color: #b58c67; box-shadow: none; }
+  input:checked + .fr-custom-finish-card::after { box-shadow: inset 0 0 0 1px #b58c67; }
   
   .fr-custom-finish-card { white-space: normal; }
   
