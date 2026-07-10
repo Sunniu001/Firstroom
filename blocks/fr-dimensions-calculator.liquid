@@ -91,6 +91,74 @@
       </button>
     {%- endform -%}
   </product-form-component>
+
+  <button 
+    type="button" 
+    class="fr-product-wishlist-btn-full" 
+    id="fr-product-wishlist-btn-{{ product.handle }}"
+  >
+    <svg class="fr-heart-empty" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e76483" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+    </svg>
+    <svg class="fr-heart-filled" width="20" height="20" viewBox="0 0 24 24" fill="#e76483" stroke="#e76483" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+    </svg>
+    <span class="fr-wishlist-text" style="font-size: 14px; font-weight: 500; color: #333;">Add to Wishlist</span>
+  </button>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const handle = '{{ product.handle }}';
+      const btn = document.getElementById('fr-product-wishlist-btn-' + handle);
+      if (!btn) return;
+
+      const emptyHeart = btn.querySelector('.fr-heart-empty');
+      const filledHeart = btn.querySelector('.fr-heart-filled');
+      const textSpan = btn.querySelector('.fr-wishlist-text');
+
+      const checkWishlistState = () => {
+        let inWishlist = false;
+        try {
+          const dataStr = localStorage.getItem('fr_wishlist_data');
+          if (dataStr) {
+            const data = JSON.parse(dataStr);
+            if (data && data.wishlists) {
+              for (const list of data.wishlists) {
+                if (list.items && list.items.includes(handle)) {
+                  inWishlist = true;
+                  break;
+                }
+              }
+            }
+          } else {
+            const oldItems = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            if (oldItems.includes(handle)) inWishlist = true;
+          }
+        } catch(e) {}
+
+        if (inWishlist) {
+          emptyHeart.style.display = 'none';
+          filledHeart.style.display = 'block';
+          textSpan.textContent = 'Remove from Wishlist';
+          btn.onclick = (e) => {
+            e.preventDefault();
+            if (window.frRemoveFromAllWishlists) window.frRemoveFromAllWishlists(handle);
+          };
+        } else {
+          emptyHeart.style.display = 'block';
+          filledHeart.style.display = 'none';
+          textSpan.textContent = 'Add to Wishlist';
+          btn.onclick = (e) => {
+            e.preventDefault();
+            if (window.frOpenWishlistModal) window.frOpenWishlistModal(handle);
+          };
+        }
+      };
+
+      checkWishlistState();
+      document.addEventListener('wishlist:updated', checkWishlistState);
+    });
+  </script>
 </div>
 
 <style>
@@ -225,6 +293,30 @@
   font-size: 18px;
   font-weight: 600;
   color: #111;
+}
+.fr-product-wishlist-btn-full {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px;
+  margin-top: 10px;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.fr-product-wishlist-btn-full:hover {
+  background: #fdfdfd;
+  border-color: #d5d5d5;
+}
+.fr-product-wishlist-btn-full svg {
+  transition: transform 0.2s ease;
+}
+.fr-product-wishlist-btn-full:hover svg {
+  transform: scale(1.1);
 }
 </style>
 
