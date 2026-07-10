@@ -338,9 +338,14 @@
   }
 
   function updateGlobalButtons() {
-    const checked = document.querySelectorAll('.fr-wishlist-checkbox:checked').length > 0;
-    document.getElementById('fr-global-move').disabled = !checked;
-    document.getElementById('fr-global-remove').disabled = !checked;
+    const checkedBoxes = Array.from(document.querySelectorAll('.fr-wishlist-checkbox:checked'));
+    
+    // REMOVE FROM WISHLIST should be enabled if ANY box is checked
+    document.getElementById('fr-global-remove').disabled = checkedBoxes.length === 0;
+    
+    // MOVE TO CART should be enabled only if at least one checked box is valid (does not have options)
+    const hasValidMoveItem = checkedBoxes.some(cb => cb.getAttribute('data-has-options') !== 'true');
+    document.getElementById('fr-global-move').disabled = !hasValidMoveItem;
   }
   
   function addToCart(variantId, productHandle) {
