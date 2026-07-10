@@ -530,6 +530,18 @@
                   <p>Reason: {{ order.cancel_reason_label }}</p>
                 </div>
               {%- endif -%}
+
+              <!-- Order Action Buttons -->
+              <div class="fr-order__actions no-print">
+                {%- if order.financial_status == 'pending' or order.financial_status == 'partially_paid' or order.financial_status == 'unpaid' -%}
+                  <a href="{{ order.order_status_url }}" class="fr-account__btn-primary fr-order__action-btn">Complete Payment</a>
+                {%- endif -%}
+                
+                {%- if order.fulfillment_status == 'fulfilled' or order.fulfillment_status == 'partial' -%}
+                  <a href="{{ order.order_status_url }}" target="_blank" class="fr-account__btn-primary fr-order__action-btn">Track Order</a>
+                  <button type="button" class="fr-account__btn-secondary fr-order__action-btn" onclick="window.print()">Print Invoice</button>
+                {%- endif -%}
+              </div>
             </div>
 
             <div class="fr-order__grid">
@@ -1398,6 +1410,49 @@
     font-size: 0.9rem;
   }
   .fr-order__cancelled p { margin: 0 0 4px 0; }
+
+  .fr-order__actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  
+  .fr-order__action-btn {
+    height: 40px;
+    padding: 0 24px;
+    font-size: 0.8rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media print {
+    body * {
+      visibility: hidden;
+    }
+    .fr-order-modal[style*="display: flex"], 
+    .fr-order-modal[style*="display: flex"] * {
+      visibility: visible;
+    }
+    .fr-order-modal[style*="display: flex"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      background: #fff;
+    }
+    .fr-order-modal__overlay, .fr-order__close-btn, .no-print {
+      display: none !important;
+    }
+    .fr-order-modal__content {
+      box-shadow: none;
+      width: 100%;
+      height: auto;
+      overflow: visible;
+    }
+  }
 
   /* Grid Layout */
   .fr-order__grid {
