@@ -772,7 +772,11 @@
             <!-- Header -->
             <div class="fr-print-header">
               <div class="fr-print-logo">
-                <img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}">
+                {%- if settings.logo != blank -%}
+                  <img src="{{ settings.logo | image_url: width: 250 }}" alt="{{ shop.name }}">
+                {%- else -%}
+                  <h2 style="font-size: 24px; font-weight: bold; margin:0;">{{ shop.name }}</h2>
+                {%- endif -%}
               </div>
               <div class="fr-print-store-info">
                 <strong>First Room Collective</strong><br>
@@ -1807,6 +1811,8 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
   .fr-print-payment-method {
     margin-top: 10px;
