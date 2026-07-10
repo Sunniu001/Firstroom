@@ -540,6 +540,7 @@
   .header-section {
     position: relative;
     z-index: var(--layer-heightened);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   }
 
   /* need default values for non-flash transitions on first overflow menu open */
@@ -674,7 +675,7 @@
   .header__row--top:not(.divider--page-width),
   .header__row--top.divider--page-width .header__columns,
   .header__row--bottom {
-    border-bottom: var(--border-bottom-width) solid var(--color-border);
+    border-bottom: var(--border-bottom-width) solid rgba(0, 0, 0, 0.3);
   }
 
   @media screen and (max-width: 749px) {
