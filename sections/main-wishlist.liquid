@@ -226,7 +226,7 @@
     }
 
     const fetches = allHandles.map(handle => 
-      fetch(\`/products/\${handle}.js\`).then(res => {
+      fetch(`/products/${handle}.js`).then(res => {
         if (!res.ok) throw new Error('Not found');
         return res.json();
       }).catch(err => null)
@@ -245,10 +245,10 @@
       if (p.type) types.add(p.type);
     });
     
-    let html = \`<button class="fr-wishlist-filter-btn \${currentFilter === 'All' ? 'is-active' : ''}" onclick="setFilter('All')">All</button>\`;
+    let html = `<button class="fr-wishlist-filter-btn ${currentFilter === 'All' ? 'is-active' : ''}" onclick="setFilter('All')">All</button>`;
     
     types.forEach(type => {
-      html += \`<button class="fr-wishlist-filter-btn \${currentFilter === type ? 'is-active' : ''}" onclick="setFilter('\${type}')">\${type}</button>\`;
+      html += `<button class="fr-wishlist-filter-btn ${currentFilter === type ? 'is-active' : ''}" onclick="setFilter('${type}')">${type}</button>`;
     });
     
     document.getElementById('fr-wishlist-filters').innerHTML = html;
@@ -279,31 +279,31 @@
       const stockText = isAvailable ? 'IN STOCK' : 'OUT OF STOCK';
       const stockClass = isAvailable ? 'in-stock' : 'out-of-stock';
       
-      const price = Shopify.formatMoney ? Shopify.formatMoney(product.price) : \`$\${(product.price / 100).toFixed(2)}\`;
+      const price = Shopify.formatMoney ? Shopify.formatMoney(product.price) : `$${(product.price / 100).toFixed(2)}`;
       const comparePrice = product.compare_at_price > product.price 
-        ? (Shopify.formatMoney ? Shopify.formatMoney(product.compare_at_price) : \`$\${(product.compare_at_price / 100).toFixed(2)}\`) 
+        ? (Shopify.formatMoney ? Shopify.formatMoney(product.compare_at_price) : `$${(product.compare_at_price / 100).toFixed(2)}`) 
         : '';
         
       const img = product.featured_image ? product.featured_image : '';
 
-      html += \`
+      html += `
         <div class="fr-wishlist-row">
           <div class="fr-wishlist-product-col">
-            <input type="checkbox" class="fr-wishlist-checkbox" value="\${product.handle}" data-variant-id="\${variant.id}">
-            <img src="\${img}" class="fr-wishlist-product-img" alt="">
-            <a href="\${product.url}" class="fr-wishlist-product-title">\${product.title}</a>
+            <input type="checkbox" class="fr-wishlist-checkbox" value="${product.handle}" data-variant-id="${variant.id}">
+            <img src="${img}" class="fr-wishlist-product-img" alt="">
+            <a href="${product.url}" class="fr-wishlist-product-title">${product.title}</a>
           </div>
           <div class="fr-wishlist-price-col">
-            \${comparePrice ? \`<strike>\${comparePrice}</strike>\` : ''} \${price}
+            ${comparePrice ? `<strike>${comparePrice}</strike>` : ''} ${price}
           </div>
-          <div class="fr-wishlist-stock-col \${stockClass}">
-            \${stockText}
+          <div class="fr-wishlist-stock-col ${stockClass}">
+            ${stockText}
           </div>
           <div>
-            \${isAvailable ? \`<button class="fr-wishlist-action-btn" onclick="addToCart(\${variant.id})">ADD TO CART</button>\` : \`<button class="fr-wishlist-action-btn" disabled>UNAVAILABLE</button>\`}
+            ${isAvailable ? `<button class="fr-wishlist-action-btn" onclick="addToCart(${variant.id})">ADD TO CART</button>` : `<button class="fr-wishlist-action-btn" disabled>UNAVAILABLE</button>`}
           </div>
         </div>
-      \`;
+      `;
     });
     
     tbody.innerHTML = html;
