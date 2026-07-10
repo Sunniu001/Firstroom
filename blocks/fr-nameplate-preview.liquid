@@ -20,6 +20,8 @@
   id="mockupmate-block-{{ block.id }}" 
   data-product-id="{{ product.id }}"
   style="
+    margin-top: {{ block.settings.padding_top }}px;
+    margin-bottom: {{ block.settings.padding_bottom }}px;
     {% if block.settings.show_card_wrapper %}
       background: {{ block.settings.bg_color }};
       border: 1px solid {{ block.settings.border_color }};
@@ -685,7 +687,10 @@
     { "type": "color", "id": "text_color", "label": "Text Color", "default": "#111827" },
     { "type": "color", "id": "accent_color", "label": "Accent Color", "default": "#2563eb" },
     { "type": "range", "id": "border_radius", "label": "Border Radius", "min": 0, "max": 30, "step": 2, "default": 16, "unit": "px" },
-    { "type": "range", "id": "padding", "label": "Card Padding", "min": 0, "max": 40, "step": 4, "default": 24, "unit": "px" }
+    { "type": "range", "id": "padding", "label": "Card Padding", "min": 0, "max": 40, "step": 4, "default": 24, "unit": "px" },
+    { "type": "header", "content": "Block Padding" },
+    { "type": "range", "id": "padding_top", "label": "Top Padding", "min": 0, "max": 100, "step": 4, "default": 0, "unit": "px" },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom Padding", "min": 0, "max": 100, "step": 4, "default": 36, "unit": "px" }
   ]
 }
 {% endschema %}

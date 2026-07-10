@@ -1,4 +1,4 @@
-<div class="fr-actions-container" {{ block.shopify_attributes }}>
+<div class="fr-actions-container" style="margin-top: {{ block.settings.padding_top }}px; margin-bottom: {{ block.settings.padding_bottom }}px;" {{ block.shopify_attributes }}>
   <a href="{{ block.settings.order_link }}" class="fr-action-btn fr-btn-primary">
     {{ block.settings.order_text }}
   </a>
@@ -12,7 +12,6 @@
   .fr-actions-container {
     display: flex;
     gap: 1rem;
-    margin-bottom: 2rem;
   }
   .fr-action-btn {
     flex: 1;
@@ -71,7 +70,31 @@
     {
       "type": "url",
       "id": "specialist_link",
-      "label": "Secondary Button Link"
+      "label": "Specialist Link"
+    },
+    {
+      "type": "header",
+      "content": "Block Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top Padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom Padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 32,
+      "unit": "px"
     }
   ],
   "presets": [

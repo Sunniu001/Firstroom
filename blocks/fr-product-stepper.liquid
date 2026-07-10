@@ -1,4 +1,4 @@
-<div class="fr-stepper-container" {{ block.shopify_attributes }}>
+<div class="fr-stepper-container" style="margin-top: {{ block.settings.padding_top }}px; margin-bottom: {{ block.settings.padding_bottom }}px;" {{ block.shopify_attributes }}>
   <div class="fr-stepper">
     <div class="fr-step">
       <div class="fr-step-circle">1</div>
@@ -25,7 +25,6 @@
 <style>
   .fr-stepper-container {
     padding: 1.5rem 0;
-    margin-bottom: 2rem;
     border-bottom: 1px solid rgba(0,0,0,0.1);
   }
   .fr-stepper {
@@ -72,7 +71,11 @@
 {% schema %}
 {
   "name": "FR - Progress Stepper",
-  "settings": [],
+  "settings": [
+    { "type": "header", "content": "Block Padding" },
+    { "type": "range", "id": "padding_top", "label": "Top Padding", "min": 0, "max": 100, "step": 4, "default": 0, "unit": "px" },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom Padding", "min": 0, "max": 100, "step": 4, "default": 32, "unit": "px" }
+  ],
   "presets": [
     {
       "name": "FR - Progress Stepper"
