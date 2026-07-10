@@ -4029,3 +4029,17 @@ main > .shopify-section:first-child .section:not(.disable-section-top-offset) {
 .mega-menu__list > .mega-menu__column:only-child > div {
   margin: 0 !important;
 }
+
+/* Custom Active Menu Item Color */
+.header__menu-item:hover,
+.header__active-menu-item,
+.menu-list__link[aria-current='page'],
+.gf-menu-item.active > a,
+.gf-menu-item.active > a > .gf-menu-item-text,
+.globomenu-item.active > a,
+.globomenu-item.active > a > span,
+.gf-menu-item:hover > a,
+.gf-menu-item:hover > a > .gf-menu-item-text {
+  color: #AE2828 !important;
+}
+
