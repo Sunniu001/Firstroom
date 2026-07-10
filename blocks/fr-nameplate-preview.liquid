@@ -333,6 +333,7 @@
     overflow: hidden;
     background: #f3f4f6;
     display: block;
+    container-type: inline-size;
   }
   .mm-bg-img {
     display: block;
@@ -595,9 +596,9 @@
       if (fontSelect) el.style.fontFamily = fontSelect.value;
       el.style.color = textTheme === 'light' ? '#ffffff' : '#111827';
       el.style.textShadow = textTheme === 'light' ? '1px 1px 0px rgba(0,0,0,0.15), 2px 2px 3px rgba(0,0,0,0.3)' : '1px 1px 0px rgba(255,255,255,0.8), 2px 2px 3px rgba(0,0,0,0.1)';
-      const baseRem = isZoomed ? 6.0 : 2.5;
-      const factor = isZoomed ? 0.22 : 0.1;
-      el.style.fontSize = Math.max(0.8, baseRem - (val.length > 10 ? (val.length - 10) * factor : 0)) + 'rem';
+      const baseCqi = 9.0;
+      const factor = 0.3;
+      el.style.fontSize = Math.max(3, baseCqi - (val.length > 8 ? (val.length - 8) * factor : 0)) + 'cqi';
       if (boxCoords && img && img.naturalWidth) {
         const nW = img.naturalWidth, nH = img.naturalHeight;
         el.style.top = ((boxCoords.y / nH) * 100) + '%';
