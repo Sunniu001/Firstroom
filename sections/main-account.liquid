@@ -767,6 +767,177 @@
             </div>
 
           </div>
+          <!-- START PRINT INVOICE TEMPLATE -->
+          <div class="fr-print-invoice-template">
+            <!-- Header -->
+            <div class="fr-print-header">
+              <div class="fr-print-logo">
+                <img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}">
+              </div>
+              <div class="fr-print-store-info">
+                <strong>First Room Collective</strong><br>
+                A10, Greenwood City, Sector 45,<br>
+                Gurugram, Haryana 122003<br>
+                Church Road, Ranchi / Ranchi<br>
+                JH 834001 / India<br>
+                +91 96507 06644<br>
+                support@firstroom.in<br>
+                https://firstroom.in/
+              </div>
+            </div>
+
+            <!-- Title & Order Info -->
+            <div class="fr-print-title-row">
+              <h1 class="fr-print-title">Invoice</h1>
+              <table class="fr-print-meta-table">
+                <tr>
+                  <th>Order Number</th>
+                  <th>Order Date</th>
+                </tr>
+                <tr>
+                  <td>{{ order.name }}</td>
+                  <td>{{ order.created_at | date: "%Y/%m/%d %I:%M:%S" }}</td>
+                </tr>
+              </table>
+            </div>
+
+            <!-- Addresses -->
+            <div class="fr-print-addresses">
+              <div class="fr-print-address-box">
+                <div class="fr-print-box-title">Shipping Address</div>
+                <div class="fr-print-box-content">
+                  {{ order.shipping_address.first_name }} {{ order.shipping_address.last_name }}<br>
+                  {{ customer.email }}<br>
+                  {{ order.shipping_address.street }}<br>
+                  {{ order.shipping_address.city }}<br>
+                  {{ order.shipping_address.province }}<br>
+                  {{ order.shipping_address.zip }}<br>
+                  {{ order.shipping_address.country }}<br>
+                  {{ order.shipping_address.phone }}
+                </div>
+              </div>
+              <div class="fr-print-address-box">
+                <div class="fr-print-box-title">Billing Address</div>
+                <div class="fr-print-box-content">
+                  {{ order.billing_address.first_name }} {{ order.billing_address.last_name }}<br>
+                  {{ customer.email }}<br>
+                  {{ order.billing_address.street }}<br>
+                  {{ order.billing_address.city }}<br>
+                  {{ order.billing_address.province }}<br>
+                  {{ order.billing_address.zip }}<br>
+                  {{ order.billing_address.country }}<br>
+                  {{ order.billing_address.phone }}
+                </div>
+              </div>
+              <div class="fr-print-address-box">
+                <div class="fr-print-box-title">Client Address</div>
+                <div class="fr-print-box-content">
+                  {{ customer.first_name }} {{ customer.last_name }}<br>
+                  {{ customer.email }}<br>
+                  {%- if customer.default_address -%}
+                    {{ customer.default_address.street }}<br>
+                    {{ customer.default_address.city }}<br>
+                    {{ customer.default_address.province }}<br>
+                    {{ customer.default_address.zip }}<br>
+                    {{ customer.default_address.country }}<br>
+                  {%- endif -%}
+                  {%- if customer.phone != blank -%}{{ customer.phone }}{%- endif -%}
+                </div>
+              </div>
+            </div>
+
+            <!-- Product Table -->
+            <table class="fr-print-product-table">
+              <thead>
+                <tr>
+                  <th colspan="2">Product Title</th>
+                  <th class="text-center">Product<br>SKU</th>
+                  <th class="text-center">Product<br>Quantity</th>
+                  <th class="text-center">Product<br>Tax</th>
+                  <th class="text-right">Product<br>Unit Price</th>
+                  <th class="text-right">Product<br>Total Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%- for line_item in order.line_items -%}
+                  <tr>
+                    <td class="fr-print-td-image">
+                      {%- if line_item.image != blank -%}
+                        <img src="{{ line_item.image | image_url: width: 60 }}" alt="">
+                      {%- endif -%}
+                    </td>
+                    <td class="fr-print-td-title">
+                      <strong>{{ line_item.product.title | default: line_item.title }}</strong><br>
+                      <span style="color: #666; font-size: 0.85em;">
+                        {%- unless line_item.product.has_only_default_variant -%}
+                          {%- for option in line_item.options_with_values -%}
+                            &bull; {{ option.value }} 
+                          {%- endfor -%}
+                        {%- endunless -%}
+                      </span>
+                    </td>
+                    <td class="text-center">{{ line_item.sku | default: '-' }}</td>
+                    <td class="text-center">x{{ line_item.quantity }}</td>
+                    <td class="text-center">18%</td>
+                    <td class="text-right">
+                      {%- if line_item.original_price != line_item.final_price -%}
+                        <s style="color: #999;">{{ line_item.original_price | money }}</s><br>
+                      {%- endif -%}
+                      {{ line_item.final_price | money }}
+                    </td>
+                    <td class="text-right">{{ line_item.final_line_price | money }}</td>
+                  </tr>
+                {%- endfor -%}
+              </tbody>
+            </table>
+
+            <!-- Footer Breakdown -->
+            <div class="fr-print-footer">
+              <div class="fr-print-payment-method">
+                <strong>Payment Method</strong><br>
+                {%- if order.transactions.size > 0 -%}
+                  {{ order.transactions.first.gateway | capitalize }}
+                {%- else -%}
+                  Cash on Delivery (COD)
+                {%- endif -%}
+              </div>
+              <div class="fr-print-totals">
+                <table class="fr-print-totals-table">
+                  {%- for discount_application in order.cart_level_discount_applications -%}
+                  <tr>
+                    <th>Discounted Price</th>
+                    <td>- {{ discount_application.total_allocated_amount | money }}</td>
+                  </tr>
+                  {%- endfor -%}
+                  <tr>
+                    <th>Subtotal Price</th>
+                    <td>{{ order.line_items_subtotal_price | money }}</td>
+                  </tr>
+                  <tr>
+                    <th>Shipping Price</th>
+                    <td>{{ order.shipping_price | money }}</td>
+                  </tr>
+                  <tr>
+                    <th>Total Tax Price</th>
+                    <td>{{ order.tax_price | money }}</td>
+                  </tr>
+                  <tr>
+                    <th>Total Price</th>
+                    <td>{{ order.total_price | money }}</td>
+                  </tr>
+                  <tr>
+                    <th>Total Paid</th>
+                    <td>{%- assign total_paid = order.total_price | minus: order.total_outstanding -%}{{ total_paid | money }}</td>
+                  </tr>
+                  <tr>
+                    <th>Amount Due</th>
+                    <td>{{ order.total_outstanding | money }}</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- END PRINT INVOICE TEMPLATE -->
         </div>
       </div>
     {%- endfor -%}
@@ -1542,8 +1713,125 @@
     justify-content: center;
   }
 
+  /* Print Invoice Specifics */
+  .fr-print-invoice-template {
+    display: none;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #000;
+    line-height: 1.4;
+    font-size: 11px;
+    padding: 20px 40px;
+  }
+  .fr-print-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+  }
+  .fr-print-logo img {
+    max-width: 250px;
+    height: auto;
+  }
+  .fr-print-store-info {
+    text-align: right;
+  }
+  .fr-print-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  .fr-print-title {
+    font-size: 36px;
+    font-weight: bold;
+    margin: 0;
+    text-transform: capitalize;
+  }
+  .fr-print-meta-table {
+    border-collapse: collapse;
+    width: auto;
+  }
+  .fr-print-meta-table th, .fr-print-meta-table td {
+    border: 1px solid #000;
+    padding: 6px 16px;
+    text-align: center;
+    font-weight: normal;
+  }
+  .fr-print-meta-table th {
+    font-weight: bold;
+  }
+  .fr-print-addresses {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 40px;
+  }
+  .fr-print-address-box {
+    flex: 1;
+  }
+  .fr-print-box-title {
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid #000;
+    padding: 6px;
+    margin-bottom: 10px;
+  }
+  .fr-print-box-content {
+    line-height: 1.5;
+  }
+  .fr-print-product-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+  }
+  .fr-print-product-table th, .fr-print-product-table td {
+    border-bottom: 1px solid #000;
+    padding: 10px;
+  }
+  .fr-print-product-table th {
+    border-top: 1px solid #000;
+    text-align: left;
+    font-weight: bold;
+  }
+  .fr-print-td-image {
+    width: 70px;
+  }
+  .fr-print-td-image img {
+    max-width: 60px;
+    border: 1px solid #eee;
+  }
+  .fr-print-td-title {
+    width: 40%;
+  }
+  .fr-print-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .fr-print-payment-method {
+    margin-top: 10px;
+  }
+  .fr-print-totals {
+    width: 250px;
+  }
+  .fr-print-totals-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .fr-print-totals-table th, .fr-print-totals-table td {
+    padding: 8px 10px;
+    border: 1px solid #000;
+    text-align: right;
+  }
+  .fr-print-totals-table th {
+    font-weight: bold;
+    background: #fff;
+  }
+  .text-center { text-align: center !important; }
+  .text-right { text-align: right !important; }
+
   @media print {
-    @page { margin: 1cm; }
+    @page { size: auto; margin: 1cm; }
     body * { visibility: hidden; }
     
     .fr-order-modal[style*="display: flex"], 
@@ -1563,6 +1851,20 @@
       display: none !important;
     }
     
+    /* HIDE THE WEB MODAL INNER */
+    .fr-order-modal__inner {
+      display: none !important;
+    }
+
+    /* SHOW THE PRINT TEMPLATE */
+    .fr-order-modal[style*="display: flex"] .fr-print-invoice-template {
+      display: block !important;
+      position: absolute !important;
+      left: 0 !important;
+      top: 0 !important;
+      width: 100% !important;
+    }
+
     .fr-order-modal__content {
       box-shadow: none !important;
       width: 100% !important;
@@ -1574,47 +1876,8 @@
       transform: none !important;
       animation: none !important;
     }
-    
-    .fr-order-modal__inner {
-      padding: 0 !important;
-    }
-
-    /* Print-specific layout fixes */
-    .fr-order__title-row {
-      margin-bottom: 8px !important;
-    }
-    .fr-order__grid {
-      display: block !important; 
-    }
-    
-    .fr-order__items, .fr-order__summary-col {
-      width: 100% !important;
-      display: block !important;
-      margin-top: 20px !important;
-    }
-
-    .fr-order__items, .fr-order__summary-box, .fr-order__address-block {
-      page-break-inside: avoid !important;
-      break-inside: avoid !important;
-      border: 1px solid #ddd !important;
-      margin-bottom: 20px !important;
-    }
-
-    .fr-account__table {
-      width: 100% !important;
-    }
-    
-    .fr-order__addresses {
-      display: flex !important;
-      flex-direction: row !important;
-      gap: 20px !important;
-    }
-    
-    .fr-order__address-block {
-      flex: 1 !important;
-      margin-bottom: 0 !important;
-    }
   }
+
 
   /* Grid Layout */
   .fr-order__grid {
