@@ -29,10 +29,16 @@
   }
   .fr-wishlist-table-container {
     border: 1px solid #eaeaea;
+    background: #fff;
+    width: 100%;
+    overflow-x: auto;
   }
-  .fr-wishlist-header-row {
-    display: grid;
-    grid-template-columns: 4fr 1.5fr 1.5fr 160px;
+  .fr-wishlist-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+  }
+  .fr-wishlist-table th {
     background: #f4f4f4;
     padding: 15px 20px;
     font-size: 12px;
@@ -40,35 +46,21 @@
     color: #555;
     text-transform: uppercase;
     letter-spacing: 1px;
-  }
-  .fr-wishlist-header-row > div {
     text-align: left;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 0 10px;
-  }
-  .fr-wishlist-body {
-    background: #fff;
-  }
-  .fr-wishlist-row {
-    display: grid;
-    grid-template-columns: 4fr 1.5fr 1.5fr 160px;
-    align-items: center;
-    padding: 20px;
     border-bottom: 1px solid #eaeaea;
   }
-  .fr-wishlist-row:last-child {
+  .fr-wishlist-table td {
+    padding: 20px;
+    border-bottom: 1px solid #eaeaea;
+    text-align: left;
+    vertical-align: middle;
+  }
+  .fr-wishlist-table tr:last-child td {
     border-bottom: none;
   }
-  .fr-wishlist-row > div {
-    text-align: left;
+  .fr-wishlist-product-col {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    padding: 0 10px;
-  }
-  .fr-wishlist-product-col {
     gap: 20px;
   }
   .fr-wishlist-product-col input[type="checkbox"] {
@@ -202,17 +194,22 @@
   <h1 class="fr-wishlist-title">Wishlist</h1>
 
   <div class="fr-wishlist-table-container">
-    <div class="fr-wishlist-header-row">
-      <div>PRODUCTS</div>
-      <div>PRICE</div>
-      <div>STOCK STATUS</div>
-      <div>ACTION</div>
-    </div>
-    
-    <div class="fr-wishlist-body" id="fr-wishlist-body">
-      <!-- Populated by JS -->
-      <div class="fr-wishlist-empty">Loading wishlist...</div>
-    </div>
+    <table class="fr-wishlist-table">
+      <thead>
+        <tr>
+          <th style="width: 45%;">PRODUCTS</th>
+          <th style="width: 20%;">PRICE</th>
+          <th style="width: 20%;">STOCK STATUS</th>
+          <th style="width: 15%;">ACTION</th>
+        </tr>
+      </thead>
+      <tbody id="fr-wishlist-body">
+        <!-- Populated by JS -->
+        <tr>
+          <td colspan="4" class="fr-wishlist-empty">Loading wishlist...</td>
+        </tr>
+      </tbody>
+    </table>
     
     <div class="fr-wishlist-bottom-actions">
       <div class="left-actions">
@@ -247,7 +244,7 @@
     allHandles = Array.from(allHandles);
 
     if (allHandles.length === 0) {
-      document.getElementById('fr-wishlist-body').innerHTML = '<div class="fr-wishlist-empty">Your wishlists are currently empty.</div>';
+      document.getElementById('fr-wishlist-body').innerHTML = '<tr><td colspan="4" class="fr-wishlist-empty">Your wishlists are currently empty.</td></tr>';
       renderFilters();
       return;
     }
@@ -292,7 +289,7 @@
     const filtered = wishlistProductsCache.filter(p => activeList.items.includes(p.handle));
 
     if (filtered.length === 0) {
-      tbody.innerHTML = '<div class="fr-wishlist-empty">This wishlist is empty.</div>';
+      tbody.innerHTML = '<tr><td colspan="4" class="fr-wishlist-empty">This wishlist is empty.</td></tr>';
       return;
     }
 
@@ -311,26 +308,28 @@
       const img = product.featured_image ? product.featured_image : '';
 
       html += `
-        <div class="fr-wishlist-row">
-          <div class="fr-wishlist-product-col">
-            <input type="checkbox" class="fr-wishlist-checkbox" value="${product.handle}" data-variant-id="${variant.id}" data-has-options="${hasOptions}" onchange="updateGlobalButtons()">
-            <img src="${img}" class="fr-wishlist-product-img" alt="">
-            <a href="${product.url}" class="fr-wishlist-product-title">${product.title}</a>
-          </div>
-          <div class="fr-wishlist-price-col">
+        <tr>
+          <td>
+            <div class="fr-wishlist-product-col">
+              <input type="checkbox" class="fr-wishlist-checkbox" value="${product.handle}" data-variant-id="${variant.id}" data-has-options="${hasOptions}" onchange="updateGlobalButtons()">
+              <img src="${img}" class="fr-wishlist-product-img" alt="">
+              <a href="${product.url}" class="fr-wishlist-product-title">${product.title}</a>
+            </div>
+          </td>
+          <td class="fr-wishlist-price-col">
             ${comparePrice ? `<strike>${comparePrice}</strike>` : ''} ${price}
-          </div>
-          <div class="fr-wishlist-stock-col ${stockClass}">
+          </td>
+          <td class="fr-wishlist-stock-col ${stockClass}">
             ${stockText}
-          </div>
-          <div>
+          </td>
+          <td>
             ${isAvailable 
               ? (hasOptions 
                   ? `<a href="${product.url}" class="fr-wishlist-action-btn" style="display:inline-block; text-align:center; text-decoration:none; box-sizing:border-box;">SELECT OPTIONS</a>` 
                   : `<button class="fr-wishlist-action-btn" onclick="addToCart(${variant.id}, '${product.handle}')">MOVE TO CART</button>`)
               : `<button class="fr-wishlist-action-btn" disabled>UNAVAILABLE</button>`}
-          </div>
-        </div>
+          </td>
+        </tr>
       `;
     });
     
