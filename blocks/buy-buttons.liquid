@@ -301,66 +301,47 @@
               </div>
             </volume-pricing>
           {%- endif -%}
-          <div class="fr-add-to-cart-wrapper">
-            <div class="fr-add-to-cart-block">
-              {% content_for 'block',
-                type: 'add-to-cart',
-                id: 'add-to-cart',
-                can_add_to_cart: can_add_to_cart,
-                add_to_cart_text: add_to_cart_text
-              %}
-            </div>
-            <button 
-              type="button" 
-              class="fr-product-wishlist-btn" 
-              onclick="window.frOpenWishlistModal('{{ product.handle }}')"
-              aria-label="Add to wishlist"
-            >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e76483" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-              </svg>
-            </button>
-          </div>
+          {% content_for 'block',
+            type: 'add-to-cart',
+            id: 'add-to-cart',
+            can_add_to_cart: can_add_to_cart,
+            add_to_cart_text: add_to_cart_text
+          %}
+
+          <button 
+            type="button" 
+            class="fr-product-wishlist-btn-full" 
+            onclick="window.frOpenWishlistModal('{{ product.handle }}')"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e76483" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+            <span style="font-size: 14px; font-weight: 500; color: #333;">Add to Wishlist</span>
+          </button>
           
           <style>
-            .fr-add-to-cart-wrapper {
-              display: flex;
-              gap: 10px;
-              width: 100%;
-              align-items: stretch;
-            }
-            .fr-add-to-cart-block {
-              flex-grow: 1;
-              min-width: 0;
-            }
-            .fr-add-to-cart-block > * {
-              height: 100%;
-            }
-            .fr-add-to-cart-block button {
-              width: 100%;
-              height: 100%;
-            }
-            .fr-product-wishlist-btn {
+            .fr-product-wishlist-btn-full {
               display: flex;
               align-items: center;
               justify-content: center;
-              width: 50px;
-              height: 50px;
-              flex-shrink: 0;
+              gap: 10px;
+              width: 100%;
+              padding: 14px;
+              margin-top: 10px;
               border: 1px solid #e5e5e5;
               border-radius: 4px;
               background: #fff;
               cursor: pointer;
               transition: 0.2s;
             }
-            .fr-product-wishlist-btn:hover {
+            .fr-product-wishlist-btn-full:hover {
               background: #fdfdfd;
               border-color: #d5d5d5;
             }
-            .fr-product-wishlist-btn svg {
+            .fr-product-wishlist-btn-full svg {
               transition: transform 0.2s ease;
             }
-            .fr-product-wishlist-btn:hover svg {
+            .fr-product-wishlist-btn-full:hover svg {
               transform: scale(1.1);
             }
           </style>
