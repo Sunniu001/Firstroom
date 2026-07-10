@@ -1,0 +1,337 @@
+<style>
+  .fr-wishlist-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .fr-wishlist-modal-overlay.is-active {
+    display: flex;
+    opacity: 1;
+  }
+  .fr-wishlist-modal {
+    background: #fff;
+    width: 90%;
+    max-width: 500px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    position: relative;
+    border-radius: 4px;
+    transform: translateY(20px);
+    transition: transform 0.3s;
+  }
+  .fr-wishlist-modal-overlay.is-active .fr-wishlist-modal {
+    transform: translateY(0);
+  }
+  .fr-wishlist-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #c2593f;
+    padding: 0;
+  }
+  .fr-wishlist-modal-title {
+    font-family: var(--font-heading-family);
+    font-size: 24px;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 30px;
+    color: #111;
+  }
+  
+  .fr-wishlists-list {
+    margin-bottom: 25px;
+    max-height: 250px;
+    overflow-y: auto;
+  }
+  .fr-wishlist-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f7f7f7;
+    padding: 15px 20px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  .fr-wishlist-row-name {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  /* Toggle Switch */
+  .fr-wishlist-toggle {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+  }
+  .fr-wishlist-toggle input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .fr-wishlist-toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #e0e0e0;
+    transition: .4s;
+    border-radius: 24px;
+  }
+  .fr-wishlist-toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+  .fr-wishlist-toggle input:checked + .fr-wishlist-toggle-slider {
+    background-color: #222;
+  }
+  .fr-wishlist-toggle input:checked + .fr-wishlist-toggle-slider:before {
+    transform: translateX(20px);
+  }
+
+  .fr-wishlist-create-wrap {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
+  }
+  .fr-wishlist-create-wrap.is-visible {
+    display: flex;
+  }
+  .fr-wishlist-input {
+    flex: 1;
+    height: 42px;
+    border: 1px solid #ccc;
+    padding: 0 15px;
+    font-size: 14px;
+  }
+  .fr-wishlist-save-btn {
+    height: 42px;
+    background: #111;
+    color: #fff;
+    border: none;
+    padding: 0 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .fr-wishlist-save-btn:hover {
+    background: #333;
+  }
+  
+  .fr-wishlist-modal-actions {
+    display: flex;
+    gap: 15px;
+  }
+  .fr-wishlist-btn-create {
+    flex: 1;
+    border: 1px solid #c2593f;
+    color: #c2593f;
+    background: transparent;
+    padding: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .fr-wishlist-btn-create:hover {
+    background: #c2593f;
+    color: #fff;
+  }
+  .fr-wishlist-btn-done {
+    flex: 1;
+    border: 1px solid #111;
+    color: #111;
+    background: transparent;
+    padding: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .fr-wishlist-btn-done:hover {
+    background: #111;
+    color: #fff;
+  }
+</style>
+
+<div class="fr-wishlist-modal-overlay" id="fr-wishlist-modal">
+  <div class="fr-wishlist-modal">
+    <button class="fr-wishlist-close" onclick="closeWishlistModal()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <h2 class="fr-wishlist-modal-title">Select Wishlist</h2>
+    
+    <div class="fr-wishlists-list" id="fr-wishlists-container">
+      <!-- Rows populated by JS -->
+    </div>
+    
+    <div class="fr-wishlist-create-wrap" id="fr-wishlist-create-wrap">
+      <input type="text" class="fr-wishlist-input" id="fr-wishlist-input-name" placeholder="Wishlist name">
+      <button class="fr-wishlist-save-btn" onclick="saveNewWishlist()">Save</button>
+    </div>
+    
+    <div class="fr-wishlist-modal-actions">
+      <button class="fr-wishlist-btn-create" onclick="toggleCreateWishlist()">Create Wishlist</button>
+      <button class="fr-wishlist-btn-done" onclick="closeWishlistModal()">Done</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentWishlistProductHandle = null;
+
+  // Polyfill/Initialize localStorage data structure
+  function getWishlistData() {
+    let data;
+    try {
+      data = JSON.parse(localStorage.getItem('fr_wishlist_data'));
+    } catch(e) {}
+    
+    if (!data || !data.wishlists) {
+      data = {
+        wishlists: [
+          {
+            id: 'default',
+            name: 'Default Wishlist',
+            items: []
+          }
+        ]
+      };
+      
+      // Migrate old format if it existed
+      try {
+        const oldItems = JSON.parse(localStorage.getItem('wishlist'));
+        if (Array.isArray(oldItems) && oldItems.length > 0) {
+          data.wishlists[0].items = oldItems;
+        }
+      } catch(e) {}
+      
+      saveWishlistData(data);
+    }
+    return data;
+  }
+
+  function saveWishlistData(data) {
+    localStorage.setItem('fr_wishlist_data', JSON.stringify(data));
+    document.dispatchEvent(new Event('wishlist:updated'));
+  }
+
+  function openWishlistModal(productHandle) {
+    currentWishlistProductHandle = productHandle;
+    document.getElementById('fr-wishlist-create-wrap').classList.remove('is-visible');
+    document.getElementById('fr-wishlist-input-name').value = '';
+    renderWishlists();
+    const modal = document.getElementById('fr-wishlist-modal');
+    modal.style.display = 'flex';
+    // Small delay to allow display block to apply before opacity transition
+    setTimeout(() => modal.classList.add('is-active'), 10);
+  }
+
+  function closeWishlistModal() {
+    currentWishlistProductHandle = null;
+    const modal = document.getElementById('fr-wishlist-modal');
+    modal.classList.remove('is-active');
+    setTimeout(() => modal.style.display = 'none', 300);
+  }
+
+  function toggleCreateWishlist() {
+    const wrap = document.getElementById('fr-wishlist-create-wrap');
+    wrap.classList.toggle('is-visible');
+    if (wrap.classList.contains('is-visible')) {
+      document.getElementById('fr-wishlist-input-name').focus();
+    }
+  }
+
+  function saveNewWishlist() {
+    const input = document.getElementById('fr-wishlist-input-name');
+    const name = input.value.trim();
+    if (!name) return;
+
+    const data = getWishlistData();
+    const newId = 'list_' + Date.now();
+    data.wishlists.push({
+      id: newId,
+      name: name,
+      items: currentWishlistProductHandle ? [currentWishlistProductHandle] : []
+    });
+    saveWishlistData(data);
+    
+    input.value = '';
+    document.getElementById('fr-wishlist-create-wrap').classList.remove('is-visible');
+    renderWishlists();
+  }
+
+  function toggleProductInWishlist(listId, checked) {
+    if (!currentWishlistProductHandle) return;
+    
+    const data = getWishlistData();
+    const list = data.wishlists.find(l => l.id === listId);
+    if (!list) return;
+
+    if (checked) {
+      if (!list.items.includes(currentWishlistProductHandle)) {
+        list.items.push(currentWishlistProductHandle);
+      }
+    } else {
+      list.items = list.items.filter(h => h !== currentWishlistProductHandle);
+    }
+    
+    saveWishlistData(data);
+  }
+
+  function renderWishlists() {
+    const container = document.getElementById('fr-wishlists-container');
+    const data = getWishlistData();
+    let html = '';
+    
+    data.wishlists.forEach(list => {
+      const isChecked = currentWishlistProductHandle && list.items.includes(currentWishlistProductHandle) ? 'checked' : '';
+      html += `
+        <div class="fr-wishlist-row">
+          <span class="fr-wishlist-row-name">${list.name}</span>
+          <label class="fr-wishlist-toggle">
+            <input type="checkbox" onchange="toggleProductInWishlist('${list.id}', this.checked)" ${isChecked}>
+            <span class="fr-wishlist-toggle-slider"></span>
+          </label>
+        </div>
+      `;
+    });
+    
+    container.innerHTML = html;
+  }
+  
+  // Expose function globally so other elements can call it
+  window.frOpenWishlistModal = openWishlistModal;
+  
+  // Close modal when clicking outside
+  document.getElementById('fr-wishlist-modal').addEventListener('click', function(e) {
+    if (e.target === this) {
+      closeWishlistModal();
+    }
+  });
+</script>

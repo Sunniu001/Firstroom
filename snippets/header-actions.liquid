@@ -180,8 +180,23 @@
     if (badge) {
       const updateWishlistBadge = () => {
         try {
-          const items = JSON.parse(localStorage.getItem('wishlist') || '[]');
-          const count = Array.isArray(items) ? items.length : 0;
+          let count = 0;
+          const dataStr = localStorage.getItem('fr_wishlist_data');
+          if (dataStr) {
+            const data = JSON.parse(dataStr);
+            if (data && data.wishlists) {
+              let allItems = new Set();
+              data.wishlists.forEach(list => {
+                if (list.items) list.items.forEach(i => allItems.add(i));
+              });
+              count = allItems.size;
+            }
+          } else {
+            // fallback to old
+            const oldItems = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            count = Array.isArray(oldItems) ? oldItems.length : 0;
+          }
+          
           if (count > 0) {
             badge.textContent = count;
             badge.style.display = 'flex';

@@ -1,0 +1,376 @@
+{{ 'base.css' | asset_url | stylesheet_tag }}
+
+<style>
+  .fr-wishlist-page-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: var(--font-body-family);
+  }
+  .fr-wishlist-filters {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+  }
+  .fr-wishlist-filter-btn {
+    border: 1px solid #111;
+    background: transparent;
+    color: #111;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .fr-wishlist-filter-btn:hover,
+  .fr-wishlist-filter-btn.is-active {
+    background: #111;
+    color: #fff;
+  }
+  .fr-wishlist-table-container {
+    border: 1px solid #eaeaea;
+  }
+  .fr-wishlist-header-row {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr;
+    background: #f4f4f4;
+    padding: 15px 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .fr-wishlist-body {
+    background: #fff;
+  }
+  .fr-wishlist-row {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eaeaea;
+  }
+  .fr-wishlist-row:last-child {
+    border-bottom: none;
+  }
+  .fr-wishlist-product-col {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .fr-wishlist-product-col input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+  }
+  .fr-wishlist-product-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    background: #f9f9f9;
+  }
+  .fr-wishlist-product-title {
+    font-size: 14px;
+    color: #111;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .fr-wishlist-price-col {
+    font-size: 14px;
+    color: #333;
+  }
+  .fr-wishlist-price-col strike {
+    color: #999;
+    margin-right: 8px;
+  }
+  .fr-wishlist-stock-col {
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .fr-wishlist-stock-col.in-stock {
+    color: #666;
+  }
+  .fr-wishlist-stock-col.out-of-stock {
+    color: #c2593f;
+  }
+  .fr-wishlist-action-btn {
+    border: 1px solid #111;
+    background: #fff;
+    color: #111;
+    padding: 10px 15px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.2s;
+    width: 100%;
+    max-width: 150px;
+  }
+  .fr-wishlist-action-btn:hover {
+    background: #111;
+    color: #fff;
+  }
+  .fr-wishlist-bottom-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-top: 1px solid #eaeaea;
+    background: #fff;
+  }
+  .fr-wishlist-bottom-actions .left-actions {
+    display: flex;
+    gap: 15px;
+  }
+  .fr-wishlist-bottom-actions .right-actions {
+    display: flex;
+    gap: 15px;
+  }
+  .fr-wishlist-btn-return {
+    border: 1px solid #111;
+    background: #fff;
+    color: #111;
+    padding: 12px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+  }
+  .fr-wishlist-btn-return:hover {
+    background: #f9f9f9;
+  }
+  .fr-wishlist-btn-remove {
+    border: 1px solid #c2593f;
+    background: #fff;
+    color: #c2593f;
+    padding: 12px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .fr-wishlist-btn-remove:hover {
+    background: #c2593f;
+    color: #fff;
+  }
+  
+  .fr-wishlist-title {
+    font-family: var(--font-heading-family);
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+  .fr-wishlist-empty {
+    padding: 60px 20px;
+    text-align: center;
+    font-size: 16px;
+    color: #666;
+  }
+</style>
+
+<div class="fr-wishlist-page-container">
+  <div class="fr-wishlist-filters" id="fr-wishlist-filters">
+    <!-- Populated by JS based on product types -->
+  </div>
+  
+  <h1 class="fr-wishlist-title">Wishlist</h1>
+
+  <div class="fr-wishlist-table-container">
+    <div class="fr-wishlist-header-row">
+      <div>PRODUCTS</div>
+      <div>PRICE</div>
+      <div>STOCK STATUS</div>
+      <div>ACTION</div>
+    </div>
+    
+    <div class="fr-wishlist-body" id="fr-wishlist-body">
+      <!-- Populated by JS -->
+      <div class="fr-wishlist-empty">Loading wishlist...</div>
+    </div>
+    
+    <div class="fr-wishlist-bottom-actions">
+      <div class="left-actions">
+        <a href="{{ routes.all_products_collection_url }}" class="fr-wishlist-btn-return">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          RETURN TO SHOP
+        </a>
+      </div>
+      <div class="right-actions">
+        <button class="fr-wishlist-action-btn" onclick="addSelectedToCart()">ADD TO CART</button>
+        <button class="fr-wishlist-btn-remove" onclick="removeSelectedFromWishlist()">REMOVE FROM WISHLIST</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let wishlistProductsCache = [];
+  let currentFilter = 'All';
+
+  async function loadWishlistPage() {
+    const data = getWishlistData();
+    // Use default wishlist or aggregate all for the page. Let's aggregate all unique for simplicity if they have multiple.
+    let allHandles = new Set();
+    data.wishlists.forEach(list => list.items.forEach(item => allHandles.add(item)));
+    allHandles = Array.from(allHandles);
+
+    if (allHandles.length === 0) {
+      document.getElementById('fr-wishlist-body').innerHTML = '<div class="fr-wishlist-empty">Your wishlist is currently empty.</div>';
+      return;
+    }
+
+    const fetches = allHandles.map(handle => 
+      fetch(\`/products/\${handle}.js\`).then(res => {
+        if (!res.ok) throw new Error('Not found');
+        return res.json();
+      }).catch(err => null)
+    );
+
+    const results = await Promise.all(fetches);
+    wishlistProductsCache = results.filter(p => p !== null);
+    
+    renderFilters();
+    renderTable();
+  }
+
+  function renderFilters() {
+    const types = new Set();
+    wishlistProductsCache.forEach(p => {
+      if (p.type) types.add(p.type);
+    });
+    
+    let html = \`<button class="fr-wishlist-filter-btn \${currentFilter === 'All' ? 'is-active' : ''}" onclick="setFilter('All')">All</button>\`;
+    
+    types.forEach(type => {
+      html += \`<button class="fr-wishlist-filter-btn \${currentFilter === type ? 'is-active' : ''}" onclick="setFilter('\${type}')">\${type}</button>\`;
+    });
+    
+    document.getElementById('fr-wishlist-filters').innerHTML = html;
+  }
+  
+  function setFilter(type) {
+    currentFilter = type;
+    renderFilters();
+    renderTable();
+  }
+
+  function renderTable() {
+    const tbody = document.getElementById('fr-wishlist-body');
+    let html = '';
+    
+    const filtered = currentFilter === 'All' 
+      ? wishlistProductsCache 
+      : wishlistProductsCache.filter(p => p.type === currentFilter);
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = '<div class="fr-wishlist-empty">No products match this filter.</div>';
+      return;
+    }
+
+    filtered.forEach(product => {
+      const variant = product.variants[0];
+      const isAvailable = product.available;
+      const stockText = isAvailable ? 'IN STOCK' : 'OUT OF STOCK';
+      const stockClass = isAvailable ? 'in-stock' : 'out-of-stock';
+      
+      const price = Shopify.formatMoney ? Shopify.formatMoney(product.price) : \`$\${(product.price / 100).toFixed(2)}\`;
+      const comparePrice = product.compare_at_price > product.price 
+        ? (Shopify.formatMoney ? Shopify.formatMoney(product.compare_at_price) : \`$\${(product.compare_at_price / 100).toFixed(2)}\`) 
+        : '';
+        
+      const img = product.featured_image ? product.featured_image : '';
+
+      html += \`
+        <div class="fr-wishlist-row">
+          <div class="fr-wishlist-product-col">
+            <input type="checkbox" class="fr-wishlist-checkbox" value="\${product.handle}" data-variant-id="\${variant.id}">
+            <img src="\${img}" class="fr-wishlist-product-img" alt="">
+            <a href="\${product.url}" class="fr-wishlist-product-title">\${product.title}</a>
+          </div>
+          <div class="fr-wishlist-price-col">
+            \${comparePrice ? \`<strike>\${comparePrice}</strike>\` : ''} \${price}
+          </div>
+          <div class="fr-wishlist-stock-col \${stockClass}">
+            \${stockText}
+          </div>
+          <div>
+            \${isAvailable ? \`<button class="fr-wishlist-action-btn" onclick="addToCart(\${variant.id})">ADD TO CART</button>\` : \`<button class="fr-wishlist-action-btn" disabled>UNAVAILABLE</button>\`}
+          </div>
+        </div>
+      \`;
+    });
+    
+    tbody.innerHTML = html;
+  }
+  
+  function addToCart(variantId) {
+    let formData = {
+      'items': [{
+        'id': variantId,
+        'quantity': 1
+      }]
+    };
+    fetch(window.Shopify.routes.root + 'cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    })
+    .then(response => {
+      // Trigger theme cart update or redirect
+      window.location.reload();
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  }
+  
+  function addSelectedToCart() {
+    const checkboxes = document.querySelectorAll('.fr-wishlist-checkbox:checked');
+    if (checkboxes.length === 0) return;
+    
+    const items = Array.from(checkboxes).map(cb => ({
+      id: parseInt(cb.getAttribute('data-variant-id')),
+      quantity: 1
+    }));
+    
+    fetch(window.Shopify.routes.root + 'cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items: items })
+    })
+    .then(response => {
+      window.location.reload();
+    });
+  }
+  
+  function removeSelectedFromWishlist() {
+    const checkboxes = document.querySelectorAll('.fr-wishlist-checkbox:checked');
+    if (checkboxes.length === 0) return;
+    
+    const handlesToRemove = Array.from(checkboxes).map(cb => cb.value);
+    const data = getWishlistData();
+    
+    // Remove from all wishlists
+    data.wishlists.forEach(list => {
+      list.items = list.items.filter(handle => !handlesToRemove.includes(handle));
+    });
+    
+    saveWishlistData(data);
+    loadWishlistPage(); // reload UI
+  }
+
+  document.addEventListener('DOMContentLoaded', loadWishlistPage);
+</script>
+
+{% schema %}
+{
+  "name": "Wishlist Page",
+  "settings": []
+}
+{% endschema %}
