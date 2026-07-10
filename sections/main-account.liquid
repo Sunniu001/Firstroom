@@ -103,10 +103,17 @@
         <div class="fr-account__panel fr-account-panel active" data-panel="orders">
           <h3 class="fr-account__panel-title">My Orders</h3>
           
-          <!-- Orders Table Container -->
-          <div class="fr-account__table-container">
-            
-            <table class="fr-account__table" data-order-table="all">
+          <!-- Order Subtabs -->
+          <div class="fr-orders__subtabs-container">
+            <div class="fr-orders__subtabs">
+              <button type="button" class="fr-orders__subtab active" data-orders-subtab="wallpaper">WALLPAPER</button>
+              <button type="button" class="fr-orders__subtab" data-orders-subtab="homedecor">HOME DECOR</button>
+            </div>
+          </div>
+
+          <!-- Wallpaper Orders Table Container -->
+          <div class="fr-account__table-container fr-orders__subpanel active" data-orders-subpanel="wallpaper">
+            <table class="fr-account__table">
               <thead>
                 <tr>
                   <th>PRODUCTS</th>
@@ -116,12 +123,10 @@
                 </tr>
               </thead>
               <tbody>
-                {%- assign orders_exist = false -%}
+                {%- assign wallpaper_orders_exist = false -%}
                 {%- for order in customer.orders -%}
                   {%- for line_item in order.line_items -%}
-                    {%- assign orders_exist = true -%}
                     
-                    <!-- Check if wallpaper -->
                     {%- assign is_wallpaper = false -%}
                     {%- for property in line_item.properties -%}
                       {%- if property.first == 'Area (sq.ft)' or property.first == 'Height (ft)' or property.first == 'Width (ft)' or property.first == 'Area' -%}
@@ -133,21 +138,22 @@
                       {%- assign is_wallpaper = true -%}
                     {%- endif -%}
 
-                    <tr>
-                      <td class="fr-account__product-cell">
-                        <div class="fr-account__product-info">
-                          <div class="fr-account__product-img">
-                            {%- if line_item.image != blank -%}
-                              <img src="{{ line_item.image | image_url: width: 120 }}" alt="{{ line_item.title | escape }}" loading="lazy">
-                            {%- else -%}
-                              {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
-                            {%- endif -%}
-                          </div>
-                          <div class="fr-account__product-meta">
-                            <span class="fr-account__product-title">{{ line_item.product.title | default: line_item.title }}</span>
-                            <span class="fr-account__order-date">{{ order.created_at | date: "%d %b %Y" }}</span>
-                            <div class="fr-account__line-properties">
-                              {%- if is_wallpaper -%}
+                    {%- if is_wallpaper -%}
+                      {%- assign wallpaper_orders_exist = true -%}
+                      <tr>
+                        <td class="fr-account__product-cell">
+                          <div class="fr-account__product-info">
+                            <div class="fr-account__product-img">
+                              {%- if line_item.image != blank -%}
+                                <img src="{{ line_item.image | image_url: width: 120 }}" alt="{{ line_item.title | escape }}" loading="lazy">
+                              {%- else -%}
+                                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                              {%- endif -%}
+                            </div>
+                            <div class="fr-account__product-meta">
+                              <span class="fr-account__product-title">{{ line_item.product.title | default: line_item.title }}</span>
+                              <span class="fr-account__order-date">{{ order.created_at | date: "%d %b %Y" }}</span>
+                              <div class="fr-account__line-properties">
                                 {%- for property in line_item.properties -%}
                                   {%- assign prop_first = property.first | downcase -%}
                                   {%- unless property.last == blank or prop_first == 'area' or prop_first == 'area (sq.ft)' -%}
@@ -164,7 +170,91 @@
                                     </span>
                                   {%- endunless -%}
                                 {%- endfor -%}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="text-center">
+                          {%- if line_item.properties['Area (sq.ft)'] != blank -%}
+                            {{ line_item.properties['Area (sq.ft)'] }}
+                          {%- elsif line_item.properties['Area'] != blank -%}
+                            {{ line_item.properties['Area'] }}
+                          {%- else -%}
+                            {{ line_item.quantity }}.00
+                          {%- endif -%}
+                        </td>
+                        <td class="text-center font-medium">
+                          {{ line_item.final_line_price | money_without_trailing_zeros }}
+                        </td>
+                        <td class="text-center">
+                          <div class="fr-account__status-col">
+                            {%- if order.fulfillment_status == 'fulfilled' -%}
+                              <span class="status-badge status-delivered">DELIVERED</span>
+                            {%- else -%}
+                              <span class="status-badge status-pending">PENDING</span>
+                            {%- endif -%}
+                            <button type="button" class="fr-account__details-link" onclick="openOrderModal('{{ order.id }}')" style="background:none; border:none; padding:0; cursor:pointer;">VIEW DETAILS</button>
+                          </div>
+                        </td>
+                      </tr>
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endfor -%}
+
+                {%- if wallpaper_orders_exist == false -%}
+                  <tr>
+                    <td colspan="4" class="text-center fr-account__empty-table">
+                      No wallpaper orders found.
+                    </td>
+                  </tr>
+                {%- endif -%}
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Home Decor Orders Table Container -->
+          <div class="fr-account__table-container fr-orders__subpanel" data-orders-subpanel="homedecor" style="display: none;">
+            <table class="fr-account__table">
+              <thead>
+                <tr>
+                  <th>PRODUCTS</th>
+                  <th class="text-center">QUANTITY</th>
+                  <th class="text-center">PRICE</th>
+                  <th class="text-center">STATUS</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%- assign homedecor_orders_exist = false -%}
+                {%- for order in customer.orders -%}
+                  {%- for line_item in order.line_items -%}
+                    
+                    {%- assign is_wallpaper = false -%}
+                    {%- for property in line_item.properties -%}
+                      {%- if property.first == 'Area (sq.ft)' or property.first == 'Height (ft)' or property.first == 'Width (ft)' or property.first == 'Area' -%}
+                        {%- assign is_wallpaper = true -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                    {%- assign product_title_downcase = line_item.product.title | downcase -%}
+                    {%- if line_item.product.tags contains 'wallpaper' or line_item.variant.sku contains 'FMWPAR' or product_title_downcase contains 'wallpaper' -%}
+                      {%- assign is_wallpaper = true -%}
+                    {%- endif -%}
+
+                    {%- unless is_wallpaper -%}
+                      {%- assign homedecor_orders_exist = true -%}
+                      <tr>
+                        <td class="fr-account__product-cell">
+                          <div class="fr-account__product-info">
+                            <div class="fr-account__product-img">
+                              {%- if line_item.image != blank -%}
+                                <img src="{{ line_item.image | image_url: width: 120 }}" alt="{{ line_item.title | escape }}" loading="lazy">
                               {%- else -%}
+                                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                              {%- endif -%}
+                            </div>
+                            <div class="fr-account__product-meta">
+                              <span class="fr-account__product-title">{{ line_item.product.title | default: line_item.title }}</span>
+                              <span class="fr-account__order-date">{{ order.created_at | date: "%d %b %Y" }}</span>
+                              <div class="fr-account__line-properties">
                                 {%- for option in line_item.options_with_values -%}
                                   <span>{{ option.name }}: {{ option.value }}</span>
                                 {%- endfor -%}
@@ -173,52 +263,40 @@
                                     <span>{{ property.first }}: {{ property.last }}</span>
                                   {%- endunless -%}
                                 {%- endfor -%}
-                              {%- endif -%}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </td>
-                      <td class="text-center">
-                        {%- if is_wallpaper -%}
-                          {%- if line_item.properties['Area (sq.ft)'] != blank -%}
-                            {{ line_item.properties['Area (sq.ft)'] }}
-                          {%- elsif line_item.properties['Area'] != blank -%}
-                            {{ line_item.properties['Area'] }}
-                          {%- else -%}
-                            {{ line_item.quantity }}.00
-                          {%- endif -%}
-                        {%- else -%}
-                          -
-                        {%- endif -%}
-                      </td>
-                      <td class="text-center font-medium">
-                        {{ line_item.final_line_price | money_without_trailing_zeros }}
-                      </td>
-                      <td class="text-center">
-                        <div class="fr-account__status-col">
-                          {%- if order.fulfillment_status == 'fulfilled' -%}
-                            <span class="status-badge status-delivered">DELIVERED</span>
-                          {%- else -%}
-                            <span class="status-badge status-pending">PENDING</span>
-                          {%- endif -%}
-                          <button type="button" class="fr-account__details-link" onclick="openOrderModal('{{ order.id }}')" style="background:none; border:none; padding:0; cursor:pointer;">VIEW DETAILS</button>
-                        </div>
-                      </td>
-                    </tr>
-
+                        </td>
+                        <td class="text-center">
+                          {{ line_item.quantity }}
+                        </td>
+                        <td class="text-center font-medium">
+                          {{ line_item.final_line_price | money_without_trailing_zeros }}
+                        </td>
+                        <td class="text-center">
+                          <div class="fr-account__status-col">
+                            {%- if order.fulfillment_status == 'fulfilled' -%}
+                              <span class="status-badge status-delivered">DELIVERED</span>
+                            {%- else -%}
+                              <span class="status-badge status-pending">PENDING</span>
+                            {%- endif -%}
+                            <button type="button" class="fr-account__details-link" onclick="openOrderModal('{{ order.id }}')" style="background:none; border:none; padding:0; cursor:pointer;">VIEW DETAILS</button>
+                          </div>
+                        </td>
+                      </tr>
+                    {%- endunless -%}
                   {%- endfor -%}
                 {%- endfor -%}
 
-                {%- if orders_exist == false -%}
+                {%- if homedecor_orders_exist == false -%}
                   <tr>
                     <td colspan="4" class="text-center fr-account__empty-table">
-                      No orders found.
+                      No home decor orders found.
                     </td>
                   </tr>
                 {%- endif -%}
               </tbody>
             </table>
-
           </div>
         </div>
 
@@ -815,6 +893,36 @@
 
   .fr-account__panel.active {
     display: block;
+  }
+
+  .fr-orders__subtabs-container {
+    border-bottom: 1px solid #ebebeb;
+    margin-bottom: 24px;
+  }
+  .fr-orders__subtabs {
+    display: flex;
+    gap: 32px;
+  }
+  .fr-orders__subtab {
+    background: none;
+    border: none;
+    padding: 0 0 12px 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    margin-bottom: -1px;
+  }
+  .fr-orders__subtab:hover {
+    color: #1a1a1a;
+  }
+  .fr-orders__subtab.active {
+    color: #1a1a1a;
+    border-bottom: 2px solid #1a1a1a;
   }
 
   .fr-account__panel-title {
@@ -1542,6 +1650,30 @@
 </style>
 
 <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var subtabs = document.querySelectorAll('.fr-orders__subtab');
+    var subpanels = document.querySelectorAll('.fr-orders__subpanel');
+    
+    subtabs.forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        var targetPanel = this.getAttribute('data-orders-subtab');
+        
+        subtabs.forEach(function(t) { t.classList.remove('active'); });
+        this.classList.add('active');
+        
+        subpanels.forEach(function(panel) {
+          if(panel.getAttribute('data-orders-subpanel') === targetPanel) {
+            panel.classList.add('active');
+            panel.style.display = 'block';
+          } else {
+            panel.classList.remove('active');
+            panel.style.display = 'none';
+          }
+        });
+      });
+    });
+  });
+
   function openOrderModal(orderId) {
     var modal = document.getElementById('fr-order-modal-' + orderId);
     if(modal) {
