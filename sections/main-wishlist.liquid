@@ -211,17 +211,24 @@
 
 <script>
   let wishlistProductsCache = [];
-  let currentFilter = 'All';
+  let currentFilter = '';
+  let wishlistsData = [];
 
   async function loadWishlistPage() {
     const data = getWishlistData();
-    // Use default wishlist or aggregate all for the page. Let's aggregate all unique for simplicity if they have multiple.
+    wishlistsData = data.wishlists;
+    
+    if (wishlistsData.length > 0 && !currentFilter) {
+      currentFilter = wishlistsData[0].id;
+    }
+
     let allHandles = new Set();
-    data.wishlists.forEach(list => list.items.forEach(item => allHandles.add(item)));
+    wishlistsData.forEach(list => list.items.forEach(item => allHandles.add(item)));
     allHandles = Array.from(allHandles);
 
     if (allHandles.length === 0) {
-      document.getElementById('fr-wishlist-body').innerHTML = '<div class="fr-wishlist-empty">Your wishlist is currently empty.</div>';
+      document.getElementById('fr-wishlist-body').innerHTML = '<div class="fr-wishlist-empty">Your wishlists are currently empty.</div>';
+      renderFilters();
       return;
     }
 
@@ -240,22 +247,17 @@
   }
 
   function renderFilters() {
-    const types = new Set();
-    wishlistProductsCache.forEach(p => {
-      if (p.type) types.add(p.type);
-    });
+    let html = '';
     
-    let html = `<button class="fr-wishlist-filter-btn ${currentFilter === 'All' ? 'is-active' : ''}" onclick="setFilter('All')">All</button>`;
-    
-    types.forEach(type => {
-      html += `<button class="fr-wishlist-filter-btn ${currentFilter === type ? 'is-active' : ''}" onclick="setFilter('${type}')">${type}</button>`;
+    wishlistsData.forEach(list => {
+      html += `<button class="fr-wishlist-filter-btn ${currentFilter === list.id ? 'is-active' : ''}" onclick="setFilter('${list.id}')">${list.name}</button>`;
     });
     
     document.getElementById('fr-wishlist-filters').innerHTML = html;
   }
   
-  function setFilter(type) {
-    currentFilter = type;
+  function setFilter(id) {
+    currentFilter = id;
     renderFilters();
     renderTable();
   }
@@ -264,12 +266,13 @@
     const tbody = document.getElementById('fr-wishlist-body');
     let html = '';
     
-    const filtered = currentFilter === 'All' 
-      ? wishlistProductsCache 
-      : wishlistProductsCache.filter(p => p.type === currentFilter);
+    const activeList = wishlistsData.find(l => l.id === currentFilter);
+    if (!activeList) return;
+
+    const filtered = wishlistProductsCache.filter(p => activeList.items.includes(p.handle));
 
     if (filtered.length === 0) {
-      tbody.innerHTML = '<div class="fr-wishlist-empty">No products match this filter.</div>';
+      tbody.innerHTML = '<div class="fr-wishlist-empty">This wishlist is empty.</div>';
       return;
     }
 
@@ -356,10 +359,11 @@
     const handlesToRemove = Array.from(checkboxes).map(cb => cb.value);
     const data = getWishlistData();
     
-    // Remove from all wishlists
-    data.wishlists.forEach(list => {
-      list.items = list.items.filter(handle => !handlesToRemove.includes(handle));
-    });
+    // Remove from the currently active wishlist
+    const activeList = data.wishlists.find(l => l.id === currentFilter);
+    if (activeList) {
+      activeList.items = activeList.items.filter(handle => !handlesToRemove.includes(handle));
+    }
     
     saveWishlistData(data);
     loadWishlistPage(); // reload UI
