@@ -331,7 +331,20 @@
         activeList.items = activeList.items.filter(handle => handle !== productHandle);
         saveWishlistData(data);
       }
-      window.location.reload();
+      
+      // Update cart drawer in Dawn theme
+      if (document.querySelector('cart-drawer')) {
+        fetch('/cart.js')
+          .then(res => res.json())
+          .then(cart => {
+            document.documentElement.dispatchEvent(new CustomEvent('cart:change', {
+              bubbles: true,
+              detail: { cart }
+            }));
+          });
+      }
+      
+      loadWishlistPage();
     })
     .catch((error) => {
       console.error('Error:', error);
@@ -360,7 +373,20 @@
         activeList.items = activeList.items.filter(handle => !handlesToRemove.includes(handle));
         saveWishlistData(data);
       }
-      window.location.reload();
+      
+      // Update cart drawer in Dawn theme
+      if (document.querySelector('cart-drawer')) {
+        fetch('/cart.js')
+          .then(res => res.json())
+          .then(cart => {
+            document.documentElement.dispatchEvent(new CustomEvent('cart:change', {
+              bubbles: true,
+              detail: { cart }
+            }));
+          });
+      }
+      
+      loadWishlistPage();
     });
   }
   
