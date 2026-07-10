@@ -39,7 +39,14 @@
   "
 >
   
-  
+  {% if block.settings.show_title %}
+    <!-- Sleek Premium Title & Subtitle -->
+    <div class="mm-header-group">
+      <span class="mm-badge" style="background: {{ block.settings.accent_color }}15; color: {{ block.settings.accent_color }}">Personalize</span>
+      <p class="mm-subtitle" style="color: {{ block.settings.text_color }}90">Type your name below to see a live preview instantly.</p>
+    </div>
+  {% endif %}
+
   {% if block.settings.show_price_variants %}
     <!-- Price & Variant Selectors (Optional) -->
     <div class="mm-price-row">
