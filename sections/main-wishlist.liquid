@@ -41,10 +41,12 @@
     text-transform: uppercase;
     letter-spacing: 1px;
   }
-  .fr-wishlist-header-row div {
+  .fr-wishlist-header-row > div {
     text-align: left;
     display: flex;
     align-items: center;
+    justify-content: flex-start;
+    padding: 0 10px;
   }
   .fr-wishlist-body {
     background: #fff;
@@ -61,10 +63,12 @@
   }
   .fr-wishlist-row > div {
     text-align: left;
-  }
-  .fr-wishlist-product-col {
     display: flex;
     align-items: center;
+    justify-content: flex-start;
+    padding: 0 10px;
+  }
+  .fr-wishlist-product-col {
     gap: 20px;
   }
   .fr-wishlist-product-col input[type="checkbox"] {
