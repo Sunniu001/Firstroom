@@ -202,7 +202,7 @@
         </a>
       </div>
       <div class="right-actions">
-        <button class="fr-wishlist-action-btn" onclick="addSelectedToCart()">ADD TO CART</button>
+        <button class="fr-wishlist-action-btn" onclick="addSelectedToCart()">MOVE TO CART</button>
         <button class="fr-wishlist-btn-remove" onclick="removeSelectedFromWishlist()">REMOVE FROM WISHLIST</button>
       </div>
     </div>
@@ -282,9 +282,9 @@
       const stockText = isAvailable ? 'IN STOCK' : 'OUT OF STOCK';
       const stockClass = isAvailable ? 'in-stock' : 'out-of-stock';
       
-      const price = Shopify.formatMoney ? Shopify.formatMoney(product.price) : `$${(product.price / 100).toFixed(2)}`;
+      const price = Shopify.formatMoney ? Shopify.formatMoney(product.price) : `Rs. ${(product.price / 100).toFixed(2)}`;
       const comparePrice = product.compare_at_price > product.price 
-        ? (Shopify.formatMoney ? Shopify.formatMoney(product.compare_at_price) : `$${(product.compare_at_price / 100).toFixed(2)}`) 
+        ? (Shopify.formatMoney ? Shopify.formatMoney(product.compare_at_price) : `Rs. ${(product.compare_at_price / 100).toFixed(2)}`) 
         : '';
         
       const img = product.featured_image ? product.featured_image : '';
@@ -303,7 +303,7 @@
             ${stockText}
           </div>
           <div>
-            ${isAvailable ? `<button class="fr-wishlist-action-btn" onclick="addToCart(${variant.id})">ADD TO CART</button>` : `<button class="fr-wishlist-action-btn" disabled>UNAVAILABLE</button>`}
+            ${isAvailable ? `<button class="fr-wishlist-action-btn" onclick="addToCart(${variant.id}, '${product.handle}')">MOVE TO CART</button>` : `<button class="fr-wishlist-action-btn" disabled>UNAVAILABLE</button>`}
           </div>
         </div>
       `;
@@ -312,7 +312,7 @@
     tbody.innerHTML = html;
   }
   
-  function addToCart(variantId) {
+  function addToCart(variantId, productHandle) {
     let formData = {
       'items': [{
         'id': variantId,
@@ -325,7 +325,12 @@
       body: JSON.stringify(formData)
     })
     .then(response => {
-      // Trigger theme cart update or redirect
+      const data = getWishlistData();
+      const activeList = data.wishlists.find(l => l.id === currentFilter);
+      if (activeList) {
+        activeList.items = activeList.items.filter(handle => handle !== productHandle);
+        saveWishlistData(data);
+      }
       window.location.reload();
     })
     .catch((error) => {
@@ -341,6 +346,7 @@
       id: parseInt(cb.getAttribute('data-variant-id')),
       quantity: 1
     }));
+    const handlesToRemove = Array.from(checkboxes).map(cb => cb.value);
     
     fetch(window.Shopify.routes.root + 'cart/add.js', {
       method: 'POST',
@@ -348,6 +354,12 @@
       body: JSON.stringify({ items: items })
     })
     .then(response => {
+      const data = getWishlistData();
+      const activeList = data.wishlists.find(l => l.id === currentFilter);
+      if (activeList) {
+        activeList.items = activeList.items.filter(handle => !handlesToRemove.includes(handle));
+        saveWishlistData(data);
+      }
       window.location.reload();
     });
   }
