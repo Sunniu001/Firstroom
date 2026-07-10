@@ -201,7 +201,7 @@
                           {%- else -%}
                             <span class="status-badge status-pending">PENDING</span>
                           {%- endif -%}
-                          <a href="{{ order.customer_url }}" class="fr-account__details-link">VIEW DETAILS</a>
+                          <button type="button" class="fr-account__details-link" onclick="openOrderModal('{{ order.id }}')" style="background:none; border:none; padding:0; cursor:pointer;">VIEW DETAILS</button>
                         </div>
                       </td>
                     </tr>
@@ -491,6 +491,189 @@
         </div>
 
       </main>
+
+
+    <!-- Order Modals -->
+    {%- for order in customer.orders -%}
+      <div id="fr-order-modal-{{ order.id }}" class="fr-order-modal" style="display:none;" role="dialog" aria-modal="true">
+        <div class="fr-order-modal__overlay" onclick="closeOrderModal('{{ order.id }}')"></div>
+        <div class="fr-order-modal__content">
+          <div class="fr-order-modal__inner">
+            
+            <div class="fr-order__header">
+              <button type="button" class="fr-order__close-btn" onclick="closeOrderModal('{{ order.id }}')" aria-label="Close modal">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+              
+              <div class="fr-order__title-row">
+                <h2 class="fr-order__title">Order {{ order.name }}</h2>
+                <div class="fr-order__badges">
+                  {%- if order.financial_status_label != blank -%}
+                    <span class="status-badge status-pending">
+                      {{ order.financial_status_label | upcase }}
+                    </span>
+                  {%- endif -%}
+                  {%- if order.fulfillment_status_label != blank -%}
+                    <span class="status-badge {% if order.fulfillment_status == 'fulfilled' %}status-delivered{% else %}status-pending{% endif %}">
+                      {{ order.fulfillment_status_label | upcase }}
+                    </span>
+                  {%- endif -%}
+                </div>
+              </div>
+              <p class="fr-order__date">Placed on {{ order.created_at | date: "%d %b %Y at %I:%M %p" }}</p>
+              {%- if order.cancelled -%}
+                <div class="fr-order__cancelled">
+                  <p>Order Cancelled on {{ order.cancelled_at | date: "%d %b %Y at %I:%M %p" }}</p>
+                  <p>Reason: {{ order.cancel_reason_label }}</p>
+                </div>
+              {%- endif -%}
+            </div>
+
+            <div class="fr-order__grid">
+              
+              <div class="fr-order__items">
+                <div class="fr-account__table-container">
+                  <table class="fr-account__table" style="min-width: 600px;">
+                    <thead>
+                      <tr>
+                        <th>PRODUCT</th>
+                        <th class="text-center">PRICE</th>
+                        <th class="text-center">QTY</th>
+                        <th class="text-right">TOTAL</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {%- for line_item in order.line_items -%}
+                        <tr>
+                          <td class="fr-account__product-cell">
+                            <div class="fr-account__product-info">
+                              <div class="fr-account__product-img">
+                                {%- if line_item.image != blank -%}
+                                  <img src="{{ line_item.image | image_url: width: 120 }}" alt="{{ line_item.title | escape }}" loading="lazy">
+                                {%- else -%}
+                                  {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                                {%- endif -%}
+                              </div>
+                              <div class="fr-account__product-meta">
+                                <span class="fr-account__product-title">{{ line_item.product.title | default: line_item.title }}</span>
+                                
+                                <div class="fr-account__line-properties">
+                                  {%- unless line_item.product.has_only_default_variant -%}
+                                    {%- for option in line_item.options_with_values -%}
+                                      <span>{{ option.name }}: {{ option.value }}</span>
+                                    {%- endfor -%}
+                                  {%- endunless -%}
+                                  {%- for property in line_item.properties -%}
+                                    {%- unless property.last == blank or property.first.first == '_' -%}
+                                      <span>{{ property.first }}: {{ property.last }}</span>
+                                    {%- endunless -%}
+                                  {%- endfor -%}
+                                </div>
+
+                                {%- if line_item.fulfillment -%}
+                                  <div class="fr-order__fulfillment">
+                                    <span class="fr-order__fulfillment-status">Fulfilled on {{ line_item.fulfillment.created_at | date: "%d %b %Y" }}</span>
+                                    {%- if line_item.fulfillment.tracking_number -%}
+                                      <a href="{{ line_item.fulfillment.tracking_url }}" target="_blank" class="fr-order__tracking-link">
+                                        Track package #{{ line_item.fulfillment.tracking_number }}
+                                      </a>
+                                    {%- endif -%}
+                                  </div>
+                                {%- endif -%}
+                              </div>
+                            </div>
+                          </td>
+                          <td class="text-center">
+                            {%- if line_item.original_price != line_item.final_price -%}
+                              <s class="fr-order__old-price">{{ line_item.original_price | money }}</s><br>
+                            {%- endif -%}
+                            {{ line_item.final_price | money }}
+                          </td>
+                          <td class="text-center">{{ line_item.quantity }}</td>
+                          <td class="text-right font-medium">
+                            {{ line_item.final_line_price | money }}
+                          </td>
+                        </tr>
+                      {%- endfor -%}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="fr-order__summary-col">
+                <div class="fr-order__summary-box">
+                  <h3 class="fr-order__summary-title">Order Summary</h3>
+                  <div class="fr-order__summary-row">
+                    <span>Subtotal</span>
+                    <span>{{ order.line_items_subtotal_price | money }}</span>
+                  </div>
+                  
+                  {%- for discount_application in order.cart_level_discount_applications -%}
+                    <div class="fr-order__summary-row fr-order__summary-discount">
+                      <span>Discount ({{ discount_application.title }})</span>
+                      <span>-{{ discount_application.total_allocated_amount | money }}</span>
+                    </div>
+                  {%- endfor -%}
+
+                  {%- for shipping_method in order.shipping_methods -%}
+                    <div class="fr-order__summary-row">
+                      <span>Shipping ({{ shipping_method.title }})</span>
+                      <span>{{ shipping_method.price | money }}</span>
+                    </div>
+                  {%- endfor -%}
+
+                  {%- for tax_line in order.tax_lines -%}
+                    <div class="fr-order__summary-row">
+                      <span>Tax ({{ tax_line.title }} {{ tax_line.rate | times: 100 }}%)</span>
+                      <span>{{ tax_line.price | money }}</span>
+                    </div>
+                  {%- endfor -%}
+
+                  <div class="fr-order__summary-row fr-order__summary-total">
+                    <span>Total</span>
+                    <span>{{ order.total_price | money_with_currency }}</span>
+                  </div>
+                </div>
+
+                <div class="fr-order__addresses">
+                  {%- if order.shipping_address -%}
+                    <div class="fr-order__address-block">
+                      <h4 class="fr-order__address-title">Shipping Address</h4>
+                      <p class="fr-order__address-text">
+                        {{ order.shipping_address.first_name }} {{ order.shipping_address.last_name }}<br>
+                        {%- if order.shipping_address.company != blank -%}{{ order.shipping_address.company }}<br>{%- endif -%}
+                        {{ order.shipping_address.street }}<br>
+                        {{ order.shipping_address.city }}, {{ order.shipping_address.province }} {{ order.shipping_address.zip }}<br>
+                        {{ order.shipping_address.country }}<br>
+                        {%- if order.shipping_address.phone != blank -%}{{ order.shipping_address.phone }}{%- endif -%}
+                      </p>
+                    </div>
+                  {%- endif -%}
+
+                  {%- if order.billing_address -%}
+                    <div class="fr-order__address-block">
+                      <h4 class="fr-order__address-title">Billing Address</h4>
+                      <p class="fr-order__address-text">
+                        {{ order.billing_address.first_name }} {{ order.billing_address.last_name }}<br>
+                        {%- if order.billing_address.company != blank -%}{{ order.billing_address.company }}<br>{%- endif -%}
+                        {{ order.billing_address.street }}<br>
+                        {{ order.billing_address.city }}, {{ order.billing_address.province }} {{ order.billing_address.zip }}<br>
+                        {{ order.billing_address.country }}<br>
+                        {%- if order.billing_address.phone != blank -%}{{ order.billing_address.phone }}{%- endif -%}
+                      </p>
+                    </div>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    {%- endfor -%}
 
     </div>
   {%- else -%}
@@ -1110,9 +1293,210 @@
     color: #b53939;
     border: 1px solid #f5dede;
   }
+
+  /* Modal Styles */
+  .fr-order-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .fr-order-modal__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+  }
+
+  .fr-order-modal__content {
+    position: relative;
+    background: #fafafa;
+    width: 90%;
+    max-width: 1100px;
+    height: 90vh;
+    max-height: 90vh;
+    border-radius: 4px;
+    overflow-y: auto;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    z-index: 10;
+    animation: frModalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .fr-order-modal__inner {
+    padding: 40px;
+  }
+
+  @keyframes frModalSlideUp {
+    0% { transform: translateY(40px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+
+  .fr-order__header {
+    position: relative;
+    margin-bottom: 40px;
+  }
+
+  .fr-order__close-btn {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #fff;
+    border: 1px solid #ebebeb;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #1a1a1a;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    transition: all 0.2s;
+  }
+  
+  .fr-order__close-btn:hover {
+    background: #1a1a1a;
+    color: #fff;
+  }
+
+  .fr-order__title-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+
+  .fr-order__title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2rem;
+    font-weight: 500;
+    color: #1a1a1a;
+    margin: 0;
+  }
+
+  .fr-order__badges { display: flex; gap: 12px; }
+  .fr-order__date { font-size: 0.95rem; color: #666; margin: 0; }
+
+  .fr-order__cancelled {
+    margin-top: 16px;
+    padding: 16px;
+    background-color: #fbf1f1;
+    border: 1px solid #f5dede;
+    color: #b53939;
+    border-radius: 2px;
+    font-size: 0.9rem;
+  }
+  .fr-order__cancelled p { margin: 0 0 4px 0; }
+
+  /* Grid Layout */
+  .fr-order__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+
+  @media (min-width: 900px) {
+    .fr-order__grid {
+      grid-template-columns: 2fr 1fr;
+    }
+  }
+
+  .fr-order__items, .fr-order__summary-box, .fr-order__address-block {
+    background-color: #ffffff;
+    border: 1px solid #ebebeb;
+    border-radius: 2px;
+    padding: 24px;
+  }
+
+  .fr-order__fulfillment {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .fr-order__fulfillment-status {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #2b7040;
+  }
+
+  .fr-order__tracking-link {
+    font-size: 0.75rem;
+    color: #1a1a1a;
+    text-decoration: underline;
+  }
+
+  .fr-order__summary-col { display: flex; flex-direction: column; gap: 24px; }
+  .fr-order__summary-title, .fr-order__address-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #1a1a1a;
+  }
+
+  .fr-order__summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #f2f2f2;
+    font-size: 0.9rem;
+    color: #555;
+  }
+  .fr-order__summary-row:last-child { border-bottom: none; }
+  .fr-order__summary-discount { color: #b53939; }
+  .fr-order__summary-total {
+    margin-top: 12px;
+    padding-top: 20px;
+    border-top: 2px solid #1a1a1a;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #1a1a1a;
+  }
+
+  .fr-order__addresses { display: flex; flex-direction: column; gap: 24px; }
+  .fr-order__address-text {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: #555;
+    margin: 0;
+  }
+
+  .text-right { text-align: right !important; }
 </style>
 
 <script>
+  function openOrderModal(orderId) {
+    var modal = document.getElementById('fr-order-modal-' + orderId);
+    if(modal) {
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeOrderModal(orderId) {
+    var modal = document.getElementById('fr-order-modal-' + orderId);
+    if(modal) {
+      modal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+  }
+
   (function() {
     function switchTab(tabId) {
       // Hide all panels
