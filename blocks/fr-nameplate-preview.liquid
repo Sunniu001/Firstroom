@@ -1,5 +1,11 @@
 {%- assign current_variant = product.selected_or_first_available_variant -%}
-{%- assign mm_bg = block.settings.mockup_image | default: product.metafields.mockupmate.mm_bg.value | default: product.metafields.mockupmate.mm_bg | default: product.featured_image -%}
+{%- assign mm_bg = block.settings.mockup_image -%}
+{%- if mm_bg == blank -%}
+  {%- assign mm_bg = product.metafields.mockupmate.mm_bg.value -%}
+{%- endif -%}
+{%- if mm_bg == blank -%}
+  {%- assign mm_bg = product.featured_image -%}
+{%- endif -%}
 {%- assign mm_box = product.metafields.mockupmate.mm_box.value | default: product.metafields.mockupmate.mm_box -%}
 {%- assign mm_text_color = product.metafields.mockupmate.mm_text_color.value | default: product.metafields.mockupmate.mm_text_color | default: 'dark' -%}
 {%- assign mm_max_chars = product.metafields.mockupmate.mm_max_chars.value | default: product.metafields.mockupmate.mm_max_chars | default: 20 -%}
