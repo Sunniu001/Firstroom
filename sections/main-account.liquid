@@ -538,7 +538,16 @@
                 {%- endif -%}
                 
                 {%- if order.fulfillment_status == 'fulfilled' or order.fulfillment_status == 'partial' -%}
-                  <a href="{{ order.order_status_url }}" target="_blank" class="fr-account__btn-primary fr-order__action-btn">Track Order</a>
+                  {%- assign tracking_url = '' -%}
+                  {%- for fulfillment in order.fulfillments -%}
+                    {%- if fulfillment.tracking_url -%}
+                      {%- assign tracking_url = fulfillment.tracking_url -%}
+                      {%- break -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                  {%- if tracking_url != blank -%}
+                    <a href="{{ tracking_url }}" target="_blank" class="fr-account__btn-primary fr-order__action-btn">Track Order</a>
+                  {%- endif -%}
                   <button type="button" class="fr-account__btn-secondary fr-order__action-btn" onclick="window.print()">Print Invoice</button>
                 {%- endif -%}
               </div>
