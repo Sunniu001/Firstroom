@@ -241,6 +241,18 @@
     document.dispatchEvent(new Event('wishlist:updated'));
   }
 
+  window.frRemoveFromAllWishlists = function(productHandle) {
+    const data = getWishlistData();
+    let changed = false;
+    data.wishlists.forEach(list => {
+      if (list.items.includes(productHandle)) {
+        list.items = list.items.filter(item => item !== productHandle);
+        changed = true;
+      }
+    });
+    if (changed) saveWishlistData(data);
+  };
+
   function openWishlistModal(productHandle) {
     currentWishlistProductHandle = productHandle;
     document.getElementById('fr-wishlist-create-wrap').classList.remove('is-visible');

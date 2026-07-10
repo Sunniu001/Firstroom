@@ -1,4 +1,4 @@
-<div class="fr-actions-container" style="margin-top: {{ block.settings.padding_top }}px;" {{ block.shopify_attributes }}>
+<div class="fr-actions-container" style="margin-top: {{ block.settings.padding_top }}px; margin-bottom: {{ block.settings.padding_bottom }}px;" {{ block.shopify_attributes }}>
   <a href="{{ block.settings.order_link }}" class="fr-action-btn fr-btn-primary">
     {{ block.settings.order_text }}
   </a>
@@ -8,46 +8,10 @@
   </a>
 </div>
 
-<button 
-  type="button" 
-  class="fr-product-wishlist-btn-full" 
-  onclick="window.frOpenWishlistModal('{{ product.handle }}')"
->
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e76483" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-  </svg>
-  <span style="font-size: 14px; font-weight: 500; color: #333;">Add to Wishlist</span>
-</button>
-
 <style>
   .fr-actions-container {
     display: flex;
     gap: 1rem;
-    margin-bottom: 10px;
-  }
-  .fr-product-wishlist-btn-full {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    padding: 14px;
-    margin-bottom: {{ block.settings.padding_bottom }}px;
-    border: 1px solid #e5e5e5;
-    border-radius: 4px;
-    background: #fff;
-    cursor: pointer;
-    transition: 0.2s;
-  }
-  .fr-product-wishlist-btn-full:hover {
-    background: #fdfdfd;
-    border-color: #d5d5d5;
-  }
-  .fr-product-wishlist-btn-full svg {
-    transition: transform 0.2s ease;
-  }
-  .fr-product-wishlist-btn-full:hover svg {
-    transform: scale(1.1);
   }
   .fr-action-btn {
     flex: 1;

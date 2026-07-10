@@ -203,6 +203,9 @@
           badge.style.display = 'none';
         }
       };
+
+      window.updateWishlistBadge = updateWishlistBadge;
+      
       updateWishlistBadge();
       window.addEventListener('storage', updateWishlistBadge);
       document.addEventListener('wishlist:updated', updateWishlistBadge);
