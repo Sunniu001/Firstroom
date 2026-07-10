@@ -191,7 +191,7 @@
       }
       .cart-page .cart-items__table thead tr {
         display: grid !important;
-        grid-template-columns: 40px 100px 1fr 120px 140px 120px !important;
+        grid-template-columns: 40px 100px 1fr 140px 120px !important;
         border-bottom: 1px solid #ebebeb !important;
         padding-bottom: 10px !important;
         margin-bottom: 16px !important;
@@ -209,8 +209,8 @@
       }
       .cart-page .cart-items__table-row {
         display: grid !important;
-        grid-template-columns: 40px 100px 1fr 120px 140px 120px !important;
-        grid-template-areas: 'checkbox media details unit-price quantity subtotal' !important;
+        grid-template-columns: 40px 100px 1fr 140px 120px !important;
+        grid-template-areas: 'checkbox media details quantity subtotal' !important;
         align-items: center !important;
         border-bottom: 1px solid #f0f0f0 !important;
         padding-bottom: 16px !important;
@@ -222,11 +222,16 @@
       }
       .cart-page .cart-items__details {
         grid-area: details !important;
-        display: grid !important;
-        grid-template-columns: 1fr 120px !important;
-        align-items: center !important;
-        gap: 16px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: flex-start !important;
+        gap: 8px !important;
         color: #333333 !important;
+      }
+      .cart-page .cart-items__product-info,
+      .cart-page .cart-items__variants-wrapper {
+        /* Reset any rogue grid properties */
       }
       .cart-page .cart-items__title {
         color: #c2593f !important;
@@ -238,12 +243,12 @@
         text-decoration: underline !important;
       }
       .cart-page .cart-items__unit-price-wrapper {
-        grid-area: unit-price !important;
         display: flex !important;
         align-items: center !important;
         font-size: 13.5px !important;
         font-weight: 500 !important;
         color: #333333 !important;
+        margin-top: 4px !important;
       }
       .cart-page .cart-items__quantity {
         grid-area: quantity !important;
