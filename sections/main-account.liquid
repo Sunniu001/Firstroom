@@ -533,10 +533,7 @@
 
               <!-- Order Action Buttons -->
               <div class="fr-order__actions no-print">
-                {%- if order.financial_status == 'pending' or order.financial_status == 'partially_paid' or order.financial_status == 'unpaid' -%}
-                  <a href="{{ order.order_status_url }}" class="fr-account__btn-primary fr-order__action-btn">Complete Payment</a>
-                {%- endif -%}
-                
+
                 {%- if order.fulfillment_status == 'fulfilled' or order.fulfillment_status == 'partial' -%}
                   {%- assign tracking_url = '' -%}
                   {%- for fulfillment in order.fulfillments -%}
