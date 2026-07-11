@@ -197,11 +197,18 @@
             <div class="fr-contact__form-field">
               <label class="fr-contact__field-label" style="font-size: {{ block.settings.label_size }}px;">Phone number</label>
               <div class="fr-contact__phone-container">
-                <div class="fr-contact__country-code">
-                  <span class="fr-contact__flag">🇮🇳</span>
-                  <span class="fr-contact__code">+91</span>
-                  <span class="fr-contact__arrow">▼</span>
-                </div>
+                <select class="fr-contact__country-select" id="ContactForm-country-code">
+                  <option value="+91" selected>🇮🇳 +91</option>
+                  <option value="+1">🇺🇸 +1 (US)</option>
+                  <option value="+44">🇬🇧 +44 (UK)</option>
+                  <option value="+971">🇦🇪 +971 (UAE)</option>
+                  <option value="+61">🇦🇺 +61 (Australia)</option>
+                  <option value="+65">🇸🇬 +65 (Singapore)</option>
+                  <option value="+1">🇨🇦 +1 (Canada)</option>
+                  <option value="+49">🇩🇪 +49 (Germany)</option>
+                  <option value="+33">🇫🇷 +33 (France)</option>
+                  <option value="+81">🇯🇵 +81 (Japan)</option>
+                </select>
                 <input type="tel" id="ContactForm-phone" name="contact[phone]" pattern="[0-9\- \+\(\)]*" value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}" placeholder="Phone" class="fr-contact__phone-input" style="font-size: {{ block.settings.input_size }}px;">
               </div>
             </div>
@@ -537,19 +544,36 @@
     border-color: #1a1a1a;
   }
 
-  .fr-contact__country-code {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 0 14px;
+  .fr-contact__country-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: none;
     background-color: #fafafa;
     border-right: 1px solid #d1d5db;
-    user-select: none;
+    padding: 0 28px 0 14px;
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 14px;
+    color: #1a1a1a;
+    cursor: pointer;
+    outline: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23999' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    white-space: nowrap;
+    min-width: 80px;
   }
 
-  .fr-contact__flag { font-size: 16px; }
-  .fr-contact__code { font-family: 'Lato', system-ui, sans-serif; font-size: 14px; color: #1a1a1a; }
-  .fr-contact__arrow { font-size: 8px; color: #999; }
+  .fr-contact__country-select:focus {
+    background-color: #f0f0f0;
+  }
+
+  .fr-contact__country-select option {
+    font-size: 14px;
+    padding: 8px 12px;
+    background-color: #333;
+    color: #fff;
+  }
 
   .fr-contact__phone-input {
     flex-grow: 1;
@@ -620,6 +644,8 @@
 
       const emailInput = document.getElementById('ContactForm-email');
       const confirmEmailInput = document.getElementById('ContactForm-confirm-email');
+      const phoneInput = document.getElementById('ContactForm-phone');
+      const countrySelect = document.getElementById('ContactForm-country-code');
 
       form.addEventListener('submit', function(e) {
         const existingError = form.querySelector('.fr-contact__email-error');
@@ -632,6 +658,14 @@
           errorDiv.textContent = 'Emails do not match. Please verify your email.';
           confirmEmailInput.parentNode.appendChild(errorDiv);
           confirmEmailInput.focus();
+          return;
+        }
+
+        // Prepend country code to phone number
+        if (phoneInput && countrySelect && phoneInput.value.trim() !== '') {
+          const code = countrySelect.value;
+          const raw = phoneInput.value.replace(/^\+\d+\s*/, '');
+          phoneInput.value = code + ' ' + raw;
         }
       });
     }
