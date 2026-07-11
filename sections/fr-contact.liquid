@@ -84,9 +84,10 @@
                 loading="eager"
                 width="600"
                 height="400"
+                style="border-radius: {{ block.settings.image_radius }}px;"
               >
             {%- else -%}
-              <div class="fr-contact__hero-placeholder"></div>
+              <div class="fr-contact__hero-placeholder" style="border-radius: {{ block.settings.image_radius }}px;"></div>
             {%- endif -%}
           </div>
         </div>
@@ -103,21 +104,15 @@
             padding-right: {{ block.settings.padding_right }}px;
           "
         >
-          <div class="fr-contact__work-images">
-            {%- if block.settings.image_1 != blank -%}
-              <div class="fr-contact__deco-img fr-contact__deco-img--1" style="width: {{ block.settings.image_1_size }}px; height: {{ block.settings.image_1_size }}px;">
-                <img src="{{ block.settings.image_1 | image_url: width: 400 }}" alt="Decorative" loading="lazy">
-              </div>
-            {%- endif -%}
-            {%- if block.settings.image_2 != blank -%}
-              <div class="fr-contact__deco-img fr-contact__deco-img--2" style="width: {{ block.settings.image_2_size }}px; height: {{ block.settings.image_2_size }}px;">
-                <img src="{{ block.settings.image_2 | image_url: width: 400 }}" alt="Decorative" loading="lazy">
-              </div>
-            {%- endif -%}
-            {%- if block.settings.image_3 != blank -%}
-              <div class="fr-contact__deco-img fr-contact__deco-img--3" style="width: {{ block.settings.image_3_size }}px; height: {{ block.settings.image_3_size }}px;">
-                <img src="{{ block.settings.image_3 | image_url: width: 400 }}" alt="Decorative" loading="lazy">
-              </div>
+          <div class="fr-contact__work-image">
+            {%- if block.settings.work_image != blank -%}
+              <img 
+                src="{{ block.settings.work_image | image_url: width: 800 }}" 
+                alt="Decorative" 
+                loading="lazy" 
+                class="fr-contact__work-img"
+                style="width: 100%; max-width: {{ block.settings.work_image_size }}px; height: auto;"
+              >
             {%- endif -%}
           </div>
 
@@ -373,46 +368,17 @@
     }
   }
 
-  /* Decorative Images Cluster */
-  .fr-contact__work-images {
-    position: relative;
+  /* Work With Us Image */
+  .fr-contact__work-image {
     width: 100%;
-    min-height: 360px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
-
-  .fr-contact__deco-img {
-    position: absolute;
-    overflow: hidden;
-    border-radius: 50%;
-  }
-
-  .fr-contact__deco-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  
+  .fr-contact__work-img {
     display: block;
-  }
-
-  .fr-contact__deco-img--1 {
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .fr-contact__deco-img--2 {
-    bottom: 0;
-    left: 5%;
-  }
-
-  .fr-contact__deco-img--3 {
-    bottom: 0;
-    right: 5%;
-  }
-
-  @media (max-width: 767px) {
-    .fr-contact__work-images {
-      min-height: 280px;
-    }
+    object-fit: contain;
   }
 
   /* Work Content */
@@ -786,6 +752,16 @@
           "label": "Hero Image (right side)"
         },
         {
+          "type": "range",
+          "id": "image_radius",
+          "min": 0,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "label": "Image Corner Radius",
+          "default": 0
+        },
+        {
           "type": "header",
           "content": "Typography"
         },
@@ -947,48 +923,18 @@
         },
         {
           "type": "image_picker",
-          "id": "image_1",
-          "label": "Image 1 (top center)"
+          "id": "work_image",
+          "label": "Work With Us Image"
         },
         {
           "type": "range",
-          "id": "image_1_size",
-          "min": 80,
-          "max": 250,
+          "id": "work_image_size",
+          "min": 200,
+          "max": 600,
           "step": 10,
           "unit": "px",
-          "label": "Image 1 Size",
-          "default": 160
-        },
-        {
-          "type": "image_picker",
-          "id": "image_2",
-          "label": "Image 2 (bottom left)"
-        },
-        {
-          "type": "range",
-          "id": "image_2_size",
-          "min": 80,
-          "max": 250,
-          "step": 10,
-          "unit": "px",
-          "label": "Image 2 Size",
-          "default": 140
-        },
-        {
-          "type": "image_picker",
-          "id": "image_3",
-          "label": "Image 3 (bottom right)"
-        },
-        {
-          "type": "range",
-          "id": "image_3_size",
-          "min": 80,
-          "max": 250,
-          "step": 10,
-          "unit": "px",
-          "label": "Image 3 Size",
-          "default": 150
+          "label": "Image Max Width",
+          "default": 400
         },
         {
           "type": "header",
