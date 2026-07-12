@@ -20,7 +20,7 @@
 
     <div class="fr-custom-cards__grid" style="gap: {{ section.settings.gap }}px;">
       {%- for block in section.blocks -%}
-        <div class="fr-custom-cards__card" {{ block.shopify_attributes }}>
+        <div class="fr-custom-cards__card" {{ block.shopify_attributes }} style="transform: translateY({{ block.settings.offset_y }}px);">
           <div class="fr-custom-cards__image-wrapper" style="
             padding-bottom: {{ block.settings.aspect_ratio }}%;
           ">
@@ -285,6 +285,17 @@
           "label": "Image Height (Aspect Ratio)",
           "info": "100% is square, 150% is tall, 75% is wide.",
           "default": 120
+        },
+        {
+          "type": "range",
+          "id": "offset_y",
+          "min": -100,
+          "max": 100,
+          "step": 2,
+          "unit": "px",
+          "label": "Vertical Offset",
+          "info": "Use this to push individual cards up or down to create a staggered look.",
+          "default": 0
         },
         {
           "type": "text",
