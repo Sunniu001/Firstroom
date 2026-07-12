@@ -14,13 +14,14 @@
       <h2 class="fr-custom-features__heading" style="
         font-size: {{ section.settings.heading_size }}px;
         color: {{ section.settings.heading_color }};
+        text-align: {{ section.settings.heading_alignment }};
       ">{{ section.settings.heading }}</h2>
     {%- endif -%}
 
-    <div class="fr-custom-features__grid">
+    <div class="fr-custom-features__grid" style="gap: {{ section.settings.gap }}px;">
       {%- for block in section.blocks -%}
         <div class="fr-custom-features__item" {{ block.shopify_attributes }}>
-          <div class="fr-custom-features__icon-wrapper" style="width: {{ section.settings.icon_size }}px; height: {{ section.settings.icon_size }}px;">
+          <div class="fr-custom-features__icon-wrapper" style="width: {{ block.settings.icon_size | default: section.settings.icon_size }}px; height: {{ block.settings.icon_size | default: section.settings.icon_size }}px;">
             {%- if block.settings.icon != blank -%}
               <img src="{{ block.settings.icon | image_url: width: 300 }}" alt="{{ block.settings.text | escape }}" loading="lazy" class="fr-custom-features__icon">
             {%- else -%}
@@ -40,6 +41,17 @@
 </section>
 
 <style>
+  {{ section.settings.heading_font | font_face: font_display: 'swap' }}
+  {{ section.settings.text_font | font_face: font_display: 'swap' }}
+
+  #fr-custom-features-{{ section.id }} .fr-custom-features__heading {
+    font-family: {{ section.settings.heading_font.family }}, {{ section.settings.heading_font.fallback_families }};
+  }
+  
+  #fr-custom-features-{{ section.id }} .fr-custom-features__text {
+    font-family: {{ section.settings.text_font.family }}, {{ section.settings.text_font.fallback_families }};
+  }
+
   #fr-custom-features-{{ section.id }} .fr-custom-features__container {
     max-width: 1200px;
     margin: 0 auto;
@@ -48,15 +60,13 @@
 
   #fr-custom-features-{{ section.id }} .fr-custom-features__heading {
     margin: 0 0 40px 0;
-    font-family: 'Playfair Display', Georgia, serif;
-    font-weight: 500;
+    font-weight: {{ section.settings.heading_font.weight | default: 500 }};
   }
 
   #fr-custom-features-{{ section.id }} .fr-custom-features__grid {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 40px;
   }
 
   #fr-custom-features-{{ section.id }} .fr-custom-features__item {
@@ -89,7 +99,7 @@
   }
 
   #fr-custom-features-{{ section.id }} .fr-custom-features__text {
-    font-family: 'Lato', system-ui, sans-serif;
+    font-weight: {{ section.settings.text_font.weight | default: 400 }};
     line-height: 1.4;
     text-align: center;
   }
@@ -122,6 +132,12 @@
       "default": "What is custom design"
     },
     {
+      "type": "font_picker",
+      "id": "heading_font",
+      "label": "Heading Font",
+      "default": "playfair_display_n5"
+    },
+    {
       "type": "range",
       "id": "heading_size",
       "min": 20,
@@ -130,6 +146,17 @@
       "unit": "px",
       "label": "Heading Size",
       "default": 36
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
     },
     {
       "type": "color",
@@ -148,6 +175,12 @@
       "default": 80
     },
     {
+      "type": "font_picker",
+      "id": "text_font",
+      "label": "Text Font",
+      "default": "lato_n4"
+    },
+    {
       "type": "range",
       "id": "text_size",
       "min": 10,
@@ -156,6 +189,16 @@
       "unit": "px",
       "label": "Text Size",
       "default": 14
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Spacing Between Items",
+      "default": 40
     },
     {
       "type": "color",
@@ -217,6 +260,16 @@
           "type": "image_picker",
           "id": "icon",
           "label": "Icon/Image (Circular)"
+        },
+        {
+          "type": "range",
+          "id": "icon_size",
+          "min": 40,
+          "max": 200,
+          "step": 5,
+          "unit": "px",
+          "label": "Image Size (Overrides Section Default)",
+          "default": 80
         },
         {
           "type": "text",
