@@ -1,0 +1,436 @@
+<section class="fr-home-banners" id="fr-home-banners-{{ section.id }}" style="background-color: {{ section.settings.bg_color }};">
+  <div class="fr-home-banners__wrapper" style="
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-left: {{ section.settings.padding_left }}px;
+      padding-right: {{ section.settings.padding_right }}px;
+    ">
+    
+    {%- if section.settings.heading != blank -%}
+      <h2 class="fr-home-banners__main-heading" style="text-align: {{ section.settings.heading_align }}; font-size: {{ section.settings.heading_size }}px; color: {{ section.settings.heading_color }};">
+        {{ section.settings.heading }}
+      </h2>
+    {%- endif -%}
+
+    <div class="fr-home-banners__container" style="
+        grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
+        gap: {{ section.settings.grid_gap }}px;
+      ">
+      
+      {%- for block in section.blocks -%}
+        <div class="fr-home-banners__item" {{ block.shopify_attributes }}>
+          
+          {%- if block.settings.link != blank -%}
+            <a href="{{ block.settings.link }}" class="fr-home-banners__link" aria-label="{{ block.settings.heading | escape }}"></a>
+          {%- endif -%}
+
+          <div class="fr-home-banners__image-wrapper fr-home-banners__aspect--{{ section.settings.aspect_ratio }}" style="border-radius: {{ section.settings.image_radius }}px;">
+            {%- if block.settings.image != blank -%}
+              <img src="{{ block.settings.image | image_url: width: 1200 }}" alt="{{ block.settings.heading | escape }}" loading="lazy" class="fr-home-banners__img">
+            {%- else -%}
+              <div class="fr-home-banners__placeholder"></div>
+            {%- endif -%}
+            
+            {%- if section.settings.text_position == 'overlay' -%}
+              <div class="fr-home-banners__overlay" style="background-color: {{ section.settings.overlay_color }}; opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+              <div class="fr-home-banners__overlay-content" style="align-items: {% if section.settings.text_align == 'center' %}center{% elsif section.settings.text_align == 'right' %}flex-end{% else %}flex-start{% endif %}; text-align: {{ section.settings.text_align }};">
+                {%- if block.settings.heading != blank -%}
+                  <h3 class="fr-home-banners__heading" style="color: {{ block.settings.text_color }}; font-size: {{ section.settings.title_size }}px;">{{ block.settings.heading }}</h3>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </div>
+
+          {%- if section.settings.text_position == 'below' -%}
+            {%- if block.settings.heading != blank -%}
+              <div class="fr-home-banners__text-below" style="text-align: {{ section.settings.text_align }};">
+                <h3 class="fr-home-banners__heading" style="color: {{ block.settings.text_color }}; font-size: {{ section.settings.title_size }}px;">{{ block.settings.heading }}</h3>
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+
+        </div>
+      {%- endfor -%}
+      
+    </div>
+  </div>
+</section>
+
+<style>
+  #fr-home-banners-{{ section.id }} {
+    font-family: 'Lato', system-ui, sans-serif;
+    line-height: 1.7;
+    width: 100%;
+  }
+
+  #fr-home-banners-{{ section.id }} .fr-home-banners__wrapper {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  
+  #fr-home-banners-{{ section.id }} .fr-home-banners__container {
+    max-width: {{ section.settings.content_max_width }}px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .fr-home-banners__main-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 40px;
+    letter-spacing: 0.01em;
+    max-width: {{ section.settings.content_max_width }}px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media (min-width: 768px) {
+    /* Desktop columns defined inline */
+  }
+
+  @media (max-width: 767px) {
+    #fr-home-banners-{{ section.id }} .fr-home-banners__container {
+      grid-template-columns: 1fr !important;
+      gap: 20px !important;
+    }
+  }
+
+  .fr-home-banners__item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  .fr-home-banners__item:hover {
+    transform: translateY(-4px);
+  }
+
+  .fr-home-banners__link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+  }
+
+  .fr-home-banners__image-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: #f3f4f6;
+  }
+
+  .fr-home-banners__aspect--panoramic {
+    aspect-ratio: 21 / 9;
+  }
+  .fr-home-banners__aspect--landscape {
+    aspect-ratio: 16 / 9;
+  }
+  .fr-home-banners__aspect--standard {
+    aspect-ratio: 4 / 3;
+  }
+  .fr-home-banners__aspect--auto {
+    /* No aspect ratio */
+  }
+
+  .fr-home-banners__img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .fr-home-banners__item:hover .fr-home-banners__img {
+    transform: scale(1.05);
+  }
+
+  .fr-home-banners__placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+    background-color: #e5e7eb;
+  }
+
+  .fr-home-banners__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    transition: opacity 0.3s ease;
+  }
+  .fr-home-banners__item:hover .fr-home-banners__overlay {
+    opacity: 0.1 !important; /* Slightly fade overlay on hover */
+  }
+
+  .fr-home-banners__overlay-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 30px;
+  }
+
+  .fr-home-banners__text-below {
+    padding-top: 15px;
+  }
+
+  .fr-home-banners__heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+    margin: 0;
+    letter-spacing: 0.01em;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "FR Home Banners",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "min": 600,
+      "max": 1600,
+      "step": 50,
+      "unit": "px",
+      "label": "Content Max Width",
+      "default": 1400
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "New Collection"
+    },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Heading Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Font Size",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "header",
+      "content": "Grid Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "label": "Columns on Desktop",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Grid Gap",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Banner Images"
+    },
+    {
+      "type": "select",
+      "id": "aspect_ratio",
+      "label": "Image Aspect Ratio",
+      "options": [
+        { "value": "panoramic", "label": "Panoramic (21:9)" },
+        { "value": "landscape", "label": "Landscape (16:9)" },
+        { "value": "standard", "label": "Standard (4:3)" },
+        { "value": "auto", "label": "Original (Auto)" }
+      ],
+      "default": "panoramic"
+    },
+    {
+      "type": "range",
+      "id": "image_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Border Radius",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Text Settings"
+    },
+    {
+      "type": "select",
+      "id": "text_position",
+      "label": "Text Position",
+      "options": [
+        { "value": "overlay", "label": "Overlay on Image" },
+        { "value": "below", "label": "Below Image" }
+      ],
+      "default": "below"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 14,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Title Font Size",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay Color (if positioning is 'overlay')",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "label": "Overlay Opacity (%)",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Left",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Right",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "banner",
+      "name": "Banner",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Banner Title"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text Color",
+          "default": "#1a1a1a"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FR Home Banners",
+      "blocks": [
+        { "type": "banner" },
+        { "type": "banner" },
+        { "type": "banner" },
+        { "type": "banner" }
+      ]
+    }
+  ]
+}
+{% endschema %}

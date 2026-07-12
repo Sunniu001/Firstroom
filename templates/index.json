@@ -1,135 +1,268 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
-    "fr_hero_JYxxVb": {
-      "type": "fr-hero",
-      "name": "FR Hero",
-      "settings": {
-        "bg_image": "shopify://shop_images/Hero-Page-Image-1.webp",
-        "title": "Luxury Walls. Personal Stories.Timeless Design.",
-        "subtitle": "Crafted for refined interiors, our bespoke wallpapers transform blank walls into evocative expressions of identity.",
-        "button_text": "SHOP NOW",
-        "button_link": ""
-      }
-    },
-    "fr_feature_split_L38CRC": {
-      "type": "fr-feature-split",
-      "name": "FR Feature Split",
-      "settings": {
-        "image_position": "right",
-        "bg_color": "#ffffff",
-        "image": "shopify://shop_images/cultural-motifs-detail-1536x864.webp",
-        "illustration": "shopify://shop_images/placeholder-new2-1-e1774865047238.webp",
-        "title": "Cultural Motifs, Modern Aesthetic",
-        "text": "Our collections blend timeless Indian art with contemporary design sensibilities ideal for today's sophisticated spaces. From concept to execution, we tailor each pattern to your vision, turning your walls into curated storytelling surfaces. We offer decor for every corner of your home, adding personality, depth, and meaning to every detail."
-      }
-    },
-    "fr_category_grid_HQX4n7": {
-      "type": "fr-category-grid",
+    "hero": {
+      "type": "fr-home-hero",
       "blocks": {
-        "category_wRExck": {
-          "type": "category",
+        "btn1": {
+          "type": "button",
           "settings": {
-            "row": "1",
-            "image": "shopify://shop_images/wallpaper-1536x1536.webp",
-            "label": "WALLPAPER",
-            "link": ""
+            "text": "Shop Wallpapers",
+            "bg_color": "#ffffff",
+            "text_color": "#000000"
           }
         },
-        "category_NrpnwC": {
-          "type": "category",
+        "btn2": {
+          "type": "button",
           "settings": {
-            "row": "1",
-            "image": "shopify://shop_images/Name-plate-1536x1536.webp",
-            "label": "NAMEPLATE",
-            "link": ""
+            "text": "Shop Home Decor",
+            "bg_color": "#ffffff",
+            "text_color": "#000000"
           }
         },
-        "category_R8A9U3": {
-          "type": "category",
+        "btn3": {
+          "type": "button",
           "settings": {
-            "row": "1",
-            "image": "shopify://shop_images/Desk-deco-1536x1536.webp",
-            "label": "DESK DECOR",
-            "link": ""
-          }
-        },
-        "category_47AFhC": {
-          "type": "category",
-          "settings": {
-            "row": "2",
-            "image": "shopify://shop_images/Decals-1536x1536.webp",
-            "label": "DECALS",
-            "link": ""
-          }
-        },
-        "category_xfPNtt": {
-          "type": "category",
-          "settings": {
-            "row": "2",
-            "image": "shopify://shop_images/Frame-1536x1536.webp",
-            "label": "FRAMES",
-            "link": ""
-          }
-        },
-        "category_hEQXRC": {
-          "type": "category",
-          "settings": {
-            "row": "2",
-            "image": "shopify://shop_images/kids-wallpaper-1536x1536.webp",
-            "label": "KIDS WALLPAPER",
-            "link": ""
+            "text": "Customized Wallpapers",
+            "bg_color": "#ffffff",
+            "text_color": "#000000"
           }
         }
       },
       "block_order": [
-        "category_wRExck",
-        "category_NrpnwC",
-        "category_R8A9U3",
-        "category_47AFhC",
-        "category_xfPNtt",
-        "category_hEQXRC"
+        "btn1",
+        "btn2",
+        "btn3"
       ],
-      "name": "FR Category Grid",
       "settings": {
-        "heading": "Artful Accents For Homes Of Distinctive Taste"
+        "title": "Luxury Walls. Personal Stories.",
+        "subtitle": "Crafted for refined interiors, our bespoke wallpapers transform blank walls into evocative expressions of identity.",
+        "bg_image": "shopify:\/\/shop_images\/Hero-Page-Image-1.webp",
+        "overlay_opacity": 20
       }
     },
-    "fr_feature_split_BRY3iy": {
-      "type": "fr-feature-split",
-      "name": "FR Feature Split",
+    "feature_split": {
+      "type": "fr-home-image-text",
+      "blocks": {
+        "h1": {
+          "type": "heading",
+          "settings": {
+            "text": "Cultural Motifs, Modern Aesthetic",
+            "size": 40
+          }
+        },
+        "t1": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Our collections blend timeless Indian art with contemporary design sensibilities ideal for today's sophisticated spaces.<\/p>"
+          }
+        },
+        "t2": {
+          "type": "text",
+          "settings": {
+            "text": "<p>From concept to execution, we tailor each pattern to your vision, turning your walls into curated storytelling surfaces.<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "h1",
+        "t1",
+        "t2"
+      ],
       "settings": {
         "image_position": "left",
-        "bg_color": "#ffffff",
-        "image": "shopify://shop_images/themes-rooted-1536x864.webp",
-        "illustration": "shopify://shop_images/placeholder2.webp",
-        "title": "Themes Rooted In Heritage",
-        "text": "Inspired by royal courts, sacred temples, and Mughal gardens, our themed wallpapers are deeply evocative. Designed exclusively for you, each piece reflects personal meaning crafted with a level of customisation rarely found elsewhere. Every element, from colour palette to scale and layout is tailored to harmonise with your space. Whether it's a statement wall or a full room narrative, we bring your vision to life with artistic precision."
+        "column_ratio": "1fr|1fr",
+        "image": "shopify:\/\/shop_images\/cultural-motifs-detail-1536x864.webp"
       }
     },
-    "fr_video_section_a3xNXi": {
-      "type": "fr-video-section",
-      "name": "FR Video Section",
+    "categories": {
+      "type": "fr-about-grid",
+      "blocks": {
+        "cat1": {
+          "type": "grid_item",
+          "settings": {
+            "title": "Customize Wallpaper",
+            "subtitle": ""
+          }
+        },
+        "cat2": {
+          "type": "grid_item",
+          "settings": {
+            "title": "Home Decor",
+            "subtitle": ""
+          }
+        }
+      },
+      "block_order": [
+        "cat1",
+        "cat2"
+      ],
       "settings": {
-        "title": "When Your Vision Becomes Your Space",
-        "shopify_video": "",
-        "video_url": ""
+        "heading": "Our Categories",
+        "heading_align": "center",
+        "columns_desktop": 2,
+        "image_shape": "circle",
+        "show_vertical_borders": false,
+        "grid_gap": 60,
+        "text_align": "center"
+      }
+    },
+    "banners": {
+      "type": "fr-home-banners",
+      "blocks": {
+        "b1": {
+          "type": "banner",
+          "settings": {
+            "heading": "New Collection 1"
+          }
+        },
+        "b2": {
+          "type": "banner",
+          "settings": {
+            "heading": "New Collection 2"
+          }
+        },
+        "b3": {
+          "type": "banner",
+          "settings": {
+            "heading": "New Collection 3"
+          }
+        },
+        "b4": {
+          "type": "banner",
+          "settings": {
+            "heading": "New Collection 4"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ],
+      "settings": {
+        "heading": "New Collection",
+        "columns_desktop": 2,
+        "aspect_ratio": "panoramic",
+        "text_position": "below"
+      }
+    },
+    "inspire": {
+      "type": "fr-home-triple-split",
+      "settings": {
+        "main_heading": "What inspires the company",
+        "heading": "Our Inspiration",
+        "text": "<p>We find beauty in the small details.<\/p>",
+        "button_text": "READ MORE"
+      }
+    },
+    "products": {
+      "type": "fr-about-grid",
+      "blocks": {
+        "p1": {
+          "type": "grid_item",
+          "settings": {
+            "title": "Product 1"
+          }
+        },
+        "p2": {
+          "type": "grid_item",
+          "settings": {
+            "title": "Product 2"
+          }
+        },
+        "p3": {
+          "type": "grid_item",
+          "settings": {
+            "title": "Product 3"
+          }
+        },
+        "p4": {
+          "type": "grid_item",
+          "settings": {
+            "title": "Product 4"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ],
+      "settings": {
+        "heading": "Featured Products",
+        "heading_align": "center",
+        "columns_desktop": 4,
+        "image_shape": "original"
+      }
+    },
+    "social": {
+      "type": "fr-about-grid",
+      "blocks": {
+        "s1": { "type": "grid_item", "settings": { "title": "" } },
+        "s2": { "type": "grid_item", "settings": { "title": "" } },
+        "s3": { "type": "grid_item", "settings": { "title": "" } },
+        "s4": { "type": "grid_item", "settings": { "title": "" } },
+        "s5": { "type": "grid_item", "settings": { "title": "" } },
+        "s6": { "type": "grid_item", "settings": { "title": "" } }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5",
+        "s6"
+      ],
+      "settings": {
+        "heading": "Social Proof",
+        "heading_align": "center",
+        "columns_desktop": 6,
+        "image_shape": "square"
+      }
+    },
+    "badges": {
+      "type": "fr-home-badges",
+      "blocks": {
+        "bdg1": {
+          "type": "badge",
+          "settings": {
+            "title": "Eco Friendly Wallpaper"
+          }
+        },
+        "bdg2": {
+          "type": "badge",
+          "settings": {
+            "title": "PVC Free Material"
+          }
+        },
+        "bdg3": {
+          "type": "badge",
+          "settings": {
+            "title": "Removable Without Damage"
+          }
+        }
+      },
+      "block_order": [
+        "bdg1",
+        "bdg2",
+        "bdg3"
+      ],
+      "settings": {
+        "heading": "Promotional Banners",
+        "columns_desktop": 3
       }
     }
   },
   "order": [
-    "fr_hero_JYxxVb",
-    "fr_feature_split_L38CRC",
-    "fr_category_grid_HQX4n7",
-    "fr_feature_split_BRY3iy",
-    "fr_video_section_a3xNXi"
+    "hero",
+    "feature_split",
+    "categories",
+    "banners",
+    "inspire",
+    "products",
+    "social",
+    "badges"
   ]
 }

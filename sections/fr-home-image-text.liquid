@@ -1,0 +1,427 @@
+<section class="fr-home-imgtext" id="fr-home-imgtext-{{ section.id }}" style="background-color: {{ section.settings.bg_color }};">
+  <div class="fr-home-imgtext__wrapper" style="
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-left: {{ section.settings.padding_left }}px;
+      padding-right: {{ section.settings.padding_right }}px;
+    ">
+    
+    {% assign ratio_parts = section.settings.column_ratio | split: '|' %}
+    {% assign col1_ratio = ratio_parts[0] | default: '1fr' %}
+    {% assign col2_ratio = ratio_parts[1] | default: '1fr' %}
+
+    <div class="fr-home-imgtext__container" style="
+        grid-template-columns: {% if section.settings.image_position == 'left' %}{{ col1_ratio }} {{ col2_ratio }}{% else %}{{ col2_ratio }} {{ col1_ratio }}{% endif %};
+        gap: {{ section.settings.gap }}px;
+        align-items: {{ section.settings.vertical_align }};
+      ">
+      
+      <!-- Image Column -->
+      <div class="fr-home-imgtext__image-col" style="{% if section.settings.image_position == 'right' %}order: 2;{% endif %}">
+        {%- if section.settings.image != blank -%}
+          <div class="fr-home-imgtext__image-wrapper" style="max-width: {{ section.settings.image_max_width }}px; margin: 0 {% if section.settings.image_position == 'left' %}auto 0 0{% elsif section.settings.image_position == 'right' %}0 0 auto{% else %}auto{% endif %};">
+            <img src="{{ section.settings.image | image_url: width: 1200 }}" alt="{{ section.settings.title | escape }}" loading="lazy" class="fr-home-imgtext__img">
+          </div>
+        {%- else -%}
+          <div class="fr-home-imgtext__placeholder" style="max-width: {{ section.settings.image_max_width }}px; margin: 0 auto;"></div>
+        {%- endif -%}
+      </div>
+
+      <!-- Text Column (Blocks) -->
+      <div class="fr-home-imgtext__text-col" style="{% if section.settings.image_position == 'right' %}order: 1;{% endif %} text-align: {{ section.settings.text_align }};">
+        <div class="fr-home-imgtext__content-wrapper" style="max-width: {{ section.settings.text_max_width }}px; margin: 0 {% if section.settings.text_align == 'left' %}auto 0 0{% elsif section.settings.text_align == 'right' %}0 0 auto{% else %}auto{% endif %};">
+          {%- for block in section.blocks -%}
+            <div class="fr-home-imgtext__block fr-home-imgtext__block--{{ block.type }}" {{ block.shopify_attributes }}>
+              
+              {%- if block.type == 'heading' -%}
+                <h2 class="fr-home-imgtext__heading" style="font-size: {{ block.settings.size }}px; color: {{ block.settings.color }};">
+                  {{ block.settings.text }}
+                </h2>
+              
+              {%- elsif block.type == 'text' -%}
+                <div class="fr-home-imgtext__text" style="font-size: {{ block.settings.size }}px; color: {{ block.settings.color }};">
+                  {{ block.settings.text }}
+                </div>
+              
+              {%- elsif block.type == 'button' -%}
+                <a href="{{ block.settings.link }}" class="fr-home-imgtext__btn" style="
+                    background-color: {{ block.settings.bg_color }};
+                    color: {{ block.settings.text_color }};
+                    font-size: {{ block.settings.size }}px;
+                  ">
+                  {{ block.settings.text }}
+                </a>
+              {%- endif -%}
+
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  #fr-home-imgtext-{{ section.id }} {
+    font-family: 'Lato', system-ui, sans-serif;
+    line-height: 1.7;
+    width: 100%;
+  }
+
+  #fr-home-imgtext-{{ section.id }} .fr-home-imgtext__wrapper {
+    max-width: {{ section.settings.content_max_width }}px;
+    margin: 0 auto;
+  }
+
+  .fr-home-imgtext__container {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 768px) {
+    /* Desktop columns applied inline */
+  }
+
+  @media (max-width: 767px) {
+    .fr-home-imgtext__container {
+      grid-template-columns: 1fr !important;
+      gap: 30px !important;
+    }
+    .fr-home-imgtext__image-col {
+      order: 1 !important; /* Image always top on mobile */
+    }
+    .fr-home-imgtext__text-col {
+      order: 2 !important;
+    }
+    .fr-home-imgtext__image-wrapper {
+      margin: 0 auto !important;
+    }
+    .fr-home-imgtext__content-wrapper {
+      margin: 0 auto !important;
+      text-align: center !important;
+    }
+    .fr-home-imgtext__text-col {
+      text-align: center !important;
+    }
+  }
+
+  .fr-home-imgtext__image-wrapper {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .fr-home-imgtext__img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  .fr-home-imgtext__placeholder {
+    width: 100%;
+    height: 400px;
+    background-color: #e5e7eb;
+  }
+
+  .fr-home-imgtext__block {
+    margin-bottom: 20px;
+  }
+  .fr-home-imgtext__block:last-child {
+    margin-bottom: 0;
+  }
+
+  .fr-home-imgtext__heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+    margin: 0;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+  }
+
+  .fr-home-imgtext__text {
+    margin: 0;
+  }
+
+  .fr-home-imgtext__btn {
+    display: inline-block;
+    padding: 12px 30px;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    transition: opacity 0.2s ease;
+  }
+  .fr-home-imgtext__btn:hover {
+    opacity: 0.8;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "FR Home Image Text",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "min": 600,
+      "max": 1600,
+      "step": 50,
+      "unit": "px",
+      "label": "Section Max Width",
+      "default": 1400
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image Position (Desktop)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "column_ratio",
+      "label": "Desktop Column Ratio (Image : Text)",
+      "info": "Control how much space the image and text take up on desktop.",
+      "options": [
+        { "value": "1fr|1fr", "label": "Equal (50 / 50)" },
+        { "value": "1fr|2fr", "label": "Small Image (33 / 66)" },
+        { "value": "2fr|1fr", "label": "Large Image (66 / 33)" },
+        { "value": "2fr|3fr", "label": "Medium Image (40 / 60)" },
+        { "value": "3fr|2fr", "label": "Medium-Large Image (60 / 40)" },
+        { "value": "max-content|1fr", "label": "Hug Image : Fill Text" }
+      ],
+      "default": "1fr|1fr"
+    },
+    {
+      "type": "select",
+      "id": "vertical_align",
+      "label": "Vertical Alignment",
+      "options": [
+        { "value": "flex-start", "label": "Top" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Bottom" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Gap Between Columns",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Image Column"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "image_max_width",
+      "min": 200,
+      "max": 1000,
+      "step": 20,
+      "unit": "px",
+      "label": "Image Max Width",
+      "default": 600
+    },
+    {
+      "type": "header",
+      "content": "Text Column"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "text_max_width",
+      "min": 300,
+      "max": 800,
+      "step": 10,
+      "unit": "px",
+      "label": "Text Block Max Width",
+      "default": 500
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Left",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Right",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Heading Text",
+          "default": "Theme Rooted in Heritage"
+        },
+        {
+          "type": "range",
+          "id": "size",
+          "min": 20,
+          "max": 60,
+          "step": 2,
+          "unit": "px",
+          "label": "Font Size",
+          "default": 40
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Color",
+          "default": "#1a1a1a"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Paragraph",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Add a description or details about this section.</p>"
+        },
+        {
+          "type": "range",
+          "id": "size",
+          "min": 12,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "label": "Font Size",
+          "default": 16
+        },
+        {
+          "type": "color",
+          "id": "color",
+          "label": "Color",
+          "default": "#4b5563"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Button Text",
+          "default": "Read More"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Button Link"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background Color",
+          "default": "#1a1a1a"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "range",
+          "id": "size",
+          "min": 12,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "label": "Text Size",
+          "default": 14
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FR Home Image Text",
+      "blocks": [
+        { "type": "heading" },
+        { "type": "text" }
+      ]
+    }
+  ]
+}
+{% endschema %}

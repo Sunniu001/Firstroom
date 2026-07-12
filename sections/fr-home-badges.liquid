@@ -1,0 +1,364 @@
+<section class="fr-home-badges" id="fr-home-badges-{{ section.id }}" style="background-color: {{ section.settings.bg_color }};">
+  <div class="fr-home-badges__wrapper" style="
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-left: {{ section.settings.padding_left }}px;
+      padding-right: {{ section.settings.padding_right }}px;
+    ">
+    
+    {%- if section.settings.heading != blank -%}
+      <h2 class="fr-home-badges__main-heading" style="text-align: {{ section.settings.heading_align }}; font-size: {{ section.settings.heading_size }}px; color: {{ section.settings.heading_color }};">
+        {{ section.settings.heading }}
+      </h2>
+    {%- endif -%}
+
+    <div class="fr-home-badges__container" style="
+        grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
+        gap: {{ section.settings.grid_gap }}px;
+      ">
+      
+      {%- for block in section.blocks -%}
+        <div class="fr-home-badges__item" {{ block.shopify_attributes }}>
+          
+          <div class="fr-home-badges__icon" style="width: {{ section.settings.icon_size }}px; height: {{ section.settings.icon_size }}px;">
+            {%- if block.settings.svg_code != blank -%}
+              {{ block.settings.svg_code }}
+            {%- elsif block.settings.image != blank -%}
+              <img src="{{ block.settings.image | image_url: width: 400 }}" alt="{{ block.settings.title | escape }}" loading="lazy" class="fr-home-badges__img">
+            {%- else -%}
+              <!-- Fallback Icon -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            {%- endif -%}
+          </div>
+
+          <div class="fr-home-badges__text" style="text-align: {{ section.settings.text_align }};">
+            {%- if block.settings.title != blank -%}
+              <h3 class="fr-home-badges__title" style="font-size: {{ section.settings.title_size }}px; color: {{ section.settings.title_color }};">
+                {{ block.settings.title }}
+              </h3>
+            {%- endif -%}
+            
+            {%- if block.settings.subtitle != blank -%}
+              <p class="fr-home-badges__subtitle" style="font-size: {{ section.settings.subtitle_size }}px; color: {{ section.settings.subtitle_color }};">
+                {{ block.settings.subtitle }}
+              </p>
+            {%- endif -%}
+          </div>
+
+        </div>
+      {%- endfor -%}
+      
+    </div>
+  </div>
+</section>
+
+<style>
+  #fr-home-badges-{{ section.id }} {
+    font-family: 'Lato', system-ui, sans-serif;
+    line-height: 1.5;
+    width: 100%;
+  }
+
+  #fr-home-badges-{{ section.id }} .fr-home-badges__wrapper {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  
+  #fr-home-badges-{{ section.id }} .fr-home-badges__container {
+    max-width: {{ section.settings.content_max_width }}px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .fr-home-badges__main-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 40px;
+    letter-spacing: 0.01em;
+    max-width: {{ section.settings.content_max_width }}px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media (min-width: 768px) {
+    /* Desktop columns defined inline */
+  }
+
+  @media (max-width: 767px) {
+    #fr-home-badges-{{ section.id }} .fr-home-badges__container {
+      grid-template-columns: 1fr !important; /* Stack on mobile */
+      gap: 30px !important;
+    }
+  }
+
+  .fr-home-badges__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease;
+  }
+  .fr-home-badges__item:hover {
+    transform: translateY(-5px);
+  }
+
+  .fr-home-badges__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    color: #1a1a1a;
+  }
+
+  .fr-home-badges__icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .fr-home-badges__img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  .fr-home-badges__title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+    margin: 0 0 5px 0;
+    letter-spacing: 0.01em;
+  }
+
+  .fr-home-badges__subtitle {
+    margin: 0;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "FR Home Badges",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "min": 600,
+      "max": 1600,
+      "step": 50,
+      "unit": "px",
+      "label": "Content Max Width",
+      "default": 1200
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Promotional Banners"
+    },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Heading Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Font Size",
+      "default": 28
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "header",
+      "content": "Grid Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "label": "Columns on Desktop",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Grid Gap",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Icon Settings"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 30,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Icon Size",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Text Settings"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 14,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Title Font Size",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Subtitle Font Size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle Color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Left",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Right",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Badge",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "svg_code",
+          "label": "SVG Code (Optional)",
+          "info": "Paste raw SVG code here. It overrides the image picker."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Icon Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Eco Friendly"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Sustainable materials."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FR Home Badges",
+      "blocks": [
+        { "type": "badge", "settings": { "title": "Eco Friendly Wallpaper" } },
+        { "type": "badge", "settings": { "title": "PVC Free Material" } },
+        { "type": "badge", "settings": { "title": "Removable Without Damage" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

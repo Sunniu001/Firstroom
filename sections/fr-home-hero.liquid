@@ -1,0 +1,378 @@
+<section class="fr-home-hero" id="fr-home-hero-{{ section.id }}" style="background-color: {{ section.settings.bg_color }};">
+  <div class="fr-home-hero__wrapper" style="
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    ">
+    
+    <div class="fr-home-hero__background">
+      {%- if section.settings.bg_image != blank -%}
+        <img src="{{ section.settings.bg_image | image_url: width: 2400 }}" alt="{{ section.settings.title | escape }}" loading="eager" class="fr-home-hero__bg-img">
+      {%- else -%}
+        <div class="fr-home-hero__placeholder"></div>
+      {%- endif -%}
+      <div class="fr-home-hero__overlay" style="background-color: {{ section.settings.overlay_color }}; opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+    </div>
+
+    <div class="fr-home-hero__content-container" style="max-width: {{ section.settings.content_max_width }}px;">
+      <div class="fr-home-hero__content" style="
+          text-align: {{ section.settings.text_align }};
+          align-items: {% if section.settings.text_align == 'center' %}center{% elsif section.settings.text_align == 'right' %}flex-end{% else %}flex-start{% endif %};
+        ">
+        
+        {%- if section.settings.title != blank -%}
+          <h1 class="fr-home-hero__title" style="font-size: {{ section.settings.title_size }}px; color: {{ section.settings.title_color }};">
+            {{ section.settings.title }}
+          </h1>
+        {%- endif -%}
+        
+        {%- if section.settings.subtitle != blank -%}
+          <p class="fr-home-hero__subtitle" style="font-size: {{ section.settings.subtitle_size }}px; color: {{ section.settings.subtitle_color }};">
+            {{ section.settings.subtitle }}
+          </p>
+        {%- endif -%}
+
+        {%- if section.blocks.size > 0 -%}
+          <div class="fr-home-hero__buttons-stack">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'button' -%}
+                <a href="{{ block.settings.link }}" class="fr-home-hero__btn" {{ block.shopify_attributes }} style="
+                    background-color: {{ block.settings.bg_color | color_modify: 'alpha', 0.9 }};
+                    color: {{ block.settings.text_color }};
+                    font-size: {{ block.settings.text_size }}px;
+                  ">
+                  {{ block.settings.text }}
+                </a>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  #fr-home-hero-{{ section.id }} {
+    font-family: 'Lato', system-ui, sans-serif;
+    width: 100%;
+    position: relative;
+  }
+
+  .fr-home-hero__wrapper {
+    position: relative;
+    width: 100%;
+    min-height: {{ section.settings.min_height }}vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .fr-home-hero__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .fr-home-hero__bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .fr-home-hero__placeholder {
+    width: 100%;
+    height: 100%;
+    background-color: #d1d5db;
+  }
+
+  .fr-home-hero__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+  }
+
+  .fr-home-hero__content-container {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    padding: 0 20px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .fr-home-hero__content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .fr-home-hero__title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+    margin: 0 0 20px 0;
+    line-height: 1.2;
+  }
+
+  .fr-home-hero__subtitle {
+    margin: 0 0 40px 0;
+    line-height: 1.6;
+    max-width: 800px;
+  }
+
+  .fr-home-hero__buttons-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .fr-home-hero__btn {
+    display: block;
+    width: 100%;
+    padding: 20px 30px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    backdrop-filter: blur(5px);
+  }
+
+  .fr-home-hero__btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.95;
+  }
+
+  @media (max-width: 767px) {
+    .fr-home-hero__wrapper {
+      min-height: {{ section.settings.min_height_mobile }}vh;
+    }
+    .fr-home-hero__btn {
+      padding: 15px 20px;
+      font-size: 14px !important;
+    }
+    .fr-home-hero__title {
+      font-size: {{ section.settings.title_size | times: 0.6 | round }}px !important;
+    }
+    .fr-home-hero__subtitle {
+      font-size: {{ section.settings.subtitle_size | times: 0.8 | round }}px !important;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "FR Home Hero",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Fallback Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "label": "Overlay Opacity (%)",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Sizing & Alignment"
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "label": "Minimum Height (Desktop)",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "min_height_mobile",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "label": "Minimum Height (Mobile)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "min": 600,
+      "max": 1600,
+      "step": 50,
+      "unit": "px",
+      "label": "Content Max Width",
+      "default": 1200
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Content Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Luxury Walls. Personal Stories."
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 24,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Size (Desktop)",
+      "default": 56
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Heading Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Crafted for refined interiors, our bespoke wallpapers transform blank walls into evocative expressions of identity."
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "min": 14,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Subtitle Size (Desktop)",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle Color",
+      "default": "#f3f4f6"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "button",
+      "name": "Action Button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Button Text",
+          "default": "Shop Collection"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Button Link"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text Color",
+          "default": "#000000"
+        },
+        {
+          "type": "range",
+          "id": "text_size",
+          "min": 12,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "label": "Text Size",
+          "default": 16
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FR Home Hero",
+      "blocks": [
+        { "type": "button" },
+        { "type": "button" },
+        { "type": "button" }
+      ]
+    }
+  ]
+}
+{% endschema %}
