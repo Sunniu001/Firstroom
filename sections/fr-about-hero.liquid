@@ -60,9 +60,8 @@
     position: relative;
     z-index: 2;
     padding: 40px; /* Base padding so it doesn't touch the absolute edges */
-    text-align: {{ section.settings.text_alignment }};
-    width: 100%;
-    max-width: 1400px;
+    width: max-content;
+    max-width: 100%;
   }
 
   #fr-about-hero-{{ section.id }} .fr-about-hero__title {
@@ -72,6 +71,7 @@
     font-size: {{ section.settings.title_size_mobile }}px;
     color: {{ section.settings.title_color }};
     margin: 0;
+    text-align: {{ section.settings.title_alignment }};
     padding-top: {{ section.settings.title_padding_top }}px;
     padding-bottom: {{ section.settings.title_padding_bottom }}px;
     padding-left: {{ section.settings.title_padding_left }}px;
@@ -88,6 +88,7 @@
     font-size: {{ section.settings.subtitle_size_mobile }}px;
     color: {{ section.settings.subtitle_color }};
     margin: 0;
+    text-align: {{ section.settings.subtitle_alignment }};
     padding-top: {{ section.settings.subtitle_padding_top }}px;
     padding-bottom: {{ section.settings.subtitle_padding_bottom }}px;
     padding-left: {{ section.settings.subtitle_padding_left }}px;
@@ -177,17 +178,6 @@
       "default": "center"
     },
     {
-      "type": "select",
-      "id": "text_alignment",
-      "label": "Text Alignment",
-      "options": [
-        { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" },
-        { "value": "right", "label": "Right" }
-      ],
-      "default": "center"
-    },
-    {
       "type": "header",
       "content": "Title Typography"
     },
@@ -230,11 +220,22 @@
       "default": 40
     },
     {
+      "type": "select",
+      "id": "title_alignment",
+      "label": "Title Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
       "type": "range",
       "id": "title_padding_top",
       "min": 0,
-      "max": 100,
-      "step": 2,
+      "max": 400,
+      "step": 4,
       "unit": "px",
       "label": "Title Padding Top",
       "default": 0
@@ -243,8 +244,8 @@
       "type": "range",
       "id": "title_padding_bottom",
       "min": 0,
-      "max": 100,
-      "step": 2,
+      "max": 400,
+      "step": 4,
       "unit": "px",
       "label": "Title Padding Bottom",
       "default": 0
@@ -253,8 +254,8 @@
       "type": "range",
       "id": "title_padding_left",
       "min": 0,
-      "max": 100,
-      "step": 2,
+      "max": 400,
+      "step": 4,
       "unit": "px",
       "label": "Title Padding Left",
       "default": 0
@@ -263,8 +264,8 @@
       "type": "range",
       "id": "title_padding_right",
       "min": 0,
-      "max": 100,
-      "step": 2,
+      "max": 400,
+      "step": 4,
       "unit": "px",
       "label": "Title Padding Right",
       "default": 0
@@ -312,11 +313,22 @@
       "default": 14
     },
     {
+      "type": "select",
+      "id": "subtitle_alignment",
+      "label": "Subtitle Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
       "type": "range",
       "id": "subtitle_padding_top",
       "min": 0,
-      "max": 100,
-      "step": 2,
+      "max": 400,
+      "step": 4,
       "unit": "px",
       "label": "Subtitle Padding Top",
       "default": 10
@@ -325,8 +337,8 @@
       "type": "range",
       "id": "subtitle_padding_bottom",
       "min": 0,
-      "max": 100,
-      "step": 2,
+      "max": 400,
+      "step": 4,
       "unit": "px",
       "label": "Subtitle Padding Bottom",
       "default": 0
@@ -335,8 +347,8 @@
       "type": "range",
       "id": "subtitle_padding_left",
       "min": 0,
-      "max": 100,
-      "step": 2,
+      "max": 400,
+      "step": 4,
       "unit": "px",
       "label": "Subtitle Padding Left",
       "default": 0
@@ -345,8 +357,8 @@
       "type": "range",
       "id": "subtitle_padding_right",
       "min": 0,
-      "max": 100,
-      "step": 2,
+      "max": 400,
+      "step": 4,
       "unit": "px",
       "label": "Subtitle Padding Right",
       "default": 0
