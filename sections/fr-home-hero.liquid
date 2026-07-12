@@ -5,16 +5,37 @@
     ">
     
     <div class="fr-home-hero__background">
+      {%- assign first_slide_rendered = false -%}
+      
+      {%- assign bg_img = section.settings.bg_image -%}
+      {%- if bg_img != blank -%}
+        <img src="{{ bg_img | image_url: width: 2400 }}" alt="{{ section.settings.title | escape }}" loading="eager" class="fr-home-hero__bg-img fr-home-hero__slide is-active">
+        {%- assign first_slide_rendered = true -%}
+      {%- endif -%}
+
+      {%- for i in (2..5) -%}
+        {%- assign image_key = 'slide_' | append: i -%}
+        {%- assign img = section.settings[image_key] -%}
+        {%- if img != blank -%}
+          <img src="{{ img | image_url: width: 2400 }}" alt="{{ section.settings.title | escape }}" loading="eager" class="fr-home-hero__bg-img fr-home-hero__slide {% if first_slide_rendered == false %}is-active{% endif %}">
+          {%- assign first_slide_rendered = true -%}
+        {%- endif -%}
+      {%- endfor -%}
+
       {%- assign slide_blocks = section.blocks | where: "type", "slide" -%}
       {%- if slide_blocks.size > 0 -%}
         {%- for block in slide_blocks -%}
-          <img src="{{ block.settings.image | image_url: width: 2400 }}" alt="Slide" loading="eager" class="fr-home-hero__bg-img fr-home-hero__slide {% if forloop.first %}is-active{% endif %}" {{ block.shopify_attributes }}>
+          <img src="{{ block.settings.image | image_url: width: 2400 }}" alt="Slide" loading="eager" class="fr-home-hero__bg-img fr-home-hero__slide {% if first_slide_rendered == false and forloop.first %}is-active{% endif %}" {{ block.shopify_attributes }}>
+          {%- if first_slide_rendered == false and forloop.first -%}
+            {%- assign first_slide_rendered = true -%}
+          {%- endif -%}
         {%- endfor -%}
-      {%- elsif section.settings.bg_image != blank -%}
-        <img src="{{ section.settings.bg_image | image_url: width: 2400 }}" alt="{{ section.settings.title | escape }}" loading="eager" class="fr-home-hero__bg-img fr-home-hero__slide is-active">
-      {%- else -%}
+      {%- endif -%}
+
+      {%- if first_slide_rendered == false -%}
         <div class="fr-home-hero__placeholder"></div>
       {%- endif -%}
+      
       <div class="fr-home-hero__overlay" style="background-color: {{ section.settings.overlay_color }}; opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
     </div>
 
@@ -40,11 +61,20 @@
           <div class="fr-home-hero__buttons-stack">
             {%- for block in section.blocks -%}
               {%- if block.type == 'button' -%}
-                <a href="{{ block.settings.link }}" class="fr-home-hero__btn" {{ block.shopify_attributes }} style="
-                    background-color: {{ block.settings.bg_color | color_modify: 'alpha', 0.9 }};
+                <style>
+                  .fr-home-hero__btn-{{ block.id }} {
+                    background-color: {{ block.settings.bg_color }};
                     color: {{ block.settings.text_color }};
+                    border: {{ block.settings.border_width }}px solid {{ block.settings.border_color }};
                     font-size: {{ block.settings.text_size }}px;
-                  ">
+                  }
+                  .fr-home-hero__btn-{{ block.id }}:hover {
+                    background-color: {{ block.settings.hover_bg_color }} !important;
+                    color: {{ block.settings.hover_text_color }} !important;
+                    border-color: {{ block.settings.hover_border_color }} !important;
+                  }
+                </style>
+                <a href="{{ block.settings.link }}" class="fr-home-hero__btn fr-home-hero__btn-{{ block.id }}" {{ block.shopify_attributes }}>
                   {{ block.settings.text }}
                 </a>
               {%- endif -%}
@@ -166,12 +196,11 @@
     text-transform: uppercase;
     letter-spacing: 0.1em;
     font-weight: 600;
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
   }
 
   .fr-home-hero__btn:hover {
     transform: translateY(-2px);
-    opacity: 0.9;
   }
 
   @media (max-width: 767px) {
@@ -203,9 +232,33 @@
       "default": "#ffffff"
     },
     {
+      "type": "header",
+      "content": "Slider Images"
+    },
+    {
       "type": "image_picker",
       "id": "bg_image",
-      "label": "Background Image"
+      "label": "Slide 1 Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "slide_2",
+      "label": "Slide 2 Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "slide_3",
+      "label": "Slide 3 Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "slide_4",
+      "label": "Slide 4 Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "slide_5",
+      "label": "Slide 5 Image"
     },
     {
       "type": "color",
@@ -371,13 +424,55 @@
           "type": "color",
           "id": "bg_color",
           "label": "Background Color",
-          "default": "#ffffff"
+          "default": "transparent"
         },
         {
           "type": "color",
           "id": "text_color",
           "label": "Text Color",
-          "default": "#000000"
+          "default": "#ffffff"
+        },
+        {
+          "type": "range",
+          "id": "border_width",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "unit": "px",
+          "label": "Border Width",
+          "default": 2
+        },
+        {
+          "type": "color",
+          "id": "border_color",
+          "label": "Border Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "header",
+          "content": "Hover State"
+        },
+        {
+          "type": "color",
+          "id": "hover_bg_color",
+          "label": "Hover Background Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "hover_text_color",
+          "label": "Hover Text Color",
+          "default": "#1a1a1a"
+        },
+        {
+          "type": "color",
+          "id": "hover_border_color",
+          "label": "Hover Border Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "header",
+          "content": "Typography"
         },
         {
           "type": "range",
