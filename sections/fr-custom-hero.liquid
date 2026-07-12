@@ -50,6 +50,22 @@
 </section>
 
 <style>
+  {{ section.settings.heading_font | font_face: font_display: 'swap' }}
+  {{ section.settings.text_font | font_face: font_display: 'swap' }}
+  {{ section.settings.button_font | font_face: font_display: 'swap' }}
+
+  #fr-custom-hero-{{ section.id }} .fr-custom-hero__heading {
+    font-family: {{ section.settings.heading_font.family }}, {{ section.settings.heading_font.fallback_families }};
+  }
+  
+  #fr-custom-hero-{{ section.id }} .fr-custom-hero__text {
+    font-family: {{ section.settings.text_font.family }}, {{ section.settings.text_font.fallback_families }};
+  }
+
+  #fr-custom-hero-{{ section.id }} .fr-custom-hero__btn {
+    font-family: {{ section.settings.button_font.family }}, {{ section.settings.button_font.fallback_families }};
+  }
+
   #fr-custom-hero-{{ section.id }} {
     width: 100%;
     position: relative;
@@ -110,23 +126,21 @@
 
   #fr-custom-hero-{{ section.id }} .fr-custom-hero__heading {
     margin: 0;
-    font-family: 'Playfair Display', Georgia, serif;
-    font-weight: 500;
+    font-weight: {{ section.settings.heading_font.weight | default: 500 }};
     line-height: 1.1;
   }
 
   #fr-custom-hero-{{ section.id }} .fr-custom-hero__text {
-    font-family: 'Lato', system-ui, sans-serif;
+    font-weight: {{ section.settings.text_font.weight | default: 400 }};
     line-height: 1.5;
   }
 
   #fr-custom-hero-{{ section.id }} .fr-custom-hero__btn {
     display: inline-block;
-    padding: 12px 30px;
+    padding: 12px 0;
     text-decoration: none;
-    font-family: 'Lato', system-ui, sans-serif;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: {{ section.settings.button_font.weight | default: 600 }};
     text-transform: uppercase;
     letter-spacing: 1px;
     border: none;
@@ -225,6 +239,12 @@
       "default": "Create something uniquely yours."
     },
     {
+      "type": "font_picker",
+      "id": "heading_font",
+      "label": "Heading Font",
+      "default": "playfair_display_n5"
+    },
+    {
       "type": "range",
       "id": "heading_size",
       "min": 24,
@@ -247,6 +267,12 @@
       "default": "<p>A little bit about the custom design process and what you get...</p>"
     },
     {
+      "type": "font_picker",
+      "id": "text_font",
+      "label": "Text Font",
+      "default": "lato_n4"
+    },
+    {
       "type": "range",
       "id": "text_size",
       "min": 12,
@@ -261,6 +287,12 @@
       "id": "text_color",
       "label": "Text Color",
       "default": "#1a1a1a"
+    },
+    {
+      "type": "font_picker",
+      "id": "button_font",
+      "label": "Button Font",
+      "default": "lato_n7"
     },
     {
       "type": "text",
