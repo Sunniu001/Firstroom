@@ -2,12 +2,7 @@
   FR Custom Hero Section
 {%- endcomment -%}
 
-<section id="fr-custom-hero-{{ section.id }}" class="fr-custom-hero" style="
-  padding-top: {{ section.settings.padding_top }}px;
-  padding-bottom: {{ section.settings.padding_bottom }}px;
-  padding-left: {{ section.settings.padding_left }}px;
-  padding-right: {{ section.settings.padding_right }}px;
-">
+<section id="fr-custom-hero-{{ section.id }}" class="fr-custom-hero">
   <div class="fr-custom-hero__inner">
     {%- if section.settings.image != blank -%}
       {{ section.settings.image | image_url: width: 2000 | image_tag: class: 'fr-custom-hero__bg', loading: 'lazy' }}
@@ -20,6 +15,10 @@
     <div class="fr-custom-hero__content-wrapper" style="
       justify-content: {{ section.settings.content_alignment_horizontal }};
       align-items: {{ section.settings.content_alignment_vertical }};
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-left: {{ section.settings.padding_left }}px;
+      padding-right: {{ section.settings.padding_right }}px;
     ">
       <div class="fr-custom-hero__content" style="
         text-align: {{ section.settings.text_alignment }};
@@ -100,7 +99,6 @@
     width: 100%;
     height: 100%;
     display: flex;
-    padding: 40px;
     box-sizing: border-box;
   }
 
@@ -346,7 +344,7 @@
       "step": 4,
       "unit": "px",
       "label": "Padding Top",
-      "default": 0
+      "default": 40
     },
     {
       "type": "range",
@@ -356,7 +354,7 @@
       "step": 4,
       "unit": "px",
       "label": "Padding Bottom",
-      "default": 0
+      "default": 40
     },
     {
       "type": "range",
@@ -366,7 +364,7 @@
       "step": 4,
       "unit": "px",
       "label": "Padding Left",
-      "default": 0
+      "default": 40
     },
     {
       "type": "range",
@@ -376,7 +374,7 @@
       "step": 4,
       "unit": "px",
       "label": "Padding Right",
-      "default": 0
+      "default": 40
     }
   ],
   "presets": [
