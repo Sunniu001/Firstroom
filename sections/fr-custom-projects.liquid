@@ -1,5 +1,5 @@
 {%- comment -%}
-  FR Custom Projects Section (Masonry Grid)
+  FR Custom Projects Section (Advanced Staggered Grid)
 {%- endcomment -%}
 
 <section id="fr-custom-projects-{{ section.id }}" class="fr-custom-projects" style="
@@ -17,14 +17,22 @@
       ">{{ section.settings.heading }}</h2>
     {%- endif -%}
 
-    <div class="fr-custom-projects__masonry">
+    <div class="fr-custom-projects__grid" style="
+      gap: {{ section.settings.grid_gap }}px;
+      max-width: {{ section.settings.grid_max_width }}px;
+    ">
       {%- for block in section.blocks -%}
-        <div class="fr-custom-projects__item" {{ block.shopify_attributes }}>
-          {%- if block.settings.image != blank -%}
-            <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.title | escape }}" loading="lazy" class="fr-custom-projects__image">
-          {%- else -%}
-            <div class="fr-custom-projects__placeholder"></div>
-          {%- endif -%}
+        <div class="fr-custom-projects__item fr-custom-projects__item--text-{{ block.settings.text_position }}" 
+             {{ block.shopify_attributes }}
+             style="grid-column: {{ block.settings.column_start }}; transform: translateY({{ block.settings.offset_y }}px);">
+             
+          <div class="fr-custom-projects__image-wrapper">
+            {%- if block.settings.image != blank -%}
+              <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.title | escape }}" loading="lazy" class="fr-custom-projects__image">
+            {%- else -%}
+              <div class="fr-custom-projects__placeholder"></div>
+            {%- endif -%}
+          </div>
 
           {%- if block.settings.title != blank or block.settings.subtitle != blank -%}
             <div class="fr-custom-projects__content">
@@ -44,40 +52,45 @@
 
 <style>
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
+    padding: 0 40px; /* Extra padding so absolutely positioned text doesn't hit screen edge */
   }
 
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__heading {
-    margin: 0 0 40px 0;
+    margin: 0 0 60px 0;
     font-family: 'Playfair Display', Georgia, serif;
     font-weight: 500;
   }
 
-  #fr-custom-projects-{{ section.id }} .fr-custom-projects__masonry {
-    column-count: 3;
-    column-gap: 30px;
+  #fr-custom-projects-{{ section.id }} .fr-custom-projects__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin: 0 auto;
   }
 
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__item {
-    break-inside: avoid;
-    margin-bottom: 30px;
-    display: inline-block;
+    position: relative;
     width: 100%;
+    /* No margin bottom, we rely on grid gap */
+  }
+
+  #fr-custom-projects-{{ section.id }} .fr-custom-projects__image-wrapper {
+    position: relative;
+    width: 100%;
+    background-color: #e0e0e0;
   }
 
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__image {
     width: 100%;
     height: auto;
     display: block;
-    margin-bottom: 12px;
   }
 
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__placeholder {
     width: 100%;
-    height: 300px;
+    padding-bottom: 120%; /* Fake aspect ratio */
     background-color: #e0e0e0;
-    margin-bottom: 12px;
   }
 
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__title {
@@ -94,15 +107,50 @@
     color: #666;
   }
 
-  @media (max-width: 991px) {
-    #fr-custom-projects-{{ section.id }} .fr-custom-projects__masonry {
-      column-count: 2;
+  /* Text Positioning */
+  #fr-custom-projects-{{ section.id }} .fr-custom-projects__item--text-bottom .fr-custom-projects__content {
+    margin-top: 16px;
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    #fr-custom-projects-{{ section.id }} .fr-custom-projects__item--text-left .fr-custom-projects__content {
+      position: absolute;
+      right: calc(100% + 20px);
+      top: 50%;
+      transform: translateY(-50%);
+      width: max-content;
+      max-width: 250px;
+      text-align: right;
+      z-index: 2;
+    }
+
+    #fr-custom-projects-{{ section.id }} .fr-custom-projects__item--text-right .fr-custom-projects__content {
+      position: absolute;
+      left: calc(100% + 20px);
+      top: 50%;
+      transform: translateY(-50%);
+      width: max-content;
+      max-width: 250px;
+      text-align: left;
+      z-index: 2;
     }
   }
 
-  @media (max-width: 575px) {
-    #fr-custom-projects-{{ section.id }} .fr-custom-projects__masonry {
-      column-count: 1;
+  @media (max-width: 767px) {
+    #fr-custom-projects-{{ section.id }} .fr-custom-projects__grid {
+      grid-template-columns: 1fr;
+    }
+    #fr-custom-projects-{{ section.id }} .fr-custom-projects__item {
+      grid-column: 1 !important;
+      transform: none !important;
+    }
+    #fr-custom-projects-{{ section.id }} .fr-custom-projects__content {
+      position: static !important;
+      transform: none !important;
+      width: 100% !important;
+      padding: 16px 0 0 0 !important;
+      text-align: center !important;
     }
   }
 </style>
@@ -139,6 +187,30 @@
       "id": "heading_color",
       "label": "Heading Color",
       "default": "#1a1a1a"
+    },
+    {
+      "type": "header",
+      "content": "Grid Settings"
+    },
+    {
+      "type": "range",
+      "id": "grid_max_width",
+      "min": 600,
+      "max": 1400,
+      "step": 20,
+      "unit": "px",
+      "label": "Grid Max Width (Desktop)",
+      "default": 900
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Grid Gap",
+      "default": 40
     },
     {
       "type": "header",
@@ -198,12 +270,48 @@
         {
           "type": "text",
           "id": "title",
-          "label": "Title"
+          "label": "Title",
+          "default": "Project Name"
         },
         {
           "type": "text",
           "id": "subtitle",
           "label": "Subtitle / Description"
+        },
+        {
+          "type": "header",
+          "content": "Advanced Layout"
+        },
+        {
+          "type": "range",
+          "id": "column_start",
+          "min": 1,
+          "max": 3,
+          "step": 1,
+          "label": "Grid Column (1=Left, 2=Center, 3=Right)",
+          "default": 1
+        },
+        {
+          "type": "select",
+          "id": "text_position",
+          "label": "Text Position (Desktop)",
+          "options": [
+            { "value": "left", "label": "Left of Image" },
+            { "value": "bottom", "label": "Below Image" },
+            { "value": "right", "label": "Right of Image" }
+          ],
+          "default": "bottom"
+        },
+        {
+          "type": "range",
+          "id": "offset_y",
+          "min": -200,
+          "max": 200,
+          "step": 5,
+          "unit": "px",
+          "label": "Vertical Offset",
+          "info": "Push this individual image up or down to create a staggered grid effect.",
+          "default": 0
         }
       ]
     }
@@ -212,11 +320,11 @@
     {
       "name": "FR Custom Projects",
       "blocks": [
-        { "type": "project" },
-        { "type": "project" },
-        { "type": "project" },
-        { "type": "project" },
-        { "type": "project" }
+        { "type": "project", "settings": { "column_start": 2, "text_position": "left" } },
+        { "type": "project", "settings": { "column_start": 3, "text_position": "right" } },
+        { "type": "project", "settings": { "column_start": 1, "text_position": "left" } },
+        { "type": "project", "settings": { "column_start": 2, "text_position": "bottom" } },
+        { "type": "project", "settings": { "column_start": 3, "text_position": "right" } }
       ]
     }
   ]
