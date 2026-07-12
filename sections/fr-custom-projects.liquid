@@ -72,6 +72,7 @@
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__item {
     position: relative;
     width: 100%;
+    align-self: start;
     /* No margin bottom, we rely on grid gap */
   }
 
@@ -124,7 +125,7 @@
     #fr-custom-projects-{{ section.id }} .fr-custom-projects__item--text-left .fr-custom-projects__content {
       position: absolute;
       right: calc(100% + 20px);
-      bottom: 20px;
+      bottom: 0;
       width: max-content;
       max-width: 250px;
       text-align: right;
@@ -134,7 +135,7 @@
     #fr-custom-projects-{{ section.id }} .fr-custom-projects__item--text-right .fr-custom-projects__content {
       position: absolute;
       left: calc(100% + 20px);
-      bottom: 20px;
+      bottom: 0;
       width: max-content;
       max-width: 250px;
       text-align: left;
