@@ -24,9 +24,9 @@
       {%- for block in section.blocks -%}
         <div class="fr-custom-projects__item fr-custom-projects__item--text-{{ block.settings.text_position }}" 
              {{ block.shopify_attributes }}
-             style="grid-column: {{ block.settings.column_start }}; transform: translateY({{ block.settings.offset_y }}px);">
+             style="grid-column: {{ block.settings.column_start }}; transform: translateY({{ block.settings.offset_y }}px); {%- if block.settings.is_invisible -%}opacity: 0; pointer-events: none;{%- endif -%}">
              
-          <div class="fr-custom-projects__image-wrapper">
+          <div class="fr-custom-projects__image-wrapper" style="padding-bottom: {{ block.settings.aspect_ratio }}%;">
             {%- if block.settings.image != blank -%}
               <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.title | escape }}" loading="lazy" class="fr-custom-projects__image">
             {%- else -%}
@@ -82,14 +82,21 @@
   }
 
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__image {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     display: block;
   }
 
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    padding-bottom: 120%; /* Fake aspect ratio */
+    height: 100%;
     background-color: #e0e0e0;
   }
 
@@ -319,6 +326,23 @@
           "label": "Vertical Offset",
           "info": "Push this individual image up or down to create a staggered grid effect.",
           "default": 0
+        },
+        {
+          "type": "checkbox",
+          "id": "is_invisible",
+          "label": "Make this project an invisible spacer",
+          "default": false
+        },
+        {
+          "type": "range",
+          "id": "aspect_ratio",
+          "min": 50,
+          "max": 200,
+          "step": 5,
+          "unit": "%",
+          "label": "Image Height (Aspect Ratio)",
+          "info": "100% is square, 150% is tall, 75% is wide.",
+          "default": 130
         }
       ]
     }
