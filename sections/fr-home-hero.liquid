@@ -5,8 +5,13 @@
     ">
     
     <div class="fr-home-hero__background">
-      {%- if section.settings.bg_image != blank -%}
-        <img src="{{ section.settings.bg_image | image_url: width: 2400 }}" alt="{{ section.settings.title | escape }}" loading="eager" class="fr-home-hero__bg-img">
+      {%- assign slide_blocks = section.blocks | where: "type", "slide" -%}
+      {%- if slide_blocks.size > 0 -%}
+        {%- for block in slide_blocks -%}
+          <img src="{{ block.settings.image | image_url: width: 2400 }}" alt="Slide" loading="eager" class="fr-home-hero__bg-img fr-home-hero__slide {% if forloop.first %}is-active{% endif %}" {{ block.shopify_attributes }}>
+        {%- endfor -%}
+      {%- elsif section.settings.bg_image != blank -%}
+        <img src="{{ section.settings.bg_image | image_url: width: 2400 }}" alt="{{ section.settings.title | escape }}" loading="eager" class="fr-home-hero__bg-img fr-home-hero__slide is-active">
       {%- else -%}
         <div class="fr-home-hero__placeholder"></div>
       {%- endif -%}
@@ -86,6 +91,20 @@
     display: block;
   }
 
+  .fr-home-hero__slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+  }
+  .fr-home-hero__slide.is-active {
+    opacity: 1;
+  }
+
   .fr-home-hero__placeholder {
     width: 100%;
     height: 100%;
@@ -133,28 +152,26 @@
 
   .fr-home-hero__buttons-stack {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: {% if section.settings.text_align == 'center' %}center{% elsif section.settings.text_align == 'right' %}flex-end{% else %}flex-start{% endif %};
     gap: 15px;
     width: 100%;
-    max-width: 600px;
   }
 
   .fr-home-hero__btn {
-    display: block;
-    width: 100%;
-    padding: 20px 30px;
+    display: inline-block;
+    padding: 15px 40px;
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em;
     font-weight: 600;
     transition: transform 0.2s ease, opacity 0.2s ease;
-    backdrop-filter: blur(5px);
   }
 
   .fr-home-hero__btn:hover {
     transform: translateY(-2px);
-    opacity: 0.95;
+    opacity: 0.9;
   }
 
   @media (max-width: 767px) {
@@ -325,6 +342,17 @@
   ],
   "blocks": [
     {
+      "type": "slide",
+      "name": "Image Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    },
+    {
       "type": "button",
       "name": "Action Button",
       "settings": [
@@ -376,3 +404,20 @@
   ]
 }
 {% endschema %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var hero = document.getElementById('fr-home-hero-{{ section.id }}');
+    if (hero) {
+      var slides = hero.querySelectorAll('.fr-home-hero__slide');
+      if (slides.length > 1) {
+        var currentSlide = 0;
+        setInterval(function() {
+          slides[currentSlide].classList.remove('is-active');
+          currentSlide = (currentSlide + 1) % slides.length;
+          slides[currentSlide].classList.add('is-active');
+        }, 4000); // 4 seconds interval
+      }
+    }
+  });
+</script>
