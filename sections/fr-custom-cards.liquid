@@ -9,11 +9,12 @@
   padding-left: {{ section.settings.padding_left }}px;
   padding-right: {{ section.settings.padding_right }}px;
 ">
-  <div class="fr-custom-cards__container">
+  <div class="fr-custom-cards__container" style="max-width: {{ section.settings.content_max_width }}px;">
     {%- if section.settings.heading != blank -%}
       <h2 class="fr-custom-cards__heading" style="
         font-size: {{ section.settings.heading_size }}px;
         color: {{ section.settings.heading_color }};
+        text-align: {{ section.settings.heading_alignment }};
       ">{{ section.settings.heading }}</h2>
     {%- endif -%}
 
@@ -42,16 +43,25 @@
 </section>
 
 <style>
+  {{ section.settings.heading_font | font_face: font_display: 'swap' }}
+  {{ section.settings.text_font | font_face: font_display: 'swap' }}
+
+  #fr-custom-cards-{{ section.id }} .fr-custom-cards__heading {
+    font-family: {{ section.settings.heading_font.family }}, {{ section.settings.heading_font.fallback_families }};
+  }
+  
+  #fr-custom-cards-{{ section.id }} .fr-custom-cards__text {
+    font-family: {{ section.settings.text_font.family }}, {{ section.settings.text_font.fallback_families }};
+  }
+
   #fr-custom-cards-{{ section.id }} .fr-custom-cards__container {
-    max-width: 1200px;
     margin: 0 auto;
     text-align: center;
   }
 
   #fr-custom-cards-{{ section.id }} .fr-custom-cards__heading {
-    margin: 0 0 40px 0;
-    font-family: 'Playfair Display', Georgia, serif;
-    font-weight: 500;
+    margin: 0 0 {{ section.settings.heading_margin_bottom }}px 0;
+    font-weight: {{ section.settings.heading_font.weight | default: 500 }};
   }
 
   #fr-custom-cards-{{ section.id }} .fr-custom-cards__grid {
@@ -95,7 +105,7 @@
   
   #fr-custom-cards-{{ section.id }} .fr-custom-cards__text {
     margin-top: 16px;
-    font-family: 'Lato', system-ui, sans-serif;
+    font-weight: {{ section.settings.text_font.weight | default: 400 }};
   }
 
   @media (max-width: 767px) {
@@ -128,6 +138,22 @@
     },
     {
       "type": "range",
+      "id": "content_max_width",
+      "min": 600,
+      "max": 1600,
+      "step": 20,
+      "unit": "px",
+      "label": "Content Max Width",
+      "default": 1200
+    },
+    {
+      "type": "font_picker",
+      "id": "heading_font",
+      "label": "Heading Font",
+      "default": "playfair_display_n5"
+    },
+    {
+      "type": "range",
       "id": "heading_size",
       "min": 20,
       "max": 60,
@@ -137,10 +163,37 @@
       "default": 36
     },
     {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "heading_margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Margin Bottom",
+      "default": 40
+    },
+    {
       "type": "color",
       "id": "heading_color",
       "label": "Heading Color",
       "default": "#1a1a1a"
+    },
+    {
+      "type": "font_picker",
+      "id": "text_font",
+      "label": "Text Font",
+      "default": "lato_n4"
     },
     {
       "type": "range",
