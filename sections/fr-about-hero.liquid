@@ -72,6 +72,10 @@
     font-size: {{ section.settings.title_size_mobile }}px;
     color: {{ section.settings.title_color }};
     margin: 0;
+    padding-top: {{ section.settings.title_padding_top }}px;
+    padding-bottom: {{ section.settings.title_padding_bottom }}px;
+    padding-left: {{ section.settings.title_padding_left }}px;
+    padding-right: {{ section.settings.title_padding_right }}px;
     line-height: 1.1;
     letter-spacing: 0.01em;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
@@ -83,7 +87,11 @@
     font-style: {{ section.settings.subtitle_font.style }};
     font-size: {{ section.settings.subtitle_size_mobile }}px;
     color: {{ section.settings.subtitle_color }};
-    margin: 10px 0 0 0;
+    margin: 0;
+    padding-top: {{ section.settings.subtitle_padding_top }}px;
+    padding-bottom: {{ section.settings.subtitle_padding_bottom }}px;
+    padding-left: {{ section.settings.subtitle_padding_left }}px;
+    padding-right: {{ section.settings.subtitle_padding_right }}px;
     line-height: 1.4;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
   }
@@ -222,6 +230,46 @@
       "default": 40
     },
     {
+      "type": "range",
+      "id": "title_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Title Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "title_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Title Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "title_padding_left",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Title Padding Left",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "title_padding_right",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Title Padding Right",
+      "default": 0
+    },
+    {
       "type": "header",
       "content": "Subtitle Typography"
     },
@@ -262,6 +310,46 @@
       "unit": "px",
       "label": "Mobile Size",
       "default": 14
+    },
+    {
+      "type": "range",
+      "id": "subtitle_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Subtitle Padding Top",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "subtitle_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Subtitle Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "subtitle_padding_left",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Subtitle Padding Left",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "subtitle_padding_right",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Subtitle Padding Right",
+      "default": 0
     },
     {
       "type": "range",

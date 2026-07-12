@@ -54,7 +54,7 @@
   }
 
   .fr-about-imgtext__wrapper {
-    max-width: 1400px;
+    max-width: {{ section.settings.content_max_width }}px;
     margin: 0 auto;
   }
 
@@ -165,6 +165,16 @@
     {
       "type": "header",
       "content": "Layout Settings"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "min": 600,
+      "max": 1600,
+      "step": 50,
+      "unit": "px",
+      "label": "Content Max Width",
+      "default": 1400
     },
     {
       "type": "select",
