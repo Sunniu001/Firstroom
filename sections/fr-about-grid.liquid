@@ -113,7 +113,7 @@
   
   .fr-about-grid__shape--square {
     aspect-ratio: 1 / 1;
-    border-radius: 0;
+    border-radius: {{ section.settings.image_radius }}px !important;
   }
   
   .fr-about-grid__shape--arch {
@@ -123,7 +123,12 @@
   }
   
   .fr-about-grid__shape--original {
-    /* No forced aspect ratio, adapt to image */
+    border-radius: {{ section.settings.image_radius }}px !important;
+  }
+
+  .fr-about-grid__shape--square .fr-about-grid__img,
+  .fr-about-grid__shape--original .fr-about-grid__img {
+    border-radius: {{ section.settings.image_radius }}px !important;
   }
 
   .fr-about-grid__img {
@@ -259,6 +264,16 @@
         { "value": "original", "label": "Original (Auto)" }
       ],
       "default": "circle"
+    },
+    {
+      "type": "range",
+      "id": "image_radius",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Image Border Radius (For Square/Original)",
+      "default": 0
     },
     {
       "type": "range",
