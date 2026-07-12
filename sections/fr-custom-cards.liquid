@@ -66,14 +66,13 @@
 
   #fr-custom-cards-{{ section.id }} .fr-custom-cards__grid {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: center;
     align-items: center; /* This helps with staggered heights if images vary */
   }
 
   #fr-custom-cards-{{ section.id }} .fr-custom-cards__card {
-    flex: 1 1 300px;
-    max-width: 400px;
+    flex: 1 1 0;
     display: flex;
     flex-direction: column;
   }
