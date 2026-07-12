@@ -1,57 +1,100 @@
 <section class="fr-about-hero" id="fr-about-hero-{{ section.id }}">
   {%- if section.settings.hero_image != blank -%}
-    <div class="fr-about-hero__wrapper" style="background-image: linear-gradient(rgba(0, 0, 0, {{ section.settings.hero_overlay_opacity | divided_by: 100.0 }}), rgba(0, 0, 0, {{ section.settings.hero_overlay_opacity | divided_by: 100.0 }})), url('{{ section.settings.hero_image | image_url: width: 2400 }}'); height: {{ section.settings.hero_height }}vh;">
+    <div class="fr-about-hero__wrapper fr-about-hero__wrapper--with-img" style="background-image: linear-gradient(rgba(0, 0, 0, {{ section.settings.hero_overlay_opacity | divided_by: 100.0 }}), rgba(0, 0, 0, {{ section.settings.hero_overlay_opacity | divided_by: 100.0 }})), url('{{ section.settings.hero_image | image_url: width: 2400 }}');">
       <div class="fr-about-hero__content">
-        <h1 class="fr-about-hero__title">{{ section.settings.hero_title }}</h1>
+        {%- if section.settings.hero_title != blank -%}
+          <h1 class="fr-about-hero__title">{{ section.settings.hero_title }}</h1>
+        {%- endif -%}
+        {%- if section.settings.hero_subtitle != blank -%}
+          <p class="fr-about-hero__subtitle">{{ section.settings.hero_subtitle }}</p>
+        {%- endif -%}
       </div>
     </div>
   {%- else -%}
-    <div class="fr-about-hero__wrapper fr-about-hero__wrapper--no-img" style="height: 25vh; background-color: #faf8f5;">
+    <div class="fr-about-hero__wrapper fr-about-hero__wrapper--no-img" style="background-color: #faf8f5;">
       <div class="fr-about-hero__content">
-        <h1 class="fr-about-hero__title" style="color: #1a1a1a;">{{ section.settings.hero_title }}</h1>
+        {%- if section.settings.hero_title != blank -%}
+          <h1 class="fr-about-hero__title" style="color: #1a1a1a;">{{ section.settings.hero_title }}</h1>
+        {%- endif -%}
+        {%- if section.settings.hero_subtitle != blank -%}
+          <p class="fr-about-hero__subtitle" style="color: #4a4a4a;">{{ section.settings.hero_subtitle }}</p>
+        {%- endif -%}
       </div>
     </div>
   {%- endif -%}
 </section>
 
 <style>
+  {{ section.settings.title_font | font_face }}
+  {{ section.settings.subtitle_font | font_face }}
+
   #fr-about-hero-{{ section.id }} {
     width: 100%;
     margin-bottom: {{ section.settings.margin_bottom }}px;
   }
 
-  .fr-about-hero__wrapper {
+  #fr-about-hero-{{ section.id }} .fr-about-hero__wrapper {
     position: relative;
     width: 100%;
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
     display: flex;
-    align-items: center;
-    justify-content: center;
     overflow: hidden;
+    height: {{ section.settings.hero_height_mobile }}vh;
+    align-items: {% if section.settings.content_alignment_vertical == 'top' %}flex-start{% elsif section.settings.content_alignment_vertical == 'bottom' %}flex-end{% else %}center{% endif %};
+    justify-content: {% if section.settings.content_alignment_horizontal == 'left' %}flex-start{% elsif section.settings.content_alignment_horizontal == 'right' %}flex-end{% else %}center{% endif %};
+  }
+
+  @media (min-width: 768px) {
+    #fr-about-hero-{{ section.id }} .fr-about-hero__wrapper {
+      height: {{ section.settings.hero_height_desktop }}vh;
+    }
   }
 
   .fr-about-hero__wrapper--no-img {
     border-bottom: 1px solid #e5e7eb;
   }
 
-  .fr-about-hero__content {
+  #fr-about-hero-{{ section.id }} .fr-about-hero__content {
     position: relative;
     z-index: 2;
-    text-align: center;
-    padding: 0 20px;
+    padding: 40px; /* Base padding so it doesn't touch the absolute edges */
+    text-align: {{ section.settings.text_alignment }};
+    width: 100%;
+    max-width: 1400px;
   }
 
-  .fr-about-hero__title {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-    font-weight: 400;
-    font-style: italic;
-    letter-spacing: 0.01em;
+  #fr-about-hero-{{ section.id }} .fr-about-hero__title {
+    font-family: {{ section.settings.title_font.family }}, {{ section.settings.title_font.fallback_families }};
+    font-weight: {{ section.settings.title_font.weight }};
+    font-style: {{ section.settings.title_font.style }};
+    font-size: {{ section.settings.title_size_mobile }}px;
+    color: {{ section.settings.title_color }};
     margin: 0;
-    color: #ffffff;
+    line-height: 1.1;
+    letter-spacing: 0.01em;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  }
+
+  #fr-about-hero-{{ section.id }} .fr-about-hero__subtitle {
+    font-family: {{ section.settings.subtitle_font.family }}, {{ section.settings.subtitle_font.fallback_families }};
+    font-weight: {{ section.settings.subtitle_font.weight }};
+    font-style: {{ section.settings.subtitle_font.style }};
+    font-size: {{ section.settings.subtitle_size_mobile }}px;
+    color: {{ section.settings.subtitle_color }};
+    margin: 10px 0 0 0;
+    line-height: 1.4;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  }
+
+  @media (min-width: 768px) {
+    #fr-about-hero-{{ section.id }} .fr-about-hero__title {
+      font-size: {{ section.settings.title_size_desktop }}px;
+    }
+    #fr-about-hero-{{ section.id }} .fr-about-hero__subtitle {
+      font-size: {{ section.settings.subtitle_size_desktop }}px;
+    }
   }
 </style>
 
@@ -66,22 +109,6 @@
       "label": "Hero Background Image"
     },
     {
-      "type": "text",
-      "id": "hero_title",
-      "label": "Hero Title",
-      "default": "About Us"
-    },
-    {
-      "type": "range",
-      "id": "hero_height",
-      "min": 40,
-      "max": 90,
-      "step": 5,
-      "unit": "vh",
-      "label": "Hero Height",
-      "default": 65
-    },
-    {
       "type": "range",
       "id": "hero_overlay_opacity",
       "min": 0,
@@ -90,6 +117,151 @@
       "unit": "%",
       "label": "Hero Overlay Opacity",
       "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Height Controls"
+    },
+    {
+      "type": "range",
+      "id": "hero_height_desktop",
+      "min": 40,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "label": "Desktop Height",
+      "default": 65
+    },
+    {
+      "type": "range",
+      "id": "hero_height_mobile",
+      "min": 30,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "label": "Mobile Height",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Alignment Settings"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment_vertical",
+      "label": "Vertical Alignment",
+      "options": [
+        { "value": "top", "label": "Top" },
+        { "value": "center", "label": "Center" },
+        { "value": "bottom", "label": "Bottom" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment_horizontal",
+      "label": "Horizontal Block Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Title Typography"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Title",
+      "default": "About Us"
+    },
+    {
+      "type": "font_picker",
+      "id": "title_font",
+      "label": "Title Font",
+      "default": "playfair_display_n4"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "title_size_desktop",
+      "min": 24,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "label": "Desktop Size",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "min": 20,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile Size",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Subtitle Typography"
+    },
+    {
+      "type": "text",
+      "id": "hero_subtitle",
+      "label": "Subtitle",
+      "default": "We Design The Feeling Of You"
+    },
+    {
+      "type": "font_picker",
+      "id": "subtitle_font",
+      "label": "Subtitle Font",
+      "default": "lato_n4"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size_desktop",
+      "min": 12,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop Size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size_mobile",
+      "min": 10,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile Size",
+      "default": 14
     },
     {
       "type": "range",
