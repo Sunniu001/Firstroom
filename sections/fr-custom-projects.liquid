@@ -1,0 +1,224 @@
+{%- comment -%}
+  FR Custom Projects Section (Masonry Grid)
+{%- endcomment -%}
+
+<section id="fr-custom-projects-{{ section.id }}" class="fr-custom-projects" style="
+  background-color: {{ section.settings.bg_color }};
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  padding-left: {{ section.settings.padding_left }}px;
+  padding-right: {{ section.settings.padding_right }}px;
+">
+  <div class="fr-custom-projects__container">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="fr-custom-projects__heading" style="
+        font-size: {{ section.settings.heading_size }}px;
+        color: {{ section.settings.heading_color }};
+      ">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    <div class="fr-custom-projects__masonry">
+      {%- for block in section.blocks -%}
+        <div class="fr-custom-projects__item" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.title | escape }}" loading="lazy" class="fr-custom-projects__image">
+          {%- else -%}
+            <div class="fr-custom-projects__placeholder"></div>
+          {%- endif -%}
+
+          {%- if block.settings.title != blank or block.settings.subtitle != blank -%}
+            <div class="fr-custom-projects__content">
+              {%- if block.settings.title != blank -%}
+                <h3 class="fr-custom-projects__title">{{ block.settings.title }}</h3>
+              {%- endif -%}
+              {%- if block.settings.subtitle != blank -%}
+                <p class="fr-custom-projects__subtitle">{{ block.settings.subtitle }}</p>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  #fr-custom-projects-{{ section.id }} .fr-custom-projects__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  #fr-custom-projects-{{ section.id }} .fr-custom-projects__heading {
+    margin: 0 0 40px 0;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 500;
+  }
+
+  #fr-custom-projects-{{ section.id }} .fr-custom-projects__masonry {
+    column-count: 3;
+    column-gap: 30px;
+  }
+
+  #fr-custom-projects-{{ section.id }} .fr-custom-projects__item {
+    break-inside: avoid;
+    margin-bottom: 30px;
+    display: inline-block;
+    width: 100%;
+  }
+
+  #fr-custom-projects-{{ section.id }} .fr-custom-projects__image {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  #fr-custom-projects-{{ section.id }} .fr-custom-projects__placeholder {
+    width: 100%;
+    height: 300px;
+    background-color: #e0e0e0;
+    margin-bottom: 12px;
+  }
+
+  #fr-custom-projects-{{ section.id }} .fr-custom-projects__title {
+    margin: 0 0 4px 0;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 18px;
+    color: #1a1a1a;
+  }
+
+  #fr-custom-projects-{{ section.id }} .fr-custom-projects__subtitle {
+    margin: 0;
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 14px;
+    color: #666;
+  }
+
+  @media (max-width: 991px) {
+    #fr-custom-projects-{{ section.id }} .fr-custom-projects__masonry {
+      column-count: 2;
+    }
+  }
+
+  @media (max-width: 575px) {
+    #fr-custom-projects-{{ section.id }} .fr-custom-projects__masonry {
+      column-count: 1;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "FR Custom Projects",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Projects."
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Size",
+      "default": 36
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Left",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Right",
+      "default": 20
+    }
+  ],
+  "blocks": [
+    {
+      "type": "project",
+      "name": "Project",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Project Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle / Description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FR Custom Projects",
+      "blocks": [
+        { "type": "project" },
+        { "type": "project" },
+        { "type": "project" },
+        { "type": "project" },
+        { "type": "project" }
+      ]
+    }
+  ]
+}
+{% endschema %}

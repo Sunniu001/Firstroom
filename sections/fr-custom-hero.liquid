@@ -1,0 +1,388 @@
+{%- comment -%}
+  FR Custom Hero Section
+{%- endcomment -%}
+
+<section id="fr-custom-hero-{{ section.id }}" class="fr-custom-hero" style="
+  padding-top: {{ section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom }}px;
+  padding-left: {{ section.settings.padding_left }}px;
+  padding-right: {{ section.settings.padding_right }}px;
+">
+  <div class="fr-custom-hero__inner">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 2000 | image_tag: class: 'fr-custom-hero__bg', loading: 'lazy' }}
+    {%- else -%}
+      <div class="fr-custom-hero__placeholder"></div>
+    {%- endif -%}
+
+    <div class="fr-custom-hero__overlay" style="background-color: {{ section.settings.overlay_color }}; opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+
+    <div class="fr-custom-hero__content-wrapper" style="
+      justify-content: {{ section.settings.content_alignment_horizontal }};
+      align-items: {{ section.settings.content_alignment_vertical }};
+    ">
+      <div class="fr-custom-hero__content" style="
+        text-align: {{ section.settings.text_alignment }};
+        max-width: {{ section.settings.content_max_width }}px;
+      ">
+        {%- if section.settings.heading != blank -%}
+          <h1 class="fr-custom-hero__heading" style="
+            font-size: {{ section.settings.heading_size }}px;
+            color: {{ section.settings.heading_color }};
+          ">{{ section.settings.heading }}</h1>
+        {%- endif -%}
+        
+        {%- if section.settings.text != blank -%}
+          <div class="fr-custom-hero__text" style="
+            font-size: {{ section.settings.text_size }}px;
+            color: {{ section.settings.text_color }};
+          ">{{ section.settings.text }}</div>
+        {%- endif -%}
+
+        {%- if section.settings.button_label != blank -%}
+          <a href="{{ section.settings.button_link }}" class="fr-custom-hero__btn" style="
+            background-color: {{ section.settings.button_bg }};
+            color: {{ section.settings.button_text }};
+          ">{{ section.settings.button_label }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #fr-custom-hero-{{ section.id }} {
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+  }
+  
+  #fr-custom-hero-{{ section.id }} .fr-custom-hero__inner {
+    position: relative;
+    width: 100%;
+    min-height: {{ section.settings.min_height }}px;
+    display: flex;
+    overflow: hidden;
+  }
+
+  #fr-custom-hero-{{ section.id }} .fr-custom-hero__bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+  }
+
+  #fr-custom-hero-{{ section.id }} .fr-custom-hero__placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #e0e0e0;
+    z-index: 1;
+  }
+
+  #fr-custom-hero-{{ section.id }} .fr-custom-hero__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+  }
+
+  #fr-custom-hero-{{ section.id }} .fr-custom-hero__content-wrapper {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    padding: 40px;
+    box-sizing: border-box;
+  }
+
+  #fr-custom-hero-{{ section.id }} .fr-custom-hero__content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  #fr-custom-hero-{{ section.id }} .fr-custom-hero__heading {
+    margin: 0;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 500;
+    line-height: 1.1;
+  }
+
+  #fr-custom-hero-{{ section.id }} .fr-custom-hero__text {
+    font-family: 'Lato', system-ui, sans-serif;
+    line-height: 1.5;
+  }
+
+  #fr-custom-hero-{{ section.id }} .fr-custom-hero__btn {
+    display: inline-block;
+    padding: 12px 30px;
+    text-decoration: none;
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: none;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: opacity 0.3s ease;
+  }
+
+  #fr-custom-hero-{{ section.id }} .fr-custom-hero__btn:hover {
+    opacity: 0.8;
+  }
+
+  @media (max-width: 767px) {
+    #fr-custom-hero-{{ section.id }} .fr-custom-hero__inner {
+      min-height: {{ section.settings.min_height_mobile }}px;
+    }
+    #fr-custom-hero-{{ section.id }} .fr-custom-hero__content-wrapper {
+      padding: 20px;
+      justify-content: center;
+      align-items: center;
+    }
+    #fr-custom-hero-{{ section.id }} .fr-custom-hero__content {
+      text-align: center;
+      align-items: center;
+    }
+    #fr-custom-hero-{{ section.id }} .fr-custom-hero__heading {
+      font-size: {{ section.settings.heading_size | times: 0.7 | round }}px !important;
+    }
+    #fr-custom-hero-{{ section.id }} .fr-custom-hero__text {
+      font-size: {{ section.settings.text_size | times: 0.9 | round }}px !important;
+    }
+    #fr-custom-hero-{{ section.id }} .fr-custom-hero__btn {
+      align-self: center;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "FR Custom Hero",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background Image"
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "min": 200,
+      "max": 1000,
+      "step": 20,
+      "unit": "px",
+      "label": "Minimum Height (Desktop)",
+      "default": 600
+    },
+    {
+      "type": "range",
+      "id": "min_height_mobile",
+      "min": 200,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "label": "Minimum Height (Mobile)",
+      "default": 400
+    },
+    {
+      "type": "header",
+      "content": "Overlay"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay Opacity",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Create something uniquely yours."
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 24,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Size",
+      "default": 56
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>A little bit about the custom design process and what you get...</p>"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Text Size",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Contact us"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Button Background",
+      "default": "transparent"
+    },
+    {
+      "type": "color",
+      "id": "button_text",
+      "label": "Button Text Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "header",
+      "content": "Alignment"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment_horizontal",
+      "label": "Horizontal Alignment",
+      "options": [
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Right" }
+      ],
+      "default": "flex-start"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment_vertical",
+      "label": "Vertical Alignment",
+      "options": [
+        { "value": "flex-start", "label": "Top" },
+        { "value": "center", "label": "Middle" },
+        { "value": "flex-end", "label": "Bottom" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "min": 300,
+      "max": 1200,
+      "step": 20,
+      "unit": "px",
+      "label": "Content Max Width",
+      "default": 500
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Left",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Right",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "FR Custom Hero"
+    }
+  ]
+}
+{% endschema %}
