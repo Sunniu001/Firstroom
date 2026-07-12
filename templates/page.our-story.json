@@ -1,16 +1,159 @@
 {
   "sections": {
-    "story": {
-      "type": "fr-story",
+    "hero": {
+      "type": "fr-about-hero",
       "settings": {
         "hero_title": "About Us",
-        "intro_title": "Nature-Inspired Designs, Handcrafted With Care",
-        "founders_title": "The Founders",
-        "tradition_title": "Our Tradition"
+        "hero_height": 65,
+        "hero_overlay_opacity": 15
+      }
+    },
+    "we": {
+      "type": "fr-about-image-text",
+      "settings": {
+        "image_position": "left",
+        "aspect_ratio": "1 / 1",
+        "heading": "We",
+        "body_text": "<p>At <strong>First Room Collective</strong>, every creation begins with intention. Inspired by the quiet beauty of nature and the poetry of everyday moments, our designs celebrate the richness of Indian craftsmanship while embracing contemporary elegance.</p>",
+        "image_max_width": 400
+      }
+    },
+    "our_story": {
+      "type": "fr-about-image-text",
+      "settings": {
+        "image_position": "right",
+        "aspect_ratio": "4 / 5",
+        "heading": "Our Story",
+        "body_text": "<p>From hand-painted wallpapers to bespoke frames, each piece is thoughtfully crafted to feel personal, timeless, and deeply connected to your story.</p>",
+        "image_max_width": 500
+      }
+    },
+    "founders": {
+      "type": "fr-about-image-text",
+      "settings": {
+        "image_position": "left",
+        "aspect_ratio": "4 / 5",
+        "heading": "The Founders",
+        "body_text": "<p>First Room Collective was co-founded by <strong>Dharya Gambhir and Ranjana Gambhir</strong>, two creative minds whose backgrounds span design, interiors, architecture, fashion, and brand strategy. United by a shared vision, they set out to create spaces that feel soulful, personal, and deeply connected to culture.</p><p>For them, a home is more than a space—it is a sanctuary and a reflection of identity. Drawing inspiration from India's rich artistic heritage and collaborating with master artisans across the country, their work celebrates handcrafted techniques, intricate motifs, and the timeless art of storytelling through design.</p><p>What began as a response to the absence of emotionally resonant décor has grown into a pursuit of <strong>mindful, slow design</strong>—where every creation is thoughtfully crafted to honour tradition while bringing meaning, beauty, and individuality to the spaces we live in.</p>",
+        "image_max_width": 500
+      }
+    },
+    "design_philosophy": {
+      "type": "fr-about-grid",
+      "blocks": {
+        "phil_1": { "type": "grid_item" },
+        "phil_2": { "type": "grid_item" },
+        "phil_3": { "type": "grid_item" },
+        "phil_4": { "type": "grid_item" }
+      },
+      "block_order": ["phil_1", "phil_2", "phil_3", "phil_4"],
+      "settings": {
+        "heading": "Design Philosophy",
+        "columns_desktop": 4,
+        "image_shape": "circle"
+      }
+    },
+    "design_inspiration": {
+      "type": "fr-about-grid",
+      "blocks": {
+        "insp_1": { "type": "grid_item" },
+        "insp_2": { "type": "grid_item" },
+        "insp_3": { "type": "grid_item" },
+        "insp_4": { "type": "grid_item" },
+        "insp_5": { "type": "grid_item" },
+        "insp_6": { "type": "grid_item" }
+      },
+      "block_order": ["insp_1", "insp_2", "insp_3", "insp_4", "insp_5", "insp_6"],
+      "settings": {
+        "heading": "Design Inspiration",
+        "columns_desktop": 3,
+        "image_shape": "original"
+      }
+    },
+    "what_we_have": {
+      "type": "fr-about-grid",
+      "blocks": {
+        "care_1": { "type": "grid_item" },
+        "care_2": { "type": "grid_item" }
+      },
+      "block_order": ["care_1", "care_2"],
+      "settings": {
+        "heading": "What we have for you",
+        "columns_desktop": 2,
+        "image_shape": "arch",
+        "image_max_width": 400
+      }
+    },
+    "featured_projects": {
+      "type": "fr-about-timeline",
+      "blocks": {
+        "time_1": { "type": "timeline_item" },
+        "time_2": { "type": "timeline_item" },
+        "time_3": { "type": "timeline_item" },
+        "time_4": { "type": "timeline_item" }
+      },
+      "block_order": ["time_1", "time_2", "time_3", "time_4"],
+      "settings": {
+        "heading": "Featured Projects"
+      }
+    },
+    "our_process": {
+      "type": "fr-about-staggered",
+      "blocks": {
+        "proc_1": { "type": "staggered_item", "settings": { "number": "1.", "column_start": 1, "offset_y": 0 } },
+        "proc_2": { "type": "staggered_item", "settings": { "number": "2.", "column_start": 2, "offset_y": -40 } },
+        "proc_3": { "type": "staggered_item", "settings": { "number": "3.", "column_start": 3, "offset_y": 80 } },
+        "proc_4": { "type": "staggered_item", "settings": { "number": "4.", "column_start": 4, "offset_y": -80 } },
+        "proc_5": { "type": "staggered_item", "settings": { "number": "5.", "column_start": 5, "offset_y": 40 } }
+      },
+      "block_order": ["proc_1", "proc_2", "proc_3", "proc_4", "proc_5"],
+      "settings": {
+        "heading": "Our Process",
+        "columns_desktop": 5
+      }
+    },
+    "why_choose_us": {
+      "type": "fr-about-grid",
+      "blocks": {
+        "team_1": { "type": "grid_item" },
+        "team_2": { "type": "grid_item" },
+        "team_3": { "type": "grid_item" },
+        "team_4": { "type": "grid_item" }
+      },
+      "block_order": ["team_1", "team_2", "team_3", "team_4"],
+      "settings": {
+        "heading": "Why Choose Us",
+        "columns_desktop": 4,
+        "image_shape": "circle",
+        "show_vertical_borders": true
+      }
+    },
+    "social_slides": {
+      "type": "fr-about-grid",
+      "blocks": {
+        "soc_1": { "type": "grid_item" },
+        "soc_2": { "type": "grid_item" },
+        "soc_3": { "type": "grid_item" }
+      },
+      "block_order": ["soc_1", "soc_2", "soc_3"],
+      "settings": {
+        "heading": "Social Slides",
+        "columns_desktop": 3,
+        "image_shape": "square"
       }
     }
   },
   "order": [
-    "story"
+    "hero",
+    "we",
+    "our_story",
+    "founders",
+    "design_philosophy",
+    "design_inspiration",
+    "what_we_have",
+    "featured_projects",
+    "our_process",
+    "why_choose_us",
+    "social_slides"
   ]
 }

@@ -1,0 +1,375 @@
+<section class="fr-about-staggered" id="fr-about-staggered-{{ section.id }}" style="background-color: {{ section.settings.section_bg }};">
+  <div class="fr-about-staggered__wrapper" style="
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-left: {{ section.settings.padding_left }}px;
+      padding-right: {{ section.settings.padding_right }}px;
+    ">
+    
+    {%- if section.settings.heading != blank -%}
+      <h2 class="fr-about-staggered__main-heading" style="text-align: {{ section.settings.heading_align }}; font-size: {{ section.settings.heading_size }}px; color: {{ section.settings.heading_color }};">
+        {{ section.settings.heading }}
+      </h2>
+    {%- endif -%}
+
+    <div class="fr-about-staggered__container" style="
+      grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
+      gap: {{ section.settings.grid_gap }}px;
+    ">
+      {%- for block in section.blocks -%}
+        <div class="fr-about-staggered__item" {{ block.shopify_attributes }} style="grid-column: {{ block.settings.column_start }}; transform: translateY({{ block.settings.offset_y }}px);">
+          
+          <div class="fr-about-staggered__image-wrapper">
+            {%- if block.settings.image != blank -%}
+              <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.title | escape }}" loading="lazy" class="fr-about-staggered__img">
+            {%- else -%}
+              <div class="fr-about-staggered__placeholder"></div>
+            {%- endif -%}
+            
+            {%- if block.settings.number != blank -%}
+              <div class="fr-about-staggered__number">{{ block.settings.number }}</div>
+            {%- endif -%}
+          </div>
+
+          {%- if block.settings.title != blank or block.settings.text != blank -%}
+            <div class="fr-about-staggered__text-content" style="text-align: {{ section.settings.text_align }};">
+              {%- if block.settings.title != blank -%}
+                <h3 class="fr-about-staggered__title" style="font-size: {{ section.settings.title_size }}px; color: {{ section.settings.title_color }};">{{ block.settings.title }}</h3>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <div class="fr-about-staggered__body" style="font-size: {{ section.settings.text_size }}px; color: {{ section.settings.text_color }};">{{ block.settings.text }}</div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+          
+        </div>
+      {%- endfor -%}
+    </div>
+    
+  </div>
+</section>
+
+<style>
+  #fr-about-staggered-{{ section.id }} {
+    font-family: 'Lato', system-ui, sans-serif;
+    line-height: 1.7;
+    width: 100%;
+  }
+
+  .fr-about-staggered__wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .fr-about-staggered__main-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: 60px;
+    letter-spacing: 0.01em;
+  }
+
+  .fr-about-staggered__container {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 768px) {
+    /* Desktop columns defined inline */
+  }
+
+  @media (max-width: 767px) {
+    .fr-about-staggered__container {
+      grid-template-columns: 1fr !important;
+      gap: 40px !important;
+    }
+    .fr-about-staggered__item {
+      grid-column: 1 / -1 !important;
+      transform: none !important;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+  }
+
+  .fr-about-staggered__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    align-self: start;
+  }
+
+  .fr-about-staggered__image-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background-color: #c4c4c4; /* Matching the gray from the mockup */
+    margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  }
+
+  .fr-about-staggered__img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+  }
+  
+  .fr-about-staggered__placeholder {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #c4c4c4;
+  }
+
+  .fr-about-staggered__number {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a1a1a;
+    background-color: transparent;
+    padding: 10px;
+  }
+
+  .fr-about-staggered__title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+    margin: 0 0 8px 0;
+    letter-spacing: 0.01em;
+  }
+
+  .fr-about-staggered__body {
+    margin: 0;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "FR About Staggered",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Our Process"
+    },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Heading Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Font Size",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "header",
+      "content": "Grid Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "label": "Columns on Desktop",
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Grid Gap",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Text Settings"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 14,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "label": "Title Size",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Text Size",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Left",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Right",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "staggered_item",
+      "name": "Process Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Number (e.g. 1.)",
+          "default": "1."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "header",
+          "content": "Advanced Layout"
+        },
+        {
+          "type": "range",
+          "id": "column_start",
+          "min": 1,
+          "max": 6,
+          "step": 1,
+          "label": "Grid Column Start",
+          "default": 1
+        },
+        {
+          "type": "range",
+          "id": "offset_y",
+          "min": -200,
+          "max": 200,
+          "step": 5,
+          "unit": "px",
+          "label": "Vertical Offset",
+          "default": 0
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FR About Staggered",
+      "blocks": [
+        { "type": "staggered_item", "settings": { "number": "1.", "column_start": 1, "offset_y": 0 } },
+        { "type": "staggered_item", "settings": { "number": "2.", "column_start": 2, "offset_y": -40 } },
+        { "type": "staggered_item", "settings": { "number": "3.", "column_start": 3, "offset_y": 80 } },
+        { "type": "staggered_item", "settings": { "number": "4.", "column_start": 4, "offset_y": -80 } },
+        { "type": "staggered_item", "settings": { "number": "5.", "column_start": 5, "offset_y": 40 } }
+      ]
+    }
+  ]
+}
+{% endschema %}
