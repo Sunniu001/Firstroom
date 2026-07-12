@@ -97,7 +97,18 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     transition: transform 0.3s ease;
+    {% if section.settings.show_circle_border %}
+      border: 1px solid {{ section.settings.circle_border_color }};
+      border-radius: 50%;
+      aspect-ratio: 1 / 1;
+      width: 100%;
+      max-width: 260px;
+      margin: 0 auto;
+      padding: 15px;
+      box-sizing: border-box;
+    {% endif %}
   }
   .fr-home-badges__item:hover {
     transform: translateY(-5px);
@@ -212,6 +223,22 @@
       "unit": "px",
       "label": "Grid Gap",
       "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Circle Style"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_circle_border",
+      "label": "Show Circle Border",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "circle_border_color",
+      "label": "Circle Border Color",
+      "default": "#e5e5e5"
     },
     {
       "type": "header",

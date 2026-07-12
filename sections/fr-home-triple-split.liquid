@@ -6,12 +6,6 @@
       padding-right: {{ section.settings.padding_right }}px;
     ">
     
-    {%- if section.settings.main_heading != blank -%}
-      <h2 class="fr-home-triple__main-heading" style="text-align: {{ section.settings.main_heading_align }}; font-size: {{ section.settings.main_heading_size }}px; color: {{ section.settings.main_heading_color }};">
-        {{ section.settings.main_heading }}
-      </h2>
-    {%- endif -%}
-
     {% assign ratio_parts = section.settings.column_ratio | split: '|' %}
     {% assign col1_ratio = ratio_parts[0] | default: '1fr' %}
     {% assign col2_ratio = ratio_parts[1] | default: '1fr' %}
@@ -20,7 +14,7 @@
     <div class="fr-home-triple__container" style="
         grid-template-columns: {{ col1_ratio }} {{ col2_ratio }} {{ col3_ratio }};
         gap: {{ section.settings.gap }}px;
-        align-items: {{ section.settings.vertical_align }};
+        align-items: stretch;
       ">
       
       <!-- Image 1 Column -->
@@ -36,6 +30,13 @@
 
       <!-- Text Column -->
       <div class="fr-home-triple__col-text" style="text-align: {{ section.settings.text_align }}; background-color: {{ section.settings.text_bg_color }}; padding: {{ section.settings.text_padding }}px;">
+        
+        {%- if section.settings.main_heading != blank -%}
+          <h2 class="fr-home-triple__main-heading" style="text-align: {{ section.settings.main_heading_align }}; font-size: {{ section.settings.main_heading_size }}px; color: {{ section.settings.main_heading_color }};">
+            {{ section.settings.main_heading }}
+          </h2>
+        {%- endif -%}
+
         <div class="fr-home-triple__text-content">
           {%- if section.settings.heading != blank -%}
             <h3 class="fr-home-triple__heading" style="font-size: {{ section.settings.heading_size }}px; color: {{ section.settings.heading_color }};">
@@ -93,9 +94,6 @@
     margin-top: 0;
     margin-bottom: 40px;
     letter-spacing: 0.01em;
-    max-width: {{ section.settings.content_max_width }}px;
-    margin-left: auto;
-    margin-right: auto;
   }
 
   #fr-home-triple-{{ section.id }} .fr-home-triple__container {
@@ -142,7 +140,7 @@
   .fr-home-triple__col-text {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
   }
 
   .fr-home-triple__text-content {
