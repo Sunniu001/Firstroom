@@ -59,7 +59,7 @@
   }
 
   #fr-about-timeline-{{ section.id }} .fr-about-timeline__wrapper {
-    max-width: {{ section.settings.content_max_width }}px;
+    max-width: 1400px;
     margin: 0 auto;
   }
 
@@ -71,9 +71,9 @@
     letter-spacing: 0.01em;
   }
 
-  .fr-about-timeline__container {
+  #fr-about-timeline-{{ section.id }} .fr-about-timeline__container {
     position: relative;
-    max-width: 1000px;
+    max-width: {{ section.settings.content_max_width }}px;
     margin: 0 auto;
   }
 

@@ -56,7 +56,7 @@
   }
 
   #fr-about-grid-{{ section.id }} .fr-about-grid__wrapper {
-    max-width: {{ section.settings.content_max_width }}px;
+    max-width: 1400px;
     margin: 0 auto;
   }
 
@@ -68,9 +68,11 @@
     letter-spacing: 0.01em;
   }
 
-  .fr-about-grid__container {
+  #fr-about-grid-{{ section.id }} .fr-about-grid__container {
     display: grid;
     grid-template-columns: 1fr;
+    max-width: {{ section.settings.content_max_width }}px;
+    margin: 0 auto;
   }
 
   @media (min-width: 768px) {
