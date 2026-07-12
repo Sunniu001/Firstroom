@@ -65,7 +65,7 @@
 
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
     margin: 0 auto;
   }
 
@@ -192,6 +192,15 @@
     },
     {
       "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Columns on Desktop",
+      "default": 3
+    },
+    {
+      "type": "range",
       "id": "grid_max_width",
       "min": 600,
       "max": 1400,
@@ -284,9 +293,9 @@
           "type": "range",
           "id": "column_start",
           "min": 1,
-          "max": 3,
+          "max": 4,
           "step": 1,
-          "label": "Grid Column (1=Left, 2=Center, 3=Right)",
+          "label": "Grid Column (1 to 4)",
           "default": 1
         },
         {
