@@ -1,0 +1,241 @@
+<section id="fr-contact-work-{{ section.id }}" class="fr-contact-work" style="background-color: {{ section.settings.section_bg }};">
+  <div
+    class="fr-contact__work-split"
+    style="
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-left: {{ section.settings.padding_left }}px;
+      padding-right: {{ section.settings.padding_right }}px;
+    "
+  >
+    <div class="fr-contact__work-image">
+      {%- if section.settings.work_image != blank -%}
+        <img 
+          src="{{ section.settings.work_image | image_url: width: 800 }}" 
+          alt="Decorative" 
+          loading="lazy" 
+          class="fr-contact__work-img"
+          style="width: 100%; max-width: {{ section.settings.work_image_size }}px; height: auto;"
+        >
+      {%- endif -%}
+    </div>
+
+    <div class="fr-contact__work-content">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="fr-contact__serif-title" style="font-size: {{ section.settings.heading_size }}px;">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.body_text != blank -%}
+        <div class="fr-contact__work-text" style="font-size: {{ section.settings.text_size }}px;">
+          {{ section.settings.body_text }}
+        </div>
+      {%- endif -%}
+      {%- if section.settings.email_link != blank -%}
+        <a href="mailto:{{ section.settings.email_link }}" class="fr-contact__work-email" style="font-size: {{ section.settings.text_size }}px;">{{ section.settings.email_link }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  #fr-contact-work-{{ section.id }} {
+    font-family: 'Lato', system-ui, sans-serif;
+    line-height: 1.6;
+    color: #1a1a1a;
+  }
+
+  .fr-contact__work-split {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+    align-items: center;
+  }
+
+  @media (min-width: 768px) {
+    .fr-contact__work-split {
+      grid-template-columns: 1fr 1.3fr;
+      gap: 80px;
+    }
+  }
+
+  .fr-contact__work-image {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .fr-contact__work-img {
+    display: block;
+    object-fit: contain;
+  }
+
+  .fr-contact__serif-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+    color: #1a1a1a;
+    margin-top: 0;
+    margin-bottom: 20px;
+    letter-spacing: 0.01em;
+  }
+
+  .fr-contact__work-text {
+    font-family: 'Lato', system-ui, sans-serif;
+    color: #4a4a4a;
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  .fr-contact__work-text p {
+    margin: 0 0 14px 0;
+  }
+
+  .fr-contact__work-email {
+    font-family: 'Lato', system-ui, sans-serif;
+    font-weight: 600;
+    color: #1a1a1a;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: color 0.2s ease;
+  }
+
+  .fr-contact__work-email:hover {
+    color: {{ section.settings.accent_color }};
+  }
+</style>
+
+{% schema %}
+{
+  "name": "FR Contact Work",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent / Hover Color",
+      "default": "#B53939"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Work With Us:"
+    },
+    {
+      "type": "richtext",
+      "id": "body_text",
+      "label": "Body Text",
+      "default": "<p>We're open to exciting collaborations and passionate individuals to join our journey. If you're reaching out, ensure your application includes your CV, portfolio (preferably a link), and a dose of genuine enthusiasm.</p><p>Due to the high volume of applications, we're only able to respond to candidates shortlisted for an interview.</p><p>Send in your CV + updated portfolio (preferably a link) to:</p>"
+    },
+    {
+      "type": "text",
+      "id": "email_link",
+      "label": "Email Link",
+      "default": "firstroom2019@gmail.com"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Font Size",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Text Font Size",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Decorative Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "work_image",
+      "label": "Work With Us Image"
+    },
+    {
+      "type": "range",
+      "id": "work_image_size",
+      "min": 200,
+      "max": 600,
+      "step": 10,
+      "unit": "px",
+      "label": "Image Max Width",
+      "default": 400
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Left",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Right",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "FR Contact Work"
+    }
+  ]
+}
+{% endschema %}

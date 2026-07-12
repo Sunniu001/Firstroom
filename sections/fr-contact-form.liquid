@@ -1,0 +1,512 @@
+<section id="fr-contact-form-{{ section.id }}" class="fr-contact-form" style="background-color: {{ section.settings.section_bg }};">
+  <div
+    class="fr-contact__form-section"
+    style="
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-left: {{ section.settings.padding_left }}px;
+      padding-right: {{ section.settings.padding_right }}px;
+      max-width: {{ section.settings.form_max_width }}px;
+    "
+  >
+    {%- if section.settings.heading != blank -%}
+      <h2 class="fr-contact__serif-title" style="font-size: {{ section.settings.heading_size }}px;">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="fr-contact__form-desc" style="font-size: {{ section.settings.text_size }}px;">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    {%- form 'contact', id: 'ContactForm', class: 'fr-contact__form' -%}
+      {%- if form.posted_successfully? -%}
+        <div class="fr-contact__form-status fr-contact__form-status--success" tabindex="-1" autofocus>
+          <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="7" stroke-linecap="round" stroke-linejoin="round"></circle><path d="M5.5 8l1.5 1.5L10.5 6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <span>{{ section.settings.success_message }}</span>
+        </div>
+      {%- elsif form.errors -%}
+        <div class="fr-contact__form-status fr-contact__form-status--error" tabindex="-1" autofocus>
+          <svg aria-hidden="true" focusable="false" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="7" stroke-linecap="round" stroke-linejoin="round"></circle><line x1="8" y1="5" x2="8" y2="8" stroke-linecap="round" stroke-linejoin="round"></line><line x1="8" y1="11" x2="8.01" y2="11" stroke-linecap="round" stroke-linejoin="round"></line></svg>
+          <span>Please adjust: {{ form.errors | default_errors }}</span>
+        </div>
+      {%- endif -%}
+
+      <!-- Full Name -->
+      <div class="fr-contact__form-field">
+        <label class="fr-contact__field-label" style="font-size: {{ section.settings.label_size }}px;">Full Name *</label>
+        <div class="fr-contact__form-row">
+          <input type="text" name="contact[first_name]" value="{% if customer %}{{ customer.first_name }}{% endif %}" placeholder="First name" class="fr-contact__input" style="font-size: {{ section.settings.input_size }}px;" required>
+          <input type="text" name="contact[last_name]" value="{% if customer %}{{ customer.last_name }}{% endif %}" placeholder="Last name" class="fr-contact__input" style="font-size: {{ section.settings.input_size }}px;" required>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="fr-contact__form-field">
+        <label class="fr-contact__field-label" style="font-size: {{ section.settings.label_size }}px;">Email *</label>
+        <div class="fr-contact__form-row">
+          <div class="fr-contact__input-group">
+            <input type="email" id="ContactForm-email" name="contact[email]" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" placeholder="you@company.com" class="fr-contact__input" style="font-size: {{ section.settings.input_size }}px;" required aria-required="true" spellcheck="false" autocapitalize="off">
+            <span class="fr-contact__helper-text">Email</span>
+          </div>
+          <div class="fr-contact__input-group">
+            <input type="email" id="ContactForm-confirm-email" placeholder="" class="fr-contact__input" style="font-size: {{ section.settings.input_size }}px;" required spellcheck="false" autocapitalize="off">
+            <span class="fr-contact__helper-text">Confirm Email</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phone -->
+      <div class="fr-contact__form-field">
+        <label class="fr-contact__field-label" style="font-size: {{ section.settings.label_size }}px;">Phone number</label>
+        <div class="fr-contact__phone-container">
+          <select class="fr-contact__country-select" id="ContactForm-country-code">
+            <option value="+91" selected>🇮🇳 +91</option>
+            <option value="+1">🇺🇸 +1 (US)</option>
+            <option value="+44">🇬🇧 +44 (UK)</option>
+            <option value="+971">🇦🇪 +971 (UAE)</option>
+            <option value="+61">🇦🇺 +61 (Australia)</option>
+            <option value="+65">🇸🇬 +65 (Singapore)</option>
+            <option value="+1">🇨🇦 +1 (Canada)</option>
+            <option value="+49">🇩🇪 +49 (Germany)</option>
+            <option value="+33">🇫🇷 +33 (France)</option>
+            <option value="+81">🇯🇵 +81 (Japan)</option>
+          </select>
+          <input type="tel" id="ContactForm-phone" name="contact[phone]" pattern="[0-9\- \+\(\)]*" value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}" placeholder="Phone" class="fr-contact__phone-input" style="font-size: {{ section.settings.input_size }}px;">
+        </div>
+      </div>
+
+      <!-- Message -->
+      <div class="fr-contact__form-field">
+        <textarea rows="6" id="ContactForm-body" name="contact[body]" placeholder="Message" class="fr-contact__textarea" style="font-size: {{ section.settings.input_size }}px;" required aria-required="true">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+      </div>
+
+      <!-- Submit -->
+      <div class="fr-contact__form-actions">
+        <button type="submit" class="fr-contact__submit-btn" style="background-color: {{ section.settings.button_bg }}; color: {{ section.settings.button_text }}; font-size: {{ section.settings.button_size }}px;">
+          {{ section.settings.button_label }}
+        </button>
+      </div>
+    {%- endform -%}
+  </div>
+</section>
+
+<style>
+  #fr-contact-form-{{ section.id }} {
+    font-family: 'Lato', system-ui, sans-serif;
+    line-height: 1.6;
+    color: #1a1a1a;
+  }
+
+  .fr-contact__serif-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+    color: #1a1a1a;
+    margin-top: 0;
+    margin-bottom: 20px;
+    letter-spacing: 0.01em;
+  }
+
+  .fr-contact__form-section {
+    margin: 0 auto;
+  }
+
+  .fr-contact__form-desc {
+    font-family: 'Lato', system-ui, sans-serif;
+    color: #666;
+    margin-top: -10px;
+    margin-bottom: 30px;
+  }
+
+  .fr-contact__form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .fr-contact__form-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  @media (min-width: 576px) {
+    .fr-contact__form-row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .fr-contact__form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .fr-contact__field-label {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+    color: #1a1a1a;
+  }
+
+  .fr-contact__input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .fr-contact__helper-text {
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 11px;
+    color: #999;
+  }
+
+  .fr-contact__input,
+  .fr-contact__textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    font-family: 'Lato', system-ui, sans-serif;
+    color: #1a1a1a;
+    background-color: #ffffff;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .fr-contact__input:focus,
+  .fr-contact__textarea:focus {
+    outline: none;
+    border-color: #1a1a1a;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.02);
+  }
+
+  .fr-contact__textarea {
+    resize: vertical;
+    margin-top: 6px;
+  }
+
+  /* Phone */
+  .fr-contact__phone-container {
+    display: flex;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    background-color: #ffffff;
+    overflow: hidden;
+    transition: border-color 0.2s ease-in-out;
+  }
+
+  .fr-contact__phone-container:focus-within {
+    border-color: #1a1a1a;
+  }
+
+  .fr-contact__country-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: none;
+    background-color: #fafafa;
+    border-right: 1px solid #d1d5db;
+    padding: 0 28px 0 14px;
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 14px;
+    color: #1a1a1a;
+    cursor: pointer;
+    outline: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23999' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    white-space: nowrap;
+    min-width: 80px;
+  }
+
+  .fr-contact__country-select:focus {
+    background-color: #f0f0f0;
+  }
+
+  .fr-contact__country-select option {
+    font-size: 14px;
+    padding: 8px 12px;
+    background-color: #333;
+    color: #fff;
+  }
+
+  .fr-contact__phone-input {
+    flex-grow: 1;
+    border: none;
+    padding: 12px 14px;
+    font-family: 'Lato', system-ui, sans-serif;
+    color: #1a1a1a;
+  }
+
+  .fr-contact__phone-input:focus { outline: none; }
+
+  /* Submit Button */
+  .fr-contact__submit-btn {
+    border: none;
+    padding: 14px 40px;
+    font-family: 'Lato', system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+    display: inline-block;
+    border-radius: 4px;
+  }
+
+  .fr-contact__submit-btn:hover {
+    opacity: 0.95;
+    background-color: {{ section.settings.accent_color }} !important;
+    color: #ffffff !important;
+  }
+
+  /* Status Messages */
+  .fr-contact__form-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .fr-contact__form-status--success {
+    background-color: #ecfdf5;
+    color: #047857;
+    border: 1px solid #a7f3d0;
+  }
+
+  .fr-contact__form-status--error {
+    background-color: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fca5a5;
+  }
+
+  .fr-contact__email-error {
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 12px;
+    color: {{ section.settings.accent_color }} !important;
+    margin-top: 4px;
+  }
+</style>
+
+<script>
+  (function() {
+    function initContactForm() {
+      const form = document.getElementById('ContactForm');
+      if (!form) return;
+
+      const emailInput = document.getElementById('ContactForm-email');
+      const confirmEmailInput = document.getElementById('ContactForm-confirm-email');
+      const phoneInput = document.getElementById('ContactForm-phone');
+      const countrySelect = document.getElementById('ContactForm-country-code');
+
+      form.addEventListener('submit', function(e) {
+        const existingError = form.querySelector('.fr-contact__email-error');
+        if (existingError) existingError.remove();
+
+        if (emailInput.value !== confirmEmailInput.value) {
+          e.preventDefault();
+          const errorDiv = document.createElement('div');
+          errorDiv.className = 'fr-contact__email-error';
+          errorDiv.textContent = 'Emails do not match. Please verify your email.';
+          confirmEmailInput.parentNode.appendChild(errorDiv);
+          confirmEmailInput.focus();
+          return;
+        }
+
+        // Prepend country code to phone number
+        if (phoneInput && countrySelect && phoneInput.value.trim() !== '') {
+          const code = countrySelect.value;
+          const raw = phoneInput.value.replace(/^\+\d+\s*/, '');
+          phoneInput.value = code + ' ' + raw;
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', initContactForm);
+    document.addEventListener('shopify:section:load', initContactForm);
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      initContactForm();
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "FR Contact Form",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent / Hover Color",
+      "default": "#B53939"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Get In Touch"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "We'd be happy to connect with you."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "SEND MESSAGE"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success Message",
+      "default": "Thanks for contacting us! We'll get back to you as soon as possible."
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Font Size",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Subheading Font Size",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Field Label Font Size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "input_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Input Text Font Size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "button_size",
+      "min": 11,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Font Size",
+      "default": 13
+    },
+    {
+      "type": "header",
+      "content": "Button Colors"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Button Background",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "button_text",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "form_max_width",
+      "min": 400,
+      "max": 1000,
+      "step": 20,
+      "unit": "px",
+      "label": "Form Max Width",
+      "default": 680
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Left",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Right",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "FR Contact Form"
+    }
+  ]
+}
+{% endschema %}

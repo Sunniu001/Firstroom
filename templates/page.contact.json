@@ -1,87 +1,73 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */{
+{
   "sections": {
-    "fr_contact": {
-      "type": "fr-contact",
-      "blocks": {
-        "customer_care_block": {
-          "type": "customer_care",
-          "settings": {
-            "heading": "Customer Care",
-            "phone_label": "WHATSAPP:",
-            "phone": "+91 96507 06644",
-            "email_label": "EMAIL:",
-            "email": "support@firstroom.in",
-            "heading_size": 36,
-            "text_size": 14,
-            "social_instagram": "https://www.instagram.com/firstroom.in/",
-            "social_facebook": "https://www.facebook.com/firstroomcollective",
-            "social_linkedin": "https://www.linkedin.com/company/firstroom",
-            "social_pinterest": "https://www.pinterest.com/firstroomcollective/",
-            "social_whatsapp": "https://wa.me/919650706644",
-            "social_icon_bg": "#1a1a1a",
-            "padding_top": 0,
-            "padding_bottom": 0,
-            "padding_left": 0,
-            "padding_right": 0
-          }
-        },
-        "work_with_us_block": {
-          "type": "work_with_us",
-          "settings": {
-            "heading": "Work With Us:",
-            "body_text": "<p>We're open to exciting collaborations and passionate individuals to join our journey. If you're reaching out, ensure your application includes your CV, portfolio (preferably a link), and a dose of genuine enthusiasm.<\/p><p>Due to the high volume of applications, we're only able to respond to candidates shortlisted for an interview.<\/p><p>Send in your CV + updated portfolio (preferably a link) to:<\/p>",
-            "email_link": "firstroom2019@gmail.com",
-            "heading_size": 30,
-            "text_size": 14,
-            "work_image_size": 400,
-            "padding_top": 80,
-            "padding_bottom": 80,
-            "padding_left": 40,
-            "padding_right": 40
-          }
-        },
-        "contact_form_block": {
-          "type": "contact_form",
-          "settings": {
-            "heading": "Get In Touch",
-            "subheading": "We'd be happy to connect with you.",
-            "button_label": "SEND MESSAGE",
-            "success_message": "Thanks for contacting us! We'll get back to you as soon as possible.",
-            "heading_size": 30,
-            "text_size": 15,
-            "label_size": 16,
-            "input_size": 14,
-            "button_size": 13,
-            "button_bg": "#1a1a1a",
-            "button_text": "#ffffff",
-            "form_max_width": 680,
-            "padding_top": 0,
-            "padding_bottom": 80,
-            "padding_left": 40,
-            "padding_right": 40
-          }
-        }
-      },
-      "block_order": [
-        "customer_care_block",
-        "work_with_us_block",
-        "contact_form_block"
-      ],
+    "fr_contact_hero": {
+      "type": "fr-contact-hero",
       "settings": {
         "section_bg": "#ffffff",
-        "accent_color": "#B53939"
+        "accent_color": "#B53939",
+        "heading": "Customer Care",
+        "phone_label": "WHATSAPP:",
+        "phone": "+91 96507 06644",
+        "email_label": "EMAIL:",
+        "email": "support@firstroom.in",
+        "heading_size": 36,
+        "text_size": 14,
+        "social_instagram": "https://www.instagram.com/firstroom.in/",
+        "social_facebook": "https://www.facebook.com/firstroomcollective",
+        "social_linkedin": "https://www.linkedin.com/company/firstroom",
+        "social_pinterest": "https://www.pinterest.com/firstroomcollective/",
+        "social_whatsapp": "https://wa.me/919650706644",
+        "social_icon_bg": "#1a1a1a",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_left": 0,
+        "padding_right": 0
+      }
+    },
+    "fr_contact_work": {
+      "type": "fr-contact-work",
+      "settings": {
+        "section_bg": "#ffffff",
+        "accent_color": "#B53939",
+        "heading": "Work With Us:",
+        "body_text": "<p>We're open to exciting collaborations and passionate individuals to join our journey. If you're reaching out, ensure your application includes your CV, portfolio (preferably a link), and a dose of genuine enthusiasm.<\/p><p>Due to the high volume of applications, we're only able to respond to candidates shortlisted for an interview.<\/p><p>Send in your CV + updated portfolio (preferably a link) to:<\/p>",
+        "email_link": "firstroom2019@gmail.com",
+        "heading_size": 30,
+        "text_size": 14,
+        "work_image_size": 400,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_left": 40,
+        "padding_right": 40
+      }
+    },
+    "fr_contact_form": {
+      "type": "fr-contact-form",
+      "settings": {
+        "section_bg": "#ffffff",
+        "accent_color": "#B53939",
+        "heading": "Get In Touch",
+        "subheading": "We'd be happy to connect with you.",
+        "button_label": "SEND MESSAGE",
+        "success_message": "Thanks for contacting us! We'll get back to you as soon as possible.",
+        "heading_size": 30,
+        "text_size": 15,
+        "label_size": 16,
+        "input_size": 14,
+        "button_size": 13,
+        "button_bg": "#1a1a1a",
+        "button_text": "#ffffff",
+        "form_max_width": 680,
+        "padding_top": 0,
+        "padding_bottom": 80,
+        "padding_left": 40,
+        "padding_right": 40
       }
     }
   },
   "order": [
-    "fr_contact"
+    "fr_contact_hero",
+    "fr_contact_work",
+    "fr_contact_form"
   ]
 }
