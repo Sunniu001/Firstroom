@@ -54,24 +54,31 @@
     width: 100%;
   }
 
-  .fr-about-imgtext__wrapper {
+  #fr-about-imgtext-{{ section.id }} .fr-about-imgtext__wrapper {
     max-width: {{ section.settings.content_max_width }}px;
     margin: 0 auto;
   }
 
-  .fr-about-imgtext__grid {
+  {% assign ratio_parts = section.settings.column_ratio | split: '|' %}
+  {% assign col_image = ratio_parts[0] | default: '1fr' %}
+  {% assign col_text = ratio_parts[1] | default: '1fr' %}
+
+  #fr-about-imgtext-{{ section.id }} .fr-about-imgtext__grid {
     display: grid;
     grid-template-columns: 1fr;
   }
 
   @media (min-width: 768px) {
-    .fr-about-imgtext__grid {
-      grid-template-columns: 1fr 1fr;
+    #fr-about-imgtext-{{ section.id }} .fr-about-imgtext__grid {
+      grid-template-columns: {{ col_image }} {{ col_text }};
     }
-    .fr-about-imgtext__grid--image-right .fr-about-imgtext__col-image {
+    #fr-about-imgtext-{{ section.id }} .fr-about-imgtext__grid--image-right {
+      grid-template-columns: {{ col_text }} {{ col_image }};
+    }
+    #fr-about-imgtext-{{ section.id }} .fr-about-imgtext__grid--image-right .fr-about-imgtext__col-image {
       order: 2;
     }
-    .fr-about-imgtext__grid--image-right .fr-about-imgtext__col-text {
+    #fr-about-imgtext-{{ section.id }} .fr-about-imgtext__grid--image-right .fr-about-imgtext__col-text {
       order: 1;
     }
   }
@@ -186,6 +193,20 @@
         { "value": "right", "label": "Right" }
       ],
       "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "column_ratio",
+      "label": "Desktop Column Ratio (Image : Text)",
+      "options": [
+        { "value": "1fr|1fr", "label": "50% : 50% (Equal)" },
+        { "value": "2fr|3fr", "label": "40% : 60%" },
+        { "value": "3fr|2fr", "label": "60% : 40%" },
+        { "value": "1fr|2fr", "label": "33% : 67%" },
+        { "value": "2fr|1fr", "label": "67% : 33%" },
+        { "value": "auto|1fr", "label": "Hug Image : Fill Text" }
+      ],
+      "default": "1fr|1fr"
     },
     {
       "type": "select",
