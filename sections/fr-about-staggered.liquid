@@ -56,8 +56,8 @@
     width: 100%;
   }
 
-  .fr-about-staggered__wrapper {
-    max-width: 1400px;
+  #fr-about-staggered-{{ section.id }} .fr-about-staggered__wrapper {
+    max-width: {{ section.settings.content_max_width }}px;
     margin: 0 auto;
   }
 
@@ -175,6 +175,16 @@
         { "value": "right", "label": "Right" }
       ],
       "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "min": 600,
+      "max": 1600,
+      "step": 50,
+      "unit": "px",
+      "label": "Content Max Width",
+      "default": 1400
     },
     {
       "type": "range",

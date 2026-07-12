@@ -55,8 +55,8 @@
     width: 100%;
   }
 
-  .fr-about-grid__wrapper {
-    max-width: 1400px;
+  #fr-about-grid-{{ section.id }} .fr-about-grid__wrapper {
+    max-width: {{ section.settings.content_max_width }}px;
     margin: 0 auto;
   }
 
@@ -182,9 +182,20 @@
       "label": "Heading Alignment",
       "options": [
         { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" }
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
       ],
       "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "min": 600,
+      "max": 1600,
+      "step": 50,
+      "unit": "px",
+      "label": "Content Max Width",
+      "default": 1400
     },
     {
       "type": "range",

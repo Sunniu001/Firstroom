@@ -58,8 +58,8 @@
     width: 100%;
   }
 
-  .fr-about-timeline__wrapper {
-    max-width: 1200px;
+  #fr-about-timeline-{{ section.id }} .fr-about-timeline__wrapper {
+    max-width: {{ section.settings.content_max_width }}px;
     margin: 0 auto;
   }
 
@@ -262,6 +262,16 @@
         { "value": "right", "label": "Right" }
       ],
       "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "min": 600,
+      "max": 1600,
+      "step": 50,
+      "unit": "px",
+      "label": "Content Max Width",
+      "default": 1200
     },
     {
       "type": "range",
