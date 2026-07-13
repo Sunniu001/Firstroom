@@ -83,29 +83,31 @@
         <h4 class="facets--filters-title">{{ 'content.filters' | t }}</h4>
       {% endif %}
 
-      <div
-        class="products-count-wrapper"
-        data-testid="products-count"
-      >
-        <span role="status">
-          {% if products_count > 25000 %}
-            {{- 'content.item_count_cutoff' | t: count: 25000 -}}
-          {% else %}
-            {{- 'content.item_count' | t: count: products_count -}}
-          {% endif %}
-        </span>
-      </div>
+      {% if block_settings.filter_style != 'vertical' %}
+        <div
+          class="products-count-wrapper"
+          data-testid="products-count"
+        >
+          <span role="status">
+            {% if products_count > 25000 %}
+              {{- 'content.item_count_cutoff' | t: count: 25000 -}}
+            {% else %}
+              {{- 'content.item_count' | t: count: products_count -}}
+            {% endif %}
+          </span>
+        </div>
 
-      {% if block_settings.enable_sorting %}
-        {% render 'sorting',
-          results: results,
-          sort_by: sort_by,
-          filter_style: block_settings.filter_style,
-          suffix: 'desktop',
-          sort_position: 'desktop',
-          should_use_select_on_mobile: false,
-          section_id: section.id
-        %}
+        {% if block_settings.enable_sorting %}
+          {% render 'sorting',
+            results: results,
+            sort_by: sort_by,
+            filter_style: block_settings.filter_style,
+            suffix: 'desktop',
+            sort_position: 'desktop',
+            should_use_select_on_mobile: false,
+            section_id: section.id
+          %}
+        {% endif %}
       {% endif %}
 
       {% if block_settings.enable_grid_density %}
@@ -149,6 +151,21 @@
         section-id="{{ section.id }}"
         form-style="{{ block_settings.filter_style }}"
       >
+        {% if block_settings.filter_style == 'vertical' %}
+          <div
+            class="products-count-wrapper"
+            data-testid="products-count"
+            style="margin-block-end: var(--padding-md); font-weight: 500;"
+          >
+            <span role="status">
+              {% if products_count > 25000 %}
+                {{- 'content.item_count_cutoff' | t: count: 25000 -}}
+              {% else %}
+                {{- 'content.item_count' | t: count: products_count -}}
+              {% endif %}
+            </span>
+          </div>
+        {% endif %}
         {% if block_settings.enable_filtering and block_settings.filter_style == 'vertical' %}
           <h4 class="facets--filters-title" style="margin-block-end: var(--padding-md);">{{ 'content.filters' | t }}</h4>
         {% endif %}
@@ -244,6 +261,21 @@
                   </button>
                 </facet-remove-component>
               {% endif %}
+            {% endif %}
+            
+            {% if block_settings.enable_sorting and block_settings.filter_style == 'vertical' %}
+              <div class="facets__filters-wrapper">
+                {% render 'sorting',
+                  results: results,
+                  sort_by: sort_by,
+                  filter_style: block_settings.filter_style,
+                  suffix: 'desktop',
+                  sort_position: 'desktop',
+                  should_use_select_on_mobile: false,
+                  section_id: section.id,
+                  render_as_sidebar_list: true
+                %}
+              </div>
             {% endif %}
             {% if block_settings.filter_style == 'horizontal' %}
               <div

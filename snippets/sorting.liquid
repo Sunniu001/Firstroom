@@ -76,11 +76,12 @@
       class="facets__panel {% if should_use_select_on_mobile %} mobile:hidden {% endif %}"
       data-auto-close-details="desktop,mobile"
       on:toggle="/handleToggle"
+      {% if render_as_sidebar_list %}open{% endif %}
     >
       <summary
         class="facets__summary"
         role="button"
-        aria-expanded="false"
+        aria-expanded="{% if render_as_sidebar_list %}true{% else %}false{% endif %}"
         aria-controls="sorting-options-{{ section_id }}-{{ suffix }}"
         ref="summary"
       >
@@ -101,18 +102,18 @@
       </summary>
       <floating-panel-component
         id="sorting-options-{{ section_id }}-{{ suffix }}"
-        class="sorting-filter__options color-custom-popover"
+        class="{% if render_as_sidebar_list %}sorting-filter__options--sidebar{% else %}sorting-filter__options color-custom-popover{% endif %}"
         role="listbox"
         aria-labelledby="sort-label-{{ section_id }}"
         ref="listbox"
       >
-        <div class="sorting-filter__options-inner">
+        <div class="sorting-filter__options-inner {% if render_as_sidebar_list %}sorting-filter__options-inner--sidebar{% endif %}">
           {% for option in results.sort_options %}
             <label
               for="sort-option-{{ option.value }}-{{ section_id }}"
             >
               <div
-                class="sorting-filter__option"
+                class="sorting-filter__option {% if render_as_sidebar_list %}sorting-filter__option--sidebar{% endif %}"
                 role="option"
                 aria-selected="{% if option.value == sort_by %}true{% else %}false{% endif %}"
                 tabindex="{% if option.value == sort_by %}0{% else %}-1{% endif %}"
@@ -125,16 +126,20 @@
                     form="FacetFiltersForm--{{ section_id }}-{{ suffix }}"
                   {% endif %}
                   value="{{ option.value }}"
-                  class="sorting-filter__input"
+                  class="sorting-filter__input {% if render_as_sidebar_list %}sorting-filter__input--sidebar{% endif %}"
                   data-option-name="{{ option.name }}"
                   {% if option.value == sort_by %}
                     checked
                   {% endif %}
+                  {% unless render_as_sidebar_list %}
                   aria-hidden="true"
+                  {% endunless %}
                 >
+                {% unless render_as_sidebar_list %}
                 <span class="svg-wrapper icon-checkmark sorting-filter__checkmark">
                   {{- 'icon-checkmark.svg' | inline_asset_content -}}
                 </span>
+                {% endunless %}
                 <span class="sorting-filter__label">{{ option.name }}</span>
               </div>
             </label>
@@ -353,5 +358,64 @@
     @media screen and (min-width: 750px) {
       display: none;
     }
+  }
+
+  .sorting-filter__options--sidebar {
+    position: static;
+    box-shadow: none;
+    border: none;
+    background-color: transparent;
+    border-radius: 0;
+    width: 100%;
+    margin-top: 0;
+    opacity: 1 !important;
+    display: block !important;
+  }
+
+  .sorting-filter__options-inner--sidebar {
+    padding: 0;
+    gap: var(--padding-lg);
+  }
+
+  .sorting-filter__option--sidebar {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-sm);
+    padding: 0;
+    min-width: unset;
+    max-width: unset;
+  }
+
+  .sorting-filter__option--sidebar:hover {
+    background-color: transparent;
+  }
+
+  .sorting-filter__input--sidebar {
+    display: block;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--color-foreground);
+    border-radius: 50%;
+    margin: 0;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .sorting-filter__input--sidebar:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-foreground);
+    border-radius: 50%;
+  }
+
+  .sorting-filter__input--sidebar:focus-visible {
+    outline: 2px solid var(--color-foreground);
+    outline-offset: 2px;
   }
 {% endstylesheet %}
