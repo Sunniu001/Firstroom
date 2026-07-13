@@ -1,80 +1,216 @@
 {% comment %}
   FR Footer – Block-based footer section
   4 block types: brand, quick_links, information, contact
-  Background image set via Shopify Visual Builder on the section itself.
+  Full typography, alignment, and mobile controls.
 {% endcomment %}
 
+{%- liquid
+  assign bg_img = section.settings.background_image
+  assign bg_img_mobile = section.settings.background_image_mobile
+  assign bg_pos = section.settings.bg_position | default: 'center'
+  assign bg_pos_mobile = section.settings.bg_position_mobile | default: bg_pos
+
+  assign heading_font = section.settings.heading_font
+  assign link_font = section.settings.link_font
+
+  assign h_size = section.settings.heading_size | default: 11
+  assign h_size_m = section.settings.heading_size_mobile | default: h_size
+  assign h_color = section.settings.heading_color | default: '#3a3a3a'
+  assign h_spacing = section.settings.heading_letter_spacing | default: 16
+  assign h_weight = section.settings.heading_weight | default: '700'
+
+  assign l_size = section.settings.link_size | default: 11
+  assign l_size_m = section.settings.link_size_mobile | default: l_size
+  assign l_color = section.settings.link_color | default: '#4a4a4a'
+  assign l_hover = section.settings.link_hover_color | default: '#c2593f'
+  assign l_weight = section.settings.link_weight | default: '500'
+  assign l_spacing = section.settings.link_letter_spacing | default: 10
+
+  assign t_align = section.settings.text_align | default: 'left'
+  assign t_align_m = section.settings.text_align_mobile | default: t_align
+
+  assign cols_m = section.settings.columns_mobile | default: 1
+  assign grid_max = section.settings.grid_max_width | default: 1200
+  assign grid_gap = section.settings.grid_gap | default: 40
+
+  assign pt = section.settings.padding_top | default: 60
+  assign pb = section.settings.padding_bottom | default: 60
+  assign ph = section.settings.padding_horizontal | default: 40
+  assign pt_m = section.settings.padding_top_mobile | default: pt
+  assign pb_m = section.settings.padding_bottom_mobile | default: pb
+  assign ph_m = section.settings.padding_horizontal_mobile | default: ph
+
+  assign copyright_color = section.settings.copyright_color | default: '#555555'
+  assign copyright_bg = section.settings.copyright_bg | default: '#ffffff'
+-%}
+
 <style>
-  .fr-footer {
-    font-family: var(--font-body--family, 'Inter', sans-serif);
+  #fr-footer-{{ section.id }} {
+    --fr-footer-h-font: {{ heading_font.family }}, {{ heading_font.fallback_families }};
+    --fr-footer-h-style: {{ heading_font.style }};
+    --fr-footer-h-weight: {{ h_weight }};
+    --fr-footer-h-size: {{ h_size }}px;
+    --fr-footer-h-size-m: {{ h_size_m }}px;
+    --fr-footer-h-color: {{ h_color }};
+    --fr-footer-h-spacing: {{ h_spacing | divided_by: 100.0 }}em;
+
+    --fr-footer-l-font: {{ link_font.family }}, {{ link_font.fallback_families }};
+    --fr-footer-l-style: {{ link_font.style }};
+    --fr-footer-l-weight: {{ l_weight }};
+    --fr-footer-l-size: {{ l_size }}px;
+    --fr-footer-l-size-m: {{ l_size_m }}px;
+    --fr-footer-l-color: {{ l_color }};
+    --fr-footer-l-hover: {{ l_hover }};
+    --fr-footer-l-spacing: {{ l_spacing | divided_by: 100.0 }}em;
+
+    --fr-footer-align: {{ t_align }};
+    --fr-footer-align-m: {{ t_align_m }};
+
+    --fr-footer-grid-max: {{ grid_max }}px;
+    --fr-footer-grid-gap: {{ grid_gap }}px;
+
+    --fr-footer-pt: {{ pt }}px;
+    --fr-footer-pb: {{ pb }}px;
+    --fr-footer-ph: {{ ph }}px;
+    --fr-footer-pt-m: {{ pt_m }}px;
+    --fr-footer-pb-m: {{ pb_m }}px;
+    --fr-footer-ph-m: {{ ph_m }}px;
+
     position: relative;
+    overflow: hidden;
   }
 
-  .fr-footer__grid {
-    max-width: 1200px;
+  /* ── Background image layers ── */
+  #fr-footer-{{ section.id }} .fr-footer__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  #fr-footer-{{ section.id }} .fr-footer__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  #fr-footer-{{ section.id }} .fr-footer__bg .fr-footer__bg-desktop {
+    object-position: {{ bg_pos }};
+  }
+  #fr-footer-{{ section.id }} .fr-footer__bg .fr-footer__bg-mobile {
+    object-position: {{ bg_pos_mobile }};
+    display: none;
+  }
+  @media (max-width: 767px) {
+    #fr-footer-{{ section.id }} .fr-footer__bg .fr-footer__bg-desktop {
+      {% if bg_img_mobile != blank %}display: none;{% endif %}
+    }
+    #fr-footer-{{ section.id }} .fr-footer__bg .fr-footer__bg-mobile {
+      display: block;
+    }
+  }
+
+  /* ── Grid ── */
+  #fr-footer-{{ section.id }} .fr-footer__grid {
+    position: relative;
+    z-index: 1;
+    max-width: var(--fr-footer-grid-max);
     margin: 0 auto;
-    padding: 60px 40px 60px;
+    padding: var(--fr-footer-pt) var(--fr-footer-ph) var(--fr-footer-pb);
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 40px;
+    gap: var(--fr-footer-grid-gap);
+    text-align: var(--fr-footer-align);
   }
 
-  /* ── Block: Brand ── */
-  .fr-footer-brand__logo {
+  @media (max-width: 767px) {
+    #fr-footer-{{ section.id }} .fr-footer__grid {
+      grid-template-columns: repeat({{ cols_m }}, 1fr);
+      padding: var(--fr-footer-pt-m) var(--fr-footer-ph-m) var(--fr-footer-pb-m);
+      text-align: var(--fr-footer-align-m);
+    }
+  }
+
+  /* ── Brand block ── */
+  #fr-footer-{{ section.id }} .fr-footer-brand__logo {
     display: block;
     margin-bottom: 22px;
     width: 130px;
   }
-  .fr-footer-brand__logo img {
+  #fr-footer-{{ section.id }} .fr-footer-brand__logo img {
     width: 100%;
     height: auto;
   }
-  .fr-footer-brand__tagline {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
+  #fr-footer-{{ section.id }} .fr-footer-brand__tagline {
+    font-family: var(--fr-footer-h-font);
+    font-style: var(--fr-footer-h-style);
+    font-weight: var(--fr-footer-h-weight);
+    font-size: var(--fr-footer-h-size);
+    letter-spacing: var(--fr-footer-h-spacing);
     text-transform: uppercase;
-    color: #3a3a3a;
+    color: var(--fr-footer-h-color);
     margin-bottom: 14px;
   }
-  .fr-footer-brand__socials {
+  @media (max-width: 767px) {
+    #fr-footer-{{ section.id }} .fr-footer-brand__tagline {
+      font-size: var(--fr-footer-h-size-m);
+    }
+    #fr-footer-{{ section.id }} .fr-footer-brand__logo {
+      {% if t_align_m == 'center' %}margin-left: auto; margin-right: auto;{% elsif t_align_m == 'right' %}margin-left: auto;{% endif %}
+    }
+  }
+
+  #fr-footer-{{ section.id }} .fr-footer-brand__socials {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
+    {% if t_align == 'center' %}justify-content: center;{% elsif t_align == 'right' %}justify-content: flex-end;{% endif %}
   }
-  .fr-footer-brand__social-link {
+  @media (max-width: 767px) {
+    #fr-footer-{{ section.id }} .fr-footer-brand__socials {
+      {% if t_align_m == 'center' %}justify-content: center;{% elsif t_align_m == 'right' %}justify-content: flex-end;{% else %}justify-content: flex-start;{% endif %}
+    }
+  }
+
+  #fr-footer-{{ section.id }} .fr-footer-brand__social-link {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 34px;
     height: 34px;
     border-radius: 50%;
-    border: 1.5px solid #3a3a3a;
-    color: #3a3a3a;
+    border: 1.5px solid var(--fr-footer-h-color);
+    color: var(--fr-footer-h-color);
     text-decoration: none;
     transition: background 0.2s ease, color 0.2s ease;
     flex-shrink: 0;
   }
-  .fr-footer-brand__social-link:hover {
-    background: #3a3a3a;
+  #fr-footer-{{ section.id }} .fr-footer-brand__social-link:hover {
+    background: var(--fr-footer-h-color);
     color: #fff;
   }
-  .fr-footer-brand__social-link svg {
+  #fr-footer-{{ section.id }} .fr-footer-brand__social-link svg {
     width: 15px;
     height: 15px;
     fill: currentColor;
   }
 
-  /* ── Block: Links (Quick Links & Information) ── */
-  .fr-footer-links__title {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.16em;
+  /* ── Links blocks ── */
+  #fr-footer-{{ section.id }} .fr-footer-links__title {
+    font-family: var(--fr-footer-h-font);
+    font-style: var(--fr-footer-h-style);
+    font-weight: var(--fr-footer-h-weight);
+    font-size: var(--fr-footer-h-size);
+    letter-spacing: var(--fr-footer-h-spacing);
     text-transform: uppercase;
-    color: #3a3a3a;
+    color: var(--fr-footer-h-color);
     margin-bottom: 18px;
   }
-  .fr-footer-links__list {
+  @media (max-width: 767px) {
+    #fr-footer-{{ section.id }} .fr-footer-links__title {
+      font-size: var(--fr-footer-h-size-m);
+    }
+  }
+
+  #fr-footer-{{ section.id }} .fr-footer-links__list {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -82,107 +218,152 @@
     flex-direction: column;
     gap: 11px;
   }
-  .fr-footer-links__list a {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.1em;
+  #fr-footer-{{ section.id }} .fr-footer-links__list a {
+    font-family: var(--fr-footer-l-font);
+    font-style: var(--fr-footer-l-style);
+    font-weight: var(--fr-footer-l-weight);
+    font-size: var(--fr-footer-l-size);
+    letter-spacing: var(--fr-footer-l-spacing);
     text-transform: uppercase;
-    color: #4a4a4a;
+    color: var(--fr-footer-l-color);
     text-decoration: none;
     transition: color 0.2s ease;
     line-height: 1.4;
   }
-  .fr-footer-links__list a:hover {
-    color: #c2593f;
+  @media (max-width: 767px) {
+    #fr-footer-{{ section.id }} .fr-footer-links__list a {
+      font-size: var(--fr-footer-l-size-m);
+    }
+  }
+  #fr-footer-{{ section.id }} .fr-footer-links__list a:hover {
+    color: var(--fr-footer-l-hover);
   }
 
-  /* ── Block: Contact ── */
-  .fr-footer-contact__title {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.16em;
+  /* ── Contact block ── */
+  #fr-footer-{{ section.id }} .fr-footer-contact__title {
+    font-family: var(--fr-footer-h-font);
+    font-style: var(--fr-footer-h-style);
+    font-weight: var(--fr-footer-h-weight);
+    font-size: var(--fr-footer-h-size);
+    letter-spacing: var(--fr-footer-h-spacing);
     text-transform: uppercase;
-    color: #3a3a3a;
+    color: var(--fr-footer-h-color);
     margin-bottom: 18px;
   }
-  .fr-footer-contact__item {
+  @media (max-width: 767px) {
+    #fr-footer-{{ section.id }} .fr-footer-contact__title {
+      font-size: var(--fr-footer-h-size-m);
+    }
+  }
+
+  #fr-footer-{{ section.id }} .fr-footer-contact__item {
     display: flex;
     align-items: flex-start;
     gap: 10px;
     margin-bottom: 16px;
+    {% if t_align == 'center' %}justify-content: center;{% elsif t_align == 'right' %}justify-content: flex-end;{% endif %}
   }
-  .fr-footer-contact__icon {
+  @media (max-width: 767px) {
+    #fr-footer-{{ section.id }} .fr-footer-contact__item {
+      {% if t_align_m == 'center' %}justify-content: center;{% elsif t_align_m == 'right' %}justify-content: flex-end;{% else %}justify-content: flex-start;{% endif %}
+    }
+  }
+
+  #fr-footer-{{ section.id }} .fr-footer-contact__icon {
     flex-shrink: 0;
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    border: 1.5px solid #4a4a4a;
+    border: 1.5px solid var(--fr-footer-l-color);
     display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 1px;
   }
-  .fr-footer-contact__icon svg {
+  #fr-footer-{{ section.id }} .fr-footer-contact__icon svg {
     width: 13px;
     height: 13px;
-    stroke: #4a4a4a;
+    stroke: var(--fr-footer-l-color);
     fill: none;
     stroke-width: 1.8;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
-  .fr-footer-contact__text {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.06em;
+  #fr-footer-{{ section.id }} .fr-footer-contact__text {
+    font-family: var(--fr-footer-l-font);
+    font-style: var(--fr-footer-l-style);
+    font-weight: var(--fr-footer-l-weight);
+    font-size: var(--fr-footer-l-size);
+    letter-spacing: var(--fr-footer-l-spacing);
     text-transform: uppercase;
-    color: #4a4a4a;
+    color: var(--fr-footer-l-color);
     line-height: 1.6;
   }
-  .fr-footer-contact__text a {
+  @media (max-width: 767px) {
+    #fr-footer-{{ section.id }} .fr-footer-contact__text {
+      font-size: var(--fr-footer-l-size-m);
+    }
+  }
+  #fr-footer-{{ section.id }} .fr-footer-contact__text a {
     color: inherit;
     text-decoration: none;
   }
-  .fr-footer-contact__text a:hover {
-    color: #c2593f;
+  #fr-footer-{{ section.id }} .fr-footer-contact__text a:hover {
+    color: var(--fr-footer-l-hover);
   }
 
   /* ── Copyright bar ── */
-  .fr-footer__copyright {
-    background: #fff;
+  #fr-footer-{{ section.id }} .fr-footer__copyright {
+    position: relative;
+    z-index: 1;
+    background: {{ copyright_bg }};
     text-align: center;
     padding: 14px 20px;
     font-size: 12px;
-    color: #555;
+    color: {{ copyright_color }};
     letter-spacing: 0.03em;
     border-top: 1px solid #e0e0e0;
   }
-
-  /* ── Responsive ── */
-  @media (max-width: 900px) {
-    .fr-footer__grid {
-      grid-template-columns: 1fr 1fr;
-      padding: 40px 24px 40px;
-    }
-  }
-  @media (max-width: 540px) {
-    .fr-footer__grid {
-      grid-template-columns: 1fr;
-      padding: 32px 20px 32px;
-    }
-  }
 </style>
 
-{%- if section.settings.background_image != blank -%}
-  {%- assign bg_url = section.settings.background_image | image_url: width: 2000 -%}
-  <section class="fr-footer" id="fr-footer" style="background-image: url('{{ bg_url }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
-{%- else -%}
-  <section class="fr-footer" id="fr-footer">
-{%- endif -%}
-  <div class="fr-footer__grid" style="padding: {{ section.settings.padding_top }}px {{ section.settings.padding_horizontal }}px {{ section.settings.padding_bottom }}px;">
+<section id="fr-footer-{{ section.id }}">
+  {%- comment -%} Background image layer {%- endcomment -%}
+  {%- if bg_img != blank or bg_img_mobile != blank -%}
+    <div class="fr-footer__bg" aria-hidden="true">
+      {%- if bg_img != blank -%}
+        <img
+          class="fr-footer__bg-desktop"
+          src="{{ bg_img | image_url: width: 2400 }}"
+          alt=""
+          loading="lazy"
+          width="{{ bg_img.width }}"
+          height="{{ bg_img.height }}"
+        >
+      {%- endif -%}
+      {%- if bg_img_mobile != blank -%}
+        <img
+          class="fr-footer__bg-mobile"
+          src="{{ bg_img_mobile | image_url: width: 800 }}"
+          alt=""
+          loading="lazy"
+          width="{{ bg_img_mobile.width }}"
+          height="{{ bg_img_mobile.height }}"
+        >
+      {%- elsif bg_img != blank -%}
+        <img
+          class="fr-footer__bg-mobile"
+          src="{{ bg_img | image_url: width: 800 }}"
+          alt=""
+          loading="lazy"
+          width="{{ bg_img.width }}"
+          height="{{ bg_img.height }}"
+        >
+      {%- endif -%}
+    </div>
+  {%- endif -%}
 
+  <div class="fr-footer__grid">
     {%- for block in section.blocks -%}
-
       {%- case block.type -%}
 
         {%- when 'brand' -%}
@@ -196,7 +377,7 @@
                   loading="lazy"
                 >
               {%- else -%}
-                <span style="font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#3a3a3a;">{{ shop.name }}</span>
+                <span style="font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--fr-footer-h-color);">{{ shop.name }}</span>
               {%- endif -%}
             </a>
 
@@ -315,9 +496,7 @@
           </div>
 
       {%- endcase -%}
-
     {%- endfor -%}
-
   </div>
 
   <div class="fr-footer__copyright">
@@ -334,17 +513,230 @@
   "settings": [
     {
       "type": "header",
-      "content": "Background"
+      "content": "Background Image"
     },
     {
       "type": "image_picker",
       "id": "background_image",
-      "label": "Background Image",
-      "info": "Recommended: wide image, 2000px+. Displays behind all 4 footer columns."
+      "label": "Desktop Background Image",
+      "info": "Recommended: wide image, 2000px+."
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image_mobile",
+      "label": "Mobile Background Image",
+      "info": "Optional. Falls back to desktop image if empty."
+    },
+    {
+      "type": "select",
+      "id": "bg_position",
+      "label": "Desktop BG Position",
+      "options": [
+        { "value": "center", "label": "Center" },
+        { "value": "top center", "label": "Top" },
+        { "value": "bottom center", "label": "Bottom" },
+        { "value": "left center", "label": "Left" },
+        { "value": "right center", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "bg_position_mobile",
+      "label": "Mobile BG Position",
+      "options": [
+        { "value": "center", "label": "Center" },
+        { "value": "top center", "label": "Top" },
+        { "value": "bottom center", "label": "Bottom" },
+        { "value": "left center", "label": "Left" },
+        { "value": "right center", "label": "Right" }
+      ],
+      "default": "bottom center"
     },
     {
       "type": "header",
-      "content": "Padding"
+      "content": "Typography — Headings"
+    },
+    {
+      "type": "font_picker",
+      "id": "heading_font",
+      "label": "Heading Font",
+      "default": "lato_n7"
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading Weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 8,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Size (Desktop)",
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 8,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Size (Mobile)",
+      "default": 11
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#3a3a3a"
+    },
+    {
+      "type": "range",
+      "id": "heading_letter_spacing",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "label": "Heading Letter Spacing",
+      "info": "Value in hundredths of em (16 = 0.16em)",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Typography — Links / Body"
+    },
+    {
+      "type": "font_picker",
+      "id": "link_font",
+      "label": "Link Font",
+      "default": "lato_n5"
+    },
+    {
+      "type": "select",
+      "id": "link_weight",
+      "label": "Link Weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "range",
+      "id": "link_size",
+      "min": 8,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Link Size (Desktop)",
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "link_size_mobile",
+      "min": 8,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Link Size (Mobile)",
+      "default": 11
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link Color",
+      "default": "#4a4a4a"
+    },
+    {
+      "type": "color",
+      "id": "link_hover_color",
+      "label": "Link Hover Color",
+      "default": "#c2593f"
+    },
+    {
+      "type": "range",
+      "id": "link_letter_spacing",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "label": "Link Letter Spacing",
+      "info": "Value in hundredths of em (10 = 0.10em)",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Alignment"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text Alignment (Desktop)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "text_align_mobile",
+      "label": "Text Alignment (Mobile)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "grid_max_width",
+      "min": 800,
+      "max": 1600,
+      "step": 50,
+      "unit": "px",
+      "label": "Content Max Width",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Column Gap",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "min": 1,
+      "max": 2,
+      "step": 1,
+      "label": "Mobile Columns",
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Padding — Desktop"
     },
     {
       "type": "range",
@@ -378,13 +770,59 @@
     },
     {
       "type": "header",
-      "content": "Copyright"
+      "content": "Padding — Mobile"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Mobile Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Mobile Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal_mobile",
+      "label": "Mobile Padding Left & Right",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Copyright Bar"
     },
     {
       "type": "text",
       "id": "copyright_text",
       "label": "Copyright Text",
       "default": "All rights reserved | \u00a9 2026 First Room Collective"
+    },
+    {
+      "type": "color",
+      "id": "copyright_color",
+      "label": "Copyright Text Color",
+      "default": "#555555"
+    },
+    {
+      "type": "color",
+      "id": "copyright_bg",
+      "label": "Copyright Background",
+      "default": "#ffffff"
     }
   ],
   "blocks": [
