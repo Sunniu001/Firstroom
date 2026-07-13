@@ -123,6 +123,7 @@
       facets-block-wrapper--{{ block_settings.filter_style }}
       {%- if block_settings.inherit_color_scheme == false %} color-{{ block_settings.color_scheme }}{% endif %}
       {%- if block_settings.filter_width == 'full-width' %} facets-block-wrapper--full-width{% endif %}
+      {%- if block_settings.enable_sticky %} facets-block-wrapper--sticky{% endif %}
     "
     style="
       --grid-column--desktop:
@@ -517,6 +518,16 @@
   .facets-block-wrapper--vertical {
     @media screen and (min-width: 750px) {
       grid-column: var(--grid-column--desktop);
+    }
+  }
+
+  .facets-block-wrapper--vertical.facets-block-wrapper--sticky {
+    @media screen and (min-width: 750px) {
+      position: sticky;
+      top: calc(var(--header-height, 0px) + 20px);
+      align-self: start;
+      max-height: calc(100vh - var(--header-height, 0px) - 40px);
+      overflow-y: auto;
     }
   }
 
@@ -1403,6 +1414,12 @@
       "type": "checkbox",
       "id": "inherit_color_scheme",
       "label": "t:settings.inherit_color_scheme",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky",
+      "label": "Enable Sticky on Desktop",
       "default": true
     },
     {
