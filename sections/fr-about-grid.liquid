@@ -8,10 +8,14 @@
       --pb-m: {{ section.settings.padding_bottom_mobile | default: section.settings.padding_bottom }}px;
       --pl-m: {{ section.settings.padding_left_mobile | default: section.settings.padding_left }}px;
       --pr-m: {{ section.settings.padding_right_mobile | default: section.settings.padding_right }}px;
+      --ta-d: {{ section.settings.text_align }};
+      --ta-m: {{ section.settings.text_align_mobile | default: section.settings.text_align }};
+      --img-mw-d: {{ section.settings.image_max_width }}px;
+      --img-mw-m: {{ section.settings.image_max_width_mobile | default: section.settings.image_max_width }}px;
     ">
     
     {%- if section.settings.heading != blank -%}
-      <h2 class="fr-about-grid__main-heading" style="text-align: {{ section.settings.heading_align }}; --fz-mh-d: {{ section.settings.heading_size }}px; --fz-mh-m: {{ section.settings.heading_size_mobile | default: section.settings.heading_size | times: 0.8 | round }}px; color: {{ section.settings.heading_color }};">
+      <h2 class="fr-about-grid__main-heading" style="--fz-mh-d: {{ section.settings.heading_size }}px; --fz-mh-m: {{ section.settings.heading_size_mobile | default: section.settings.heading_size | times: 0.8 | round }}px; color: {{ section.settings.heading_color }};">
         {{ section.settings.heading }}
       </h2>
     {%- endif -%}
@@ -30,7 +34,7 @@
             <a href="{{ block.settings.link }}" class="fr-about-grid__link"></a>
           {%- endif -%}
           
-          <div class="fr-about-grid__image-wrapper fr-about-grid__shape--{{ section.settings.image_shape }}" style="max-width: {{ section.settings.image_max_width }}px; margin: 0 auto;">
+          <div class="fr-about-grid__image-wrapper fr-about-grid__shape--{{ section.settings.image_shape }}">
             {%- if block.settings.image != blank -%}
               <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.title | escape }}" loading="lazy" class="fr-about-grid__img">
             {%- else -%}
@@ -39,7 +43,7 @@
           </div>
 
           {%- if block.settings.title != blank or block.settings.subtitle != blank -%}
-            <div class="fr-about-grid__text-content" style="text-align: {{ section.settings.text_align }};">
+            <div class="fr-about-grid__text-content">
               {%- if block.settings.title != blank -%}
                 <h3 class="fr-about-grid__title" style="--fz-t-d: {{ section.settings.title_size }}px; --fz-t-m: {{ section.settings.title_size_mobile | default: section.settings.title_size | times: 0.8 | round }}px; color: {{ section.settings.title_color }};">{{ block.settings.title }}</h3>
               {%- endif -%}
@@ -79,9 +83,13 @@
     margin-bottom: 40px;
     letter-spacing: 0.01em;
     font-size: var(--fz-mh-m);
+    text-align: {{ section.settings.heading_align_mobile | default: section.settings.heading_align }};
   }
 
   @media (min-width: 768px) {
+    .fr-about-grid__main-heading {
+      text-align: {{ section.settings.heading_align }};
+    }
     #fr-about-grid-{{ section.id }} .fr-about-grid__wrapper {
       padding-top: var(--pt-d);
       padding-bottom: var(--pb-d);
@@ -132,11 +140,16 @@
   }
 
   .fr-about-grid__image-wrapper {
-    width: 100%;
     position: relative;
     overflow: hidden;
-    background-color: #e5e7eb; /* Default gray for placeholder circles */
-    margin-bottom: 20px !important;
+    margin: 0 auto 24px auto;
+    max-width: var(--img-mw-m);
+  }
+
+  @media (min-width: 768px) {
+    .fr-about-grid__image-wrapper {
+      max-width: var(--img-mw-d);
+    }
   }
 
   /* Shapes */
@@ -186,6 +199,13 @@
 
   .fr-about-grid__text-content {
     width: 100%;
+    text-align: var(--ta-m);
+  }
+
+  @media (min-width: 768px) {
+    .fr-about-grid__text-content {
+      text-align: var(--ta-d);
+    }
   }
 
   .fr-about-grid__title {
@@ -228,7 +248,18 @@
     {
       "type": "select",
       "id": "heading_align",
-      "label": "Heading Alignment",
+      "label": "Desktop Heading Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "heading_align_mobile",
+      "label": "Mobile Heading Alignment",
       "options": [
         { "value": "left", "label": "Left" },
         { "value": "center", "label": "Center" },
@@ -343,8 +374,18 @@
       "max": 400,
       "step": 10,
       "unit": "px",
-      "label": "Image Max Width",
+      "label": "Desktop Image Max Width",
       "default": 200
+    },
+    {
+      "type": "range",
+      "id": "image_max_width_mobile",
+      "min": 50,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "label": "Mobile Image Max Width",
+      "default": 150
     },
     {
       "type": "header",
@@ -353,7 +394,18 @@
     {
       "type": "select",
       "id": "text_align",
-      "label": "Text Alignment",
+      "label": "Desktop Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "text_align_mobile",
+      "label": "Mobile Text Alignment",
       "options": [
         { "value": "left", "label": "Left" },
         { "value": "center", "label": "Center" },
