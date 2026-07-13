@@ -2,29 +2,37 @@
   <div
     class="fr-contact__hero-split"
     style="
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
-      padding-left: {{ section.settings.padding_left }}px;
-      padding-right: {{ section.settings.padding_right }}px;
+      --pt-d: {{ section.settings.padding_top }}px;
+      --pb-d: {{ section.settings.padding_bottom }}px;
+      --pl-d: {{ section.settings.padding_left }}px;
+      --pr-d: {{ section.settings.padding_right }}px;
+      --pt-m: {{ section.settings.padding_top_mobile | default: section.settings.padding_top }}px;
+      --pb-m: {{ section.settings.padding_bottom_mobile | default: section.settings.padding_bottom }}px;
+      --pl-m: {{ section.settings.padding_left_mobile | default: 20 }}px;
+      --pr-m: {{ section.settings.padding_right_mobile | default: 20 }}px;
+      --ta-m: {{ section.settings.text_align_mobile | default: 'left' }};
+      --fz-h-m: {{ section.settings.heading_size_mobile | default: section.settings.heading_size | times: 0.8 | round }}px;
+      --fz-t-m: {{ section.settings.text_size_mobile | default: section.settings.text_size }}px;
+      --ar-m: {{ section.settings.image_aspect_ratio_mobile | default: 'auto' }};
     "
   >
     <div class="fr-contact__hero-left">
       {%- if section.settings.heading != blank -%}
-        <h1 class="fr-contact__main-title" style="font-size: {{ section.settings.heading_size }}px;">
+        <h1 class="fr-contact__main-title" style="--fz-h-d: {{ section.settings.heading_size }}px;">
           {{ section.settings.heading }}
         </h1>
       {%- endif -%}
 
-      <div class="fr-contact__details-list">
+      <div class="fr-contact__details-list" style="--fz-t-d: {{ section.settings.text_size }}px;">
         {%- if section.settings.phone != blank -%}
-          <p class="fr-contact__detail-line" style="font-size: {{ section.settings.text_size }}px;">
+          <p class="fr-contact__detail-line">
             <span class="fr-contact__detail-label">{{ section.settings.phone_label }}</span>
             <a href="https://wa.me/{{ section.settings.phone | replace: ' ', '' | replace: '+', '' }}" target="_blank" class="fr-contact__detail-link">{{ section.settings.phone }}</a>
           </p>
         {%- endif -%}
 
         {%- if section.settings.email != blank -%}
-          <p class="fr-contact__detail-line" style="font-size: {{ section.settings.text_size }}px;">
+          <p class="fr-contact__detail-line">
             <span class="fr-contact__detail-label">{{ section.settings.email_label }}</span>
             <a href="mailto:{{ section.settings.email }}" class="fr-contact__detail-link">{{ section.settings.email }}</a>
           </p>
@@ -91,11 +99,19 @@
     grid-template-columns: 1fr;
     gap: 0;
     align-items: stretch;
+    padding-top: var(--pt-m);
+    padding-bottom: var(--pb-m);
+    padding-left: var(--pl-m);
+    padding-right: var(--pr-m);
   }
 
   @media (min-width: 768px) {
     .fr-contact__hero-split {
       grid-template-columns: 1fr 1.4fr;
+      padding-top: var(--pt-d);
+      padding-bottom: var(--pb-d);
+      padding-left: var(--pl-d);
+      padding-right: var(--pr-d);
     }
   }
 
@@ -108,7 +124,15 @@
 
   @media (max-width: 767px) {
     .fr-contact__hero-left {
-      padding: 40px 20px;
+      padding: 0 0 40px 0;
+      text-align: var(--ta-m);
+      align-items: var(--ta-m);
+    }
+    .fr-contact__hero-left[style*="--ta-m: center;"] {
+      align-items: center;
+    }
+    .fr-contact__hero-left[style*="--ta-m: right;"] {
+      align-items: flex-end;
     }
   }
 
@@ -119,6 +143,12 @@
     color: #1a1a1a;
     margin: 0 0 24px 0;
     letter-spacing: 0.01em;
+    font-size: var(--fz-h-d);
+  }
+  @media (max-width: 767px) {
+    .fr-contact__main-title {
+      font-size: var(--fz-h-m);
+    }
   }
 
   .fr-contact__details-list {
@@ -132,6 +162,12 @@
     margin: 0;
     font-weight: 400;
     color: #1a1a1a;
+    font-size: var(--fz-t-d);
+  }
+  @media (max-width: 767px) {
+    .fr-contact__detail-line {
+      font-size: var(--fz-t-m);
+    }
   }
 
   .fr-contact__detail-label {
@@ -159,6 +195,11 @@
     gap: 10px;
     margin-top: 8px;
   }
+  @media (max-width: 767px) {
+    .fr-contact__social-row {
+      justify-content: inherit;
+    }
+  }
 
   .fr-contact__social-icon {
     display: flex;
@@ -180,6 +221,12 @@
     overflow: hidden;
     min-height: 260px;
   }
+  @media (max-width: 767px) {
+    .fr-contact__hero-right {
+      min-height: unset;
+      aspect-ratio: var(--ar-m);
+    }
+  }
 
   .fr-contact__hero-img {
     width: 100%;
@@ -193,6 +240,11 @@
     height: 100%;
     min-height: 260px;
     background-color: #f0ebe5;
+  }
+  @media (max-width: 767px) {
+    .fr-contact__hero-placeholder {
+      min-height: unset;
+    }
   }
 </style>
 
@@ -364,6 +416,94 @@
       "unit": "px",
       "label": "Padding Right",
       "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Mobile Settings"
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio_mobile",
+      "label": "Mobile Image Aspect Ratio",
+      "options": [
+        { "value": "auto", "label": "Auto" },
+        { "value": "1 / 1", "label": "Square (1:1)" },
+        { "value": "4 / 3", "label": "Landscape (4:3)" },
+        { "value": "3 / 4", "label": "Portrait (3:4)" },
+        { "value": "16 / 9", "label": "Widescreen (16:9)" }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "select",
+      "id": "text_align_mobile",
+      "label": "Mobile Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 16,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile Heading Size",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "text_size_mobile",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile Text Size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile Padding Top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile Padding Bottom",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_left_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile Padding Left",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_right_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile Padding Right",
+      "default": 20
     }
   ],
   "presets": [

@@ -2,10 +2,16 @@
   <div
     class="fr-contact__work-split"
     style="
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
-      padding-left: {{ section.settings.padding_left }}px;
-      padding-right: {{ section.settings.padding_right }}px;
+      --pt-d: {{ section.settings.padding_top }}px;
+      --pb-d: {{ section.settings.padding_bottom }}px;
+      --pl-d: {{ section.settings.padding_left }}px;
+      --pr-d: {{ section.settings.padding_right }}px;
+      --pt-m: {{ section.settings.padding_top_mobile | default: section.settings.padding_top }}px;
+      --pb-m: {{ section.settings.padding_bottom_mobile | default: section.settings.padding_bottom }}px;
+      --pl-m: {{ section.settings.padding_left_mobile | default: 20 }}px;
+      --pr-m: {{ section.settings.padding_right_mobile | default: 20 }}px;
+      --fz-h-m: {{ section.settings.heading_size_mobile | default: section.settings.heading_size | times: 0.8 | round }}px;
+      --fz-t-m: {{ section.settings.text_size_mobile | default: section.settings.text_size }}px;
     "
   >
     <div class="fr-contact__work-image">
@@ -22,15 +28,15 @@
 
     <div class="fr-contact__work-content">
       {%- if section.settings.heading != blank -%}
-        <h2 class="fr-contact__serif-title" style="font-size: {{ section.settings.heading_size }}px;">{{ section.settings.heading }}</h2>
+        <h2 class="fr-contact__serif-title" style="--fz-h-d: {{ section.settings.heading_size }}px;">{{ section.settings.heading }}</h2>
       {%- endif -%}
       {%- if section.settings.body_text != blank -%}
-        <div class="fr-contact__work-text" style="font-size: {{ section.settings.text_size }}px;">
+        <div class="fr-contact__work-text" style="--fz-t-d: {{ section.settings.text_size }}px;">
           {{ section.settings.body_text }}
         </div>
       {%- endif -%}
       {%- if section.settings.email_link != blank -%}
-        <a href="mailto:{{ section.settings.email_link }}" class="fr-contact__work-email" style="font-size: {{ section.settings.text_size }}px;">{{ section.settings.email_link }}</a>
+        <a href="mailto:{{ section.settings.email_link }}" class="fr-contact__work-email" style="--fz-t-d: {{ section.settings.text_size }}px;">{{ section.settings.email_link }}</a>
       {%- endif -%}
     </div>
   </div>
@@ -50,12 +56,20 @@
     max-width: 1100px;
     margin: 0 auto;
     align-items: center;
+    padding-top: var(--pt-m);
+    padding-bottom: var(--pb-m);
+    padding-left: var(--pl-m);
+    padding-right: var(--pr-m);
   }
 
   @media (min-width: 768px) {
     .fr-contact__work-split {
       grid-template-columns: 1fr 1.3fr;
       gap: 80px;
+      padding-top: var(--pt-d);
+      padding-bottom: var(--pb-d);
+      padding-left: var(--pl-d);
+      padding-right: var(--pr-d);
     }
   }
 
@@ -64,6 +78,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    order: 2;
+  }
+  .fr-contact__work-content {
+    order: 1;
+  }
+
+  @media (min-width: 768px) {
+    .fr-contact__work-image {
+      order: 1;
+    }
+    .fr-contact__work-content {
+      order: 2;
+    }
   }
   
   .fr-contact__work-img {
@@ -78,6 +105,12 @@
     margin-top: 0;
     margin-bottom: 20px;
     letter-spacing: 0.01em;
+    font-size: var(--fz-h-d);
+  }
+  @media (max-width: 767px) {
+    .fr-contact__serif-title {
+      font-size: var(--fz-h-m);
+    }
   }
 
   .fr-contact__work-text {
@@ -85,6 +118,12 @@
     color: #4a4a4a;
     line-height: 1.7;
     margin-bottom: 20px;
+    font-size: var(--fz-t-d);
+  }
+  @media (max-width: 767px) {
+    .fr-contact__work-text {
+      font-size: var(--fz-t-m);
+    }
   }
 
   .fr-contact__work-text p {
@@ -98,6 +137,13 @@
     text-decoration: underline;
     text-underline-offset: 4px;
     transition: color 0.2s ease;
+    font-size: var(--fz-t-d);
+  }
+  @media (max-width: 767px) {
+    .fr-contact__work-email {
+      font-size: var(--fz-t-m);
+    }
+  }
   }
 
   .fr-contact__work-email:hover {
@@ -230,6 +276,70 @@
       "unit": "px",
       "label": "Padding Right",
       "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Mobile Settings"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 16,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile Heading Size",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "text_size_mobile",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile Text Size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile Padding Top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile Padding Bottom",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_left_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile Padding Left",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_right_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile Padding Right",
+      "default": 20
     }
   ],
   "presets": [
