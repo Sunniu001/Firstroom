@@ -153,6 +153,12 @@
     text-align: var(--ta-m);
   }
   {% if section.settings.text_vertical_spacing == 'space-between' %}
+  #fr-about-imgtext-{{ section.id }} .fr-about-imgtext__grid {
+    align-items: stretch !important;
+  }
+  .fr-about-imgtext__col-text {
+    height: 100%;
+  }
   .fr-about-imgtext__body {
     display: flex;
     flex-direction: column;
