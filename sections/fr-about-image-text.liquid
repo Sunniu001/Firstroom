@@ -149,9 +149,21 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: {{ section.settings.text_vertical_spacing }};
     text-align: var(--ta-m);
   }
+  {% if section.settings.text_vertical_spacing == 'space-between' %}
+  .fr-about-imgtext__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    margin-bottom: 0 !important;
+  }
+  .fr-about-imgtext__body p {
+    margin-bottom: 0 !important;
+  }
+  {% endif %}
   @media (min-width: 768px) {
     .fr-about-imgtext__col-text {
       text-align: var(--ta-d);
@@ -269,7 +281,8 @@
       "options": [
         { "value": "start", "label": "Top" },
         { "value": "center", "label": "Center" },
-        { "value": "end", "label": "Bottom" }
+        { "value": "end", "label": "Bottom" },
+        { "value": "stretch", "label": "Stretch" }
       ],
       "default": "center"
     },
@@ -370,6 +383,17 @@
     {
       "type": "header",
       "content": "Text Settings"
+    },
+    {
+      "type": "select",
+      "id": "text_vertical_spacing",
+      "label": "Text Vertical Spacing",
+      "options": [
+        { "value": "center", "label": "Normal (Centered)" },
+        { "value": "flex-start", "label": "Normal (Top)" },
+        { "value": "space-between", "label": "Spaced Out" }
+      ],
+      "default": "center"
     },
     {
       "type": "text",
