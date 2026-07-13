@@ -29,7 +29,13 @@
             <a href="{{ block.settings.link }}" class="fr-home-banners__link" aria-label="{{ block.settings.heading | escape }}"></a>
           {%- endif -%}
 
-          <div class="fr-home-banners__image-wrapper fr-home-banners__aspect--{{ section.settings.aspect_ratio }}" style="border-radius: {{ section.settings.image_radius }}px;">
+          {%- liquid
+            assign mobile_ar = section.settings.aspect_ratio_mobile
+            if mobile_ar == 'same' or mobile_ar == blank
+              assign mobile_ar = section.settings.aspect_ratio
+            endif
+          -%}
+          <div class="fr-home-banners__image-wrapper fr-home-banners__aspect--{{ section.settings.aspect_ratio }} fr-home-banners__aspect-mobile--{{ mobile_ar }}" style="border-radius: {{ section.settings.image_radius }}px;">
             {%- if block.settings.image != blank -%}
               <img src="{{ block.settings.image | image_url: width: 1200 }}" alt="{{ block.settings.heading | escape }}" loading="lazy" class="fr-home-banners__img">
             {%- else -%}
@@ -152,6 +158,21 @@
   }
   .fr-home-banners__aspect--auto {
     /* No aspect ratio */
+  }
+
+  @media (max-width: 767px) {
+    .fr-home-banners__aspect-mobile--panoramic {
+      aspect-ratio: 21 / 9;
+    }
+    .fr-home-banners__aspect-mobile--landscape {
+      aspect-ratio: 16 / 9;
+    }
+    .fr-home-banners__aspect-mobile--standard {
+      aspect-ratio: 4 / 3;
+    }
+    .fr-home-banners__aspect-mobile--auto {
+      aspect-ratio: auto;
+    }
   }
 
   .fr-home-banners__img {
@@ -327,6 +348,19 @@
         { "value": "auto", "label": "Original (Auto)" }
       ],
       "default": "panoramic"
+    },
+    {
+      "type": "select",
+      "id": "aspect_ratio_mobile",
+      "label": "Mobile Image Aspect Ratio",
+      "options": [
+        { "value": "panoramic", "label": "Panoramic (21:9)" },
+        { "value": "landscape", "label": "Landscape (16:9)" },
+        { "value": "standard", "label": "Standard (4:3)" },
+        { "value": "auto", "label": "Original (Auto)" },
+        { "value": "same", "label": "Same as Desktop" }
+      ],
+      "default": "same"
     },
     {
       "type": "range",
