@@ -10,11 +10,20 @@
       --pr-m: {{ section.settings.padding_right_mobile | default: section.settings.padding_right }}px;
     ">
     
+    {% assign mobile_img_order = 1 %}
+    {% assign mobile_txt_order = 2 %}
+    {% if section.settings.mobile_layout == 'text_first' %}
+      {% assign mobile_img_order = 2 %}
+      {% assign mobile_txt_order = 1 %}
+    {% endif %}
+
+    <div class="fr-home-imgtext__container" style="
+        --order-img-m: {{ mobile_img_order }};
+        --order-txt-m: {{ mobile_txt_order }};
+
     {% assign ratio_parts = section.settings.column_ratio | split: '|' %}
     {% assign col1_ratio = ratio_parts[0] | default: '1fr' %}
     {% assign col2_ratio = ratio_parts[1] | default: '1fr' %}
-
-    <div class="fr-home-imgtext__container" style="
         grid-template-columns: {% if section.settings.image_position == 'left' %}{{ col1_ratio }} {{ col2_ratio }}{% else %}{{ col2_ratio }} {{ col1_ratio }}{% endif %};
         gap: {{ section.settings.gap }}px;
         align-items: {{ section.settings.vertical_align }};
@@ -103,10 +112,10 @@
       gap: 30px !important;
     }
     .fr-home-imgtext__image-col {
-      order: 1 !important; /* Image always top on mobile */
+      order: var(--order-img-m, 1) !important;
     }
     .fr-home-imgtext__text-col {
-      order: 2 !important;
+      order: var(--order-txt-m, 2) !important;
     }
     .fr-home-imgtext__image-wrapper {
       margin: 0 auto !important;
@@ -250,6 +259,16 @@
       "unit": "px",
       "label": "Gap Between Columns",
       "default": 60
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Mobile Layout Order",
+      "options": [
+        { "value": "image_first", "label": "Image First" },
+        { "value": "text_first", "label": "Text First" }
+      ],
+      "default": "image_first"
     },
     {
       "type": "header",

@@ -14,8 +14,23 @@
     {% assign col1_ratio = ratio_parts[0] | default: '1fr' %}
     {% assign col2_ratio = ratio_parts[1] | default: '1fr' %}
     {% assign col3_ratio = ratio_parts[2] | default: '1fr' %}
+    {% assign m_t = 2 %}
+    {% assign m_i1 = 1 %}
+    {% assign m_i2 = 3 %}
+    {% if section.settings.mobile_layout == 'text_first' %}
+      {% assign m_t = 1 %}
+      {% assign m_i1 = 2 %}
+      {% assign m_i2 = 3 %}
+    {% elsif section.settings.mobile_layout == 'images_first' %}
+      {% assign m_t = 3 %}
+      {% assign m_i1 = 1 %}
+      {% assign m_i2 = 2 %}
+    {% endif %}
 
     <div class="fr-home-triple__container" style="
+        --order-img1-m: {{ m_i1 }};
+        --order-txt-m: {{ m_t }};
+        --order-img2-m: {{ m_i2 }};
         grid-template-columns: {{ col1_ratio }} {{ col2_ratio }} {{ col3_ratio }};
         gap: {{ section.settings.gap }}px;
         align-items: stretch;
@@ -131,6 +146,9 @@
       max-width: 400px;
       width: 100%;
     }
+    .fr-home-triple__col-image:first-child { order: var(--order-img1-m, 1) !important; }
+    .fr-home-triple__col-text { order: var(--order-txt-m, 2) !important; }
+    .fr-home-triple__col-image:last-child { order: var(--order-img2-m, 3) !important; }
   }
 
   .fr-home-triple__image-wrapper {
@@ -280,6 +298,17 @@
         { "value": "2fr|3fr|2fr", "label": "Slightly Wide Text" }
       ],
       "default": "1fr|1fr|1fr"
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Mobile Layout Order",
+      "options": [
+        { "value": "default", "label": "Default (Img 1, Text, Img 2)" },
+        { "value": "text_first", "label": "Text First" },
+        { "value": "images_first", "label": "Images First" }
+      ],
+      "default": "text_first"
     },
     {
       "type": "select",

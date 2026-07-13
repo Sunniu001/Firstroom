@@ -17,7 +17,8 @@
     {%- endif -%}
 
     <div class="fr-home-badges__container" style="
-        grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
+        --cols-d: {{ section.settings.columns_desktop }};
+        --cols-m: {{ section.settings.columns_mobile }};
         gap: {{ section.settings.grid_gap }}px;
       ">
       
@@ -76,7 +77,7 @@
     max-width: {{ section.settings.content_max_width }}px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(var(--cols-m), 1fr);
   }
 
   .fr-home-badges__main-heading {
@@ -91,6 +92,12 @@
     font-size: var(--fz-m);
   }
 
+  @media (max-width: 767px) {
+    #fr-home-badges-{{ section.id }} .fr-home-badges__container {
+      gap: 30px !important;
+    }
+  }
+
   @media (min-width: 768px) {
     #fr-home-badges-{{ section.id }} .fr-home-badges__wrapper {
       padding-top: var(--pt-d);
@@ -98,12 +105,8 @@
       padding-left: var(--pl-d);
       padding-right: var(--pr-d);
     }
-  }
-
-  @media (max-width: 767px) {
     #fr-home-badges-{{ section.id }} .fr-home-badges__container {
-      grid-template-columns: 1fr !important; /* Stack on mobile */
-      gap: 30px !important;
+      grid-template-columns: repeat(var(--cols-d), 1fr);
     }
   }
 
@@ -248,6 +251,15 @@
       "step": 1,
       "label": "Columns on Desktop",
       "default": 3
+    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "label": "Columns on Mobile",
+      "default": 1
     },
     {
       "type": "range",

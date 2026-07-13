@@ -17,7 +17,8 @@
     {%- endif -%}
 
     <div class="fr-about-grid__container" style="
-      grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
+      --cols-d: {{ section.settings.columns_desktop }};
+      --cols-m: {{ section.settings.columns_mobile }};
       gap: {{ section.settings.grid_gap }}px;
       {%- if section.settings.show_vertical_borders -%}
         gap: 0;
@@ -91,13 +92,15 @@
 
   #fr-about-grid-{{ section.id }} .fr-about-grid__container {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(var(--cols-m), 1fr);
     max-width: {{ section.settings.content_max_width }}px;
     margin: 0 auto;
   }
 
   @media (min-width: 768px) {
-    /* Desktop columns are set inline */
+    #fr-about-grid-{{ section.id }} .fr-about-grid__container {
+      grid-template-columns: repeat(var(--cols-d), 1fr);
+    }
   }
 
   .fr-about-grid__item {
@@ -281,6 +284,15 @@
       "step": 1,
       "label": "Columns on Desktop",
       "default": 4
+    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "label": "Columns on Mobile",
+      "default": 2
     },
     {
       "type": "range",
