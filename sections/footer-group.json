@@ -1,277 +1,103 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "type": "footer",
   "name": "Footer",
   "sections": {
-    "section_hHd6tp": {
-      "type": "section",
-      "blocks": {
-        "grp_brand": {
-          "type": "group",
-          "name": "Brand & Social",
-          "settings": {
-            "content_direction": "column",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "flex-start",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "flex-start",
-            "gap": 0,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
-            "link": "",
-            "open_in_new_tab": false,
-            "placeholder": "",
-            "padding-block-start": 0,
-            "padding-block-end": 100,
-            "padding-inline-start": 100,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "brand_liquid": {
-              "type": "custom-liquid",
-              "settings": {
-                "custom_liquid": "{% render 'fr-footer-brand' %}"
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "brand_liquid"
-          ]
-        },
-        "grp_quick_links": {
-          "type": "group",
-          "name": "Quick Links",
-          "settings": {
-            "content_direction": "column",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "flex-start",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "flex-start",
-            "gap": 0,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
-            "link": "",
-            "open_in_new_tab": false,
-            "placeholder": "",
-            "padding-block-start": 0,
-            "padding-block-end": 100,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "quick_links_liquid": {
-              "type": "custom-liquid",
-              "settings": {
-                "custom_liquid": "{% render 'fr-footer-quick-links' %}"
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "quick_links_liquid"
-          ]
-        },
-        "grp_information": {
-          "type": "group",
-          "name": "Information",
-          "settings": {
-            "content_direction": "column",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "flex-start",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "flex-start",
-            "gap": 0,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
-            "link": "",
-            "open_in_new_tab": false,
-            "placeholder": "",
-            "padding-block-start": 0,
-            "padding-block-end": 100,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "information_liquid": {
-              "type": "custom-liquid",
-              "settings": {
-                "custom_liquid": "{% render 'fr-footer-information' %}"
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "information_liquid"
-          ]
-        },
-        "grp_contact": {
-          "type": "group",
-          "name": "Contact Us",
-          "settings": {
-            "content_direction": "column",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "flex-start",
-            "align_baseline": false,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "flex-start",
-            "gap": 0,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "toggle_overlay": false,
-            "overlay_color": "#00000026",
-            "overlay_style": "solid",
-            "gradient_direction": "to top",
-            "link": "",
-            "open_in_new_tab": false,
-            "placeholder": "",
-            "padding-block-start": 20,
-            "padding-block-end": 100,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "contact_liquid": {
-              "type": "custom-liquid",
-              "settings": {
-                "custom_liquid": "{% render 'fr-footer-contact' %}"
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "contact_liquid"
-          ]
-        }
-      },
-      "block_order": [
-        "grp_brand",
-        "grp_quick_links",
-        "grp_information",
-        "grp_contact"
-      ],
-      "name": "FOOTER",
-      "settings": {
-        "content_direction": "row",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "flex-start",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 32,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "",
-        "background_media": "image",
-        "video_position": "cover",
-        "background_image": "shopify://shop_images/Final-Footer-green-1-1.webp",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 50,
-        "padding-block-end": 100
-      }
-    },
-    "fr_footer_MPizC8": {
+    "fr_footer": {
       "type": "fr-footer",
       "name": "FR Footer",
       "settings": {
-        "padding_top": 0,
-        "padding_bottom": 0,
+        "background_image": "shopify://shop_images/Final-Footer-green-1-1.webp",
+        "bg_position": "center",
+        "bg_position_mobile": "bottom center",
+        "heading_font": "lato_n7",
+        "heading_weight": "700",
+        "heading_size": 11,
+        "heading_size_mobile": 11,
+        "heading_color": "#3a3a3a",
+        "heading_letter_spacing": 16,
+        "link_font": "lato_n5",
+        "link_weight": "500",
+        "link_size": 11,
+        "link_size_mobile": 11,
+        "link_color": "#4a4a4a",
+        "link_hover_color": "#c2593f",
+        "link_letter_spacing": 10,
+        "text_align": "left",
+        "text_align_mobile": "left",
+        "grid_max_width": 1200,
+        "grid_gap": 40,
+        "columns_mobile": 1,
+        "padding_top": 50,
+        "padding_bottom": 100,
         "padding_horizontal": 40,
-        "copyright_text": "All rights reserved | © 2026 First Room Collective"
-      }
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
+        "padding_horizontal_mobile": 20,
+        "copyright_text": "All rights reserved | © 2026 First Room Collective",
+        "copyright_color": "#555555",
+        "copyright_bg": "#ffffff"
+      },
+      "blocks": {
+        "brand": {
+          "type": "brand",
+          "settings": {
+            "tagline": "Stay in touch with us",
+            "instagram_url": "https://www.instagram.com/firstroom.in/",
+            "facebook_url": "https://www.facebook.com/firstroom.in/",
+            "linkedin_url": "https://www.linkedin.com/company/firstroom/",
+            "pinterest_url": "https://www.pinterest.com/firstroomcollective/",
+            "whatsapp_url": "https://wa.me/919650706644"
+          }
+        },
+        "quick_links": {
+          "type": "quick_links",
+          "settings": {
+            "heading": "Quick Links",
+            "link_1_label": "Wallpaper",
+            "link_1_url": "shopify:\/\/collections\/wallpaper",
+            "link_2_label": "Home Decor",
+            "link_2_url": "shopify:\/\/collections\/home-decor",
+            "link_3_label": "Custom Design",
+            "link_3_url": "shopify:\/\/pages\/custom-design",
+            "link_4_label": "Our Story",
+            "link_4_url": "shopify:\/\/pages\/about-us",
+            "link_5_label": "Contact",
+            "link_5_url": "shopify:\/\/pages\/contact"
+          }
+        },
+        "information": {
+          "type": "information",
+          "settings": {
+            "heading": "Information",
+            "link_1_label": "Terms and Conditions",
+            "link_1_url": "shopify:\/\/pages\/terms-and-conditions",
+            "link_2_label": "Privacy Policy",
+            "link_2_url": "shopify:\/\/pages\/privacy-policy",
+            "link_3_label": "Shipping & Payment Policy",
+            "link_3_url": "shopify:\/\/pages\/shipping-payment-policy",
+            "link_4_label": "Return & Exchange Policy",
+            "link_4_url": "shopify:\/\/pages\/return-exchange-policy"
+          }
+        },
+        "contact": {
+          "type": "contact",
+          "settings": {
+            "heading": "Contact Us",
+            "phone": "+91 96507 06644",
+            "email": "support@firstroom.in",
+            "address": "A10, Greenwood City, Sector 45, Gurugram, Haryana 122003"
+          }
+        }
+      },
+      "block_order": [
+        "brand",
+        "quick_links",
+        "information",
+        "contact"
+      ]
     }
   },
   "order": [
-    "section_hHd6tp",
-    "fr_footer_MPizC8"
+    "fr_footer"
   ]
 }
