@@ -11,6 +11,10 @@
       --pr-m: {{ section.settings.padding_right_mobile | default: 20 }}px;
       --img-mw-d: {{ section.settings.image_max_width }}px;
       --img-mw-m: {{ section.settings.image_max_width_mobile | default: section.settings.image_max_width }}px;
+      --gap-d: {{ section.settings.grid_gap }}px;
+      --gap-m: {{ section.settings.grid_gap_mobile | default: section.settings.grid_gap }}px;
+      --ia-d: {{ section.settings.image_align }};
+      --ia-m: {{ section.settings.image_align_mobile | default: section.settings.image_align }};
       --ta-d: {{ section.settings.text_align }};
       --ta-m: {{ section.settings.text_align_mobile | default: section.settings.text_align }};
       --fz-sh-d: {{ section.settings.subheading_size }}px;
@@ -21,11 +25,11 @@
       --fz-t-m: {{ section.settings.text_size_mobile | default: section.settings.text_size }}px;
     ">
     
-    <div class="fr-about-imgtext__grid fr-about-imgtext__grid--image-{{ section.settings.image_position }}" style="gap: {{ section.settings.grid_gap }}px; align-items: {{ section.settings.vertical_alignment }};">
+    <div class="fr-about-imgtext__grid fr-about-imgtext__grid--image-{{ section.settings.image_position }}" style="align-items: {{ section.settings.vertical_alignment }};">
       
       <!-- Image Column -->
       <div class="fr-about-imgtext__col-image">
-        <div class="fr-about-imgtext__image-wrapper" style="{% if section.settings.aspect_ratio != 'auto' %}aspect-ratio: {{ section.settings.aspect_ratio }};{% endif %} border-radius: {{ section.settings.image_radius }}px; margin: 0 {{ section.settings.image_align }};">
+        <div class="fr-about-imgtext__image-wrapper" style="{% if section.settings.aspect_ratio != 'auto' %}aspect-ratio: {{ section.settings.aspect_ratio }};{% endif %} border-radius: {{ section.settings.image_radius }}px;">
           {%- if section.settings.image != blank -%}
             <img src="{{ section.settings.image | image_url: width: 1200 }}" alt="{{ section.settings.heading | escape }}" loading="lazy" class="fr-about-imgtext__image" style="{% if section.settings.aspect_ratio != 'auto' %}object-fit: cover; width: 100%; height: 100%;{% else %}width: 100%; height: auto;{% endif %}">
           {%- else -%}
@@ -92,11 +96,13 @@
   #fr-about-imgtext-{{ section.id }} .fr-about-imgtext__grid {
     display: grid;
     grid-template-columns: 1fr;
+    gap: var(--gap-m);
   }
 
   @media (min-width: 768px) {
     #fr-about-imgtext-{{ section.id }} .fr-about-imgtext__grid {
       grid-template-columns: {{ col_image }} {{ col_text }};
+      gap: var(--gap-d);
     }
     #fr-about-imgtext-{{ section.id }} .fr-about-imgtext__grid--image-right {
       grid-template-columns: {{ col_text }} {{ col_image }};
@@ -118,10 +124,12 @@
     overflow: hidden;
     background-color: #faf8f5;
     max-width: var(--img-mw-m);
+    margin: 0 var(--ia-m);
   }
   @media (min-width: 768px) {
     .fr-about-imgtext__image-wrapper {
       max-width: var(--img-mw-d);
+      margin: 0 var(--ia-d);
     }
   }
 
@@ -272,8 +280,18 @@
       "max": 120,
       "step": 4,
       "unit": "px",
-      "label": "Gap between Image and Text",
+      "label": "Gap between Image and Text (Desktop)",
       "default": 60
+    },
+    {
+      "type": "range",
+      "id": "grid_gap_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Gap between Image and Text (Mobile)",
+      "default": 40
     },
     {
       "type": "header",
@@ -330,7 +348,18 @@
     {
       "type": "select",
       "id": "image_align",
-      "label": "Image Horizontal Align",
+      "label": "Desktop Image Horizontal Align",
+      "options": [
+        { "value": "0 auto 0 0", "label": "Left" },
+        { "value": "0 auto", "label": "Center" },
+        { "value": "0 0 0 auto", "label": "Right" }
+      ],
+      "default": "0 auto"
+    },
+    {
+      "type": "select",
+      "id": "image_align_mobile",
+      "label": "Mobile Image Horizontal Align",
       "options": [
         { "value": "0 auto 0 0", "label": "Left" },
         { "value": "0 auto", "label": "Center" },

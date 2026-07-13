@@ -23,9 +23,13 @@
     <div class="fr-about-grid__container" style="
       --cols-d: {{ section.settings.columns_desktop }};
       --cols-m: {{ section.settings.columns_mobile }};
-      gap: {{ section.settings.grid_gap }}px;
+      --gap-d: {{ section.settings.grid_gap }}px;
+      --gap-m: {{ section.settings.grid_gap_mobile | default: section.settings.grid_gap }}px;
+      --vgap-m: {{ section.settings.grid_vgap_mobile | default: section.settings.grid_gap_mobile | default: section.settings.grid_gap }}px;
       {%- if section.settings.show_vertical_borders -%}
-        gap: 0;
+        --gap-d: 0px;
+        --gap-m: 0px;
+        --vgap-m: {{ section.settings.grid_vgap_mobile | default: section.settings.grid_gap_mobile | default: section.settings.grid_gap }}px;
       {%- endif -%}
     ">
       {%- for block in section.blocks -%}
@@ -98,16 +102,20 @@
     }
   }
 
-  #fr-about-grid-{{ section.id }} .fr-about-grid__container {
+  #fr-about-grid-{{ section.id }}  .fr-about-grid__container {
     display: grid;
     grid-template-columns: repeat(var(--cols-m), 1fr);
+    column-gap: var(--gap-m);
+    row-gap: var(--vgap-m);
     max-width: {{ section.settings.content_max_width }}px;
     margin: 0 auto;
   }
-
+  
   @media (min-width: 768px) {
-    #fr-about-grid-{{ section.id }} .fr-about-grid__container {
+    #fr-about-grid-{{ section.id }}  .fr-about-grid__container {
       grid-template-columns: repeat(var(--cols-d), 1fr);
+      column-gap: var(--gap-d);
+      row-gap: var(--gap-d);
     }
   }
 
@@ -332,7 +340,27 @@
       "max": 100,
       "step": 4,
       "unit": "px",
-      "label": "Grid Gap",
+      "label": "Grid Gap (Desktop)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "grid_gap_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Horizontal Gap (Mobile)",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "grid_vgap_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Vertical Gap (Mobile)",
       "default": 40
     },
     {
