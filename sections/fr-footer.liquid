@@ -726,13 +726,14 @@
       "default": 40
     },
     {
-      "type": "range",
+      "type": "select",
       "id": "columns_mobile",
-      "min": 1,
-      "max": 2,
-      "step": 1,
       "label": "Mobile Columns",
-      "default": 1
+      "options": [
+        { "value": "1", "label": "1 Column" },
+        { "value": "2", "label": "2 Columns" }
+      ],
+      "default": "1"
     },
     {
       "type": "header",
