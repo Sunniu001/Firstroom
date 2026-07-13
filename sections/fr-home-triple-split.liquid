@@ -36,6 +36,15 @@
         align-items: stretch;
       ">
       
+      <!-- Mobile Main Heading (Rendered outside grid so it spans full width above images) -->
+      {%- if section.settings.main_heading != blank -%}
+        <div class="fr-home-triple__mobile-heading-wrapper">
+          <h2 class="fr-home-triple__main-heading" style="text-align: {{ section.settings.main_heading_align }}; --fz-mh-d: {{ section.settings.main_heading_size }}px; --fz-mh-m: {{ section.settings.main_heading_size_mobile | default: section.settings.main_heading_size | times: 0.8 | round }}px; color: {{ section.settings.main_heading_color }};">
+            {{ section.settings.main_heading }}
+          </h2>
+        </div>
+      {%- endif -%}
+
       <!-- Image 1 Column -->
       <div class="fr-home-triple__col-image">
         <div class="fr-home-triple__image-wrapper" style="border-radius: {{ section.settings.image_radius }}px;">
@@ -51,9 +60,11 @@
       <div class="fr-home-triple__col-text" style="text-align: {{ section.settings.text_align }}; background-color: {{ section.settings.text_bg_color }}; padding: {{ section.settings.text_padding }}px;">
         
         {%- if section.settings.main_heading != blank -%}
-          <h2 class="fr-home-triple__main-heading" style="text-align: {{ section.settings.main_heading_align }}; --fz-mh-d: {{ section.settings.main_heading_size }}px; --fz-mh-m: {{ section.settings.main_heading_size_mobile | default: section.settings.main_heading_size | times: 0.8 | round }}px; color: {{ section.settings.main_heading_color }};">
-            {{ section.settings.main_heading }}
-          </h2>
+          <div class="fr-home-triple__desktop-heading-wrapper">
+            <h2 class="fr-home-triple__main-heading" style="text-align: {{ section.settings.main_heading_align }}; --fz-mh-d: {{ section.settings.main_heading_size }}px; --fz-mh-m: {{ section.settings.main_heading_size_mobile | default: section.settings.main_heading_size | times: 0.8 | round }}px; color: {{ section.settings.main_heading_color }};">
+              {{ section.settings.main_heading }}
+            </h2>
+          </div>
         {%- endif -%}
 
         <div class="fr-home-triple__text-content">
@@ -134,6 +145,12 @@
       padding-left: var(--pl-d);
       padding-right: var(--pr-d);
     }
+    .fr-home-triple__mobile-heading-wrapper {
+      display: none;
+    }
+    .fr-home-triple__desktop-heading-wrapper {
+      display: block;
+    }
   }
 
   @media (max-width: 767px) {
@@ -145,6 +162,17 @@
       margin: 0 auto;
       max-width: 400px;
       width: 100%;
+    }
+    .fr-home-triple__desktop-heading-wrapper {
+      display: none;
+    }
+    .fr-home-triple__mobile-heading-wrapper {
+      display: block;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    .fr-home-triple__mobile-heading-wrapper .fr-home-triple__main-heading {
+      margin-bottom: 0;
     }
     .fr-home-triple__col-image:first-child { order: var(--order-img1-m, 1) !important; }
     .fr-home-triple__col-text { order: var(--order-txt-m, 2) !important; }
@@ -308,7 +336,7 @@
         { "value": "text_first", "label": "Text First" },
         { "value": "images_first", "label": "Images First" }
       ],
-      "default": "text_first"
+      "default": "default"
     },
     {
       "type": "select",
