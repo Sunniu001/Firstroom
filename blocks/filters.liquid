@@ -79,7 +79,7 @@
       class="facets facets--horizontal facets-controls-wrapper spacing-style"
       style="{% render 'spacing-style', settings: block_settings %}{% if block_settings.text_label_case == 'uppercase' %} --facet-label-transform: uppercase;{% endif %}"
     >
-      {% if block_settings.enable_filtering %}
+      {% if block_settings.enable_filtering and block_settings.filter_style != 'vertical' %}
         <h4 class="facets--filters-title">{{ 'content.filters' | t }}</h4>
       {% endif %}
 
@@ -149,6 +149,9 @@
         section-id="{{ section.id }}"
         form-style="{{ block_settings.filter_style }}"
       >
+        {% if block_settings.enable_filtering and block_settings.filter_style == 'vertical' %}
+          <h4 class="facets--filters-title" style="margin-block-end: var(--padding-md);">{{ 'content.filters' | t }}</h4>
+        {% endif %}
         <form
           action="{{ results_url }}"
           id="FacetFiltersForm--{{ section.id }}-desktop"
