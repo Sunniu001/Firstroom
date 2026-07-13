@@ -498,7 +498,7 @@
   {% endcomment %}
 
   <div
-    class="hero__container spacing-style section section--full-width"
+    class="hero__container spacing-style section section--full-width hero--media-{{ section.settings.media_width }}"
     style="{% render 'spacing-style', settings: section.settings %}"
   >
     {%- if section.settings.link != blank -%}
@@ -594,6 +594,17 @@
     display: grid;
     grid-column: 1 / -1;
     grid-template-columns: repeat(var(--hero-media-count, 1), 1fr);
+  }
+
+  .hero--media-page-width > .hero__media-grid {
+    position: relative;
+    grid-column: 2;
+    grid-row: 1;
+    height: 100%;
+  }
+
+  .hero--media-page-width > .hero__content-wrapper {
+    grid-row: 1;
   }
 
   .hero--auto .hero__media {
@@ -1095,6 +1106,22 @@
         }
       ],
       "default": "page-width"
+    },
+    {
+      "type": "select",
+      "id": "media_width",
+      "label": "Media width",
+      "options": [
+        {
+          "value": "full-width",
+          "label": "Full width"
+        },
+        {
+          "value": "page-width",
+          "label": "Page width"
+        }
+      ],
+      "default": "full-width"
     },
     {
       "type": "select",
