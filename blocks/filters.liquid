@@ -135,6 +135,7 @@
       {{ facets_margin_style }}
       --facets-inner-padding-block: {{ block_settings.padding-block-start }}px {{ block_settings.padding-block-end }}px;
       --facets-inner-padding-inline: var(--padding-lg);
+      --sticky-offset: {{ block_settings.sticky_offset | default: 100 }}px;
     "
     {{ block.shopify_attributes }}
   >
@@ -524,9 +525,9 @@
   .facets-block-wrapper--vertical.facets-block-wrapper--sticky {
     @media screen and (min-width: 750px) {
       position: sticky;
-      top: calc(var(--header-height, 0px) + 20px);
+      top: calc(var(--header-height, 0px) + var(--sticky-offset, 100px));
       align-self: start;
-      max-height: calc(100vh - var(--header-height, 0px) - 40px);
+      max-height: calc(100vh - var(--header-height, 0px) - var(--sticky-offset, 100px) - 20px);
       overflow-y: auto;
     }
   }
@@ -1421,6 +1422,17 @@
       "id": "enable_sticky",
       "label": "Enable Sticky on Desktop",
       "default": true
+    },
+    {
+      "type": "range",
+      "id": "sticky_offset",
+      "label": "Sticky Top Offset",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "default": 100,
+      "visible_if": "{{ block.settings.enable_sticky == true }}"
     },
     {
       "type": "color_scheme",
