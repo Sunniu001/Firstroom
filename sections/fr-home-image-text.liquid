@@ -1,9 +1,11 @@
 <section class="fr-home-imgtext" id="fr-home-imgtext-{{ section.id }}" style="background-color: {{ section.settings.bg_color }};">
   <div class="fr-home-imgtext__wrapper" style="
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
-      padding-left: {{ section.settings.padding_left }}px;
-      padding-right: {{ section.settings.padding_right }}px;
+      --pt-d: {{ section.settings.padding_top }}px;
+      --pb-d: {{ section.settings.padding_bottom }}px;
+      --pl-d: {{ section.settings.padding_left }}px;
+      --pr-d: {{ section.settings.padding_right }}px;
+      --pt-m: {{ section.settings.padding_top_mobile | default: section.settings.padding_top }}px;
+      --pb-m: {{ section.settings.padding_bottom_mobile | default: section.settings.padding_bottom }}px;
     ">
     
     {% assign ratio_parts = section.settings.column_ratio | split: '|' %}
@@ -34,12 +36,12 @@
             <div class="fr-home-imgtext__block fr-home-imgtext__block--{{ block.type }}" {{ block.shopify_attributes }}>
               
               {%- if block.type == 'heading' -%}
-                <h2 class="fr-home-imgtext__heading" style="font-size: {{ block.settings.size }}px; color: {{ block.settings.color }};">
+                <h2 class="fr-home-imgtext__heading" style="--fz-d: {{ block.settings.size }}px; --fz-m: {{ block.settings.size_mobile | default: block.settings.size }}px; color: {{ block.settings.color }};">
                   {{ block.settings.text }}
                 </h2>
               
               {%- elsif block.type == 'text' -%}
-                <div class="fr-home-imgtext__text" style="font-size: {{ block.settings.size }}px; color: {{ block.settings.color }};">
+                <div class="fr-home-imgtext__text" style="--fz-d: {{ block.settings.size }}px; --fz-m: {{ block.settings.size_mobile | default: block.settings.size }}px; color: {{ block.settings.color }};">
                   {{ block.settings.text }}
                 </div>
               
@@ -47,7 +49,8 @@
                 <a href="{{ block.settings.link }}" class="fr-home-imgtext__btn" style="
                     background-color: {{ block.settings.bg_color }};
                     color: {{ block.settings.text_color }};
-                    font-size: {{ block.settings.size }}px;
+                    --fz-d: {{ block.settings.size }}px;
+                    --fz-m: {{ block.settings.size_mobile | default: block.settings.size }}px;
                   ">
                   {{ block.settings.text }}
                 </a>
@@ -72,6 +75,10 @@
   #fr-home-imgtext-{{ section.id }} .fr-home-imgtext__wrapper {
     max-width: {{ section.settings.content_max_width }}px;
     margin: 0 auto;
+    padding-top: var(--pt-m);
+    padding-bottom: var(--pb-m);
+    padding-left: var(--pl-d);
+    padding-right: var(--pr-d);
   }
 
   .fr-home-imgtext__container {
@@ -80,7 +87,10 @@
   }
 
   @media (min-width: 768px) {
-    /* Desktop columns applied inline */
+    #fr-home-imgtext-{{ section.id }} .fr-home-imgtext__wrapper {
+      padding-top: var(--pt-d);
+      padding-bottom: var(--pb-d);
+    }
   }
 
   @media (max-width: 767px) {
@@ -137,10 +147,12 @@
     margin: 0;
     line-height: 1.2;
     letter-spacing: 0.01em;
+    font-size: var(--fz-m);
   }
 
   .fr-home-imgtext__text {
     margin: 0;
+    font-size: var(--fz-m);
   }
 
   .fr-home-imgtext__btn {
@@ -151,9 +163,16 @@
     letter-spacing: 0.05em;
     font-weight: 600;
     transition: opacity 0.2s ease;
+    font-size: var(--fz-m);
   }
   .fr-home-imgtext__btn:hover {
     opacity: 0.8;
+  }
+
+  @media (min-width: 768px) {
+    .fr-home-imgtext__heading, .fr-home-imgtext__text, .fr-home-imgtext__btn {
+      font-size: var(--fz-d);
+    }
   }
 </style>
 
@@ -283,8 +302,18 @@
       "max": 120,
       "step": 4,
       "unit": "px",
-      "label": "Padding Top",
+      "label": "Padding Top (Desktop)",
       "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 40
     },
     {
       "type": "range",
@@ -293,8 +322,18 @@
       "max": 120,
       "step": 4,
       "unit": "px",
-      "label": "Padding Bottom",
+      "label": "Padding Bottom (Desktop)",
       "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom (Mobile)",
+      "default": 40
     },
     {
       "type": "range",
@@ -335,8 +374,18 @@
           "max": 60,
           "step": 2,
           "unit": "px",
-          "label": "Font Size",
+          "label": "Font Size (Desktop)",
           "default": 40
+        },
+        {
+          "type": "range",
+          "id": "size_mobile",
+          "min": 20,
+          "max": 60,
+          "step": 2,
+          "unit": "px",
+          "label": "Font Size (Mobile)",
+          "default": 32
         },
         {
           "type": "color",
@@ -363,8 +412,18 @@
           "max": 24,
           "step": 1,
           "unit": "px",
-          "label": "Font Size",
+          "label": "Font Size (Desktop)",
           "default": 16
+        },
+        {
+          "type": "range",
+          "id": "size_mobile",
+          "min": 12,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "label": "Font Size (Mobile)",
+          "default": 14
         },
         {
           "type": "color",
@@ -408,8 +467,18 @@
           "max": 24,
           "step": 1,
           "unit": "px",
-          "label": "Text Size",
+          "label": "Text Size (Desktop)",
           "default": 14
+        },
+        {
+          "type": "range",
+          "id": "size_mobile",
+          "min": 12,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "label": "Text Size (Mobile)",
+          "default": 12
         }
       ]
     }

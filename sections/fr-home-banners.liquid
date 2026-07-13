@@ -1,13 +1,17 @@
 <section class="fr-home-banners" id="fr-home-banners-{{ section.id }}" style="background-color: {{ section.settings.bg_color }};">
   <div class="fr-home-banners__wrapper" style="
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
-      padding-left: {{ section.settings.padding_left }}px;
-      padding-right: {{ section.settings.padding_right }}px;
+      --pt-d: {{ section.settings.padding_top }}px;
+      --pb-d: {{ section.settings.padding_bottom }}px;
+      --pl-d: {{ section.settings.padding_left }}px;
+      --pr-d: {{ section.settings.padding_right }}px;
+      --pt-m: {{ section.settings.padding_top_mobile | default: section.settings.padding_top }}px;
+      --pb-m: {{ section.settings.padding_bottom_mobile | default: section.settings.padding_bottom }}px;
+      --pl-m: {{ section.settings.padding_left_mobile | default: section.settings.padding_left }}px;
+      --pr-m: {{ section.settings.padding_right_mobile | default: section.settings.padding_right }}px;
     ">
     
     {%- if section.settings.heading != blank -%}
-      <h2 class="fr-home-banners__main-heading" style="text-align: {{ section.settings.heading_align }}; font-size: {{ section.settings.heading_size }}px; color: {{ section.settings.heading_color }};">
+      <h2 class="fr-home-banners__main-heading" style="text-align: {{ section.settings.heading_align }}; --fz-d: {{ section.settings.heading_size }}px; --fz-m: {{ section.settings.heading_size_mobile | default: section.settings.heading_size | times: 0.8 | round }}px; color: {{ section.settings.heading_color }};">
         {{ section.settings.heading }}
       </h2>
     {%- endif -%}
@@ -35,7 +39,7 @@
               <div class="fr-home-banners__overlay" style="background-color: {{ section.settings.overlay_color }}; opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
               <div class="fr-home-banners__overlay-content" style="align-items: {% if section.settings.text_align == 'center' %}center{% elsif section.settings.text_align == 'right' %}flex-end{% else %}flex-start{% endif %}; text-align: {{ section.settings.text_align }};">
                 {%- if block.settings.heading != blank -%}
-                  <h3 class="fr-home-banners__heading" style="color: {{ block.settings.text_color }}; font-size: {{ section.settings.title_size }}px;">{{ block.settings.heading }}</h3>
+                  <h3 class="fr-home-banners__heading" style="color: {{ block.settings.text_color }}; --fz-t-d: {{ section.settings.title_size }}px; --fz-t-m: {{ section.settings.title_size_mobile | default: section.settings.title_size | times: 0.8 | round }}px;">{{ block.settings.heading }}</h3>
                 {%- endif -%}
               </div>
             {%- endif -%}
@@ -44,7 +48,7 @@
           {%- if section.settings.text_position == 'below' -%}
             {%- if block.settings.heading != blank -%}
               <div class="fr-home-banners__text-below" style="text-align: {{ section.settings.text_align }};">
-                <h3 class="fr-home-banners__heading" style="color: {{ block.settings.text_color }}; font-size: {{ section.settings.title_size }}px;">{{ block.settings.heading }}</h3>
+                <h3 class="fr-home-banners__heading" style="color: {{ block.settings.text_color }}; --fz-t-d: {{ section.settings.title_size }}px; --fz-t-m: {{ section.settings.title_size_mobile | default: section.settings.title_size | times: 0.8 | round }}px;">{{ block.settings.heading }}</h3>
               </div>
             {%- endif -%}
           {%- endif -%}
@@ -66,6 +70,10 @@
   #fr-home-banners-{{ section.id }} .fr-home-banners__wrapper {
     max-width: 100%;
     margin: 0 auto;
+    padding-top: var(--pt-m);
+    padding-bottom: var(--pb-m);
+    padding-left: var(--pl-m);
+    padding-right: var(--pr-m);
   }
   
   #fr-home-banners-{{ section.id }} .fr-home-banners__container {
@@ -84,10 +92,16 @@
     max-width: {{ section.settings.content_max_width }}px;
     margin-left: auto;
     margin-right: auto;
+    font-size: var(--fz-m);
   }
 
   @media (min-width: 768px) {
-    /* Desktop columns defined inline */
+    #fr-home-banners-{{ section.id }} .fr-home-banners__wrapper {
+      padding-top: var(--pt-d);
+      padding-bottom: var(--pb-d);
+      padding-left: var(--pl-d);
+      padding-right: var(--pr-d);
+    }
   }
 
   @media (max-width: 767px) {
@@ -190,6 +204,12 @@
     font-weight: 400;
     margin: 0;
     letter-spacing: 0.01em;
+    font-size: var(--fz-t-m);
+  }
+
+  @media (min-width: 768px) {
+    .fr-home-banners__main-heading { font-size: var(--fz-d); }
+    .fr-home-banners__heading { font-size: var(--fz-t-d); }
   }
 </style>
 
@@ -238,8 +258,18 @@
       "max": 60,
       "step": 2,
       "unit": "px",
-      "label": "Heading Font Size",
+      "label": "Heading Font Size (Desktop)",
       "default": 32
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 16,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size (Mobile)",
+      "default": 24
     },
     {
       "type": "color",
@@ -328,8 +358,18 @@
       "max": 40,
       "step": 1,
       "unit": "px",
-      "label": "Title Font Size",
+      "label": "Title Font Size (Desktop)",
       "default": 24
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "min": 14,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Title Font Size (Mobile)",
+      "default": 20
     },
     {
       "type": "color",
@@ -357,8 +397,18 @@
       "max": 120,
       "step": 4,
       "unit": "px",
-      "label": "Padding Top",
+      "label": "Padding Top (Desktop)",
       "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 40
     },
     {
       "type": "range",
@@ -367,8 +417,18 @@
       "max": 120,
       "step": 4,
       "unit": "px",
-      "label": "Padding Bottom",
+      "label": "Padding Bottom (Desktop)",
       "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom (Mobile)",
+      "default": 40
     },
     {
       "type": "range",
@@ -377,8 +437,18 @@
       "max": 120,
       "step": 4,
       "unit": "px",
-      "label": "Padding Left",
+      "label": "Padding Left (Desktop)",
       "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_left_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Left (Mobile)",
+      "default": 20
     },
     {
       "type": "range",
@@ -387,8 +457,18 @@
       "max": 120,
       "step": 4,
       "unit": "px",
-      "label": "Padding Right",
+      "label": "Padding Right (Desktop)",
       "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_right_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Right (Mobile)",
+      "default": 20
     }
   ],
   "blocks": [

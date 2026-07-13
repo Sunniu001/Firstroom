@@ -1,7 +1,9 @@
 <section class="fr-home-hero" id="fr-home-hero-{{ section.id }}" style="background-color: {{ section.settings.bg_color }};">
   <div class="fr-home-hero__wrapper" style="
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
+      --pt-d: {{ section.settings.padding_top }}px;
+      --pb-d: {{ section.settings.padding_bottom }}px;
+      --pt-m: {{ section.settings.padding_top_mobile | default: section.settings.padding_top }}px;
+      --pb-m: {{ section.settings.padding_bottom_mobile | default: section.settings.padding_bottom }}px;
     ">
     
     <div class="fr-home-hero__background">
@@ -46,13 +48,13 @@
         ">
         
         {%- if section.settings.title != blank -%}
-          <h1 class="fr-home-hero__title" style="font-size: {{ section.settings.title_size }}px; color: {{ section.settings.title_color }};">
+          <h1 class="fr-home-hero__title" style="--fz-d: {{ section.settings.title_size }}px; --fz-m: {{ section.settings.title_size_mobile | default: section.settings.title_size | times: 0.6 | round }}px; color: {{ section.settings.title_color }};">
             {{ section.settings.title }}
           </h1>
         {%- endif -%}
         
         {%- if section.settings.subtitle != blank -%}
-          <p class="fr-home-hero__subtitle" style="font-size: {{ section.settings.subtitle_size }}px; color: {{ section.settings.subtitle_color }};">
+          <p class="fr-home-hero__subtitle" style="--fz-d: {{ section.settings.subtitle_size }}px; --fz-m: {{ section.settings.subtitle_size_mobile | default: section.settings.subtitle_size | times: 0.8 | round }}px; color: {{ section.settings.subtitle_color }};">
             {{ section.settings.subtitle }}
           </p>
         {%- endif -%}
@@ -66,12 +68,17 @@
                     background-color: {{ block.settings.bg_color }};
                     color: {{ block.settings.text_color }};
                     border: {{ block.settings.border_width }}px solid {{ block.settings.border_color }};
-                    font-size: {{ block.settings.text_size }}px;
+                    font-size: {{ block.settings.text_size_mobile | default: block.settings.text_size }}px !important;
                   }
                   .fr-home-hero__btn-{{ block.id }}:hover {
                     background-color: {{ block.settings.hover_bg_color }} !important;
                     color: {{ block.settings.hover_text_color }} !important;
                     border-color: {{ block.settings.hover_border_color }} !important;
+                  }
+                  @media(min-width: 768px) {
+                    .fr-home-hero__btn-{{ block.id }} {
+                      font-size: {{ block.settings.text_size }}px !important;
+                    }
                   }
                 </style>
                 <a href="{{ block.settings.link }}" class="fr-home-hero__btn fr-home-hero__btn-{{ block.id }}" {{ block.shopify_attributes }}>
@@ -103,6 +110,14 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    padding-top: var(--pt-m);
+    padding-bottom: var(--pb-m);
+  }
+  @media (min-width: 768px) {
+    .fr-home-hero__wrapper {
+      padding-top: var(--pt-d);
+      padding-bottom: var(--pb-d);
+    }
   }
 
   .fr-home-hero__background {
@@ -172,12 +187,19 @@
     font-weight: 400;
     margin: 0 0 20px 0;
     line-height: 1.2;
+    font-size: var(--fz-m);
   }
 
   .fr-home-hero__subtitle {
     margin: 0 0 40px 0;
     line-height: 1.6;
     max-width: 800px;
+    font-size: var(--fz-m);
+  }
+
+  @media(min-width: 768px) {
+    .fr-home-hero__title { font-size: var(--fz-d); }
+    .fr-home-hero__subtitle { font-size: var(--fz-d); }
   }
 
   .fr-home-hero__buttons-stack {
@@ -209,13 +231,6 @@
     }
     .fr-home-hero__btn {
       padding: 15px 20px;
-      font-size: 14px !important;
-    }
-    .fr-home-hero__title {
-      font-size: {{ section.settings.title_size | times: 0.6 | round }}px !important;
-    }
-    .fr-home-hero__subtitle {
-      font-size: {{ section.settings.subtitle_size | times: 0.8 | round }}px !important;
     }
   }
 </style>
@@ -351,6 +366,16 @@
       "default": 56
     },
     {
+      "type": "range",
+      "id": "title_size_mobile",
+      "min": 24,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Size (Mobile)",
+      "default": 36
+    },
+    {
       "type": "color",
       "id": "title_color",
       "label": "Heading Color",
@@ -373,6 +398,16 @@
       "default": 18
     },
     {
+      "type": "range",
+      "id": "subtitle_size_mobile",
+      "min": 14,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Subtitle Size (Mobile)",
+      "default": 16
+    },
+    {
       "type": "color",
       "id": "subtitle_color",
       "label": "Subtitle Color",
@@ -389,7 +424,17 @@
       "max": 120,
       "step": 4,
       "unit": "px",
-      "label": "Padding Top",
+      "label": "Padding Top (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
       "default": 0
     },
     {
@@ -399,7 +444,17 @@
       "max": 120,
       "step": 4,
       "unit": "px",
-      "label": "Padding Bottom",
+      "label": "Padding Bottom (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom (Mobile)",
       "default": 0
     }
   ],
@@ -491,8 +546,18 @@
           "max": 24,
           "step": 1,
           "unit": "px",
-          "label": "Text Size",
+          "label": "Text Size (Desktop)",
           "default": 16
+        },
+        {
+          "type": "range",
+          "id": "text_size_mobile",
+          "min": 12,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "label": "Text Size (Mobile)",
+          "default": 14
         }
       ]
     }
