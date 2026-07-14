@@ -12,41 +12,49 @@
     "hero": {
       "type": "fr-home-hero",
       "blocks": {
-        "btn1": {
-          "type": "button",
-          "settings": {
-            "text": "Shop Wallpapers",
-            "bg_color": "#ffffff",
-            "text_color": "#000000"
-          }
-        },
-        "btn2": {
-          "type": "button",
-          "settings": {
-            "text": "Shop Home Decor",
-            "bg_color": "#ffffff",
-            "text_color": "#000000"
-          }
-        },
         "btn3": {
           "type": "button",
           "settings": {
-            "text": "Customized Wallpapers",
-            "bg_color": "#ffffff",
-            "text_color": "#000000"
+            "text": "Explore",
+            "link": "shopify://collections/wallpaper",
+            "bg_color": "{{ settings.color_palette.foreground }}",
+            "text_color": "{{ settings.color_palette.background }}",
+            "border_width": 0,
+            "border_color": "#ffffff",
+            "hover_bg_color": "#CA0000",
+            "hover_text_color": "{{ settings.color_palette.background }}",
+            "hover_border_color": "{{ settings.color_palette.color3 }}",
+            "text_size": 12,
+            "text_size_mobile": 12
           }
         }
       },
       "block_order": [
-        "btn1",
-        "btn2",
         "btn3"
       ],
       "settings": {
-        "title": "Luxury Walls. Personal Stories.",
-        "subtitle": "Crafted for refined interiors, our bespoke wallpapers transform blank walls into evocative expressions of identity.",
-        "bg_image": "shopify:\/\/shop_images\/Hero-Page-Image-1.webp",
-        "overlay_opacity": 20
+        "bg_color": "#ffffff",
+        "slider_duration": 10,
+        "bg_image": "shopify://shop_images/Rectangle_135.png",
+        "slide_2": "shopify://shop_images/Hero-Page-Image-1.webp",
+        "overlay_color": "#000000",
+        "overlay_opacity": 25,
+        "min_height": 90,
+        "min_height_mobile": 80,
+        "content_max_width": 1600,
+        "text_align": "center",
+        "title": "Designs That Feel Like Home.",
+        "title_size": 44,
+        "title_size_mobile": 36,
+        "title_color": "#ffffff",
+        "subtitle": "Discover handcrafted wallpapers and thoughtfully curated home décor that transform everyday spaces into timeless expressions of your personality.",
+        "subtitle_size": 18,
+        "subtitle_size_mobile": 16,
+        "subtitle_color": "#f3f4f6",
+        "padding_top": 0,
+        "padding_top_mobile": 0,
+        "padding_bottom": 0,
+        "padding_bottom_mobile": 0
       }
     },
     "feature_split": {
@@ -55,32 +63,58 @@
         "h1": {
           "type": "heading",
           "settings": {
-            "text": "Cultural Motifs, Modern Aesthetic",
-            "size": 40
+            "text": "Inspired by Nature. Crafted for Your Home.",
+            "size": 30,
+            "size_mobile": 20,
+            "color": "#1a1a1a"
           }
         },
         "t1": {
           "type": "text",
           "settings": {
-            "text": "<p>Our collections blend timeless Indian art with contemporary design sensibilities ideal for today's sophisticated spaces.<\/p>"
+            "text": "<p>At <strong>First Room Collective</strong>, we believe every home deserves a unique story. From bespoke wallpapers to thoughtfully designed home décor, every piece is created to bring warmth, character and timeless beauty into your everyday spaces.</p>",
+            "size": 14,
+            "size_mobile": 12,
+            "color": "#4b5563"
           }
         },
-        "t2": {
-          "type": "text",
+        "button_DBergW": {
+          "type": "button",
           "settings": {
-            "text": "<p>From concept to execution, we tailor each pattern to your vision, turning your walls into curated storytelling surfaces.<\/p>"
+            "text": "Discover Our Story",
+            "link": "shopify://pages/our-story",
+            "bg_color": "#1a1a1a",
+            "text_color": "#ffffff",
+            "size": 14,
+            "size_mobile": 12
           }
         }
       },
       "block_order": [
         "h1",
         "t1",
-        "t2"
+        "button_DBergW"
       ],
       "settings": {
+        "bg_color": "#ffffff",
+        "content_max_width": 1300,
         "image_position": "left",
         "column_ratio": "1fr|1fr",
-        "image": "shopify:\/\/shop_images\/cultural-motifs-detail-1536x864.webp"
+        "vertical_align": "flex-start",
+        "gap": 32,
+        "mobile_layout": "image_first",
+        "image": "shopify://shop_images/compressed_FRWPTR012-full-for-website_1.png",
+        "image_max_width": 600,
+        "text_align": "left",
+        "text_max_width": 500,
+        "padding_top": 80,
+        "padding_top_mobile": 40,
+        "padding_bottom": 60,
+        "padding_bottom_mobile": 40,
+        "padding_left": 96,
+        "padding_left_mobile": 40,
+        "padding_right": 96,
+        "padding_right_mobile": 40
       }
     },
     "categories": {
@@ -89,15 +123,19 @@
         "cat1": {
           "type": "grid_item",
           "settings": {
-            "title": "Customize Wallpaper",
-            "subtitle": ""
+            "image": "shopify://shop_images/Ellipse_79.png",
+            "title": "Wallpaper",
+            "subtitle": "",
+            "link": "shopify://collections/wallpaper"
           }
         },
         "cat2": {
           "type": "grid_item",
           "settings": {
+            "image": "shopify://shop_images/Ellipse_80.png",
             "title": "Home Decor",
-            "subtitle": ""
+            "subtitle": "",
+            "link": "shopify://collections/home-decor"
           }
         }
       },
@@ -106,13 +144,40 @@
         "cat2"
       ],
       "settings": {
-        "heading": "Our Categories",
-        "heading_align": "center",
+        "section_bg": "#ffffff",
+        "heading": "Explore Our Collections",
+        "heading_align": "left",
+        "heading_align_mobile": "center",
+        "content_max_width": 800,
+        "heading_size": 32,
+        "heading_size_mobile": 24,
+        "heading_color": "#1a1a1a",
         "columns_desktop": 2,
-        "image_shape": "circle",
+        "columns_mobile": 2,
+        "grid_gap": 20,
+        "grid_gap_mobile": 20,
+        "grid_vgap_mobile": 40,
         "show_vertical_borders": false,
-        "grid_gap": 60,
-        "text_align": "center"
+        "image_shape": "circle",
+        "image_radius": 0,
+        "image_max_width": 250,
+        "image_max_width_mobile": 150,
+        "text_align": "center",
+        "text_align_mobile": "center",
+        "title_size": 18,
+        "title_size_mobile": 16,
+        "title_color": "#1a1a1a",
+        "subtitle_size": 14,
+        "subtitle_size_mobile": 12,
+        "subtitle_color": "#666666",
+        "padding_top": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom": 60,
+        "padding_bottom_mobile": 40,
+        "padding_left": 20,
+        "padding_left_mobile": 24,
+        "padding_right": 40,
+        "padding_right_mobile": 24
       }
     },
     "banners": {
@@ -121,25 +186,37 @@
         "b1": {
           "type": "banner",
           "settings": {
-            "heading": "New Collection 1"
+            "image": "shopify://shop_images/Rectangle_148.png",
+            "heading": "Verdant Escape",
+            "text_color": "#1a1a1a",
+            "link": ""
           }
         },
         "b2": {
           "type": "banner",
           "settings": {
-            "heading": "New Collection 2"
+            "image": "shopify://shop_images/Rectangle_180.png",
+            "heading": "Tropical Retreat",
+            "text_color": "#1a1a1a",
+            "link": ""
           }
         },
         "b3": {
           "type": "banner",
           "settings": {
-            "heading": "New Collection 3"
+            "image": "shopify://shop_images/Rectangle_177.png",
+            "heading": "Royal Heritage",
+            "text_color": "#1a1a1a",
+            "link": ""
           }
         },
         "b4": {
           "type": "banner",
           "settings": {
-            "heading": "New Collection 4"
+            "image": "shopify://shop_images/Rectangle_179.png",
+            "heading": "Designs That Feel Like Home.",
+            "text_color": "#1a1a1a",
+            "link": ""
           }
         }
       },
@@ -150,66 +227,75 @@
         "b4"
       ],
       "settings": {
-        "heading": "New Collection",
+        "bg_color": "#ffffff",
+        "content_max_width": 1100,
+        "heading": "",
+        "heading_align": "center",
+        "heading_size": 32,
+        "heading_size_mobile": 24,
+        "heading_color": "#1a1a1a",
         "columns_desktop": 2,
-        "aspect_ratio": "panoramic",
-        "text_position": "below"
+        "columns_mobile": 1,
+        "grid_gap": 32,
+        "aspect_ratio": "auto",
+        "aspect_ratio_mobile": "same",
+        "image_radius": 18,
+        "text_position": "below",
+        "text_align": "left",
+        "title_size": 16,
+        "title_size_mobile": 16,
+        "overlay_color": "#000000",
+        "overlay_opacity": 15,
+        "padding_top": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom": 60,
+        "padding_bottom_mobile": 40,
+        "padding_left": 40,
+        "padding_left_mobile": 44,
+        "padding_right": 40,
+        "padding_right_mobile": 44
       }
     },
     "inspire": {
       "type": "fr-home-triple-split",
       "settings": {
-        "main_heading": "What inspires the company",
-        "heading": "Our Inspiration",
-        "text": "<p>We find beauty in the small details.<\/p>",
-        "button_text": "READ MORE"
-      }
-    },
-    "staggered_projects": {
-      "type": "fr-about-staggered",
-      "blocks": {
-        "item1": {
-          "type": "staggered_item",
-          "settings": {
-            "title": "Wallpapers",
-            "text": "Design bespoke wallpapers with custom patterns, artwork, colors and dimensions, crafted to suit your interiors.",
-            "border_width": 2,
-            "border_color": "#0088ff",
-            "offset_y": 0,
-            "number": ""
-          }
-        },
-        "item2": {
-          "type": "staggered_item",
-          "settings": {
-            "title": "Decals & Wall art",
-            "text": "Personalize decorative decals with unique illustrations, motifs and layouts that enhance any wall or corner.",
-            "border_width": 0,
-            "offset_y": 40,
-            "number": ""
-          }
-        },
-        "item3": {
-          "type": "staggered_item",
-          "settings": {
-            "title": "Colours, materials and finishes",
-            "text": "Choose from curated color palettes, premium materials and refined finishes to create a design that perfectly complements your space.",
-            "border_width": 0,
-            "offset_y": 0,
-            "number": ""
-          }
-        }
-      },
-      "block_order": [
-        "item1",
-        "item2",
-        "item3"
-      ],
-      "settings": {
-        "heading": "Projects",
-        "columns_desktop": 3,
-        "image_shape": "portrait",
-        "image_radius": 0
+        "bg_color": "#ffffff",
+        "content_max_width": 1300,
+        "main_heading": "Designs That Feel Like Home.",
+        "main_heading_align": "center",
+        "main_heading_size": 32,
+        "main_heading_size_mobile": 24,
+        "main_heading_color": "#1a1a1a",
+        "column_ratio": "1fr|2fr|1fr",
+        "mobile_layout": "text_first",
+        "vertical_align": "center",
+        "gap": 40,
+        "image_1": "shopify://shop_images/Rectangle_170.png",
+        "image_2": "shopify://shop_images/Rectangle_171.png",
+        "image_radius": 0,
+        "text_bg_color": "rgba(0,0,0,0)",
+        "text_padding": 0,
+        "text_align": "center",
+        "heading": "Inspired by Stories. Designed for Spaces.",
+        "heading_size": 28,
+        "heading_size_mobile": 22,
+        "heading_color": "#1a1a1a",
+        "text": "<p>Every First Room creation begins with inspiration drawn from nature, architecture, art and everyday living. We blend timeless craftsmanship with contemporary design to create wallpapers and home décor that transform spaces into personal expressions of style.</p>",
+        "text_size": 14,
+        "text_size_mobile": 14,
+        "text_color": "#4b5563",
+        "button_text": "Discover our inspiration",
+        "button_link": "",
+        "btn_bg_color": "#1a1a1a",
+        "btn_text_color": "#ffffff",
+        "padding_top": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom": 60,
+        "padding_bottom_mobile": 40,
+        "padding_left": 40,
+        "padding_left_mobile": 52,
+        "padding_right": 40,
+        "padding_right_mobile": 52
       }
     },
     "products": {
@@ -218,25 +304,37 @@
         "p1": {
           "type": "grid_item",
           "settings": {
-            "title": "Product 1"
+            "image": "shopify://shop_images/Rectangle_156.png",
+            "title": "Title 1",
+            "subtitle": "",
+            "link": ""
           }
         },
         "p2": {
           "type": "grid_item",
           "settings": {
-            "title": "Product 2"
+            "image": "shopify://shop_images/Rectangle_157.png",
+            "title": "Title 2",
+            "subtitle": "",
+            "link": ""
           }
         },
         "p3": {
           "type": "grid_item",
           "settings": {
-            "title": "Product 3"
+            "image": "shopify://shop_images/Rectangle_158.png",
+            "title": "Title 3",
+            "subtitle": "",
+            "link": ""
           }
         },
         "p4": {
           "type": "grid_item",
           "settings": {
-            "title": "Product 4"
+            "image": "shopify://shop_images/Rectangle_172.png",
+            "title": "Title 4",
+            "subtitle": "",
+            "link": ""
           }
         }
       },
@@ -246,22 +344,95 @@
         "p3",
         "p4"
       ],
+      "disabled": true,
       "settings": {
-        "heading": "Featured Products",
+        "section_bg": "#ffffff",
+        "heading": "Featured Collections",
         "heading_align": "center",
+        "heading_align_mobile": "center",
+        "content_max_width": 1300,
+        "heading_size": 32,
+        "heading_size_mobile": 24,
+        "heading_color": "#1a1a1a",
         "columns_desktop": 4,
-        "image_shape": "original"
+        "columns_mobile": 2,
+        "grid_gap": 8,
+        "grid_gap_mobile": 20,
+        "grid_vgap_mobile": 40,
+        "show_vertical_borders": false,
+        "image_shape": "original",
+        "image_radius": 0,
+        "image_max_width": 300,
+        "image_max_width_mobile": 150,
+        "text_align": "center",
+        "text_align_mobile": "center",
+        "title_size": 15,
+        "title_size_mobile": 15,
+        "title_color": "#1a1a1a",
+        "subtitle_size": 14,
+        "subtitle_size_mobile": 12,
+        "subtitle_color": "#666666",
+        "padding_top": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom": 60,
+        "padding_bottom_mobile": 40,
+        "padding_left": 40,
+        "padding_left_mobile": 20,
+        "padding_right": 40,
+        "padding_right_mobile": 20
       }
     },
     "social": {
       "type": "fr-about-grid",
       "blocks": {
-        "s1": { "type": "grid_item", "settings": { "title": "" } },
-        "s2": { "type": "grid_item", "settings": { "title": "" } },
-        "s3": { "type": "grid_item", "settings": { "title": "" } },
-        "s4": { "type": "grid_item", "settings": { "title": "" } },
-        "s5": { "type": "grid_item", "settings": { "title": "" } },
-        "s6": { "type": "grid_item", "settings": { "title": "" } }
+        "s1": {
+          "type": "grid_item",
+          "settings": {
+            "title": "",
+            "subtitle": "",
+            "link": ""
+          }
+        },
+        "s2": {
+          "type": "grid_item",
+          "settings": {
+            "title": "",
+            "subtitle": "",
+            "link": ""
+          }
+        },
+        "s3": {
+          "type": "grid_item",
+          "settings": {
+            "title": "",
+            "subtitle": "",
+            "link": ""
+          }
+        },
+        "s4": {
+          "type": "grid_item",
+          "settings": {
+            "title": "",
+            "subtitle": "",
+            "link": ""
+          }
+        },
+        "s5": {
+          "type": "grid_item",
+          "settings": {
+            "title": "",
+            "subtitle": "",
+            "link": ""
+          }
+        },
+        "s6": {
+          "type": "grid_item",
+          "settings": {
+            "title": "",
+            "subtitle": "",
+            "link": ""
+          }
+        }
       },
       "block_order": [
         "s1",
@@ -272,10 +443,40 @@
         "s6"
       ],
       "settings": {
-        "heading": "Social Proof",
+        "section_bg": "#ffffff",
+        "heading": "#FirstRoomCollective",
         "heading_align": "center",
+        "heading_align_mobile": "center",
+        "content_max_width": 1300,
+        "heading_size": 32,
+        "heading_size_mobile": 24,
+        "heading_color": "#1a1a1a",
         "columns_desktop": 6,
-        "image_shape": "square"
+        "columns_mobile": 2,
+        "grid_gap": 20,
+        "grid_gap_mobile": 20,
+        "grid_vgap_mobile": 40,
+        "show_vertical_borders": false,
+        "image_shape": "square",
+        "image_radius": 0,
+        "image_max_width": 300,
+        "image_max_width_mobile": 150,
+        "text_align": "center",
+        "text_align_mobile": "center",
+        "title_size": 18,
+        "title_size_mobile": 16,
+        "title_color": "#1a1a1a",
+        "subtitle_size": 14,
+        "subtitle_size_mobile": 12,
+        "subtitle_color": "#666666",
+        "padding_top": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom": 60,
+        "padding_bottom_mobile": 40,
+        "padding_left": 40,
+        "padding_left_mobile": 20,
+        "padding_right": 40,
+        "padding_right_mobile": 20
       }
     },
     "badges": {
@@ -284,19 +485,28 @@
         "bdg1": {
           "type": "badge",
           "settings": {
-            "title": "Eco Friendly Wallpaper"
+            "svg_code": "",
+            "image": "shopify://shop_images/ChatGPT_Image_Jun_25_2026_at_11_58_08_AM_3.png",
+            "title": "",
+            "subtitle": ""
           }
         },
         "bdg2": {
           "type": "badge",
           "settings": {
-            "title": "PVC Free Material"
+            "svg_code": "",
+            "image": "shopify://shop_images/ChatGPT_Image_Jun_25_2026_at_11_58_08_AM_2.png",
+            "title": "",
+            "subtitle": ""
           }
         },
         "bdg3": {
           "type": "badge",
           "settings": {
-            "title": "Removable Without Damage"
+            "svg_code": "",
+            "image": "shopify://shop_images/ChatGPT_Image_Jun_25_2026_at_11_58_08_AM_1.png",
+            "title": "",
+            "subtitle": ""
           }
         }
       },
@@ -306,8 +516,35 @@
         "bdg3"
       ],
       "settings": {
-        "heading": "Promotional Banners",
-        "columns_desktop": 3
+        "bg_color": "#ffffff",
+        "content_max_width": 1050,
+        "heading": "",
+        "heading_align": "center",
+        "heading_size": 28,
+        "heading_size_mobile": 22,
+        "heading_color": "#1a1a1a",
+        "columns_desktop": 3,
+        "columns_mobile": 1,
+        "grid_gap": 40,
+        "show_circle_border": true,
+        "circle_border_color": "#e5e5e5",
+        "icon_size": 150,
+        "icon_size_mobile": 120,
+        "text_align": "center",
+        "title_size": 18,
+        "title_size_mobile": 16,
+        "title_color": "#1a1a1a",
+        "subtitle_size": 14,
+        "subtitle_size_mobile": 12,
+        "subtitle_color": "#666666",
+        "padding_top": 40,
+        "padding_top_mobile": 40,
+        "padding_bottom": 80,
+        "padding_bottom_mobile": 60,
+        "padding_left": 40,
+        "padding_left_mobile": 100,
+        "padding_right": 40,
+        "padding_right_mobile": 100
       }
     }
   },
@@ -317,7 +554,6 @@
     "categories",
     "banners",
     "inspire",
-    "staggered_projects",
     "products",
     "social",
     "badges"
