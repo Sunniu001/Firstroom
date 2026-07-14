@@ -12,27 +12,26 @@
   padding-right: {{ section.settings.padding_right }}px;
   --fz-txt-d: {{ section.settings.text_size }}px;
   --fz-txt-m: {{ section.settings.text_size_mobile | default: section.settings.text_size }}px;
+  --fz-hd-d: {{ section.settings.heading_size }}px;
+  --fz-hd-m: {{ section.settings.heading_size_mobile | default: section.settings.heading_size | times: 0.8 | round }}px;
+  --icon-sz-d: {{ section.settings.icon_size }}px;
+  --icon-sz-m: {{ section.settings.icon_size_mobile | default: section.settings.icon_size }}px;
+  --gap-d: {{ section.settings.gap }}px;
+  --gap-m: {{ section.settings.gap_mobile | default: section.settings.gap }}px;
 ">
   <div class="fr-custom-features__container">
     {%- if section.settings.heading != blank -%}
       <h2 class="fr-custom-features__heading" style="
-        font-size: {{ section.settings.heading_size }}px;
         color: {{ section.settings.heading_color }};
         --ha-d: {{ section.settings.heading_alignment }};
         --ha-m: {{ section.settings.heading_align_mobile | default: section.settings.heading_alignment }};
       ">{{ section.settings.heading }}</h2>
     {%- endif -%}
 
-    <div class="fr-custom-features__grid" style="
-      --gap-d: {{ section.settings.gap }}px;
-      --gap-m: {{ section.settings.gap_mobile | default: section.settings.gap }}px;
-    ">
+    <div class="fr-custom-features__grid">
       {%- for block in section.blocks -%}
         <div class="fr-custom-features__item" {{ block.shopify_attributes }}>
-          <div class="fr-custom-features__icon-wrapper" style="
-            --icon-d: {{ block.settings.icon_size | default: section.settings.icon_size }}px;
-            --icon-m: {{ block.settings.icon_size_mobile | default: section.settings.icon_size_mobile | default: block.settings.icon_size | default: section.settings.icon_size }}px;
-          ">
+          <div class="fr-custom-features__icon-wrapper">
             {%- if block.settings.icon != blank -%}
               <img src="{{ block.settings.icon | image_url: width: 300 }}" alt="{{ block.settings.text | escape }}" loading="lazy" class="fr-custom-features__icon">
             {%- else -%}
@@ -75,17 +74,17 @@
     }
     #fr-custom-features-{{ section.id }} .fr-custom-features__heading {
       text-align: var(--ha-d) !important;
-      font-size: {{ section.settings.heading_size }}px !important;
+      font-size: var(--fz-hd-d) !important;
     }
     #fr-custom-features-{{ section.id }} .fr-custom-features__text {
       font-size: var(--fz-txt-d) !important;
     }
-    #fr-custom-features-{{ section.id }} .fr-custom-features__grid {
-      gap: var(--gap-d);
-    }
     #fr-custom-features-{{ section.id }} .fr-custom-features__icon-wrapper {
-      width: var(--icon-d);
-      height: var(--icon-d);
+      width: var(--icon-sz-d) !important;
+      height: var(--icon-sz-d) !important;
+    }
+    #fr-custom-features-{{ section.id }} .fr-custom-features__grid {
+      gap: var(--gap-d) !important;
     }
   }
 
@@ -95,7 +94,7 @@
     margin: 0 0 {{ section.settings.heading_margin_bottom }}px 0;
     font-weight: {{ section.settings.heading_font.weight | default: 500 }};
     text-align: var(--ha-m);
-    font-size: {{ section.settings.heading_size_mobile | default: section.settings.heading_size | times: 0.8 | round }}px !important;
+    font-size: var(--fz-hd-m);
   }
 
   #fr-custom-features-{{ section.id }} .fr-custom-features__grid {
@@ -120,8 +119,8 @@
     justify-content: center;
     align-items: center;
     background-color: #f5f5f5;
-    width: var(--icon-m);
-    height: var(--icon-m);
+    width: var(--icon-sz-m);
+    height: var(--icon-sz-m);
   }
 
   #fr-custom-features-{{ section.id }} .fr-custom-features__icon {
@@ -186,7 +185,7 @@
     {
       "type": "range",
       "id": "heading_size_mobile",
-      "min": 20,
+      "min": 16,
       "max": 60,
       "step": 2,
       "unit": "px",
@@ -244,12 +243,12 @@
     {
       "type": "range",
       "id": "icon_size_mobile",
-      "min": 40,
-      "max": 150,
+      "min": 30,
+      "max": 120,
       "step": 5,
       "unit": "px",
       "label": "Icon/Image Size (Mobile)",
-      "default": 80
+      "default": 60
     },
     {
       "type": "font_picker",
@@ -292,7 +291,7 @@
       "id": "gap_mobile",
       "min": 0,
       "max": 100,
-      "step": 5,
+      "step": 2,
       "unit": "px",
       "label": "Spacing Between Items (Mobile)",
       "default": 20
@@ -385,17 +384,7 @@
           "max": 200,
           "step": 5,
           "unit": "px",
-          "label": "Image Size (Overrides Section Default Desktop)",
-          "default": 80
-        },
-        {
-          "type": "range",
-          "id": "icon_size_mobile",
-          "min": 40,
-          "max": 200,
-          "step": 5,
-          "unit": "px",
-          "label": "Image Size (Overrides Section Default Mobile)",
+          "label": "Image Size (Overrides Section Default)",
           "default": 80
         },
         {

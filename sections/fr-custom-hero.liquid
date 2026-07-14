@@ -24,7 +24,9 @@
     ">
       <div class="fr-custom-hero__content" style="
         --ta-d: {{ section.settings.text_alignment }};
-        --ta-m: {{ section.settings.text_align_mobile | default: section.settings.text_alignment }};
+        {%- assign mobile_align = section.settings.text_align_mobile | default: section.settings.text_alignment -%}
+        --ta-m: {{ mobile_align }};
+        {%- if mobile_align == 'left' -%}--ai-m: flex-start;{%- elsif mobile_align == 'right' -%}--ai-m: flex-end;{%- else -%}--ai-m: center;{%- endif -%}
         max-width: {{ section.settings.content_max_width }}px;
       ">
         {%- if section.settings.heading != blank -%}
@@ -131,6 +133,7 @@
     display: flex;
     flex-direction: column;
     text-align: var(--ta-m);
+    align-items: var(--ai-m);
   }
   
   #fr-custom-hero-{{ section.id }} .fr-custom-hero__heading {
@@ -148,6 +151,7 @@
     }
     #fr-custom-hero-{{ section.id }} .fr-custom-hero__content {
       text-align: var(--ta-d);
+      align-items: {% if section.settings.text_alignment == 'left' %}flex-start{% elsif section.settings.text_alignment == 'right' %}flex-end{% else %}center{% endif %};
     }
     #fr-custom-hero-{{ section.id }} .fr-custom-hero__heading {
       font-size: var(--fz-hd-d) !important;
@@ -197,17 +201,15 @@
       min-height: {{ section.settings.min_height_mobile }}px;
     }
     #fr-custom-hero-{{ section.id }} .fr-custom-hero__content-wrapper {
-      padding-left: 20px;
-      padding-right: 20px;
-    }
-    #fr-custom-hero-{{ section.id }} .fr-custom-hero__content {
-      align-items: {%- if section.settings.text_align_mobile == 'center' -%}center{%- elsif section.settings.text_align_mobile == 'right' -%}flex-end{%- else -%}flex-start{%- endif -%};
+      padding: 20px;
+      justify-content: center;
+      align-items: center;
     }
     #fr-custom-hero-{{ section.id }} .fr-custom-hero__heading {
       margin-bottom: 20px;
     }
     #fr-custom-hero-{{ section.id }} .fr-custom-hero__btn {
-      align-self: {%- if section.settings.text_align_mobile == 'center' -%}center{%- elsif section.settings.text_align_mobile == 'right' -%}flex-end{%- else -%}flex-start{%- endif -%};
+      /* Button inherits align-items from the parent container now */
     }
   }
 </style>
