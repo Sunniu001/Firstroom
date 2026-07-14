@@ -32,7 +32,7 @@
         "heading": "Create something uniquely yours.",
         "heading_font": "playfair_display_n7",
         "heading_size": 52,
-        "heading_size_mobile": 36,
+        "heading_size_mobile": 46,
         "heading_color": "#1a1a1a",
         "text": "<p>At First Room Collective, we believe<br/>design is more than a visual, it's a <br/>deeply personal journey. Every custom<br/>piece we create is rooted in your story,<br/>your space, and your dreams. <br/>Just like new beginnings deserve<br/>something special, your space with us <br/>becomes a canvas of personal <br/>expression.</p>",
         "text_font": "lato_n4",
@@ -53,7 +53,7 @@
         "padding_bottom": 0,
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 40,
-        "padding_left": 60,
+        "padding_left": 40,
         "padding_right": 0
       }
     },
