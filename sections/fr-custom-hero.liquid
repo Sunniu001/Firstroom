@@ -197,18 +197,17 @@
       min-height: {{ section.settings.min_height_mobile }}px;
     }
     #fr-custom-hero-{{ section.id }} .fr-custom-hero__content-wrapper {
-      padding: 20px;
-      justify-content: center;
-      align-items: center;
+      padding-left: 20px;
+      padding-right: 20px;
     }
     #fr-custom-hero-{{ section.id }} .fr-custom-hero__content {
-      align-items: center;
+      align-items: {%- if section.settings.text_align_mobile == 'center' -%}center{%- elsif section.settings.text_align_mobile == 'right' -%}flex-end{%- else -%}flex-start{%- endif -%};
     }
     #fr-custom-hero-{{ section.id }} .fr-custom-hero__heading {
       margin-bottom: 20px;
     }
     #fr-custom-hero-{{ section.id }} .fr-custom-hero__btn {
-      align-self: center;
+      align-self: {%- if section.settings.text_align_mobile == 'center' -%}center{%- elsif section.settings.text_align_mobile == 'right' -%}flex-end{%- else -%}flex-start{%- endif -%};
     }
   }
 </style>

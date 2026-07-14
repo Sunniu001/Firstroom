@@ -23,10 +23,16 @@
       ">{{ section.settings.heading }}</h2>
     {%- endif -%}
 
-    <div class="fr-custom-features__grid" style="gap: {{ section.settings.gap }}px;">
+    <div class="fr-custom-features__grid" style="
+      --gap-d: {{ section.settings.gap }}px;
+      --gap-m: {{ section.settings.gap_mobile | default: section.settings.gap }}px;
+    ">
       {%- for block in section.blocks -%}
         <div class="fr-custom-features__item" {{ block.shopify_attributes }}>
-          <div class="fr-custom-features__icon-wrapper" style="width: {{ block.settings.icon_size | default: section.settings.icon_size }}px; height: {{ block.settings.icon_size | default: section.settings.icon_size }}px;">
+          <div class="fr-custom-features__icon-wrapper" style="
+            --icon-d: {{ block.settings.icon_size | default: section.settings.icon_size }}px;
+            --icon-m: {{ block.settings.icon_size_mobile | default: section.settings.icon_size_mobile | default: block.settings.icon_size | default: section.settings.icon_size }}px;
+          ">
             {%- if block.settings.icon != blank -%}
               <img src="{{ block.settings.icon | image_url: width: 300 }}" alt="{{ block.settings.text | escape }}" loading="lazy" class="fr-custom-features__icon">
             {%- else -%}
@@ -69,9 +75,17 @@
     }
     #fr-custom-features-{{ section.id }} .fr-custom-features__heading {
       text-align: var(--ha-d) !important;
+      font-size: {{ section.settings.heading_size }}px !important;
     }
     #fr-custom-features-{{ section.id }} .fr-custom-features__text {
       font-size: var(--fz-txt-d) !important;
+    }
+    #fr-custom-features-{{ section.id }} .fr-custom-features__grid {
+      gap: var(--gap-d);
+    }
+    #fr-custom-features-{{ section.id }} .fr-custom-features__icon-wrapper {
+      width: var(--icon-d);
+      height: var(--icon-d);
     }
   }
 
@@ -81,12 +95,14 @@
     margin: 0 0 {{ section.settings.heading_margin_bottom }}px 0;
     font-weight: {{ section.settings.heading_font.weight | default: 500 }};
     text-align: var(--ha-m);
+    font-size: {{ section.settings.heading_size_mobile | default: section.settings.heading_size | times: 0.8 | round }}px !important;
   }
 
   #fr-custom-features-{{ section.id }} .fr-custom-features__grid {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    gap: var(--gap-m);
   }
 
   #fr-custom-features-{{ section.id }} .fr-custom-features__item {
@@ -104,6 +120,8 @@
     justify-content: center;
     align-items: center;
     background-color: #f5f5f5;
+    width: var(--icon-m);
+    height: var(--icon-m);
   }
 
   #fr-custom-features-{{ section.id }} .fr-custom-features__icon {
@@ -126,11 +144,8 @@
   }
 
   @media (max-width: 767px) {
-    #fr-custom-features-{{ section.id }} .fr-custom-features__grid {
-      gap: 20px;
-    }
     #fr-custom-features-{{ section.id }} .fr-custom-features__item {
-      width: calc(50% - 10px);
+      width: calc(50% - (var(--gap-m) / 2));
     }
   }
 </style>
@@ -165,8 +180,18 @@
       "max": 60,
       "step": 2,
       "unit": "px",
-      "label": "Heading Size",
+      "label": "Heading Size (Desktop)",
       "default": 36
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Size (Mobile)",
+      "default": 28
     },
     {
       "type": "select",
@@ -213,7 +238,17 @@
       "max": 150,
       "step": 5,
       "unit": "px",
-      "label": "Icon/Image Size",
+      "label": "Icon/Image Size (Desktop)",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "icon_size_mobile",
+      "min": 40,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "label": "Icon/Image Size (Mobile)",
       "default": 80
     },
     {
@@ -249,8 +284,18 @@
       "max": 100,
       "step": 5,
       "unit": "px",
-      "label": "Spacing Between Items",
+      "label": "Spacing Between Items (Desktop)",
       "default": 40
+    },
+    {
+      "type": "range",
+      "id": "gap_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Spacing Between Items (Mobile)",
+      "default": 20
     },
     {
       "type": "color",
@@ -340,7 +385,17 @@
           "max": 200,
           "step": 5,
           "unit": "px",
-          "label": "Image Size (Overrides Section Default)",
+          "label": "Image Size (Overrides Section Default Desktop)",
+          "default": 80
+        },
+        {
+          "type": "range",
+          "id": "icon_size_mobile",
+          "min": 40,
+          "max": 200,
+          "step": 5,
+          "unit": "px",
+          "label": "Image Size (Overrides Section Default Mobile)",
           "default": 80
         },
         {
