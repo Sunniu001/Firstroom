@@ -16,6 +16,26 @@
       {% assign mobile_img_order = 2 %}
       {% assign mobile_txt_order = 1 %}
     {% endif %}
+    {%- if section.settings.section_heading != blank or section.settings.section_description != blank -%}
+      <div class="fr-home-imgtext__header-wrapper">
+        {%- if section.settings.section_heading != blank -%}
+          <h2 class="fr-home-imgtext__section-heading" style="
+            text-align: {{ section.settings.section_heading_align }};
+            --fz-sh-d: {{ section.settings.section_heading_size }}px;
+            --fz-sh-m: {{ section.settings.section_heading_size_mobile | default: section.settings.section_heading_size | times: 0.8 | round }}px;
+            color: {{ section.settings.section_heading_color }};
+          ">{{ section.settings.section_heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.section_description != blank -%}
+          <div class="fr-home-imgtext__section-desc" style="
+            text-align: {{ section.settings.section_heading_align }};
+            --fz-sd-d: {{ section.settings.section_desc_size }}px;
+            --fz-sd-m: {{ section.settings.section_desc_size_mobile | default: section.settings.section_desc_size | times: 0.85 | round }}px;
+            color: {{ section.settings.section_desc_color }};
+          ">{{ section.settings.section_description }}</div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
 
     <div class="fr-home-imgtext__container" style="
         --order-img-m: {{ mobile_img_order }};
@@ -92,6 +112,24 @@
     padding-right: var(--pr-m);
   }
 
+  #fr-home-imgtext-{{ section.id }} .fr-home-imgtext__header-wrapper {
+    margin-bottom: 40px;
+  }
+
+  #fr-home-imgtext-{{ section.id }} .fr-home-imgtext__section-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+    margin: 0 0 16px 0;
+    letter-spacing: 0.01em;
+    font-size: var(--fz-sh-m);
+  }
+
+  #fr-home-imgtext-{{ section.id }} .fr-home-imgtext__section-desc {
+    font-size: var(--fz-sd-m);
+    margin: 0;
+    line-height: 1.6;
+  }
+
   .fr-home-imgtext__container {
     display: grid;
     grid-template-columns: 1fr;
@@ -103,6 +141,15 @@
       padding-bottom: var(--pb-d);
       padding-left: var(--pl-d);
       padding-right: var(--pr-d);
+    }
+    .fr-home-imgtext__container {
+      grid-template-columns: inherit;
+    }
+    #fr-home-imgtext-{{ section.id }} .fr-home-imgtext__section-heading {
+      font-size: var(--fz-sh-d);
+    }
+    #fr-home-imgtext-{{ section.id }} .fr-home-imgtext__section-desc {
+      font-size: var(--fz-sd-d);
     }
   }
 
@@ -213,6 +260,83 @@
     {
       "type": "header",
       "content": "Layout Settings"
+    },
+    {
+      "type": "header",
+      "content": "Section Title & Description"
+    },
+    {
+      "type": "text",
+      "id": "section_heading",
+      "label": "Section Heading"
+    },
+    {
+      "type": "range",
+      "id": "section_heading_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Size (Desktop)",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "section_heading_size_mobile",
+      "min": 16,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Size (Mobile)",
+      "default": 26
+    },
+    {
+      "type": "color",
+      "id": "section_heading_color",
+      "label": "Heading Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "select",
+      "id": "section_heading_align",
+      "label": "Heading & Description Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "richtext",
+      "id": "section_description",
+      "label": "Section Description"
+    },
+    {
+      "type": "range",
+      "id": "section_desc_size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Description Size (Desktop)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "section_desc_size_mobile",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Description Size (Mobile)",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "section_desc_color",
+      "label": "Description Color",
+      "default": "#4b5563"
     },
     {
       "type": "select",

@@ -77,7 +77,14 @@
         {%- endif -%}
 
         {%- if section.settings.heading != blank -%}
-          <h3 class="fr-home-triple__heading" style="--fz-h-d: {{ section.settings.heading_size }}px; --fz-h-m: {{ section.settings.heading_size_mobile | default: section.settings.heading_size | times: 0.8 | round }}px; color: {{ section.settings.heading_color }}; background-color: {{ section.settings.heading_bg_color }}; padding: {{ section.settings.heading_padding_y }}px {{ section.settings.heading_padding_x }}px;">
+          <h3 class="fr-home-triple__heading" style="
+              --ta-h-d: {{ section.settings.heading_align }};
+              --ta-h-m: {{ section.settings.heading_align_mobile | default: section.settings.heading_align }};
+              --fz-h-d: {{ section.settings.heading_size }}px; 
+              --fz-h-m: {{ section.settings.heading_size_mobile | default: section.settings.heading_size | times: 0.8 | round }}px; 
+              color: {{ section.settings.heading_color }}; 
+              background-color: {{ section.settings.heading_bg_color }}; 
+              padding: {{ section.settings.heading_padding_y }}px {{ section.settings.heading_padding_x }}px;">
             {{ section.settings.heading }}
           </h3>
         {%- endif -%}
@@ -226,6 +233,7 @@
     line-height: 1.2;
     letter-spacing: 0.01em;
     font-size: var(--fz-h-m);
+    text-align: var(--ta-h-m);
   }
 
   .fr-home-triple__body {
@@ -253,16 +261,21 @@
     opacity: 0.8;
   }
 
-  @media(min-width: 768px) {
+  @media (min-width: 768px) {
     .fr-home-triple__main-heading {
       font-size: var(--fz-mh-d);
       text-align: var(--ta-mh-d);
     }
+    .fr-home-triple__heading {
+      font-size: var(--fz-h-d);
+      text-align: var(--ta-h-d);
+    }
+    .fr-home-triple__body {
+      font-size: var(--fz-t-d);
+    }
     .fr-home-triple__col-text {
       text-align: var(--ta-d);
     }
-    .fr-home-triple__heading { font-size: var(--fz-h-d); }
-    .fr-home-triple__body { font-size: var(--fz-t-d); }
   }
 </style>
 
@@ -459,6 +472,28 @@
       "id": "heading",
       "label": "Title",
       "default": "Our Inspiration"
+    },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Title Alignment (Desktop)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "heading_align_mobile",
+      "label": "Title Alignment (Mobile)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
     },
     {
       "type": "range",
