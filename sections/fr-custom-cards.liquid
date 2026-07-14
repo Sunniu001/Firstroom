@@ -4,8 +4,10 @@
 
 <section id="fr-custom-cards-{{ section.id }}" class="fr-custom-cards" style="
   background-color: {{ section.settings.bg_color }};
-  padding-top: {{ section.settings.padding_top }}px;
-  padding-bottom: {{ section.settings.padding_bottom }}px;
+  --pt-m: {{ section.settings.padding_top_mobile | default: section.settings.padding_top }}px;
+  --pb-m: {{ section.settings.padding_bottom_mobile | default: section.settings.padding_bottom }}px;
+  --pt-d: {{ section.settings.padding_top }}px;
+  --pb-d: {{ section.settings.padding_bottom }}px;
   padding-left: {{ section.settings.padding_left }}px;
   padding-right: {{ section.settings.padding_right }}px;
   --fz-txt-d: {{ section.settings.text_size_desktop }}px;
@@ -18,13 +20,14 @@
       <h2 class="fr-custom-cards__heading" style="
         font-size: {{ section.settings.heading_size }}px;
         color: {{ section.settings.heading_color }};
-        text-align: {{ section.settings.heading_alignment }};
+        --ha-m: {{ section.settings.heading_align_mobile | default: section.settings.heading_alignment }};
+        --ha-d: {{ section.settings.heading_alignment }};
       ">{{ section.settings.heading }}</h2>
     {%- endif -%}
 
     <div class="fr-custom-cards__grid" style="gap: {{ section.settings.gap }}px;">
       {%- for block in section.blocks -%}
-        <div class="fr-custom-cards__card" {{ block.shopify_attributes }} style="transform: translateY({{ block.settings.offset_y }}px);">
+        <div class="fr-custom-cards__card" {{ block.shopify_attributes }} style="transform: translateY({{ block.settings.offset_y }}px); --ta-m: {{ section.settings.text_align_mobile | default: 'center' }}; --ta-d: {{ section.settings.text_align | default: 'center' }};">
           <div class="fr-custom-cards__image-wrapper" style="
             padding-bottom: {{ block.settings.aspect_ratio }}%;
           ">
@@ -49,6 +52,11 @@
 <style>
   {{ section.settings.heading_font | font_face: font_display: 'swap' }}
   {{ section.settings.text_font | font_face: font_display: 'swap' }}
+
+  #fr-custom-cards-{{ section.id }} {
+    padding-top: var(--pt-m);
+    padding-bottom: var(--pb-m);
+  }
 
   #fr-custom-cards-{{ section.id }} .fr-custom-cards__heading {
     font-family: {{ section.settings.heading_font.family }}, {{ section.settings.heading_font.fallback_families }};
@@ -76,6 +84,7 @@
     width: 100%;
     margin: 0 0 {{ section.settings.heading_margin_bottom }}px 0;
     font-weight: {{ section.settings.heading_font.weight | default: 500 }};
+    text-align: var(--ha-m);
   }
 
   #fr-custom-cards-{{ section.id }} .fr-custom-cards__grid {
@@ -89,6 +98,7 @@
     flex: 1 1 0;
     display: flex;
     flex-direction: column;
+    text-align: var(--ta-m);
   }
 
   #fr-custom-cards-{{ section.id }} .fr-custom-cards__image-wrapper {
@@ -122,6 +132,16 @@
   }
 
   @media (min-width: 768px) {
+    #fr-custom-cards-{{ section.id }} {
+      padding-top: var(--pt-d);
+      padding-bottom: var(--pb-d);
+    }
+    #fr-custom-cards-{{ section.id }} .fr-custom-cards__heading {
+      text-align: var(--ha-d);
+    }
+    #fr-custom-cards-{{ section.id }} .fr-custom-cards__card {
+      text-align: var(--ta-d);
+    }
     #fr-custom-cards-{{ section.id }} .fr-custom-cards__text {
       font-size: var(--fz-txt-d);
     }
@@ -187,7 +207,18 @@
     {
       "type": "select",
       "id": "heading_alignment",
-      "label": "Heading Alignment",
+      "label": "Heading Alignment (Desktop)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "heading_align_mobile",
+      "label": "Heading Alignment (Mobile)",
       "options": [
         { "value": "left", "label": "Left" },
         { "value": "center", "label": "Center" },
@@ -264,6 +295,28 @@
       "default": "#1a1a1a"
     },
     {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text Alignment (Desktop)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "text_align_mobile",
+      "label": "Text Alignment (Mobile)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
       "type": "range",
       "id": "gap",
       "min": 0,
@@ -294,8 +347,28 @@
       "max": 120,
       "step": 4,
       "unit": "px",
-      "label": "Padding Bottom",
+      "label": "Padding Bottom (Desktop)",
       "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom (Mobile)",
+      "default": 40
     },
     {
       "type": "range",

@@ -43,8 +43,10 @@
 
     <div class="fr-home-hero__content-container" style="max-width: {{ section.settings.content_max_width }}px;">
       <div class="fr-home-hero__content" style="
-          text-align: {{ section.settings.text_align }};
-          align-items: {% if section.settings.text_align == 'center' %}center{% elsif section.settings.text_align == 'right' %}flex-end{% else %}flex-start{% endif %};
+          --ta-d: {{ section.settings.text_align }};
+          --ta-m: {{ section.settings.text_align_mobile | default: section.settings.text_align }};
+          --ai-d: {% if section.settings.text_align == 'center' %}center{% elsif section.settings.text_align == 'right' %}flex-end{% else %}flex-start{% endif %};
+          --ai-m: {% assign ta_m = section.settings.text_align_mobile | default: section.settings.text_align %}{% if ta_m == 'center' %}center{% elsif ta_m == 'right' %}flex-end{% else %}flex-start{% endif %};
         ">
         
         {%- if section.settings.title != blank -%}
@@ -180,6 +182,8 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    text-align: var(--ta-m);
+    align-items: var(--ai-m);
   }
 
   .fr-home-hero__title {
@@ -200,12 +204,16 @@
   @media(min-width: 768px) {
     .fr-home-hero__title { font-size: var(--fz-d); }
     .fr-home-hero__subtitle { font-size: var(--fz-d); }
+    .fr-home-hero__content {
+      text-align: var(--ta-d);
+      align-items: var(--ai-d);
+    }
   }
 
   .fr-home-hero__buttons-stack {
     display: flex;
     flex-wrap: wrap;
-    justify-content: {% if section.settings.text_align == 'center' %}center{% elsif section.settings.text_align == 'right' %}flex-end{% else %}flex-start{% endif %};
+    justify-content: var(--ai-m);
     gap: 15px;
     width: 100%;
   }
@@ -231,6 +239,11 @@
     }
     .fr-home-hero__btn {
       padding: 15px 20px;
+    }
+  }
+  @media(min-width: 768px) {
+    .fr-home-hero__buttons-stack {
+      justify-content: var(--ai-d);
     }
   }
 </style>
@@ -337,7 +350,18 @@
     {
       "type": "select",
       "id": "text_align",
-      "label": "Content Alignment",
+      "label": "Content Alignment (Desktop)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "text_align_mobile",
+      "label": "Content Alignment (Mobile)",
       "options": [
         { "value": "left", "label": "Left" },
         { "value": "center", "label": "Center" },

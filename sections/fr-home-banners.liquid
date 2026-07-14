@@ -53,7 +53,12 @@
             
             {%- if section.settings.text_position == 'overlay' -%}
               <div class="fr-home-banners__overlay" style="background-color: {{ section.settings.overlay_color }}; opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
-              <div class="fr-home-banners__overlay-content" style="align-items: {% if section.settings.text_align == 'center' %}center{% elsif section.settings.text_align == 'right' %}flex-end{% else %}flex-start{% endif %}; text-align: {{ section.settings.text_align }};">
+              <div class="fr-home-banners__overlay-content" style="
+                  --ta-d: {{ section.settings.text_align }};
+                  --ta-m: {{ section.settings.text_align_mobile | default: section.settings.text_align }};
+                  --ai-d: {% if section.settings.text_align == 'center' %}center{% elsif section.settings.text_align == 'right' %}flex-end{% else %}flex-start{% endif %};
+                  --ai-m: {% assign ta_m = section.settings.text_align_mobile | default: section.settings.text_align %}{% if ta_m == 'center' %}center{% elsif ta_m == 'right' %}flex-end{% else %}flex-start{% endif %};
+                ">
                 {%- if block.settings.heading != blank -%}
                   <h3 class="fr-home-banners__heading" style="color: {{ block.settings.text_color }}; --fz-t-d: {{ section.settings.title_size }}px; --fz-t-m: {{ section.settings.title_size_mobile | default: section.settings.title_size | times: 0.8 | round }}px;">{{ block.settings.heading }}</h3>
                 {%- endif -%}
@@ -66,7 +71,10 @@
 
           {%- if section.settings.text_position == 'below' -%}
             {%- if block.settings.heading != blank or block.settings.description != blank -%}
-              <div class="fr-home-banners__text-below" style="text-align: {{ section.settings.text_align }};">
+              <div class="fr-home-banners__text-below" style="
+                  --ta-d: {{ section.settings.text_align }};
+                  --ta-m: {{ section.settings.text_align_mobile | default: section.settings.text_align }};
+                ">
                 {%- if block.settings.heading != blank -%}
                   <h3 class="fr-home-banners__heading" style="color: {{ block.settings.text_color }}; --fz-t-d: {{ section.settings.title_size }}px; --fz-t-m: {{ section.settings.title_size_mobile | default: section.settings.title_size | times: 0.8 | round }}px;">{{ block.settings.heading }}</h3>
                 {%- endif -%}
@@ -248,10 +256,13 @@
     flex-direction: column;
     justify-content: center;
     padding: 30px;
+    align-items: var(--ai-m);
+    text-align: var(--ta-m);
   }
 
   .fr-home-banners__text-below {
     padding-top: 15px;
+    text-align: var(--ta-m);
   }
 
   .fr-home-banners__heading {
@@ -274,6 +285,13 @@
     #fr-home-banners-{{ section.id }} .fr-home-banners__description { font-size: var(--fz-d-d); }
     .fr-home-banners__heading { font-size: var(--fz-t-d); }
     .fr-home-banners__card-desc { font-size: var(--fz-cd-d); }
+    .fr-home-banners__overlay-content {
+      align-items: var(--ai-d);
+      text-align: var(--ta-d);
+    }
+    .fr-home-banners__text-below {
+      text-align: var(--ta-d);
+    }
   }
 </style>
 
@@ -460,7 +478,18 @@
     {
       "type": "select",
       "id": "text_align",
-      "label": "Text Alignment",
+      "label": "Text Alignment (Desktop)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "text_align_mobile",
+      "label": "Text Alignment (Mobile)",
       "options": [
         { "value": "left", "label": "Left" },
         { "value": "center", "label": "Center" },

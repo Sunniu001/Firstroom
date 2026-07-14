@@ -39,7 +39,10 @@
       <!-- Mobile Main Heading (Rendered outside grid so it spans full width above images) -->
       {%- if section.settings.main_heading != blank -%}
         <div class="fr-home-triple__mobile-heading-wrapper">
-          <h2 class="fr-home-triple__main-heading" style="text-align: {{ section.settings.main_heading_align }}; --fz-mh-d: {{ section.settings.main_heading_size }}px; --fz-mh-m: {{ section.settings.main_heading_size_mobile | default: section.settings.main_heading_size | times: 0.8 | round }}px; color: {{ section.settings.main_heading_color }};">
+          <h2 class="fr-home-triple__main-heading" style="
+              --ta-mh-d: {{ section.settings.main_heading_align }};
+              --ta-mh-m: {{ section.settings.main_heading_align_mobile | default: section.settings.main_heading_align }};
+              --fz-mh-d: {{ section.settings.main_heading_size }}px; --fz-mh-m: {{ section.settings.main_heading_size_mobile | default: section.settings.main_heading_size | times: 0.8 | round }}px; color: {{ section.settings.main_heading_color }};">
             {{ section.settings.main_heading }}
           </h2>
         </div>
@@ -57,11 +60,17 @@
       </div>
 
       <!-- Text Column -->
-      <div class="fr-home-triple__col-text" style="text-align: {{ section.settings.text_align }}; background-color: {{ section.settings.text_bg_color }}; padding: {{ section.settings.text_padding }}px;">
+      <div class="fr-home-triple__col-text" style="
+          --ta-d: {{ section.settings.text_align }};
+          --ta-m: {{ section.settings.text_align_mobile | default: section.settings.text_align }};
+          background-color: {{ section.settings.text_bg_color }}; padding: {{ section.settings.text_padding }}px;">
         
         {%- if section.settings.main_heading != blank -%}
           <div class="fr-home-triple__desktop-heading-wrapper">
-            <h2 class="fr-home-triple__main-heading" style="text-align: {{ section.settings.main_heading_align }}; --fz-mh-d: {{ section.settings.main_heading_size }}px; --fz-mh-m: {{ section.settings.main_heading_size_mobile | default: section.settings.main_heading_size | times: 0.8 | round }}px; color: {{ section.settings.main_heading_color }};">
+            <h2 class="fr-home-triple__main-heading" style="
+                --ta-mh-d: {{ section.settings.main_heading_align }};
+                --ta-mh-m: {{ section.settings.main_heading_align_mobile | default: section.settings.main_heading_align }};
+                --fz-mh-d: {{ section.settings.main_heading_size }}px; --fz-mh-m: {{ section.settings.main_heading_size_mobile | default: section.settings.main_heading_size | times: 0.8 | round }}px; color: {{ section.settings.main_heading_color }};">
               {{ section.settings.main_heading }}
             </h2>
           </div>
@@ -130,6 +139,7 @@
     margin-bottom: 40px;
     letter-spacing: 0.01em;
     font-size: var(--fz-mh-m);
+    text-align: var(--ta-mh-m);
   }
 
   #fr-home-triple-{{ section.id }} .fr-home-triple__container {
@@ -202,6 +212,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    text-align: var(--ta-m);
   }
 
   .fr-home-triple__text-content {
@@ -243,7 +254,13 @@
   }
 
   @media(min-width: 768px) {
-    .fr-home-triple__main-heading { font-size: var(--fz-mh-d); }
+    .fr-home-triple__main-heading {
+      font-size: var(--fz-mh-d);
+      text-align: var(--ta-mh-d);
+    }
+    .fr-home-triple__col-text {
+      text-align: var(--ta-d);
+    }
     .fr-home-triple__heading { font-size: var(--fz-h-d); }
     .fr-home-triple__body { font-size: var(--fz-t-d); }
   }
@@ -279,7 +296,18 @@
     {
       "type": "select",
       "id": "main_heading_align",
-      "label": "Heading Alignment",
+      "label": "Main Heading Alignment (Desktop)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "main_heading_align_mobile",
+      "label": "Main Heading Alignment (Mobile)",
       "options": [
         { "value": "left", "label": "Left" },
         { "value": "center", "label": "Center" },
@@ -407,13 +435,24 @@
     {
       "type": "select",
       "id": "text_align",
-      "label": "Text Alignment",
+      "label": "Text Alignment (Desktop)",
       "options": [
         { "value": "left", "label": "Left" },
         { "value": "center", "label": "Center" },
         { "value": "right", "label": "Right" }
       ],
-      "default": "center"
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "text_align_mobile",
+      "label": "Text Alignment (Mobile)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
     },
     {
       "type": "text",

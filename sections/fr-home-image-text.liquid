@@ -41,7 +41,7 @@
       </div>
 
       <!-- Text Column (Blocks) -->
-      <div class="fr-home-imgtext__text-col" style="{% if section.settings.image_position == 'right' %}order: 1;{% endif %} text-align: {{ section.settings.text_align }};">
+      <div class="fr-home-imgtext__text-col" style="{% if section.settings.image_position == 'right' %}order: 1;{% endif %} text-align: {{ section.settings.text_align }}; --ta-m: {{ section.settings.text_align_mobile | default: 'center' }};">
         <div class="fr-home-imgtext__content-wrapper" style="max-width: {{ section.settings.text_max_width }}px; margin: 0 {% if section.settings.text_align == 'left' %}auto 0 0{% elsif section.settings.text_align == 'right' %}0 0 auto{% else %}auto{% endif %};">
           {%- for block in section.blocks -%}
             <div class="fr-home-imgtext__block fr-home-imgtext__block--{{ block.type }}" {{ block.shopify_attributes }}>
@@ -122,10 +122,10 @@
     }
     .fr-home-imgtext__content-wrapper {
       margin: 0 auto !important;
-      text-align: center !important;
+      text-align: var(--ta-m, center) !important;
     }
     .fr-home-imgtext__text-col {
-      text-align: center !important;
+      text-align: var(--ta-m, center) !important;
     }
   }
 
@@ -296,13 +296,24 @@
     {
       "type": "select",
       "id": "text_align",
-      "label": "Text Alignment",
+      "label": "Text Alignment (Desktop)",
       "options": [
         { "value": "left", "label": "Left" },
         { "value": "center", "label": "Center" },
         { "value": "right", "label": "Right" }
       ],
       "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "text_align_mobile",
+      "label": "Text Alignment (Mobile)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
     },
     {
       "type": "range",
