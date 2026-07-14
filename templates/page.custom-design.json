@@ -1,0 +1,558 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "content_direction": "column",
+        "gap": 32,
+        "color_scheme": "",
+        "padding-block-start": 40,
+        "padding-block-end": 80
+      }
+    },
+    "fr_custom_hero_czjKym": {
+      "type": "fr-custom-hero",
+      "name": "FR Custom Hero",
+      "settings": {
+        "image": "shopify://shop_images/Rectangle_223.png",
+        "min_height": 600,
+        "min_height_mobile": 420,
+        "overlay_color": "#000000",
+        "overlay_opacity": 0,
+        "heading": "Create something uniquely yours.",
+        "heading_font": "playfair_display_n7",
+        "heading_size": 56,
+        "heading_size_mobile": 36,
+        "heading_color": "#1a1a1a",
+        "text": "<p>At First Room Collective, we believe<br/>design is more than a visual, it's a <br/>deeply personal journey. Every custom<br/>piece we create is rooted in your story,<br/>your space, and your dreams. <br/>Just like new beginnings deserve<br/>something special, your space with us <br/>becomes a canvas of personal <br/>expression.</p>",
+        "text_font": "lato_n4",
+        "text_size": 14,
+        "text_size_mobile": 15,
+        "text_color": "#ffffff",
+        "button_font": "lato_n7",
+        "button_label": "Contact us",
+        "button_link": "shopify://pages/contact",
+        "button_bg": "rgba(0,0,0,0)",
+        "button_text": "#1a1a1a",
+        "content_alignment_horizontal": "flex-start",
+        "content_alignment_vertical": "center",
+        "text_alignment": "left",
+        "text_align_mobile": "left",
+        "content_max_width": 640,
+        "padding_top": 40,
+        "padding_bottom": 0,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
+        "padding_left": 60,
+        "padding_right": 0
+      }
+    },
+    "fr_custom_features_Jj6KVf": {
+      "type": "fr-custom-features",
+      "blocks": {
+        "feature_NpJ97Q": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/Personal-Consultation-scaled_1.webp",
+            "icon_size": 80,
+            "icon_size_mobile": 80,
+            "text": "Personal Consultation"
+          }
+        },
+        "feature_jXaRwe": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/Thoughtful-Ideation-Visual-Detailing-scaled_32ea2dd3-3737-48b0-8510-d65e06c05904.webp",
+            "icon_size": 80,
+            "icon_size_mobile": 80,
+            "text": "Thoughtful Ideation & Visual Detailing"
+          }
+        },
+        "feature_PMCmct": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/Hand-Painted-Motiffs-copy-scaled_8a2742d7-f5ba-433a-b9bb-308f49539ab5.webp",
+            "icon_size": 80,
+            "icon_size_mobile": 80,
+            "text": "Hand-Painted Originals"
+          }
+        },
+        "feature_pxDwRq": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/Customized-Design-Concepts-scaled_b729e070-039c-42af-a5dd-55d10dff7d03.webp",
+            "icon_size": 80,
+            "icon_size_mobile": 80,
+            "text": "Customised Design Concepts"
+          }
+        },
+        "feature_iwhbGQ": {
+          "type": "feature",
+          "settings": {
+            "icon": "shopify://shop_images/Collaborated-Installations-scaled_726262bc-6b4d-4ce3-886a-7a489fea0a80.webp",
+            "icon_size": 80,
+            "icon_size_mobile": 80,
+            "text": "Feature Description"
+          }
+        }
+      },
+      "block_order": [
+        "feature_NpJ97Q",
+        "feature_jXaRwe",
+        "feature_PMCmct",
+        "feature_pxDwRq",
+        "feature_iwhbGQ"
+      ],
+      "name": "FR Custom Features",
+      "settings": {
+        "bg_color": "#ffffff",
+        "heading": "What is custom design",
+        "heading_font": "playfair_display_n5",
+        "heading_size": 36,
+        "heading_size_mobile": 28,
+        "heading_alignment": "left",
+        "heading_align_mobile": "center",
+        "heading_color": "#1a1a1a",
+        "heading_margin_bottom": 60,
+        "icon_size": 100,
+        "icon_size_mobile": 80,
+        "text_font": "playfair_display_i4",
+        "text_size": 14,
+        "text_size_mobile": 14,
+        "gap": 80,
+        "gap_mobile": 20,
+        "text_color": "#1a1a1a",
+        "padding_top": 100,
+        "padding_bottom": 40,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
+        "padding_left": 40,
+        "padding_right": 20
+      }
+    },
+    "fr_custom_cards_teU8DH": {
+      "type": "fr-custom-cards",
+      "blocks": {
+        "card_jkcKCk": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_301.png",
+            "aspect_ratio": 140,
+            "offset_y": 0,
+            "text": "Wallpapers",
+            "description": "<p>Design bespoke wallpapers with custom patterns, artwork, colors and dimensions, crafted to suit your interiors.</p>"
+          }
+        },
+        "card_eYpjKQ": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_302.png",
+            "aspect_ratio": 140,
+            "offset_y": 60,
+            "text": "Decals & Wall art",
+            "description": "<p>Personalize decorative decals with unique illustrations, motifs and layouts that enhance any wall or corner.</p>"
+          }
+        },
+        "card_bzTkGa": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_303.png",
+            "aspect_ratio": 140,
+            "offset_y": 0,
+            "text": "Colours, materials and finishes",
+            "description": "<p>Choose from curated color palettes, premium materials and refined finishes to create a design that perfectly complements your space.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "card_jkcKCk",
+        "card_eYpjKQ",
+        "card_bzTkGa"
+      ],
+      "name": "FR Custom Cards",
+      "settings": {
+        "bg_color": "#ffffff",
+        "heading": "What can be customised",
+        "content_max_width": 860,
+        "heading_font": "playfair_display_n5",
+        "heading_size": 36,
+        "heading_alignment": "center",
+        "heading_align_mobile": "center",
+        "heading_margin_bottom": 60,
+        "heading_color": "#1a1a1a",
+        "text_font": "lato_n4",
+        "text_size_desktop": 16,
+        "text_size_mobile": 14,
+        "desc_size_desktop": 13,
+        "desc_size_mobile": 12,
+        "text_color": "#1a1a1a",
+        "text_align": "center",
+        "text_align_mobile": "center",
+        "gap": 30,
+        "padding_top": 60,
+        "padding_bottom": 120,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
+        "padding_left": 40,
+        "padding_right": 40
+      }
+    },
+    "fr_custom_projects_CHgVxz": {
+      "type": "fr-custom-projects",
+      "blocks": {
+        "project_tj366w": {
+          "type": "project",
+          "settings": {
+            "title": "Project Name",
+            "subtitle": "",
+            "column_start": 1,
+            "text_position": "bottom",
+            "offset_y": 0,
+            "is_invisible": true,
+            "aspect_ratio": 130
+          }
+        },
+        "project_G9tjnD": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_267.png",
+            "title": "Project Name 1",
+            "subtitle": "something goes here",
+            "column_start": 2,
+            "text_position": "left",
+            "offset_y": 0,
+            "is_invisible": false,
+            "aspect_ratio": 130
+          }
+        },
+        "project_Hz79aw": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_260.png",
+            "title": "Project Name 2",
+            "subtitle": "something goes here",
+            "column_start": 3,
+            "text_position": "right",
+            "offset_y": 0,
+            "is_invisible": false,
+            "aspect_ratio": 130
+          }
+        },
+        "project_8MPmxd": {
+          "type": "project",
+          "settings": {
+            "title": "Project Name",
+            "subtitle": "",
+            "column_start": 4,
+            "text_position": "bottom",
+            "offset_y": 0,
+            "is_invisible": true,
+            "aspect_ratio": 130
+          }
+        }
+      },
+      "block_order": [
+        "project_tj366w",
+        "project_G9tjnD",
+        "project_Hz79aw",
+        "project_8MPmxd"
+      ],
+      "name": "FR Custom Projects",
+      "settings": {
+        "bg_color": "#ffffff",
+        "heading": "Projects.",
+        "heading_size": 36,
+        "heading_color": "#1a1a1a",
+        "columns_desktop": 4,
+        "grid_max_width": 900,
+        "grid_gap": 40,
+        "grid_gap_mobile": 20,
+        "title_size_desktop": 18,
+        "title_size_mobile": 18,
+        "subtitle_size_desktop": 14,
+        "subtitle_size_mobile": 14,
+        "padding_top": 60,
+        "padding_bottom": 20,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 0,
+        "padding_left": 40,
+        "padding_right": 40
+      }
+    },
+    "fr_custom_projects_cMejAp": {
+      "type": "fr-custom-projects",
+      "blocks": {
+        "project_8FmnP9": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_254.png",
+            "title": "Project Name 3",
+            "subtitle": "something goes here",
+            "column_start": 1,
+            "text_position": "left",
+            "offset_y": 0,
+            "is_invisible": false,
+            "aspect_ratio": 130
+          }
+        },
+        "project_3iHJkJ": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_258.png",
+            "title": "Project Name 4",
+            "subtitle": "something goes here",
+            "column_start": 2,
+            "text_position": "bottom",
+            "offset_y": 0,
+            "is_invisible": false,
+            "aspect_ratio": 130
+          }
+        },
+        "project_rrDcaA": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_272.png",
+            "title": "Project Name 5",
+            "subtitle": "something goes here",
+            "column_start": 3,
+            "text_position": "right",
+            "offset_y": 0,
+            "is_invisible": false,
+            "aspect_ratio": 130
+          }
+        },
+        "project_yV8WJP": {
+          "type": "project",
+          "settings": {
+            "title": "Project Name",
+            "subtitle": "",
+            "column_start": 4,
+            "text_position": "bottom",
+            "offset_y": 0,
+            "is_invisible": true,
+            "aspect_ratio": 130
+          }
+        }
+      },
+      "block_order": [
+        "project_8FmnP9",
+        "project_3iHJkJ",
+        "project_rrDcaA",
+        "project_yV8WJP"
+      ],
+      "name": "FR Custom Projects",
+      "settings": {
+        "bg_color": "#ffffff",
+        "heading": "",
+        "heading_size": 36,
+        "heading_color": "#1a1a1a",
+        "columns_desktop": 4,
+        "grid_max_width": 900,
+        "grid_gap": 40,
+        "grid_gap_mobile": 20,
+        "title_size_desktop": 18,
+        "title_size_mobile": 18,
+        "subtitle_size_desktop": 14,
+        "subtitle_size_mobile": 14,
+        "padding_top": 0,
+        "padding_bottom": 20,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 0,
+        "padding_left": 40,
+        "padding_right": 40
+      }
+    },
+    "fr_custom_projects_GEYcpU": {
+      "type": "fr-custom-projects",
+      "blocks": {
+        "project_3BYAMT": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_254.png",
+            "title": "Project Name",
+            "subtitle": "something goes here",
+            "column_start": 1,
+            "text_position": "left",
+            "offset_y": 0,
+            "is_invisible": true,
+            "aspect_ratio": 130
+          }
+        },
+        "project_JpBKCr": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_258.png",
+            "title": "Project Name 1",
+            "subtitle": "something goes here",
+            "column_start": 2,
+            "text_position": "bottom",
+            "offset_y": 0,
+            "is_invisible": true,
+            "aspect_ratio": 130
+          }
+        },
+        "project_MHBnDq": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_261.png",
+            "title": "Project Name 6",
+            "subtitle": "something goes here",
+            "column_start": 3,
+            "text_position": "left",
+            "offset_y": 0,
+            "is_invisible": false,
+            "aspect_ratio": 130
+          }
+        },
+        "project_Wk47Ni": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_268.png",
+            "title": "Project Name 7",
+            "subtitle": "something goes here",
+            "column_start": 4,
+            "text_position": "right",
+            "offset_y": 0,
+            "is_invisible": false,
+            "aspect_ratio": 130
+          }
+        }
+      },
+      "block_order": [
+        "project_3BYAMT",
+        "project_JpBKCr",
+        "project_MHBnDq",
+        "project_Wk47Ni"
+      ],
+      "name": "FR Custom Projects",
+      "settings": {
+        "bg_color": "#ffffff",
+        "heading": "",
+        "heading_size": 36,
+        "heading_color": "#1a1a1a",
+        "columns_desktop": 4,
+        "grid_max_width": 900,
+        "grid_gap": 40,
+        "grid_gap_mobile": 20,
+        "title_size_desktop": 18,
+        "title_size_mobile": 18,
+        "subtitle_size_desktop": 14,
+        "subtitle_size_mobile": 14,
+        "padding_top": 0,
+        "padding_bottom": 20,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 0,
+        "padding_left": 40,
+        "padding_right": 40
+      }
+    },
+    "fr_contact_form_RwxaFY": {
+      "type": "fr-contact-form",
+      "name": "FR Contact Form",
+      "settings": {
+        "section_bg": "#ffffff",
+        "accent_color": "#b53939",
+        "heading": "Get In Touch",
+        "subheading": "We'd be happy to connect with you.",
+        "button_label": "SEND MESSAGE",
+        "success_message": "Thanks for contacting us! We'll get back to you as soon as possible.",
+        "heading_size": 30,
+        "text_size": 15,
+        "label_size": 16,
+        "input_size": 14,
+        "button_size": 13,
+        "button_bg": "#1a1a1a",
+        "button_text": "#ffffff",
+        "form_max_width": 680,
+        "padding_top": 120,
+        "padding_bottom": 80,
+        "padding_left": 40,
+        "padding_right": 40
+      }
+    },
+    "fr_custom_faq_mmhbmM": {
+      "type": "fr-custom-faq",
+      "blocks": {
+        "faq_Bwmw4i": {
+          "type": "faq",
+          "settings": {
+            "question": "How does the custom design process work?",
+            "answer": "<p>Our process begins with understanding your vision and requirements. Once you share your ideas, inspirations or space details, our design team creates a personalized concept for your review. After approval, the design moves into production and is delivered to your doorstep.</p>"
+          }
+        },
+        "faq_g48ePg": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I customize the design, colors and dimensions?",
+            "answer": "<p>Yes. Every custom design can be tailored to your preferences, including colors, patterns, scale and dimensions. We ensure the final design complements your space and style.</p>"
+          }
+        },
+        "faq_JgPzce": {
+          "type": "faq",
+          "settings": {
+            "question": "What information do I need to provide?",
+            "answer": "<p>To help us create the perfect design, you can share room dimensions, reference images, preferred colors, design preferences and any specific ideas you have in mind. The more details you provide, the better we can personalize your design.<br/></p>"
+          }
+        },
+        "faq_cPYxMF": {
+          "type": "faq",
+          "settings": {
+            "question": "How long does the custom design process take?",
+            "answer": "<p>The timeline depends on the complexity of the project. Typically, concept development, revisions and production are completed within a few weeks. Our team will provide an estimated timeline once your requirements are reviewed.</p>"
+          }
+        },
+        "faq_CdxQHH": {
+          "type": "faq",
+          "settings": {
+            "question": "Will I receive a design preview before production?",
+            "answer": "<p>Yes. A digital preview of your custom design will be shared for approval before production begins. This ensures you are completely satisfied with the design before it is printed or manufactured.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_Bwmw4i",
+        "faq_g48ePg",
+        "faq_JgPzce",
+        "faq_cPYxMF",
+        "faq_CdxQHH"
+      ],
+      "name": "FR Custom FAQ",
+      "settings": {
+        "bg_color": "#ffffff",
+        "heading": "FAQ's",
+        "heading_size": 30,
+        "heading_size_mobile": 24,
+        "heading_alignment": "center",
+        "heading_align_mobile": "center",
+        "heading_color": "#1a1a1a",
+        "padding_top": 60,
+        "padding_bottom": 100,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
+        "padding_left": 20,
+        "padding_right": 20
+      }
+    }
+  },
+  "order": [
+    "main",
+    "fr_custom_hero_czjKym",
+    "fr_custom_features_Jj6KVf",
+    "fr_custom_cards_teU8DH",
+    "fr_custom_projects_CHgVxz",
+    "fr_custom_projects_cMejAp",
+    "fr_custom_projects_GEYcpU",
+    "fr_contact_form_RwxaFY",
+    "fr_custom_faq_mmhbmM"
+  ]
+}
