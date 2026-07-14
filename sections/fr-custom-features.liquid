@@ -4,17 +4,22 @@
 
 <section id="fr-custom-features-{{ section.id }}" class="fr-custom-features" style="
   background-color: {{ section.settings.bg_color }};
-  padding-top: {{ section.settings.padding_top }}px;
-  padding-bottom: {{ section.settings.padding_bottom }}px;
+  padding-top: {{ section.settings.padding_top_mobile | default: section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom_mobile | default: section.settings.padding_bottom }}px;
+  --pt-d: {{ section.settings.padding_top }}px;
+  --pb-d: {{ section.settings.padding_bottom }}px;
   padding-left: {{ section.settings.padding_left }}px;
   padding-right: {{ section.settings.padding_right }}px;
+  --fz-txt-d: {{ section.settings.text_size }}px;
+  --fz-txt-m: {{ section.settings.text_size_mobile | default: section.settings.text_size }}px;
 ">
   <div class="fr-custom-features__container">
     {%- if section.settings.heading != blank -%}
       <h2 class="fr-custom-features__heading" style="
         font-size: {{ section.settings.heading_size }}px;
         color: {{ section.settings.heading_color }};
-        text-align: {{ section.settings.heading_alignment }};
+        --ha-d: {{ section.settings.heading_alignment }};
+        --ha-m: {{ section.settings.heading_align_mobile | default: section.settings.heading_alignment }};
       ">{{ section.settings.heading }}</h2>
     {%- endif -%}
 
@@ -30,7 +35,6 @@
           </div>
           {%- if block.settings.text != blank -%}
             <span class="fr-custom-features__text" style="
-              font-size: {{ section.settings.text_size }}px;
               color: {{ section.settings.text_color }};
             ">{{ block.settings.text }}</span>
           {%- endif -%}
@@ -57,12 +61,26 @@
     margin: 0 auto;
     text-align: center;
   }
+  
+  @media (min-width: 768px) {
+    #fr-custom-features-{{ section.id }} {
+      padding-top: var(--pt-d) !important;
+      padding-bottom: var(--pb-d) !important;
+    }
+    #fr-custom-features-{{ section.id }} .fr-custom-features__heading {
+      text-align: var(--ha-d) !important;
+    }
+    #fr-custom-features-{{ section.id }} .fr-custom-features__text {
+      font-size: var(--fz-txt-d) !important;
+    }
+  }
 
   #fr-custom-features-{{ section.id }} .fr-custom-features__heading {
     display: block;
     width: 100%;
     margin: 0 0 {{ section.settings.heading_margin_bottom }}px 0;
     font-weight: {{ section.settings.heading_font.weight | default: 500 }};
+    text-align: var(--ha-m);
   }
 
   #fr-custom-features-{{ section.id }} .fr-custom-features__grid {
@@ -104,6 +122,7 @@
     font-weight: {{ section.settings.text_font.weight | default: 400 }};
     line-height: 1.4;
     text-align: center;
+    font-size: var(--fz-txt-m);
   }
 
   @media (max-width: 767px) {
@@ -152,7 +171,18 @@
     {
       "type": "select",
       "id": "heading_alignment",
-      "label": "Heading Alignment",
+      "label": "Heading Alignment (Desktop)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "heading_align_mobile",
+      "label": "Heading Alignment (Mobile)",
       "options": [
         { "value": "left", "label": "Left" },
         { "value": "center", "label": "Center" },
@@ -199,7 +229,17 @@
       "max": 24,
       "step": 1,
       "unit": "px",
-      "label": "Text Size",
+      "label": "Text Size (Desktop)",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "text_size_mobile",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Text Size (Mobile)",
       "default": 14
     },
     {
@@ -239,8 +279,28 @@
       "max": 120,
       "step": 4,
       "unit": "px",
-      "label": "Padding Bottom",
+      "label": "Padding Bottom (Desktop)",
       "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom (Mobile)",
+      "default": 40
     },
     {
       "type": "range",

@@ -4,8 +4,10 @@
 
 <section id="fr-custom-projects-{{ section.id }}" class="fr-custom-projects" style="
   background-color: {{ section.settings.bg_color }};
-  padding-top: {{ section.settings.padding_top }}px;
-  padding-bottom: {{ section.settings.padding_bottom }}px;
+  padding-top: {{ section.settings.padding_top_mobile | default: section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom_mobile | default: section.settings.padding_bottom }}px;
+  --pt-d: {{ section.settings.padding_top }}px;
+  --pb-d: {{ section.settings.padding_bottom }}px;
   padding-left: {{ section.settings.padding_left }}px;
   padding-right: {{ section.settings.padding_right }}px;
   --fz-title-d: {{ section.settings.title_size_desktop }}px;
@@ -58,6 +60,16 @@
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__container {
     max-width: 1400px;
     margin: 0 auto;
+  }
+
+  @media (min-width: 768px) {
+    #fr-custom-projects-{{ section.id }} {
+      padding-top: var(--pt-d) !important;
+      padding-bottom: var(--pb-d) !important;
+    }
+  }
+
+  #fr-custom-projects-{{ section.id }} .fr-custom-projects__container {
     padding: 0 40px; /* Extra padding so absolutely positioned text doesn't hit screen edge */
   }
 
@@ -161,6 +173,10 @@
     #fr-custom-projects-{{ section.id }} .fr-custom-projects__item {
       grid-column: 1 !important;
       transform: none !important;
+      {% comment %} On mobile, invisible items shouldn't take up full rows of blank space {% endcomment %}
+    }
+    #fr-custom-projects-{{ section.id }} .fr-custom-projects__item[style*="opacity: 0"] {
+      display: none !important;
     }
     #fr-custom-projects-{{ section.id }} .fr-custom-projects__content {
       position: static !important;
@@ -303,8 +319,28 @@
       "max": 120,
       "step": 4,
       "unit": "px",
-      "label": "Padding Bottom",
+      "label": "Padding Bottom (Desktop)",
       "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom (Mobile)",
+      "default": 40
     },
     {
       "type": "range",

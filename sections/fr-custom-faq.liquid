@@ -4,16 +4,21 @@
 
 <section id="fr-custom-faq-{{ section.id }}" class="fr-custom-faq" style="
   background-color: {{ section.settings.bg_color }};
-  padding-top: {{ section.settings.padding_top }}px;
-  padding-bottom: {{ section.settings.padding_bottom }}px;
+  padding-top: {{ section.settings.padding_top_mobile | default: section.settings.padding_top }}px;
+  padding-bottom: {{ section.settings.padding_bottom_mobile | default: section.settings.padding_bottom }}px;
+  --pt-d: {{ section.settings.padding_top }}px;
+  --pb-d: {{ section.settings.padding_bottom }}px;
   padding-left: {{ section.settings.padding_left }}px;
   padding-right: {{ section.settings.padding_right }}px;
 ">
   <div class="fr-custom-faq__container">
     {%- if section.settings.heading != blank -%}
       <h2 class="fr-custom-faq__heading" style="
-        font-size: {{ section.settings.heading_size }}px;
+        --fz-hd-d: {{ section.settings.heading_size }}px;
+        --fz-hd-m: {{ section.settings.heading_size_mobile | default: section.settings.heading_size | times: 0.8 | round }}px;
         color: {{ section.settings.heading_color }};
+        --ha-d: {{ section.settings.heading_alignment | default: 'center' }};
+        --ha-m: {{ section.settings.heading_align_mobile | default: section.settings.heading_alignment | default: 'center' }};
       ">{{ section.settings.heading }}</h2>
     {%- endif -%}
 
@@ -43,9 +48,21 @@
 
   #fr-custom-faq-{{ section.id }} .fr-custom-faq__heading {
     margin: 0 0 40px 0;
-    text-align: center;
+    text-align: var(--ha-m);
+    font-size: var(--fz-hd-m) !important;
     font-family: 'Playfair Display', Georgia, serif;
     font-weight: 500;
+  }
+  
+  @media (min-width: 768px) {
+    #fr-custom-faq-{{ section.id }} {
+      padding-top: var(--pt-d) !important;
+      padding-bottom: var(--pb-d) !important;
+    }
+    #fr-custom-faq-{{ section.id }} .fr-custom-faq__heading {
+      text-align: var(--ha-d);
+      font-size: var(--fz-hd-d) !important;
+    }
   }
 
   #fr-custom-faq-{{ section.id }} .fr-custom-faq__list {
@@ -159,8 +176,40 @@
       "max": 60,
       "step": 2,
       "unit": "px",
-      "label": "Heading Size",
+      "label": "Heading Size (Desktop)",
       "default": 30
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 16,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Size (Mobile)",
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading Alignment (Desktop)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "heading_align_mobile",
+      "label": "Heading Alignment (Mobile)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
     },
     {
       "type": "color",
@@ -189,8 +238,28 @@
       "max": 120,
       "step": 4,
       "unit": "px",
-      "label": "Padding Bottom",
+      "label": "Padding Bottom (Desktop)",
       "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom (Mobile)",
+      "default": 40
     },
     {
       "type": "range",

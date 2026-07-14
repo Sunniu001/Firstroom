@@ -15,25 +15,30 @@
     <div class="fr-custom-hero__content-wrapper" style="
       justify-content: {{ section.settings.content_alignment_horizontal }};
       align-items: {{ section.settings.content_alignment_vertical }};
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
+      --pt-d: {{ section.settings.padding_top }}px;
+      --pb-d: {{ section.settings.padding_bottom }}px;
+      --pt-m: {{ section.settings.padding_top_mobile | default: section.settings.padding_top }}px;
+      --pb-m: {{ section.settings.padding_bottom_mobile | default: section.settings.padding_bottom }}px;
       padding-left: {{ section.settings.padding_left }}px;
       padding-right: {{ section.settings.padding_right }}px;
     ">
       <div class="fr-custom-hero__content" style="
-        text-align: {{ section.settings.text_alignment }};
+        --ta-d: {{ section.settings.text_alignment }};
+        --ta-m: {{ section.settings.text_align_mobile | default: section.settings.text_alignment }};
         max-width: {{ section.settings.content_max_width }}px;
       ">
         {%- if section.settings.heading != blank -%}
           <h1 class="fr-custom-hero__heading" style="
-            font-size: {{ section.settings.heading_size }}px;
+            --fz-hd-d: {{ section.settings.heading_size }}px;
+            --fz-hd-m: {{ section.settings.heading_size_mobile | default: section.settings.heading_size | times: 0.7 | round }}px;
             color: {{ section.settings.heading_color }};
           ">{{ section.settings.heading }}</h1>
         {%- endif -%}
         
         {%- if section.settings.text != blank -%}
           <div class="fr-custom-hero__text" style="
-            font-size: {{ section.settings.text_size }}px;
+            --fz-txt-d: {{ section.settings.text_size }}px;
+            --fz-txt-m: {{ section.settings.text_size_mobile | default: section.settings.text_size | times: 0.9 | round }}px;
             color: {{ section.settings.text_color }};
           ">{{ section.settings.text }}</div>
         {%- endif -%}
@@ -110,12 +115,46 @@
   }
 
   #fr-custom-hero-{{ section.id }} .fr-custom-hero__content-wrapper {
-    position: relative;
-    z-index: 3;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
+    z-index: 3;
     display: flex;
     box-sizing: border-box;
+    padding-top: var(--pt-m);
+    padding-bottom: var(--pb-m);
+  }
+  
+  #fr-custom-hero-{{ section.id }} .fr-custom-hero__content {
+    display: flex;
+    flex-direction: column;
+    text-align: var(--ta-m);
+  }
+  
+  #fr-custom-hero-{{ section.id }} .fr-custom-hero__heading {
+    font-size: var(--fz-hd-m) !important;
+  }
+  
+  #fr-custom-hero-{{ section.id }} .fr-custom-hero__text {
+    font-size: var(--fz-txt-m) !important;
+  }
+  
+  @media (min-width: 768px) {
+    #fr-custom-hero-{{ section.id }} .fr-custom-hero__content-wrapper {
+      padding-top: var(--pt-d);
+      padding-bottom: var(--pb-d);
+    }
+    #fr-custom-hero-{{ section.id }} .fr-custom-hero__content {
+      text-align: var(--ta-d);
+    }
+    #fr-custom-hero-{{ section.id }} .fr-custom-hero__heading {
+      font-size: var(--fz-hd-d) !important;
+    }
+    #fr-custom-hero-{{ section.id }} .fr-custom-hero__text {
+      font-size: var(--fz-txt-d) !important;
+    }
   }
 
   #fr-custom-hero-{{ section.id }} .fr-custom-hero__content {
@@ -163,14 +202,10 @@
       align-items: center;
     }
     #fr-custom-hero-{{ section.id }} .fr-custom-hero__content {
-      text-align: center;
       align-items: center;
     }
     #fr-custom-hero-{{ section.id }} .fr-custom-hero__heading {
-      font-size: {{ section.settings.heading_size | times: 0.7 | round }}px !important;
-    }
-    #fr-custom-hero-{{ section.id }} .fr-custom-hero__text {
-      font-size: {{ section.settings.text_size | times: 0.9 | round }}px !important;
+      margin-bottom: 20px;
     }
     #fr-custom-hero-{{ section.id }} .fr-custom-hero__btn {
       align-self: center;
@@ -251,8 +286,18 @@
       "max": 80,
       "step": 2,
       "unit": "px",
-      "label": "Heading Size",
+      "label": "Heading Size (Desktop)",
       "default": 56
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 20,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Size (Mobile)",
+      "default": 40
     },
     {
       "type": "color",
@@ -279,7 +324,17 @@
       "max": 24,
       "step": 1,
       "unit": "px",
-      "label": "Text Size",
+      "label": "Text Size (Desktop)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "text_size_mobile",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Text Size (Mobile)",
       "default": 16
     },
     {
@@ -346,13 +401,24 @@
     {
       "type": "select",
       "id": "text_alignment",
-      "label": "Text Alignment",
+      "label": "Text Alignment (Desktop)",
       "options": [
         { "value": "left", "label": "Left" },
         { "value": "center", "label": "Center" },
         { "value": "right", "label": "Right" }
       ],
       "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "text_align_mobile",
+      "label": "Text Alignment (Mobile)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
     },
     {
       "type": "range",
@@ -385,7 +451,27 @@
       "max": 120,
       "step": 4,
       "unit": "px",
-      "label": "Padding Bottom",
+      "label": "Padding Bottom (Desktop)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom (Mobile)",
       "default": 40
     },
     {
