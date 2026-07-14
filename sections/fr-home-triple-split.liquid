@@ -69,7 +69,7 @@
 
         <div class="fr-home-triple__text-content">
           {%- if section.settings.heading != blank -%}
-            <h3 class="fr-home-triple__heading" style="--fz-h-d: {{ section.settings.heading_size }}px; --fz-h-m: {{ section.settings.heading_size_mobile | default: section.settings.heading_size | times: 0.8 | round }}px; color: {{ section.settings.heading_color }};">
+            <h3 class="fr-home-triple__heading" style="--fz-h-d: {{ section.settings.heading_size }}px; --fz-h-m: {{ section.settings.heading_size_mobile | default: section.settings.heading_size | times: 0.8 | round }}px; color: {{ section.settings.heading_color }}; background-color: {{ section.settings.heading_bg_color }}; padding: {{ section.settings.heading_padding_y }}px {{ section.settings.heading_padding_x }}px;">
               {{ section.settings.heading }}
             </h3>
           {%- endif -%}
@@ -84,6 +84,7 @@
             <a href="{{ section.settings.button_link }}" class="fr-home-triple__btn" style="
                 background-color: {{ section.settings.btn_bg_color }};
                 color: {{ section.settings.btn_text_color }};
+                border-radius: {{ section.settings.btn_border_radius }}px;
               ">
               {{ section.settings.button_text }}
             </a>
@@ -447,6 +448,32 @@
       "default": "#1a1a1a"
     },
     {
+      "type": "color",
+      "id": "heading_bg_color",
+      "label": "Title Background Color",
+      "default": "transparent"
+    },
+    {
+      "type": "range",
+      "id": "heading_padding_y",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Title Padding (Top/Bottom)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "heading_padding_x",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Title Padding (Left/Right)",
+      "default": 0
+    },
+    {
       "type": "richtext",
       "id": "text",
       "label": "Text",
@@ -500,6 +527,16 @@
       "id": "btn_text_color",
       "label": "Button Text Color",
       "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "btn_border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Button Border Radius",
+      "default": 0
     },
     {
       "type": "header",
