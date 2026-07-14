@@ -32,11 +32,11 @@
       {%- for block in section.blocks -%}
         <div class="fr-about-staggered__item" {{ block.shopify_attributes }} style="grid-column: {{ block.settings.column_start }}; transform: translateY({{ block.settings.offset_y }}px);">
           
-          <div class="fr-about-staggered__image-wrapper">
+          <div class="fr-about-staggered__image-wrapper fr-about-staggered__image-wrapper--{{ section.settings.image_shape }}" style="{% if section.settings.image_shape != 'circle' %}border-radius: {{ section.settings.image_radius }}px;{% endif %} {% if block.settings.border_width > 0 %}border: {{ block.settings.border_width }}px solid {{ block.settings.border_color }};{% endif %}">
             {%- if block.settings.image != blank -%}
-              <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.title | escape }}" loading="lazy" class="fr-about-staggered__img">
+              <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.title | escape }}" loading="lazy" class="fr-about-staggered__img" style="{% if section.settings.image_shape != 'circle' %}border-radius: {{ section.settings.image_radius }}px;{% endif %}">
             {%- else -%}
-              <div class="fr-about-staggered__placeholder"></div>
+              <div class="fr-about-staggered__placeholder" style="{% if section.settings.image_shape != 'circle' %}border-radius: {{ section.settings.image_radius }}px;{% endif %}"></div>
             {%- endif -%}
             
             {%- if block.settings.number != blank -%}
@@ -139,17 +139,32 @@
   .fr-about-staggered__image-wrapper {
     position: relative;
     width: 100%;
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
-    background-color: #c4c4c4; /* Matching the gray from the mockup */
     margin-bottom: 20px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    background-color: #f3f4f6; /* Matching the gray from the mockup */
+    overflow: hidden;
+  }
+
+  .fr-about-staggered__image-wrapper--circle {
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+  }
+
+  .fr-about-staggered__image-wrapper--square {
+    aspect-ratio: 1 / 1;
+  }
+
+  .fr-about-staggered__image-wrapper--portrait {
+    aspect-ratio: 3 / 4;
+  }
+
+  .fr-about-staggered__image-wrapper--original {
+    /* No aspect ratio constraint */
   }
 
   .fr-about-staggered__img {
     width: 100%;
     height: 100%;
-    border-radius: 50%;
     object-fit: cover;
     display: block;
   }
@@ -157,8 +172,12 @@
   .fr-about-staggered__placeholder {
     width: 100%;
     height: 100%;
+    background-color: #f3f4f6;
+  }
+
+  .fr-about-staggered__image-wrapper--circle .fr-about-staggered__img,
+  .fr-about-staggered__image-wrapper--circle .fr-about-staggered__placeholder {
     border-radius: 50%;
-    background-color: #c4c4c4;
   }
 
   .fr-about-staggered__number {
@@ -289,6 +308,28 @@
       "step": 1,
       "label": "Columns on Desktop",
       "default": 5
+    },
+    {
+      "type": "select",
+      "id": "image_shape",
+      "label": "Image Shape",
+      "options": [
+        { "value": "original", "label": "Original" },
+        { "value": "square", "label": "Square (1:1)" },
+        { "value": "circle", "label": "Circle" },
+        { "value": "portrait", "label": "Portrait (3:4)" }
+      ],
+      "default": "circle"
+    },
+    {
+      "type": "range",
+      "id": "image_radius",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Image Border Radius (for non-circle)",
+      "default": 0
     },
     {
       "type": "range",
@@ -486,6 +527,22 @@
           "type": "image_picker",
           "id": "image",
           "label": "Image"
+        },
+        {
+          "type": "range",
+          "id": "border_width",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "unit": "px",
+          "label": "Image Border Width",
+          "default": 0
+        },
+        {
+          "type": "color",
+          "id": "border_color",
+          "label": "Image Border Color",
+          "default": "#000000"
         },
         {
           "type": "text",

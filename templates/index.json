@@ -156,6 +156,53 @@
         "button_text": "READ MORE"
       }
     },
+    "staggered_projects": {
+      "type": "fr-about-staggered",
+      "blocks": {
+        "item1": {
+          "type": "staggered_item",
+          "settings": {
+            "title": "Wallpapers",
+            "text": "Design bespoke wallpapers with custom patterns, artwork, colors and dimensions, crafted to suit your interiors.",
+            "border_width": 2,
+            "border_color": "#0088ff",
+            "offset_y": 0,
+            "number": ""
+          }
+        },
+        "item2": {
+          "type": "staggered_item",
+          "settings": {
+            "title": "Decals & Wall art",
+            "text": "Personalize decorative decals with unique illustrations, motifs and layouts that enhance any wall or corner.",
+            "border_width": 0,
+            "offset_y": 40,
+            "number": ""
+          }
+        },
+        "item3": {
+          "type": "staggered_item",
+          "settings": {
+            "title": "Colours, materials and finishes",
+            "text": "Choose from curated color palettes, premium materials and refined finishes to create a design that perfectly complements your space.",
+            "border_width": 0,
+            "offset_y": 0,
+            "number": ""
+          }
+        }
+      },
+      "block_order": [
+        "item1",
+        "item2",
+        "item3"
+      ],
+      "settings": {
+        "heading": "Projects",
+        "columns_desktop": 3,
+        "image_shape": "portrait",
+        "image_radius": 0
+      }
+    },
     "products": {
       "type": "fr-about-grid",
       "blocks": {
@@ -261,6 +308,7 @@
     "categories",
     "banners",
     "inspire",
+    "staggered_projects",
     "products",
     "social",
     "badges"
