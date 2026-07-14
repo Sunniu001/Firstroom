@@ -145,7 +145,7 @@
             "aspect_ratio": 140,
             "offset_y": 0,
             "text": "Wallpapers",
-            "description": ""
+            "description": "<p>Design bespoke wallpapers with custom patterns, artwork, colors and dimensions, crafted to suit your interiors.<br/></p>"
           }
         },
         "card_eYpjKQ": {
@@ -155,7 +155,7 @@
             "aspect_ratio": 140,
             "offset_y": 60,
             "text": "Decals & Wall art",
-            "description": ""
+            "description": "<p>Personalize decorative decals with unique illustrations, motifs and layouts that enhance any wall or corner.<br/></p>"
           }
         },
         "card_bzTkGa": {
@@ -165,7 +165,7 @@
             "aspect_ratio": 140,
             "offset_y": 0,
             "text": "Colours, materials and finishes",
-            "description": ""
+            "description": "<p>Choose from curated color palettes, premium materials and refined finishes to create a design that perfectly complements your space.</p>"
           }
         }
       },
@@ -185,10 +185,10 @@
         "heading_align_mobile": "center",
         "heading_margin_bottom": 60,
         "heading_color": "#1a1a1a",
-        "text_font": "lato_n4",
+        "text_font": "lato_n6",
         "text_size_desktop": 16,
         "text_size_mobile": 14,
-        "desc_size_desktop": 14,
+        "desc_size_desktop": 12,
         "desc_size_mobile": 12,
         "text_color": "#1a1a1a",
         "text_align": "center",
