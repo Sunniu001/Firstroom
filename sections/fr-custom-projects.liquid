@@ -8,6 +8,10 @@
   padding-bottom: {{ section.settings.padding_bottom }}px;
   padding-left: {{ section.settings.padding_left }}px;
   padding-right: {{ section.settings.padding_right }}px;
+  --fz-title-d: {{ section.settings.title_size_desktop }}px;
+  --fz-title-m: {{ section.settings.title_size_mobile }}px;
+  --fz-sub-d: {{ section.settings.subtitle_size_desktop }}px;
+  --fz-sub-m: {{ section.settings.subtitle_size_mobile }}px;
 ">
   <div class="fr-custom-projects__container">
     {%- if section.settings.heading != blank -%}
@@ -104,14 +108,14 @@
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__title {
     margin: 0 0 4px 0;
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 18px;
+    font-size: var(--fz-title-m);
     color: #1a1a1a;
   }
 
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__subtitle {
     margin: 0;
     font-family: 'Lato', system-ui, sans-serif;
-    font-size: 14px;
+    font-size: var(--fz-sub-m);
     color: #666;
   }
 
@@ -140,6 +144,13 @@
       max-width: 250px;
       text-align: left;
       z-index: 2;
+    }
+
+    #fr-custom-projects-{{ section.id }} .fr-custom-projects__title {
+      font-size: var(--fz-title-d);
+    }
+    #fr-custom-projects-{{ section.id }} .fr-custom-projects__subtitle {
+      font-size: var(--fz-sub-d);
     }
   }
 
@@ -226,6 +237,50 @@
       "unit": "px",
       "label": "Grid Gap",
       "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Text Sizes"
+    },
+    {
+      "type": "range",
+      "id": "title_size_desktop",
+      "min": 14,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop Title Size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "min": 14,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile Title Size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size_desktop",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop Description Size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size_mobile",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile Description Size",
+      "default": 14
     },
     {
       "type": "header",
