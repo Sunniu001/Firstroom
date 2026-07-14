@@ -46,8 +46,17 @@
             {%- endif -%}
           </div>
 
-          {%- if block.settings.title != blank or block.settings.subtitle != blank -%}
+          {%- if block.settings.title != blank or block.settings.subtitle != blank or block.settings.icon != blank or block.settings.icon_svg != blank -%}
             <div class="fr-about-grid__text-content">
+              {%- if block.settings.icon != blank or block.settings.icon_svg != blank -%}
+                <div class="fr-about-grid__icon">
+                  {%- if block.settings.icon_svg != blank -%}
+                    {{ block.settings.icon_svg }}
+                  {%- else -%}
+                    <img src="{{ block.settings.icon | image_url: width: 60 }}" alt="{{ block.settings.title | escape }}" loading="lazy">
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
               {%- if block.settings.title != blank -%}
                 <h3 class="fr-about-grid__title" style="--fz-t-d: {{ section.settings.title_size }}px; --fz-t-m: {{ section.settings.title_size_mobile | default: section.settings.title_size | times: 0.8 | round }}px; color: {{ section.settings.title_color }};">{{ block.settings.title }}</h3>
               {%- endif -%}
@@ -117,6 +126,26 @@
       column-gap: var(--gap-d);
       row-gap: var(--gap-d);
     }
+  }
+
+
+  .fr-about-grid__icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    width: 32px;
+    height: 32px;
+  }
+  .fr-about-grid__icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .fr-about-grid__icon svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
   }
 
   .fr-about-grid__item {
@@ -209,11 +238,33 @@
   .fr-about-grid__text-content {
     width: 100%;
     text-align: var(--ta-m);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Map text-align variables to flex alignment */
+  .fr-about-grid__wrapper[style*="--ta-m: left"] .fr-about-grid__text-content,
+  .fr-about-grid__wrapper[style*="--ta-m:left"] .fr-about-grid__text-content {
+    align-items: flex-start;
+  }
+  .fr-about-grid__wrapper[style*="--ta-m: right"] .fr-about-grid__text-content,
+  .fr-about-grid__wrapper[style*="--ta-m:right"] .fr-about-grid__text-content {
+    align-items: flex-end;
   }
 
   @media (min-width: 768px) {
     .fr-about-grid__text-content {
       text-align: var(--ta-d);
+      align-items: center;
+    }
+    .fr-about-grid__wrapper[style*="--ta-d: left"] .fr-about-grid__text-content,
+    .fr-about-grid__wrapper[style*="--ta-d:left"] .fr-about-grid__text-content {
+      align-items: flex-start;
+    }
+    .fr-about-grid__wrapper[style*="--ta-d: right"] .fr-about-grid__text-content,
+    .fr-about-grid__wrapper[style*="--ta-d:right"] .fr-about-grid__text-content {
+      align-items: flex-end;
     }
   }
 
@@ -587,7 +638,18 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Image"
+          "label": "Main Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon Image"
+        },
+        {
+          "type": "html",
+          "id": "icon_svg",
+          "label": "Icon SVG",
+          "info": "Paste raw SVG code here. Overrides Icon Image."
         },
         {
           "type": "text",
