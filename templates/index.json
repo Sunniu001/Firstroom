@@ -21,7 +21,7 @@
             "text_color": "{{ settings.color_palette.background }}",
             "border_width": 0,
             "border_color": "#ffffff",
-            "hover_bg_color": "#CA0000",
+            "hover_bg_color": "#ca0000",
             "hover_text_color": "{{ settings.color_palette.background }}",
             "hover_border_color": "{{ settings.color_palette.color3 }}",
             "text_size": 12,
@@ -43,6 +43,7 @@
         "min_height_mobile": 80,
         "content_max_width": 1600,
         "text_align": "center",
+        "text_align_mobile": "center",
         "title": "Designs That Feel Like Home.",
         "title_size": 44,
         "title_size_mobile": 36,
@@ -98,6 +99,15 @@
       "settings": {
         "bg_color": "#ffffff",
         "content_max_width": 1300,
+        "section_heading": "",
+        "section_heading_size": 32,
+        "section_heading_size_mobile": 26,
+        "section_heading_color": "#1a1a1a",
+        "section_heading_align": "left",
+        "section_description": "",
+        "section_desc_size": 16,
+        "section_desc_size_mobile": 14,
+        "section_desc_color": "#4b5563",
         "image_position": "left",
         "column_ratio": "1fr|1fr",
         "vertical_align": "flex-start",
@@ -106,6 +116,7 @@
         "image": "shopify://shop_images/compressed_FRWPTR012-full-for-website_1.png",
         "image_max_width": 600,
         "text_align": "left",
+        "text_align_mobile": "center",
         "text_max_width": 500,
         "padding_top": 80,
         "padding_top_mobile": 40,
@@ -124,6 +135,7 @@
           "type": "grid_item",
           "settings": {
             "image": "shopify://shop_images/Ellipse_79.png",
+            "icon_svg": "",
             "title": "Wallpaper",
             "subtitle": "",
             "link": "shopify://collections/wallpaper"
@@ -133,6 +145,7 @@
           "type": "grid_item",
           "settings": {
             "image": "shopify://shop_images/Ellipse_80.png",
+            "icon_svg": "",
             "title": "Home Decor",
             "subtitle": "",
             "link": "shopify://collections/home-decor"
@@ -148,10 +161,16 @@
         "heading": "Explore Our Collections",
         "heading_align": "left",
         "heading_align_mobile": "center",
+        "description": "<p>Find beautifully curated wallpapers and home décor designed to elevate every corner of your home.</p>",
+        "description_align": "left",
+        "description_align_mobile": "center",
         "content_max_width": 800,
         "heading_size": 32,
         "heading_size_mobile": 24,
         "heading_color": "#1a1a1a",
+        "description_size": 14,
+        "description_size_mobile": 14,
+        "description_color": "#4b5563",
         "columns_desktop": 2,
         "columns_mobile": 2,
         "grid_gap": 20,
@@ -162,6 +181,8 @@
         "image_radius": 0,
         "image_max_width": 250,
         "image_max_width_mobile": 150,
+        "icon_size": 32,
+        "icon_size_mobile": 24,
         "text_align": "center",
         "text_align_mobile": "center",
         "title_size": 18,
@@ -188,6 +209,7 @@
           "settings": {
             "image": "shopify://shop_images/Rectangle_148.png",
             "heading": "Verdant Escape",
+            "description": "",
             "text_color": "#1a1a1a",
             "link": ""
           }
@@ -197,6 +219,7 @@
           "settings": {
             "image": "shopify://shop_images/Rectangle_180.png",
             "heading": "Tropical Retreat",
+            "description": "",
             "text_color": "#1a1a1a",
             "link": ""
           }
@@ -206,6 +229,7 @@
           "settings": {
             "image": "shopify://shop_images/Rectangle_177.png",
             "heading": "Royal Heritage",
+            "description": "",
             "text_color": "#1a1a1a",
             "link": ""
           }
@@ -215,6 +239,7 @@
           "settings": {
             "image": "shopify://shop_images/Rectangle_179.png",
             "heading": "Designs That Feel Like Home.",
+            "description": "",
             "text_color": "#1a1a1a",
             "link": ""
           }
@@ -234,6 +259,10 @@
         "heading_size": 32,
         "heading_size_mobile": 24,
         "heading_color": "#1a1a1a",
+        "description": "",
+        "description_size": 18,
+        "description_size_mobile": 16,
+        "description_color": "#4b5563",
         "columns_desktop": 2,
         "columns_mobile": 1,
         "grid_gap": 32,
@@ -242,8 +271,11 @@
         "image_radius": 18,
         "text_position": "below",
         "text_align": "left",
+        "text_align_mobile": "left",
         "title_size": 16,
         "title_size_mobile": 16,
+        "card_description_size": 16,
+        "card_description_size_mobile": 14,
         "overlay_color": "#000000",
         "overlay_opacity": 15,
         "padding_top": 60,
@@ -263,6 +295,7 @@
         "content_max_width": 1300,
         "main_heading": "Designs That Feel Like Home.",
         "main_heading_align": "center",
+        "main_heading_align_mobile": "center",
         "main_heading_size": 32,
         "main_heading_size_mobile": 24,
         "main_heading_color": "#1a1a1a",
@@ -276,10 +309,16 @@
         "text_bg_color": "rgba(0,0,0,0)",
         "text_padding": 0,
         "text_align": "center",
+        "text_align_mobile": "left",
         "heading": "Inspired by Stories. Designed for Spaces.",
+        "heading_align": "left",
+        "heading_align_mobile": "left",
         "heading_size": 28,
         "heading_size_mobile": 22,
         "heading_color": "#1a1a1a",
+        "heading_bg_color": "rgba(0,0,0,0)",
+        "heading_padding_y": 0,
+        "heading_padding_x": 0,
         "text": "<p>Every First Room creation begins with inspiration drawn from nature, architecture, art and everyday living. We blend timeless craftsmanship with contemporary design to create wallpapers and home décor that transform spaces into personal expressions of style.</p>",
         "text_size": 14,
         "text_size_mobile": 14,
@@ -288,6 +327,7 @@
         "button_link": "",
         "btn_bg_color": "#1a1a1a",
         "btn_text_color": "#ffffff",
+        "btn_border_radius": 0,
         "padding_top": 60,
         "padding_top_mobile": 40,
         "padding_bottom": 60,
@@ -305,6 +345,7 @@
           "type": "grid_item",
           "settings": {
             "image": "shopify://shop_images/Rectangle_156.png",
+            "icon_svg": "",
             "title": "Title 1",
             "subtitle": "",
             "link": ""
@@ -314,6 +355,7 @@
           "type": "grid_item",
           "settings": {
             "image": "shopify://shop_images/Rectangle_157.png",
+            "icon_svg": "",
             "title": "Title 2",
             "subtitle": "",
             "link": ""
@@ -323,6 +365,7 @@
           "type": "grid_item",
           "settings": {
             "image": "shopify://shop_images/Rectangle_158.png",
+            "icon_svg": "",
             "title": "Title 3",
             "subtitle": "",
             "link": ""
@@ -332,6 +375,7 @@
           "type": "grid_item",
           "settings": {
             "image": "shopify://shop_images/Rectangle_172.png",
+            "icon_svg": "",
             "title": "Title 4",
             "subtitle": "",
             "link": ""
@@ -350,10 +394,16 @@
         "heading": "Featured Collections",
         "heading_align": "center",
         "heading_align_mobile": "center",
+        "description": "",
+        "description_align": "center",
+        "description_align_mobile": "center",
         "content_max_width": 1300,
         "heading_size": 32,
         "heading_size_mobile": 24,
         "heading_color": "#1a1a1a",
+        "description_size": 18,
+        "description_size_mobile": 16,
+        "description_color": "#4b5563",
         "columns_desktop": 4,
         "columns_mobile": 2,
         "grid_gap": 8,
@@ -364,6 +414,8 @@
         "image_radius": 0,
         "image_max_width": 300,
         "image_max_width_mobile": 150,
+        "icon_size": 32,
+        "icon_size_mobile": 24,
         "text_align": "center",
         "text_align_mobile": "center",
         "title_size": 15,
@@ -388,6 +440,7 @@
         "s1": {
           "type": "grid_item",
           "settings": {
+            "icon_svg": "",
             "title": "",
             "subtitle": "",
             "link": ""
@@ -396,6 +449,7 @@
         "s2": {
           "type": "grid_item",
           "settings": {
+            "icon_svg": "",
             "title": "",
             "subtitle": "",
             "link": ""
@@ -404,6 +458,7 @@
         "s3": {
           "type": "grid_item",
           "settings": {
+            "icon_svg": "",
             "title": "",
             "subtitle": "",
             "link": ""
@@ -412,6 +467,7 @@
         "s4": {
           "type": "grid_item",
           "settings": {
+            "icon_svg": "",
             "title": "",
             "subtitle": "",
             "link": ""
@@ -420,6 +476,7 @@
         "s5": {
           "type": "grid_item",
           "settings": {
+            "icon_svg": "",
             "title": "",
             "subtitle": "",
             "link": ""
@@ -428,6 +485,7 @@
         "s6": {
           "type": "grid_item",
           "settings": {
+            "icon_svg": "",
             "title": "",
             "subtitle": "",
             "link": ""
@@ -447,10 +505,16 @@
         "heading": "#FirstRoomCollective",
         "heading_align": "center",
         "heading_align_mobile": "center",
+        "description": "",
+        "description_align": "center",
+        "description_align_mobile": "center",
         "content_max_width": 1300,
         "heading_size": 32,
         "heading_size_mobile": 24,
         "heading_color": "#1a1a1a",
+        "description_size": 18,
+        "description_size_mobile": 16,
+        "description_color": "#4b5563",
         "columns_desktop": 6,
         "columns_mobile": 2,
         "grid_gap": 20,
@@ -461,6 +525,8 @@
         "image_radius": 0,
         "image_max_width": 300,
         "image_max_width_mobile": 150,
+        "icon_size": 32,
+        "icon_size_mobile": 24,
         "text_align": "center",
         "text_align_mobile": "center",
         "title_size": 18,
