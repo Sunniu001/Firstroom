@@ -302,7 +302,7 @@
         "column_ratio": "1fr|2fr|1fr",
         "mobile_layout": "text_first",
         "vertical_align": "center",
-        "gap": 40,
+        "gap": 64,
         "image_1": "shopify://shop_images/Rectangle_170.png",
         "image_2": "shopify://shop_images/Rectangle_171.png",
         "image_radius": 0,
