@@ -90,20 +90,20 @@
   }
 
   .fr-about-grid__main-heading {
-    display: block;
-    width: 100%;
+    display: block !important;
+    width: 100% !important;
     font-family: 'Playfair Display', Georgia, serif;
     font-weight: 400;
     margin-top: 0;
     margin-bottom: 40px;
     letter-spacing: 0.01em;
     font-size: var(--fz-mh-m);
-    text-align: {{ section.settings.heading_align_mobile | default: section.settings.heading_align }};
+    text-align: {{ section.settings.heading_align_mobile | default: section.settings.heading_align }} !important;
   }
 
   @media (min-width: 768px) {
     .fr-about-grid__main-heading {
-      text-align: {{ section.settings.heading_align }};
+      text-align: {{ section.settings.heading_align }} !important;
     }
     #fr-about-grid-{{ section.id }} .fr-about-grid__wrapper {
       padding-top: var(--pt-d);
