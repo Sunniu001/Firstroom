@@ -112,6 +112,18 @@
         "type": "shopify://apps/cart-pilot/blocks/cartgoal-cart-drawer-embed/019d7b73-dc90-7709-8443-f16b85c4bc27",
         "disabled": false,
         "settings": {}
+      },
+      "6097499278999377719": {
+        "type": "shopify://apps/globo-mega-menu/blocks/app-embed/7a00835e-fe40-45a5-a615-2eb4ab697b58",
+        "disabled": false,
+        "settings": {
+          "themeId": "{{theme.id}}"
+        }
+      },
+      "13017476918150166000": {
+        "type": "shopify://apps/wa-chat-button/blocks/whatsapp/f4d01795-3d1a-4ac7-bca7-9d0d178df50e",
+        "disabled": false,
+        "settings": {}
       }
     },
     "color_palette": {
