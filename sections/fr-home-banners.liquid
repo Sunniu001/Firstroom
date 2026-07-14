@@ -10,10 +10,19 @@
       --pr-m: {{ section.settings.padding_right_mobile | default: section.settings.padding_right }}px;
     ">
     
-    {%- if section.settings.heading != blank -%}
-      <h2 class="fr-home-banners__main-heading" style="text-align: {{ section.settings.heading_align }}; --fz-d: {{ section.settings.heading_size }}px; --fz-m: {{ section.settings.heading_size_mobile | default: section.settings.heading_size | times: 0.8 | round }}px; color: {{ section.settings.heading_color }};">
-        {{ section.settings.heading }}
-      </h2>
+    {%- if section.settings.heading != blank or section.settings.description != blank -%}
+      <div class="fr-home-banners__header-wrapper">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="fr-home-banners__main-heading" style="text-align: {{ section.settings.heading_align }}; --fz-d: {{ section.settings.heading_size }}px; --fz-m: {{ section.settings.heading_size_mobile | default: section.settings.heading_size | times: 0.8 | round }}px; color: {{ section.settings.heading_color }};">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
+        {%- if section.settings.description != blank -%}
+          <div class="fr-home-banners__description" style="--fz-d-d: {{ section.settings.description_size }}px; --fz-d-m: {{ section.settings.description_size_mobile | default: section.settings.description_size | times: 0.8 | round }}px; color: {{ section.settings.description_color }}; text-align: {{ section.settings.heading_align }};">
+            {{ section.settings.description }}
+          </div>
+        {%- endif -%}
+      </div>
     {%- endif -%}
 
     <div class="fr-home-banners__container" style="
@@ -48,14 +57,22 @@
                 {%- if block.settings.heading != blank -%}
                   <h3 class="fr-home-banners__heading" style="color: {{ block.settings.text_color }}; --fz-t-d: {{ section.settings.title_size }}px; --fz-t-m: {{ section.settings.title_size_mobile | default: section.settings.title_size | times: 0.8 | round }}px;">{{ block.settings.heading }}</h3>
                 {%- endif -%}
+                {%- if block.settings.description != blank -%}
+                  <div class="fr-home-banners__card-desc" style="color: {{ block.settings.text_color }}; --fz-cd-d: {{ section.settings.card_description_size }}px; --fz-cd-m: {{ section.settings.card_description_size_mobile | default: section.settings.card_description_size | times: 0.8 | round }}px;">{{ block.settings.description }}</div>
+                {%- endif -%}
               </div>
             {%- endif -%}
           </div>
 
           {%- if section.settings.text_position == 'below' -%}
-            {%- if block.settings.heading != blank -%}
+            {%- if block.settings.heading != blank or block.settings.description != blank -%}
               <div class="fr-home-banners__text-below" style="text-align: {{ section.settings.text_align }};">
-                <h3 class="fr-home-banners__heading" style="color: {{ block.settings.text_color }}; --fz-t-d: {{ section.settings.title_size }}px; --fz-t-m: {{ section.settings.title_size_mobile | default: section.settings.title_size | times: 0.8 | round }}px;">{{ block.settings.heading }}</h3>
+                {%- if block.settings.heading != blank -%}
+                  <h3 class="fr-home-banners__heading" style="color: {{ block.settings.text_color }}; --fz-t-d: {{ section.settings.title_size }}px; --fz-t-m: {{ section.settings.title_size_mobile | default: section.settings.title_size | times: 0.8 | round }}px;">{{ block.settings.heading }}</h3>
+                {%- endif -%}
+                {%- if block.settings.description != blank -%}
+                  <div class="fr-home-banners__card-desc" style="color: {{ block.settings.text_color }}; --fz-cd-d: {{ section.settings.card_description_size }}px; --fz-cd-m: {{ section.settings.card_description_size_mobile | default: section.settings.card_description_size | times: 0.8 | round }}px;">{{ block.settings.description }}</div>
+                {%- endif -%}
               </div>
             {%- endif -%}
           {%- endif -%}
@@ -90,16 +107,30 @@
     grid-template-columns: repeat(var(--cols-m), 1fr);
   }
 
-  .fr-home-banners__main-heading {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-weight: 400;
-    margin-top: 0;
+  #fr-home-banners-{{ section.id }} .fr-home-banners__header-wrapper {
     margin-bottom: 40px;
-    letter-spacing: 0.01em;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     max-width: {{ section.settings.content_max_width }}px;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  #fr-home-banners-{{ section.id }} .fr-home-banners__main-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+    margin-top: 0;
+    margin-bottom: {% if section.settings.description != blank %}16px{% else %}0{% endif %};
+    letter-spacing: 0.01em;
     font-size: var(--fz-m);
+    width: 100%;
+  }
+
+  #fr-home-banners-{{ section.id }} .fr-home-banners__description {
+    font-size: var(--fz-d-m);
+    margin: 0;
+    width: 100%;
   }
 
   @media (max-width: 767px) {
@@ -231,9 +262,18 @@
     font-size: var(--fz-t-m);
   }
 
+  .fr-home-banners__card-desc {
+    margin: 8px 0 0 0;
+    font-size: var(--fz-cd-m);
+    line-height: 1.5;
+  }
+
   @media (min-width: 768px) {
-    .fr-home-banners__main-heading { font-size: var(--fz-d); }
+    #fr-home-banners-{{ section.id }} .fr-home-banners__header-wrapper { margin-bottom: 60px; }
+    #fr-home-banners-{{ section.id }} .fr-home-banners__main-heading { font-size: var(--fz-d); }
+    #fr-home-banners-{{ section.id }} .fr-home-banners__description { font-size: var(--fz-d-d); }
     .fr-home-banners__heading { font-size: var(--fz-t-d); }
+    .fr-home-banners__card-desc { font-size: var(--fz-cd-d); }
   }
 </style>
 
@@ -300,6 +340,37 @@
       "id": "heading_color",
       "label": "Heading Color",
       "default": "#1a1a1a"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Section Description"
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Description Font Size (Desktop)",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "description_size_mobile",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Description Font Size (Mobile)",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description Color",
+      "default": "#4b5563"
     },
     {
       "type": "header",
@@ -418,6 +489,26 @@
       "default": 20
     },
     {
+      "type": "range",
+      "id": "card_description_size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Card Description Size (Desktop)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "card_description_size_mobile",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Card Description Size (Mobile)",
+      "default": 14
+    },
+    {
       "type": "color",
       "id": "overlay_color",
       "label": "Overlay Color (if positioning is 'overlay')",
@@ -532,6 +623,11 @@
           "id": "heading",
           "label": "Heading",
           "default": "Banner Title"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
         },
         {
           "type": "color",
