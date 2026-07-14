@@ -31,7 +31,7 @@
       {%- for block in section.blocks -%}
         <div class="fr-custom-projects__item fr-custom-projects__item--text-{{ block.settings.text_position }}" 
              {{ block.shopify_attributes }}
-             style="grid-column: {{ block.settings.column_start }}; transform: translateY({{ block.settings.offset_y }}px); {%- if block.settings.is_invisible -%}opacity: 0; pointer-events: none;{%- endif -%}">
+             style="grid-column: {{ block.settings.column_start }}; --offset-y-d: {{ block.settings.offset_y }}px; --offset-y-m: {{ block.settings.offset_y_mobile | default: block.settings.offset_y }}px; transform: translateY(var(--offset-y-d)); {%- if block.settings.is_invisible -%}opacity: 0; pointer-events: none;{%- endif -%}">
              
           <div class="fr-custom-projects__image-wrapper" style="padding-bottom: {{ block.settings.aspect_ratio }}%;">
             {%- if block.settings.image != blank -%}
@@ -177,7 +177,7 @@
     }
     #fr-custom-projects-{{ section.id }} .fr-custom-projects__item {
       grid-column: 1 !important;
-      transform: none !important;
+      transform: translateY(var(--offset-y-m)) !important;
       {% comment %} On mobile, invisible items shouldn't take up full rows of blank space {% endcomment %}
     }
     #fr-custom-projects-{{ section.id }} .fr-custom-projects__item[style*="opacity: 0"] {
@@ -430,8 +430,18 @@
           "max": 200,
           "step": 5,
           "unit": "px",
-          "label": "Vertical Offset",
+          "label": "Vertical Offset (Desktop)",
           "info": "Push this individual image up or down to create a staggered grid effect.",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "offset_y_mobile",
+          "min": -200,
+          "max": 200,
+          "step": 5,
+          "unit": "px",
+          "label": "Vertical Offset (Mobile)",
           "default": 0
         },
         {

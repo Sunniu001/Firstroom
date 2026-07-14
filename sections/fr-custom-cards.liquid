@@ -18,7 +18,8 @@
   <div class="fr-custom-cards__container" style="max-width: {{ section.settings.content_max_width }}px;">
     {%- if section.settings.heading != blank -%}
       <h2 class="fr-custom-cards__heading" style="
-        font-size: {{ section.settings.heading_size }}px;
+        --fz-hd-d: {{ section.settings.heading_size }}px;
+        --fz-hd-m: {{ section.settings.heading_size_mobile | default: section.settings.heading_size | times: 0.8 | round }}px;
         color: {{ section.settings.heading_color }};
         --ha-m: {{ section.settings.heading_align_mobile | default: section.settings.heading_alignment }};
         --ha-d: {{ section.settings.heading_alignment }};
@@ -85,6 +86,7 @@
     margin: 0 0 {{ section.settings.heading_margin_bottom }}px 0;
     font-weight: {{ section.settings.heading_font.weight | default: 500 }};
     text-align: var(--ha-m);
+    font-size: var(--fz-hd-m) !important;
   }
 
   #fr-custom-cards-{{ section.id }} .fr-custom-cards__grid {
@@ -133,17 +135,18 @@
 
   @media (min-width: 768px) {
     #fr-custom-cards-{{ section.id }} {
-      padding-top: var(--pt-d);
-      padding-bottom: var(--pb-d);
+      padding-top: var(--pt-d) !important;
+      padding-bottom: var(--pb-d) !important;
     }
     #fr-custom-cards-{{ section.id }} .fr-custom-cards__heading {
-      text-align: var(--ha-d);
+      text-align: var(--ha-d) !important;
+      font-size: var(--fz-hd-d) !important;
     }
     #fr-custom-cards-{{ section.id }} .fr-custom-cards__card {
       text-align: var(--ta-d);
     }
     #fr-custom-cards-{{ section.id }} .fr-custom-cards__text {
-      font-size: var(--fz-txt-d);
+      font-size: var(--fz-txt-d) !important;
     }
     #fr-custom-cards-{{ section.id }} .fr-custom-cards__desc {
       font-size: var(--fz-desc-d);
@@ -201,8 +204,18 @@
       "max": 60,
       "step": 2,
       "unit": "px",
-      "label": "Heading Size",
+      "label": "Heading Size (Desktop)",
       "default": 36
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Size (Mobile)",
+      "default": 28
     },
     {
       "type": "select",
