@@ -89,7 +89,7 @@
     padding-right: var(--pr-m);
   }
 
-  .fr-about-grid__main-heading {
+  #fr-about-grid-{{ section.id }} .fr-about-grid__main-heading {
     display: block !important;
     width: 100% !important;
     font-family: 'Playfair Display', Georgia, serif;
@@ -102,7 +102,7 @@
   }
 
   @media (min-width: 768px) {
-    .fr-about-grid__main-heading {
+    #fr-about-grid-{{ section.id }} .fr-about-grid__main-heading {
       text-align: {{ section.settings.heading_align }} !important;
     }
     #fr-about-grid-{{ section.id }} .fr-about-grid__wrapper {
