@@ -16,10 +16,19 @@
       --icn-s-m: {{ section.settings.icon_size_mobile | default: section.settings.icon_size }}px;
     ">
     
-    {%- if section.settings.heading != blank -%}
-      <h2 class="fr-about-grid__main-heading" style="--fz-mh-d: {{ section.settings.heading_size }}px; --fz-mh-m: {{ section.settings.heading_size_mobile | default: section.settings.heading_size | times: 0.8 | round }}px; color: {{ section.settings.heading_color }};">
-        {{ section.settings.heading }}
-      </h2>
+    {%- if section.settings.heading != blank or section.settings.description != blank -%}
+      <div class="fr-about-grid__header-wrapper">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="fr-about-grid__main-heading" style="--fz-mh-d: {{ section.settings.heading_size }}px; --fz-mh-m: {{ section.settings.heading_size_mobile | default: section.settings.heading_size | times: 0.8 | round }}px; color: {{ section.settings.heading_color }};">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
+        {%- if section.settings.description != blank -%}
+          <div class="fr-about-grid__description" style="--fz-d-d: {{ section.settings.description_size }}px; --fz-d-m: {{ section.settings.description_size_mobile | default: section.settings.description_size | times: 0.8 | round }}px; color: {{ section.settings.description_color }};">
+            {{ section.settings.description }}
+          </div>
+        {%- endif -%}
+      </div>
     {%- endif -%}
 
     <div class="fr-about-grid__container" style="
@@ -91,21 +100,44 @@
     padding-right: var(--pr-m);
   }
 
+  #fr-about-grid-{{ section.id }} .fr-about-grid__header-wrapper {
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
   #fr-about-grid-{{ section.id }} .fr-about-grid__main-heading {
     display: block !important;
     width: 100% !important;
     font-family: 'Playfair Display', Georgia, serif;
     font-weight: 400;
     margin-top: 0;
-    margin-bottom: 40px;
+    margin-bottom: {% if section.settings.description != blank %}16px{% else %}0{% endif %};
     letter-spacing: 0.01em;
     font-size: var(--fz-mh-m);
     text-align: {{ section.settings.heading_align_mobile | default: section.settings.heading_align }} !important;
   }
 
+  #fr-about-grid-{{ section.id }} .fr-about-grid__description {
+    font-size: var(--fz-d-m);
+    text-align: {{ section.settings.description_align_mobile | default: section.settings.description_align }};
+    margin: 0;
+    width: 100%;
+    max-width: 800px;
+    align-self: {% if section.settings.description_align_mobile == 'left' %}flex-start{% elsif section.settings.description_align_mobile == 'right' %}flex-end{% else %}center{% endif %};
+  }
+
   @media (min-width: 768px) {
+    #fr-about-grid-{{ section.id }} .fr-about-grid__header-wrapper {
+      margin-bottom: 60px;
+    }
     #fr-about-grid-{{ section.id }} .fr-about-grid__main-heading {
       text-align: {{ section.settings.heading_align }} !important;
+    }
+    #fr-about-grid-{{ section.id }} .fr-about-grid__description {
+      text-align: {{ section.settings.description_align }};
+      align-self: {% if section.settings.description_align == 'left' %}flex-start{% elsif section.settings.description_align == 'right' %}flex-end{% else %}center{% endif %};
     }
     #fr-about-grid-{{ section.id }} .fr-about-grid__wrapper {
       padding-top: var(--pt-d);
@@ -291,6 +323,7 @@
 
   @media (min-width: 768px) {
     #fr-about-grid-{{ section.id }} .fr-about-grid__main-heading { font-size: var(--fz-mh-d); }
+    #fr-about-grid-{{ section.id }} .fr-about-grid__description { font-size: var(--fz-d-d); }
     #fr-about-grid-{{ section.id }} .fr-about-grid__title { font-size: var(--fz-t-d); }
     #fr-about-grid-{{ section.id }} .fr-about-grid__subtitle { font-size: var(--fz-s-d); }
   }
@@ -336,6 +369,33 @@
       "default": "center"
     },
     {
+      "type": "richtext",
+      "id": "description",
+      "label": "Section Description"
+    },
+    {
+      "type": "select",
+      "id": "description_align",
+      "label": "Desktop Description Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "description_align_mobile",
+      "label": "Mobile Description Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
       "type": "range",
       "id": "content_max_width",
       "min": 600,
@@ -369,7 +429,33 @@
       "type": "color",
       "id": "heading_color",
       "label": "Heading Color",
-      "default": "#1a1a1a"
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Description Font Size (Desktop)",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "description_size_mobile",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Description Font Size (Mobile)",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description Color",
+      "default": "#4b5563"
     },
     {
       "type": "header",
