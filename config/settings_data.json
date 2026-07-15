@@ -112,6 +112,13 @@
         "type": "shopify://apps/cart-pilot/blocks/cartgoal-cart-drawer-embed/019d7b73-dc90-7709-8443-f16b85c4bc27",
         "disabled": false,
         "settings": {}
+      },
+      "6097499278999377719": {
+        "type": "shopify://apps/globo-mega-menu/blocks/app-embed/7a00835e-fe40-45a5-a615-2eb4ab697b58",
+        "disabled": false,
+        "settings": {
+          "themeId": "{{theme.id}}"
+        }
       }
     },
     "color_palette": {
