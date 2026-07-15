@@ -6,37 +6,49 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */{
+ */
+{
   "sections": {
+    "fr_breadcrumbs_mTWEwb": {
+      "type": "fr-breadcrumbs",
+      "name": "FR Breadcrumbs",
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "padding_left": 70,
+        "padding_right": 0,
+        "font_size": 14,
+        "text_color": "#333333"
+      }
+    },
     "main": {
       "type": "product-information",
       "blocks": {
-
         "media-gallery": {
           "type": "_product-media-gallery",
           "static": true,
           "settings": {
-            "media_presentation": "grid",
+            "media_presentation": "carousel",
             "media_columns": "two",
             "image_gap": 4,
             "large_first_image": false,
             "icons_style": "none",
-            "slideshow_controls_style": "counter",
+            "slideshow_controls_style": "thumbnails",
             "slideshow_mobile_controls_style": "dots",
-            "thumbnail_position": "right",
-            "thumbnail_width": 44,
+            "thumbnail_position": "left",
+            "thumbnail_width": 72,
             "thumbnail_radius": 0,
-            "aspect_ratio": "adapt",
+            "aspect_ratio": "1",
             "constrain_to_viewport": true,
             "media_fit": "contain",
             "media_radius": 0,
             "extend_media": false,
-            "zoom": true,
+            "zoom": false,
             "video_loop": false,
             "hide_variants": true,
             "padding-block-start": 0,
             "padding-block-end": 0,
-            "padding-inline-start": 0,
+            "padding-inline-start": 30,
             "padding-inline-end": 0
           },
           "blocks": {}
@@ -51,21 +63,21 @@
             "custom_width_mobile": 100,
             "height": "fit",
             "details_position": "flex-start",
-            "gap": 28,
+            "gap": 0,
             "sticky_details_desktop": true,
+            "inherit_color_scheme": true,
+            "color_scheme": "",
             "background_media": "none",
-            "background_color": "",
             "video_position": "cover",
             "background_image_position": "cover",
             "border": "none",
             "border_width": 1,
             "border_opacity": 100,
-            "border_color": "",
             "border_radius": 0,
-            "padding-block-start": 24,
+            "padding-block-start": 0,
             "padding-block-end": 24,
             "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "padding-inline-end": 60
           },
           "blocks": {
             "group_icgrde": {
@@ -78,27 +90,28 @@
                 "vertical_alignment": "center",
                 "align_baseline": false,
                 "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "center",
-                "gap": 12,
+                "vertical_alignment_flex_direction_column": "flex-start",
+                "gap": 0,
                 "width": "fill",
                 "custom_width": 100,
                 "width_mobile": "fill",
                 "custom_width_mobile": 100,
                 "height": "fit",
                 "custom_height": 100,
+                "inherit_color_scheme": true,
+                "color_scheme": "",
                 "background_media": "none",
-                "background_color": "",
                 "video_position": "cover",
                 "background_image_position": "cover",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
                 "toggle_overlay": false,
                 "overlay_color": "#00000026",
                 "overlay_style": "solid",
                 "gradient_direction": "to top",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_color": "",
-                "border_radius": 0,
+                "link": "",
                 "open_in_new_tab": false,
                 "placeholder": "",
                 "padding-block-start": 0,
@@ -115,14 +128,14 @@
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
-                    "type_preset": "h3",
+                    "type_preset": "h4",
                     "font": "var(--font-primary--family)",
                     "font_size": "1rem",
                     "line_height": "normal",
                     "letter_spacing": "normal",
                     "case": "none",
                     "wrap": "pretty",
-                    "text_color": "",
+                    "color": "var(--color-foreground)",
                     "background": false,
                     "background_color": "#00000026",
                     "corner_radius": 0,
@@ -133,23 +146,49 @@
                   },
                   "blocks": {}
                 },
-                "price_tVjtKg": {
-                  "type": "price",
+                "product_description_TRxVqR": {
+                  "type": "product-description",
+                  "name": "t:names.product_description",
                   "settings": {
-                    "show_sale_price_first": true,
-                    "show_installments": false,
-                    "show_tax_info": false,
-                    "type_preset": "paragraph",
+                    "text": "<p><em>{{ closest.product.description }}</em></p>",
                     "width": "100%",
+                    "max_width": "none",
                     "alignment": "left",
+                    "type_preset": "paragraph",
                     "font": "var(--font-body--family)",
                     "font_size": "1rem",
                     "line_height": "normal",
                     "letter_spacing": "normal",
                     "case": "none",
-                    "text_color": "",
-                    "padding-block-start": 4,
+                    "wrap": "pretty",
+                    "color": "var(--color-foreground)",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
                     "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  },
+                  "blocks": {}
+                },
+                "price_ywML9U": {
+                  "type": "price",
+                  "settings": {
+                    "show_sale_price_first": true,
+                    "show_installments": false,
+                    "show_tax_info": false,
+                    "type_preset": "custom",
+                    "width": "100%",
+                    "alignment": "left",
+                    "font": "var(--font-accent--family)",
+                    "font_size": "1.125rem",
+                    "line_height": "normal",
+                    "letter_spacing": "normal",
+                    "case": "none",
+                    "color": "var(--color-foreground)",
+                    "padding-block-start": 4,
+                    "padding-block-end": 20,
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
                   },
@@ -158,7 +197,8 @@
               },
               "block_order": [
                 "text_xrnftG",
-                "price_tVjtKg"
+                "product_description_TRxVqR",
+                "price_ywML9U"
               ]
             },
             "divider_VJhene": {
@@ -167,30 +207,44 @@
               "settings": {
                 "thickness": 1,
                 "corner_radius": "square",
-                "divider_color": "{{ settings.color_palette.color2 }}",
                 "width_percent": 100,
                 "padding-block-start": 0,
-                "padding-block-end": 0
+                "padding-block-end": 20
               },
               "blocks": {}
             },
-            "variant_picker_R3rGDr": {
+            "fr_product_actions_PqM3La": {
+              "type": "fr-product-actions",
+              "settings": {
+                "order_text": "Order directly",
+                "order_link": "",
+                "specialist_text": "Talk to a specialist",
+                "specialist_link": "",
+                "padding_top": 0,
+                "padding_bottom": 0
+              },
+              "blocks": {}
+            },
+            "fr_product_stepper_LkYNzd": {
+              "type": "fr-product-stepper",
+              "settings": {
+                "step_1_text": "Select Material",
+                "step_2_text": "Add To Cart",
+                "step_3_text": "Production",
+                "step_4_text": "Delivered",
+                "padding_top": 0,
+                "padding_bottom": 0
+              },
+              "blocks": {}
+            },
+            "variant_picker_ThfVAa": {
               "type": "variant-picker",
               "settings": {
                 "variant_style": "buttons",
                 "show_swatches": false,
-                "option_label_text_color": "",
-                "variant_style_class": "default",
-                "custom_variant_background": "{{ settings.color_palette.background }}",
-                "custom_variant_text": "{{ settings.color_palette.foreground }}",
-                "custom_variant_border": "{{ settings.color_palette.foreground }}",
-                "selected_variant_style_class": "default",
-                "custom_selected_variant_background": "{{ settings.color_palette.foreground }}",
-                "custom_selected_variant_text": "{{ settings.color_palette.background }}",
-                "custom_selected_variant_border": "{{ settings.color_palette.foreground }}",
                 "alignment": "left",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
+                "padding-block-start": 20,
+                "padding-block-end": 20,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
@@ -200,23 +254,9 @@
               "type": "buy-buttons",
               "settings": {
                 "stacking": true,
-                "text_color": "",
                 "show_pickup_availability": false,
-                "gift_card_form": true,
-                "recipient_button_style": "default",
-                "recipient_button_background": "{{ settings.color_palette.background }}",
-                "recipient_button_text": "{{ settings.color_palette.foreground }}",
-                "recipient_button_border": "{{ settings.color_palette.foreground }}",
-                "selected_recipient_button_style": "default",
-                "selected_recipient_button_background": "{{ settings.color_palette.foreground }}",
-                "selected_recipient_button_text": "{{ settings.color_palette.background }}",
-                "selected_recipient_button_border": "{{ settings.color_palette.foreground }}",
-                "input_style": "default",
-                "input_background_color": "{{ settings.color_palette.background }}",
-                "input_text_color": "{{ settings.color_palette.foreground }}",
-                "input_border_color": "{{ settings.color_palette.foreground }}",
-                "border_width": 1,
-                "border_radius": 0,
+                "show_final_price_showcase": true,
+                "gift_card_form": false,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
@@ -226,29 +266,20 @@
                 "quantity": {
                   "type": "quantity",
                   "static": true,
-                  "settings": {
-                    "input_style": "default",
-                    "input_background_color": "{{ settings.color_palette.background }}",
-                    "input_text_color": "{{ settings.color_palette.foreground }}",
-                    "input_border_color": "{{ settings.color_palette.foreground }}",
-                    "border_width": 1,
-                    "border_radius": 0
-                  },
+                  "settings": {},
                   "blocks": {}
                 },
                 "add-to-cart": {
                   "type": "add-to-cart",
                   "static": true,
                   "settings": {
-                    "style_class": "button",
-                    "custom_button_background": "{{ settings.color_palette.foreground }}",
-                    "custom_button_text": "{{ settings.color_palette.background }}",
-                    "custom_button_border": "{{ settings.color_palette.background }}"
+                    "style_class": "button"
                   },
                   "blocks": {}
                 },
                 "accelerated-checkout": {
                   "type": "accelerated-checkout",
+                  "disabled": true,
                   "static": true,
                   "settings": {},
                   "blocks": {}
@@ -256,55 +287,47 @@
               },
               "block_order": []
             },
-            "text_aEtTtq": {
-              "type": "text",
-              "name": "Product description",
-              "settings": {
-                "text": "{{ closest.product.description }}",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-primary--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
+            "fr_trust_badges_hbUXNL": {
+              "type": "fr-trust-badges",
+              "settings": {},
               "blocks": {}
             }
           },
           "block_order": [
             "group_icgrde",
             "divider_VJhene",
-            "variant_picker_R3rGDr",
+            "fr_product_actions_PqM3La",
+            "fr_product_stepper_LkYNzd",
+            "variant_picker_ThfVAa",
             "buy_buttons_eYQEYi",
-            "text_aEtTtq"
+            "fr_trust_badges_hbUXNL"
           ]
         }
       },
-      "block_order": [
-
-      ],
       "settings": {
         "content_width": "content-center-aligned",
         "desktop_media_position": "left",
-        "equal_columns": false,
+        "equal_columns": true,
         "limit_details_width": false,
         "gap": 48,
-        "enable_sticky_add_to_cart": true,
-        "background_color": "{{ settings.color_palette.background }}",
+        "enable_sticky_add_to_cart": false,
+        "color_scheme": "",
         "padding-block-start": 0,
         "padding-block-end": 0
+      }
+    },
+    "fr_product_tabs_i9xTJw": {
+      "type": "fr-product-tabs",
+      "name": "FR - Product Tabs",
+      "settings": {
+        "description_html": "",
+        "material_html": "<p><strong>Shipping Timeline:<br/></strong>Dispatched within 3-5 Days<br/>Shipping 7 - 10 working days (domestic)<br/>Refer to Shipping Policy<br/><br/><strong>Care Instructions:<br/></strong>Wipe gently with a soft, damp cloth<br/>Do not use soap, chemical cleaners, or scrub the surface<br/><strong><br/>Packaging:<br/></strong>Lovingly packed with minimal, recyclable plastic for safe transit</p>",
+        "shipping_html": "<p>- Every frame is made to order<br/>- We ensure waste is managed responsibly<br/>- Returns are not accepted<br/>- Please refer to our Terms & Conditions<br/><br/>Note: Minor visual variations from sample images may occur</p>",
+        "quality_html": "<p><strong>Size:<br/></strong>Refer to second product image for approximate dimensions<strong><br/>Material:<br/></strong>Cotton canvas<br/><strong>Design:<br/></strong>Original hand-drawn motifs, digitally printed using eco-safe inks<strong><br/>Installation:<br/></strong>Ready-to-hang with wall hooks<br/>Self-installation<br/><strong>Best Use:<br/></strong>For indoor areas protected from direct sunlight or weather<br/><strong>Manufactured & Marketed by:<br/></strong>First Room CollectivesA10, Block A, Greenwood City, Sector 45, Gurugram – 122003, Haryana, India<br/>firstroom2019@gmail.com<br/>+91 96507 06644</p>",
+        "padding_top": 60,
+        "padding_bottom": 32,
+        "padding_left": 100,
+        "padding_right": 40
       }
     },
     "product_recommendations_qggXJq": {
@@ -314,7 +337,7 @@
           "type": "text",
           "name": "t:names.header",
           "settings": {
-            "text": "<h3>You may also like </h3>",
+            "text": "<h3>Recommended Products</h3>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
@@ -325,12 +348,12 @@
             "letter_spacing": "normal",
             "case": "none",
             "wrap": "pretty",
-            "text_color": "",
+            "color": "var(--color-foreground)",
             "background": false,
             "background_color": "#00000026",
             "corner_radius": 0,
             "padding-block-start": 0,
-            "padding-block-end": 0,
+            "padding-block-end": 15,
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
@@ -342,11 +365,11 @@
           "static": true,
           "settings": {
             "product_card_gap": 8,
-            "background_color": "",
+            "inherit_color_scheme": true,
+            "color_scheme": "",
             "border": "none",
             "border_width": 1,
             "border_opacity": 100,
-            "border_color": "",
             "border_radius": 0,
             "padding-block-start": 0,
             "padding-block-end": 8,
@@ -358,11 +381,10 @@
               "type": "_product-card-gallery",
               "name": "t:names.product_card_media",
               "settings": {
-                "image_ratio": "adapt",
+                "image_ratio": "square",
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
-                "border_color": "",
                 "border_radius": 0,
                 "padding-block-start": 0,
                 "padding-block-end": 0,
@@ -385,7 +407,7 @@
                 "letter_spacing": "normal",
                 "case": "none",
                 "wrap": "pretty",
-                "text_color": "",
+                "color": "var(--color-foreground)",
                 "background": false,
                 "background_color": "#00000026",
                 "corner_radius": 0,
@@ -410,7 +432,7 @@
                 "line_height": "normal",
                 "letter_spacing": "normal",
                 "case": "none",
-                "text_color": "",
+                "color": "var(--color-foreground)",
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
@@ -434,24 +456,26 @@
         "product": "{{ closest.product }}",
         "recommendation_type": "related",
         "layout_type": "grid",
-        "carousel_on_mobile": false,
+        "carousel_on_mobile": true,
         "max_products": 4,
         "columns": 4,
         "mobile_columns": "2",
-        "columns_gap": 12,
+        "columns_gap": 14,
         "rows_gap": 24,
         "icons_style": "arrow",
-        "icons_shape": "none",
+        "icons_shape": "square",
         "section_width": "page-width",
-        "gap": 28,
-        "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "gap": 20,
+        "color_scheme": "",
+        "padding-block-start": 60,
+        "padding-block-end": 60
       }
     }
   },
   "order": [
+    "fr_breadcrumbs_mTWEwb",
     "main",
+    "fr_product_tabs_i9xTJw",
     "product_recommendations_qggXJq"
   ]
 }
