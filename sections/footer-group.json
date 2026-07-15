@@ -1,42 +1,18 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "type": "footer",
   "name": "Footer",
   "sections": {
     "fr_footer": {
       "type": "fr-footer",
-      "name": "FR Footer",
-      "settings": {
-        "background_image": "shopify://shop_images/Final-Footer-green-1-1.webp",
-        "bg_position": "center",
-        "bg_position_mobile": "bottom center",
-        "heading_font": "lato_n7",
-        "heading_weight": "700",
-        "heading_size": 11,
-        "heading_size_mobile": 11,
-        "heading_color": "#3a3a3a",
-        "heading_letter_spacing": 16,
-        "link_font": "lato_n5",
-        "link_weight": "500",
-        "link_size": 11,
-        "link_size_mobile": 11,
-        "link_color": "#4a4a4a",
-        "link_hover_color": "#c2593f",
-        "link_letter_spacing": 10,
-        "text_align": "left",
-        "text_align_mobile": "left",
-        "grid_max_width": 1200,
-        "grid_gap": 40,
-        "columns_mobile": 1,
-        "padding_top": 52,
-        "padding_bottom": 100,
-        "padding_horizontal": 40,
-        "padding_top_mobile": 40,
-        "padding_bottom_mobile": 40,
-        "padding_horizontal_mobile": 20,
-        "copyright_text": "All rights reserved | © 2026 First Room Collective",
-        "copyright_color": "#555555",
-        "copyright_bg": "#ffffff"
-      },
       "blocks": {
         "brand": {
           "type": "brand",
@@ -54,15 +30,17 @@
           "settings": {
             "heading": "Quick Links",
             "link_1_label": "Wallpaper",
-            "link_1_url": "shopify:\/\/collections\/wallpaper",
+            "link_1_url": "shopify://collections/wallpaper",
             "link_2_label": "Home Decor",
-            "link_2_url": "shopify:\/\/collections\/home-decor",
+            "link_2_url": "shopify://collections/home-decor",
             "link_3_label": "Custom Design",
-            "link_3_url": "shopify:\/\/pages\/custom-design",
+            "link_3_url": "shopify://pages/custom-design",
             "link_4_label": "Our Story",
-            "link_4_url": "shopify:\/\/pages\/about-us",
+            "link_4_url": "shopify://pages/about-us",
             "link_5_label": "Contact",
-            "link_5_url": "shopify:\/\/pages\/contact"
+            "link_5_url": "shopify://pages/contact",
+            "link_6_label": "",
+            "link_6_url": ""
           }
         },
         "information": {
@@ -70,13 +48,15 @@
           "settings": {
             "heading": "Information",
             "link_1_label": "Terms and Conditions",
-            "link_1_url": "shopify:\/\/pages\/terms-and-conditions",
+            "link_1_url": "shopify://pages/terms-and-conditions",
             "link_2_label": "Privacy Policy",
-            "link_2_url": "shopify:\/\/pages\/privacy-policy",
+            "link_2_url": "shopify://pages/privacy-policy",
             "link_3_label": "Shipping & Payment Policy",
-            "link_3_url": "shopify:\/\/pages\/shipping-payment-policy",
+            "link_3_url": "shopify://pages/shipping-payment-policy",
             "link_4_label": "Return & Exchange Policy",
-            "link_4_url": "shopify:\/\/pages\/return-exchange-policy"
+            "link_4_url": "shopify://pages/return-exchange-policy",
+            "link_5_label": "",
+            "link_5_url": ""
           }
         },
         "contact": {
@@ -94,7 +74,41 @@
         "quick_links",
         "information",
         "contact"
-      ]
+      ],
+      "name": "FR Footer",
+      "settings": {
+        "background_image": "shopify://shop_images/Final-Footer-green-1-1.webp",
+        "background_image_mobile": "shopify://shop_images/Final-Footer-greenmobile.webp",
+        "bg_position": "center",
+        "bg_position_mobile": "bottom center",
+        "heading_font": "lato_n7",
+        "heading_weight": "700",
+        "heading_size": 11,
+        "heading_size_mobile": 10,
+        "heading_color": "#3a3a3a",
+        "heading_letter_spacing": 18,
+        "link_font": "lato_n5",
+        "link_weight": "500",
+        "link_size": 11,
+        "link_size_mobile": 10,
+        "link_color": "#4a4a4a",
+        "link_hover_color": "#c2593f",
+        "link_letter_spacing": 9,
+        "text_align": "left",
+        "text_align_mobile": "center",
+        "grid_max_width": 1200,
+        "grid_gap": 24,
+        "columns_mobile": "1",
+        "padding_top": 60,
+        "padding_bottom": 200,
+        "padding_horizontal": 84,
+        "padding_top_mobile": 52,
+        "padding_bottom_mobile": 52,
+        "padding_horizontal_mobile": 56,
+        "copyright_text": "All rights reserved | © 2026 First Room Collective",
+        "copyright_color": "#555555",
+        "copyright_bg": "#ffffff"
+      }
     }
   },
   "order": [
