@@ -9,6 +9,18 @@
  */
 {
   "sections": {
+    "fr_breadcrumbs_zaNg3q": {
+      "type": "fr-breadcrumbs",
+      "name": "FR Breadcrumbs",
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "padding_left": 70,
+        "padding_right": 0,
+        "font_size": 14,
+        "text_color": "#333333"
+      }
+    },
     "main": {
       "type": "product-information",
       "blocks": {
@@ -24,19 +36,19 @@
             "slideshow_controls_style": "thumbnails",
             "slideshow_mobile_controls_style": "dots",
             "thumbnail_position": "left",
-            "thumbnail_width": 44,
+            "thumbnail_width": 72,
             "thumbnail_radius": 0,
             "aspect_ratio": "1",
             "constrain_to_viewport": true,
             "media_fit": "contain",
             "media_radius": 0,
             "extend_media": false,
-            "zoom": true,
+            "zoom": false,
             "video_loop": false,
             "hide_variants": true,
             "padding-block-start": 0,
             "padding-block-end": 0,
-            "padding-inline-start": 0,
+            "padding-inline-start": 30,
             "padding-inline-end": 0
           },
           "blocks": {}
@@ -62,10 +74,10 @@
             "border_width": 1,
             "border_opacity": 100,
             "border_radius": 0,
-            "padding-block-start": 24,
+            "padding-block-start": 0,
             "padding-block-end": 24,
             "padding-inline-start": 0,
-            "padding-inline-end": 0
+            "padding-inline-end": 60
           },
           "blocks": {
             "group_icgrde": {
@@ -79,7 +91,7 @@
                 "align_baseline": false,
                 "horizontal_alignment_flex_direction_column": "flex-start",
                 "vertical_alignment_flex_direction_column": "center",
-                "gap": 9,
+                "gap": 0,
                 "width": "fill",
                 "custom_width": 100,
                 "width_mobile": "fill",
@@ -138,13 +150,13 @@
                   "type": "product-description",
                   "name": "t:names.product_description",
                   "settings": {
-                    "text": "{{ closest.product.description }}",
+                    "text": "<p><em>{{ closest.product.description }}</em></p>",
                     "width": "100%",
-                    "max_width": "normal",
+                    "max_width": "none",
                     "alignment": "left",
                     "type_preset": "paragraph",
                     "font": "var(--font-body--family)",
-                    "font_size": "1rem",
+                    "font_size": "0.875rem",
                     "line_height": "normal",
                     "letter_spacing": "normal",
                     "case": "none",
@@ -160,17 +172,17 @@
                   },
                   "blocks": {}
                 },
-                "price_tVjtKg": {
+                "price_mcc4A8": {
                   "type": "price",
                   "settings": {
                     "show_sale_price_first": true,
                     "show_installments": false,
                     "show_tax_info": false,
-                    "type_preset": "h5",
+                    "type_preset": "custom",
                     "width": "100%",
                     "alignment": "left",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
+                    "font": "var(--font-accent--family)",
+                    "font_size": "1.125rem",
                     "line_height": "normal",
                     "letter_spacing": "normal",
                     "case": "none",
@@ -186,7 +198,7 @@
               "block_order": [
                 "text_xrnftG",
                 "product_description_Wb6BfQ",
-                "price_tVjtKg"
+                "price_mcc4A8"
               ]
             },
             "divider_B3e4Am": {
@@ -207,24 +219,21 @@
                 "order_text": "Order directly",
                 "order_link": "",
                 "specialist_text": "Talk to a specialist",
-                "specialist_link": ""
+                "specialist_link": "",
+                "padding_top": 0,
+                "padding_bottom": 0
               },
               "blocks": {}
             },
             "stepper": {
               "type": "fr-product-stepper",
-              "settings": {},
-              "blocks": {}
-            },
-            "divider_FNxy3q": {
-              "type": "_divider",
-              "name": "t:names.divider",
               "settings": {
-                "thickness": 1,
-                "corner_radius": "square",
-                "width_percent": 100,
-                "padding-block-start": 0,
-                "padding-block-end": 20
+                "step_1_text": "Select Material",
+                "step_2_text": "Enter Dimensions",
+                "step_3_text": "Production",
+                "step_4_text": "Delivered",
+                "padding_top": 0,
+                "padding_bottom": 0
               },
               "blocks": {}
             },
@@ -234,7 +243,7 @@
                 "variant_style": "buttons",
                 "show_swatches": false,
                 "alignment": "left",
-                "padding-block-start": 0,
+                "padding-block-start": 12,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
@@ -259,7 +268,6 @@
             "divider_B3e4Am",
             "custom-actions",
             "stepper",
-            "divider_FNxy3q",
             "variant_picker_R3rGDr",
             "dimensions_calculator",
             "trust-badges"
@@ -272,10 +280,60 @@
         "equal_columns": true,
         "limit_details_width": false,
         "gap": 48,
-        "enable_sticky_add_to_cart": true,
+        "enable_sticky_add_to_cart": false,
         "color_scheme": "",
         "padding-block-start": 0,
         "padding-block-end": 0
+      }
+    },
+    "fr_product_tabs_fqAiWd": {
+      "type": "fr-product-tabs",
+      "custom_css": [],
+      "name": "FR - Product Tabs",
+      "settings": {
+        "description_html": "",
+        "material_html": "<p><strong>Shipping Timeline:<br/></strong>Dispatched within 3-5 Days<br/>Shipping 7 - 10 working days (domestic)<br/>Refer to Shipping Policy<br/><br/><strong>Care Instructions:<br/></strong>Wipe gently using a damp cloth or sponge<br/>No detergents or harsh chemicals<br/>Do not scrub or over-clean<br/>Environmental factors may affect durability<br/><strong><br/>Packaging:<br/></strong>Packed safely with minimal or recyclable plastic to protect the product during delivery</p>",
+        "shipping_html": "<p>- All wallpapers are made to order<br/>- Production waste is responsibly managed to avoid landfill<br/>- Returns are not accepted<br/>- Please refer to our Terms & Conditions<br/><br/>Note: Slight color variations from display images may occur</p>",
+        "quality_html": "<p><strong>Material:<br/></strong>Non-woven wallpaper (non-self-adhesive)<br/><strong>Panels:<br/></strong>Printed in multiple parts; number of panels varies as per wall size<strong><br/>Print:</strong><br/>Digitally printed using eco-conscious, child-safe inks<strong><br/>Installation:<br/></strong>Requires professional installation<br/>We do not provide installation services at all locations<br/>Contact customer care for recommended independent installers<br/>Seamless joints after proper installation<br/><strong>Best Surface Application:<br/></strong>Smooth indoor walls, MDF panels, or wooden surfaces<br/>Oil-based paint or primer must be applied at least 5 days before installation<br/>Not suitable for outdoor areas or direct sunlight<br/><strong>Manufactured & Marketed by:<br/></strong>First Room CollectivesA10, Block A, Greenwood City, Sector 45, Gurugram – 122003, Haryana, India<br/>firstroom2019@gmail.com<br/>+91 96507 06644</p>",
+        "padding_top": 60,
+        "padding_bottom": 32,
+        "padding_left": 100,
+        "padding_right": 40
+      }
+    },
+    "fr_customer_reviews_R4dtng": {
+      "type": "fr-customer-reviews",
+      "disabled": true,
+      "name": "FR Customer Reviews",
+      "settings": {
+        "title": "Loved by our customers",
+        "features_text": "Storyled designs • Exceptional service • Luxury materials • Prompt support • Trusted across 28 countries"
+      }
+    },
+    "custom_liquid_HATbQp": {
+      "type": "custom-liquid",
+      "disabled": true,
+      "name": "t:names.custom_liquid",
+      "settings": {
+        "custom_liquid": "<!-- Elfsight Google Reviews | Untitled Google Reviews -->\n<script src=\"https://elfsightcdn.com/platform.js\" async></script>\n<div class=\"elfsight-app-7912ade5-468c-48db-8909-9eca04b68206\" data-elfsight-app-lazy></div>",
+        "color_scheme": "",
+        "section_width": "page-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
+    "divider_xprei8": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "color_scheme": "",
+        "section_width": "full-width",
+        "thickness": 0.5,
+        "corner_radius": "square",
+        "width_percent": 90,
+        "alignment_horizontal": "center",
+        "padding-block-start": 16,
+        "padding-block-end": 16
       }
     },
     "product_recommendations_qggXJq": {
@@ -285,7 +343,7 @@
           "type": "text",
           "name": "t:names.header",
           "settings": {
-            "text": "<h3>You may also like </h3>",
+            "text": "<h3>Recommended Products</h3>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
@@ -301,7 +359,7 @@
             "background_color": "#00000026",
             "corner_radius": 0,
             "padding-block-start": 0,
-            "padding-block-end": 0,
+            "padding-block-end": 15,
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
@@ -312,7 +370,7 @@
           "name": "t:names.product_card",
           "static": true,
           "settings": {
-            "product_card_gap": 8,
+            "product_card_gap": 10,
             "inherit_color_scheme": true,
             "color_scheme": "",
             "border": "none",
@@ -329,7 +387,7 @@
               "type": "_product-card-gallery",
               "name": "t:names.product_card_media",
               "settings": {
-                "image_ratio": "adapt",
+                "image_ratio": "square",
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
@@ -404,38 +462,93 @@
         "product": "{{ closest.product }}",
         "recommendation_type": "related",
         "layout_type": "grid",
-        "carousel_on_mobile": false,
+        "carousel_on_mobile": true,
         "max_products": 4,
         "columns": 4,
-        "mobile_columns": "2",
-        "columns_gap": 12,
+        "mobile_columns": "1",
+        "columns_gap": 15,
         "rows_gap": 24,
         "icons_style": "arrow",
-        "icons_shape": "none",
+        "icons_shape": "square",
         "section_width": "page-width",
-        "gap": 28,
+        "gap": 20,
         "color_scheme": "",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "padding-block-start": 60,
+        "padding-block-end": 60
       }
     },
-    "fr_product_tabs": {
-      "type": "fr-product-tabs",
-      "settings": {}
-    },
-    "fr_customer_reviews": {
-      "type": "fr-customer-reviews",
-      "settings": {}
-    },
-    "fr_recommended_products": {
-      "type": "fr-recommended-products",
-      "settings": {}
+    "fr_custom_faq_brTBem": {
+      "type": "fr-custom-faq",
+      "blocks": {
+        "faq_V3MhNm": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I calculate the wallpaper quantity for my wall?",
+            "answer": "<p>Measure the height and width of your wall and share the dimensions while placing your order. Our team will help you calculate the exact quantity required, ensuring minimal wastage and a perfect fit.<br/></p>"
+          }
+        },
+        "faq_mxJ4yq": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I order a sample before purchasing?",
+            "answer": "<p>Yes. We offer wallpaper samples so you can experience the material, texture and colors in your own space before making a final purchase.<br/></p>"
+          }
+        },
+        "faq_ftdeNy": {
+          "type": "faq",
+          "settings": {
+            "question": "Will the wallpaper damage my walls when removed?",
+            "answer": "<p>Our wallpapers are designed for clean removal when installed and removed correctly. Following the recommended installation and removal guidelines helps protect your wall surface.<br/></p>"
+          }
+        },
+        "faq_mYemxz": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I install the wallpaper myself, or do I need professional help?",
+            "answer": "<p>Many of our wallpapers can be installed by following the provided instructions. However, for large walls or premium finishes, we recommend professional installation to achieve the best results.<br/></p>"
+          }
+        },
+        "faq_W3Dj69": {
+          "type": "faq",
+          "settings": {
+            "question": "What makes First Room wallpapers different from standard wallpapers?",
+            "answer": "<p>First Room wallpapers combine premium materials, thoughtfully curated designs and exceptional craftsmanship to create spaces that are both visually inspiring and long-lasting. Every collection is designed to elevate the character of your interiors.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_V3MhNm",
+        "faq_mxJ4yq",
+        "faq_ftdeNy",
+        "faq_mYemxz",
+        "faq_W3Dj69"
+      ],
+      "name": "FR Custom FAQ",
+      "settings": {
+        "bg_color": "#ffffff",
+        "heading": "FAQ's",
+        "heading_size": 30,
+        "heading_size_mobile": 24,
+        "heading_alignment": "center",
+        "heading_align_mobile": "center",
+        "heading_color": "#1a1a1a",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
+        "padding_left": 20,
+        "padding_right": 20
+      }
     }
   },
   "order": [
+    "fr_breadcrumbs_zaNg3q",
     "main",
-    "fr_product_tabs",
-    "fr_customer_reviews",
-    "fr_recommended_products"
+    "fr_product_tabs_fqAiWd",
+    "fr_customer_reviews_R4dtng",
+    "custom_liquid_HATbQp",
+    "divider_xprei8",
+    "product_recommendations_qggXJq",
+    "fr_custom_faq_brTBem"
   ]
 }
