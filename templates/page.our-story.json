@@ -9,6 +9,17 @@
  */
 {
   "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "content_direction": "column",
+        "gap": 12,
+        "color_scheme": "",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
     "hero": {
       "type": "fr-section-hero",
       "settings": {
@@ -17,7 +28,17 @@
         "hero_height_desktop": 90,
         "hero_height_mobile": 60,
         "content_alignment_vertical": "top",
+        "content_alignment_vertical_mobile": "center",
         "content_alignment_horizontal": "left",
+        "content_alignment_horizontal_mobile": "center",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "padding_left": 40,
+        "padding_right": 40,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
+        "padding_left_mobile": 20,
+        "padding_right_mobile": 20,
         "hero_title": "About Us",
         "title_font": "playfair_display_n8",
         "title_color": "#ffffff",
@@ -28,16 +49,26 @@
         "title_padding_bottom": 0,
         "title_padding_left": 0,
         "title_padding_right": 0,
+        "title_alignment_mobile": "left",
+        "title_padding_top_mobile": 0,
+        "title_padding_bottom_mobile": 16,
+        "title_padding_left_mobile": 0,
+        "title_padding_right_mobile": 0,
         "hero_subtitle": "We Design The Feeling Of You",
         "subtitle_font": "lato_n4",
         "subtitle_color": "#ffffff",
         "subtitle_size_desktop": 18,
         "subtitle_size_mobile": 14,
         "subtitle_alignment": "right",
+        "subtitle_alignment_mobile": "left",
         "subtitle_padding_top": 12,
         "subtitle_padding_bottom": 0,
         "subtitle_padding_left": 0,
         "subtitle_padding_right": 0,
+        "subtitle_padding_top_mobile": 0,
+        "subtitle_padding_bottom_mobile": 0,
+        "subtitle_padding_left_mobile": 0,
+        "subtitle_padding_right_mobile": 0,
         "margin_bottom": 0
       }
     },
@@ -61,7 +92,7 @@
         "text_vertical_spacing": "space-between",
         "subheading": "",
         "heading": "We",
-        "body_text": "<p><strong>First Room Collective</strong> is a luxury home d\u00e9cor and wallpaper brand that focuses on transforming interiors through custom wallpapers, wall d\u00e9cor and personalized design solutions. The brand combines Indian cultural influences with contemporary aesthetics to create spaces that feel personal and meaningful.</p>",
+        "body_text": "<p><strong>First Room Collective</strong> is a luxury home décor and wallpaper brand that focuses on transforming interiors through custom wallpapers, wall décor and personalized design solutions. The brand combines Indian cultural influences with contemporary aesthetics to create spaces that feel personal and meaningful.</p>",
         "text_align": "left",
         "text_align_mobile": "left",
         "subheading_size": 12,
@@ -76,6 +107,7 @@
         "button_link": "shopify://pages/contact",
         "button_bg": "#1a1a1a",
         "button_text": "#ffffff",
+        "button_radius": 0,
         "padding_top": 92,
         "padding_bottom": 56,
         "padding_left": 68,
@@ -106,7 +138,7 @@
         "text_vertical_spacing": "space-between",
         "subheading": "",
         "heading": "Our Story",
-        "body_text": "<p>At <strong>First Room Collective</strong>, we believe walls are more than surfaces. They are an opportunity to create something extraordinary. <br/>Born from a passion for thoughtful interiors, we curate premium wallpapers that transform everyday spaces into timeless experiences. <br/><br/>We believe every design carries a story\u2014and every story begins with you. The way you live, dream, and express yourself becomes the starting point of our creative process. Through thoughtful craftsmanship and meaningful detail, we translate these emotions into pieces that feel personal, timeless, and deeply connected to the spaces you call home.</p>",
+        "body_text": "<p>At <strong>First Room Collective</strong>, we believe walls are more than surfaces. They are an opportunity to create something extraordinary. <br/>Born from a passion for thoughtful interiors, we curate premium wallpapers that transform everyday spaces into timeless experiences. <br/><br/>We believe every design carries a story—and every story begins with you. The way you live, dream, and express yourself becomes the starting point of our creative process. Through thoughtful craftsmanship and meaningful detail, we translate these emotions into pieces that feel personal, timeless, and deeply connected to the spaces you call home.</p>",
         "text_align": "right",
         "text_align_mobile": "left",
         "subheading_size": 12,
@@ -121,6 +153,7 @@
         "button_link": "",
         "button_bg": "#1a1a1a",
         "button_text": "#ffffff",
+        "button_radius": 4,
         "padding_top": 44,
         "padding_bottom": 44,
         "padding_left": 40,
@@ -151,7 +184,7 @@
         "text_vertical_spacing": "space-between",
         "subheading": "",
         "heading": "The Founders",
-        "body_text": "<p><strong>First Room Collective</strong> was co-founded by <strong>Dharya Gambhir </strong>and R<strong>anjana Gambhir</strong>, two creative minds whose backgrounds span design, interiors, architecture, fashion, and brand strategy. United by a shared vision, they set out to create spaces that feel soulful, personal, and deeply connected to culture.</p><p>For them, a home is more than a space\u2014it is a sanctuary and a reflection of identity. Drawing inspiration from India's rich artistic heritage and collaborating with master artisans across the country, their work celebrates handcrafted techniques, intricate motifs, and the timeless art of storytelling through design.</p><p>What began as a response to the absence of emotionally resonant d\u00e9cor has grown into a pursuit of <strong>mindful, slow design</strong>\u2014where every creation is thoughtfully crafted to honour tradition while bringing meaning, beauty, and individuality to the spaces we live in.</p>",
+        "body_text": "<p><strong>First Room Collective</strong> was co-founded by <strong>Dharya Gambhir </strong>and R<strong>anjana Gambhir</strong>, two creative minds whose backgrounds span design, interiors, architecture, fashion, and brand strategy. United by a shared vision, they set out to create spaces that feel soulful, personal, and deeply connected to culture.</p><p>For them, a home is more than a space—it is a sanctuary and a reflection of identity. Drawing inspiration from India's rich artistic heritage and collaborating with master artisans across the country, their work celebrates handcrafted techniques, intricate motifs, and the timeless art of storytelling through design.</p><p>What began as a response to the absence of emotionally resonant décor has grown into a pursuit of <strong>mindful, slow design</strong>—where every creation is thoughtfully crafted to honour tradition while bringing meaning, beauty, and individuality to the spaces we live in.</p>",
         "text_align": "left",
         "text_align_mobile": "left",
         "subheading_size": 12,
@@ -166,6 +199,7 @@
         "button_link": "",
         "button_bg": "#1a1a1a",
         "button_text": "#ffffff",
+        "button_radius": 4,
         "padding_top": 44,
         "padding_bottom": 44,
         "padding_left": 40,
@@ -816,11 +850,6 @@
         "padding_right": 120,
         "padding_right_mobile": 20
       }
-    },
-    "main": {
-      "type": "main-page",
-      "disabled": true,
-      "settings": {}
     }
   },
   "order": [
