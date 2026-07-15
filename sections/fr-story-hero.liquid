@@ -1,72 +1,146 @@
-<section class="fr-story-hero" id="fr-story-hero-{{ section.id }}">
+<section class="fr-about-hero" id="fr-about-hero-{{ section.id }}">
   {%- if section.settings.hero_image != blank -%}
-    <div
-      class="fr-story-hero__bg"
-      style="
-        background-image: linear-gradient(
-          rgba(0,0,0,{{ section.settings.overlay_opacity | divided_by: 100.0 }}),
-          rgba(0,0,0,{{ section.settings.overlay_opacity | divided_by: 100.0 }})
-        ), url('{{ section.settings.hero_image | image_url: width: 2400 }}');
-        height: {{ section.settings.hero_height }}vh;
-      "
-    >
-      <div class="fr-story-hero__content">
-        <h1 class="fr-story-hero__title">{{ section.settings.hero_title }}</h1>
+    <div class="fr-about-hero__wrapper fr-about-hero__wrapper--with-img" style="background-image: linear-gradient(rgba(0, 0, 0, {{ section.settings.hero_overlay_opacity | divided_by: 100.0 }}), rgba(0, 0, 0, {{ section.settings.hero_overlay_opacity | divided_by: 100.0 }})), url('{{ section.settings.hero_image | image_url: width: 2400 }}');">
+      <div class="fr-about-hero__content">
+        {%- if section.settings.hero_title != blank -%}
+          <h1 class="fr-about-hero__title">{{ section.settings.hero_title }}</h1>
+        {%- endif -%}
+        {%- if section.settings.hero_subtitle != blank -%}
+          <p class="fr-about-hero__subtitle">{{ section.settings.hero_subtitle }}</p>
+        {%- endif -%}
       </div>
     </div>
   {%- else -%}
-    <div class="fr-story-hero__bg fr-story-hero__bg--plain" style="height: {{ section.settings.hero_height }}vh;">
-      <div class="fr-story-hero__content">
-        <h1 class="fr-story-hero__title fr-story-hero__title--dark">{{ section.settings.hero_title }}</h1>
+    <div class="fr-about-hero__wrapper fr-about-hero__wrapper--no-img" style="background-color: #faf8f5;">
+      <div class="fr-about-hero__content">
+        {%- if section.settings.hero_title != blank -%}
+          <h1 class="fr-about-hero__title" style="color: #1a1a1a;">{{ section.settings.hero_title }}</h1>
+        {%- endif -%}
+        {%- if section.settings.hero_subtitle != blank -%}
+          <p class="fr-about-hero__subtitle" style="color: #4a4a4a;">{{ section.settings.hero_subtitle }}</p>
+        {%- endif -%}
       </div>
     </div>
   {%- endif -%}
 </section>
 
 <style>
-  .fr-story-hero__bg {
+  {{ section.settings.title_font | font_face }}
+  {{ section.settings.subtitle_font | font_face }}
+
+  #fr-about-hero-{{ section.id }} {
+    width: 100%;
+    margin-bottom: {{ section.settings.margin_bottom }}px;
+  }
+
+  #fr-about-hero-{{ section.id }} .fr-about-hero__wrapper {
+    position: relative;
     width: 100%;
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
     display: flex;
-    align-items: center;
-    justify-content: center;
     overflow: hidden;
+    height: {{ section.settings.hero_height_mobile }}vh;
+    align-items: {% if section.settings.content_alignment_vertical_mobile == 'top' %}flex-start{% elsif section.settings.content_alignment_vertical_mobile == 'bottom' %}flex-end{% else %}center{% endif %};
+    justify-content: {% if section.settings.content_alignment_horizontal_mobile == 'left' %}flex-start{% elsif section.settings.content_alignment_horizontal_mobile == 'right' %}flex-end{% else %}center{% endif %};
   }
 
-  .fr-story-hero__bg--plain {
-    background-color: #faf8f5;
+  @media (min-width: 768px) {
+    #fr-about-hero-{{ section.id }} .fr-about-hero__wrapper {
+      height: {{ section.settings.hero_height_desktop }}vh;
+      align-items: {% if section.settings.content_alignment_vertical == 'top' %}flex-start{% elsif section.settings.content_alignment_vertical == 'bottom' %}flex-end{% else %}center{% endif %};
+      justify-content: {% if section.settings.content_alignment_horizontal == 'left' %}flex-start{% elsif section.settings.content_alignment_horizontal == 'right' %}flex-end{% else %}center{% endif %};
+    }
+  }
+
+  @media (min-width: 768px) {
+    #fr-about-hero-{{ section.id }} .fr-about-hero__wrapper {
+      height: {{ section.settings.hero_height_desktop }}vh;
+    }
+  }
+
+  .fr-about-hero__wrapper--no-img {
     border-bottom: 1px solid #e5e7eb;
   }
 
-  .fr-story-hero__content {
-    text-align: center;
-    padding: 0 20px;
+  #fr-about-hero-{{ section.id }} .fr-about-hero__content {
+    position: relative;
+    z-index: 2;
+    padding-top: {{ section.settings.padding_top_mobile | default: 40 }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile | default: 40 }}px;
+    padding-left: {{ section.settings.padding_left_mobile | default: 20 }}px;
+    padding-right: {{ section.settings.padding_right_mobile | default: 20 }}px;
+    width: max-content;
+    max-width: 100%;
   }
 
-  .fr-story-hero__title {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-    font-weight: 400;
-    font-style: italic;
-    letter-spacing: 0.01em;
+  @media (min-width: 768px) {
+    #fr-about-hero-{{ section.id }} .fr-about-hero__content {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+      padding-left: {{ section.settings.padding_left }}px;
+      padding-right: {{ section.settings.padding_right }}px;
+    }
+  }
+
+  #fr-about-hero-{{ section.id }} .fr-about-hero__title {
+    font-family: {{ section.settings.title_font.family }}, {{ section.settings.title_font.fallback_families }};
+    font-weight: {{ section.settings.title_font.weight }};
+    font-style: {{ section.settings.title_font.style }};
+    font-size: {{ section.settings.title_size_mobile }}px;
+    color: {{ section.settings.title_color }};
     margin: 0;
-    color: #ffffff;
+    text-align: {{ section.settings.title_alignment_mobile | default: section.settings.title_alignment }};
+    padding-top: {{ section.settings.title_padding_top_mobile | default: 0 }}px;
+    padding-bottom: {{ section.settings.title_padding_bottom_mobile | default: 0 }}px;
+    padding-left: {{ section.settings.title_padding_left_mobile | default: 0 }}px;
+    padding-right: {{ section.settings.title_padding_right_mobile | default: 0 }}px;
+    line-height: 1.1;
+    letter-spacing: 0.01em;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
   }
 
-  .fr-story-hero__title--dark {
-    color: #1a1a1a;
-    text-shadow: none;
+  #fr-about-hero-{{ section.id }} .fr-about-hero__subtitle {
+    font-family: {{ section.settings.subtitle_font.family }}, {{ section.settings.subtitle_font.fallback_families }};
+    font-weight: {{ section.settings.subtitle_font.weight }};
+    font-style: {{ section.settings.subtitle_font.style }};
+    font-size: {{ section.settings.subtitle_size_mobile }}px;
+    color: {{ section.settings.subtitle_color }};
+    margin: 0;
+    text-align: {{ section.settings.subtitle_alignment_mobile | default: section.settings.subtitle_alignment }};
+    padding-top: {{ section.settings.subtitle_padding_top_mobile | default: 0 }}px;
+    padding-bottom: {{ section.settings.subtitle_padding_bottom_mobile | default: 0 }}px;
+    padding-left: {{ section.settings.subtitle_padding_left_mobile | default: 0 }}px;
+    padding-right: {{ section.settings.subtitle_padding_right_mobile | default: 0 }}px;
+    line-height: 1.4;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  }
+
+  @media (min-width: 768px) {
+    #fr-about-hero-{{ section.id }} .fr-about-hero__title {
+      font-size: {{ section.settings.title_size_desktop }}px;
+      text-align: {{ section.settings.title_alignment }};
+      padding-top: {{ section.settings.title_padding_top }}px;
+      padding-bottom: {{ section.settings.title_padding_bottom }}px;
+      padding-left: {{ section.settings.title_padding_left }}px;
+      padding-right: {{ section.settings.title_padding_right }}px;
+    }
+    #fr-about-hero-{{ section.id }} .fr-about-hero__subtitle {
+      font-size: {{ section.settings.subtitle_size_desktop }}px;
+      text-align: {{ section.settings.subtitle_alignment }};
+      padding-top: {{ section.settings.subtitle_padding_top }}px;
+      padding-bottom: {{ section.settings.subtitle_padding_bottom }}px;
+      padding-left: {{ section.settings.subtitle_padding_left }}px;
+      padding-right: {{ section.settings.subtitle_padding_right }}px;
+    }
   }
 </style>
 
 {% schema %}
 {
-  "name": "FR Story Hero",
+  "name": "FR About Hero",
   "tag": "section",
-  "class": "fr-story-hero-section",
   "settings": [
     {
       "type": "image_picker",
@@ -74,35 +148,499 @@
       "label": "Hero Background Image"
     },
     {
-      "type": "text",
-      "id": "hero_title",
-      "label": "Hero Title",
-      "default": "About Us"
+      "type": "range",
+      "id": "hero_overlay_opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "label": "Hero Overlay Opacity",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Height Controls"
     },
     {
       "type": "range",
-      "id": "hero_height",
+      "id": "hero_height_desktop",
       "min": 40,
-      "max": 90,
+      "max": 100,
       "step": 5,
       "unit": "vh",
-      "label": "Hero Height",
+      "label": "Desktop Height",
       "default": 65
     },
     {
       "type": "range",
-      "id": "overlay_opacity",
-      "min": 0,
-      "max": 80,
+      "id": "hero_height_mobile",
+      "min": 30,
+      "max": 100,
       "step": 5,
-      "unit": "%",
-      "label": "Dark Overlay Opacity",
-      "default": 15
+      "unit": "vh",
+      "label": "Mobile Height",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Alignment Settings"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment_vertical",
+      "label": "Desktop Vertical Alignment",
+      "options": [
+        { "value": "top", "label": "Top" },
+        { "value": "center", "label": "Center" },
+        { "value": "bottom", "label": "Bottom" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment_vertical_mobile",
+      "label": "Mobile Vertical Alignment",
+      "options": [
+        { "value": "top", "label": "Top" },
+        { "value": "center", "label": "Center" },
+        { "value": "bottom", "label": "Bottom" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment_horizontal",
+      "label": "Desktop Horizontal Block Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment_horizontal_mobile",
+      "label": "Mobile Horizontal Block Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Content Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Left",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Right",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Mobile Content Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile Padding Top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile Padding Bottom",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_left_mobile",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile Padding Left",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_right_mobile",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile Padding Right",
+      "default": 20
+    },
+    {
+      "type": "select",
+      "id": "content_alignment_vertical",
+      "label": "Vertical Alignment",
+      "options": [
+        { "value": "top", "label": "Top" },
+        { "value": "center", "label": "Center" },
+        { "value": "bottom", "label": "Bottom" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment_horizontal",
+      "label": "Horizontal Block Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Title Typography"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Title",
+      "default": "About Us"
+    },
+    {
+      "type": "font_picker",
+      "id": "title_font",
+      "label": "Title Font",
+      "default": "playfair_display_n4"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "title_size_desktop",
+      "min": 24,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "label": "Desktop Size",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "min": 20,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile Size",
+      "default": 40
+    },
+    {
+      "type": "select",
+      "id": "title_alignment",
+      "label": "Title Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "title_padding_top",
+      "min": 0,
+      "max": 400,
+      "step": 4,
+      "unit": "px",
+      "label": "Title Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "title_padding_bottom",
+      "min": 0,
+      "max": 400,
+      "step": 4,
+      "unit": "px",
+      "label": "Title Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "title_padding_left",
+      "min": 0,
+      "max": 400,
+      "step": 4,
+      "unit": "px",
+      "label": "Title Padding Left",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "title_padding_right",
+      "min": 0,
+      "max": 400,
+      "step": 4,
+      "unit": "px",
+      "label": "Title Padding Right",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "title_alignment_mobile",
+      "label": "Mobile Title Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "title_padding_top_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile Title Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "title_padding_bottom_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile Title Padding Bottom",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "title_padding_left_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile Title Padding Left",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "title_padding_right_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile Title Padding Right",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Subtitle Typography"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_subtitle",
+      "label": "Subtitle",
+      "default": "Learn more about our journey."
+    },
+    {
+      "type": "font_picker",
+      "id": "subtitle_font",
+      "label": "Subtitle Font",
+      "default": "lato_n4"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle Color",
+      "default": "#f0f0f0"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size_desktop",
+      "min": 14,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop Size",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size_mobile",
+      "min": 12,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile Size",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "subtitle_alignment",
+      "label": "Desktop Subtitle Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "subtitle_alignment_mobile",
+      "label": "Mobile Subtitle Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_padding_top",
+      "min": 0,
+      "max": 400,
+      "step": 4,
+      "unit": "px",
+      "label": "Subtitle Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "subtitle_padding_bottom",
+      "min": 0,
+      "max": 400,
+      "step": 4,
+      "unit": "px",
+      "label": "Subtitle Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "subtitle_padding_left",
+      "min": 0,
+      "max": 400,
+      "step": 4,
+      "unit": "px",
+      "label": "Subtitle Padding Left",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "subtitle_padding_right",
+      "min": 0,
+      "max": 400,
+      "step": 4,
+      "unit": "px",
+      "label": "Subtitle Padding Right",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "subtitle_padding_top_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile Subtitle Padding Top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "subtitle_padding_bottom_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile Subtitle Padding Bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "subtitle_padding_left_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile Subtitle Padding Left",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "subtitle_padding_right_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile Subtitle Padding Right",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin Bottom",
+      "default": 0
     }
   ],
   "presets": [
     {
-      "name": "FR Story Hero"
+      "name": "FR About Hero"
     }
   ]
 }

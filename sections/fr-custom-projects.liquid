@@ -24,14 +24,13 @@
     {%- endif -%}
 
     <div class="fr-custom-projects__grid" style="
-      --grid-gap-d: {{ section.settings.grid_gap }}px;
-      --grid-gap-m: {{ section.settings.grid_gap_mobile | default: section.settings.grid_gap }}px;
+      gap: {{ section.settings.grid_gap }}px;
       max-width: {{ section.settings.grid_max_width }}px;
     ">
       {%- for block in section.blocks -%}
         <div class="fr-custom-projects__item fr-custom-projects__item--text-{{ block.settings.text_position }}" 
              {{ block.shopify_attributes }}
-             style="grid-column: {{ block.settings.column_start }}; --offset-y-d: {{ block.settings.offset_y }}px; --offset-y-m: {{ block.settings.offset_y_mobile | default: block.settings.offset_y }}px; transform: translateY(var(--offset-y-d)); {%- if block.settings.is_invisible -%}opacity: 0; pointer-events: none;{%- endif -%}">
+             style="grid-column: {{ block.settings.column_start }}; transform: translateY({{ block.settings.offset_y }}px); {%- if block.settings.is_invisible -%}opacity: 0; pointer-events: none;{%- endif -%}">
              
           <div class="fr-custom-projects__image-wrapper" style="padding-bottom: {{ block.settings.aspect_ratio }}%;">
             {%- if block.settings.image != blank -%}
@@ -84,7 +83,6 @@
     display: grid;
     grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
     margin: 0 auto;
-    gap: var(--grid-gap-m);
   }
 
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__item {
@@ -166,9 +164,6 @@
     #fr-custom-projects-{{ section.id }} .fr-custom-projects__subtitle {
       font-size: var(--fz-sub-d);
     }
-    #fr-custom-projects-{{ section.id }} .fr-custom-projects__grid {
-      gap: var(--grid-gap-d);
-    }
   }
 
   @media (max-width: 767px) {
@@ -177,7 +172,7 @@
     }
     #fr-custom-projects-{{ section.id }} .fr-custom-projects__item {
       grid-column: 1 !important;
-      transform: translateY(var(--offset-y-m)) !important;
+      transform: none !important;
       {% comment %} On mobile, invisible items shouldn't take up full rows of blank space {% endcomment %}
     }
     #fr-custom-projects-{{ section.id }} .fr-custom-projects__item[style*="opacity: 0"] {
@@ -187,7 +182,7 @@
       position: static !important;
       transform: none !important;
       width: 100% !important;
-      padding: 16px 0 24px 0 !important;
+      padding: 16px 0 0 0 !important;
       text-align: center !important;
     }
   }
@@ -256,18 +251,8 @@
       "max": 100,
       "step": 5,
       "unit": "px",
-      "label": "Grid Gap (Desktop)",
+      "label": "Grid Gap",
       "default": 40
-    },
-    {
-      "type": "range",
-      "id": "grid_gap_mobile",
-      "min": 0,
-      "max": 100,
-      "step": 5,
-      "unit": "px",
-      "label": "Grid Gap (Mobile)",
-      "default": 20
     },
     {
       "type": "header",
@@ -430,18 +415,8 @@
           "max": 200,
           "step": 5,
           "unit": "px",
-          "label": "Vertical Offset (Desktop)",
+          "label": "Vertical Offset",
           "info": "Push this individual image up or down to create a staggered grid effect.",
-          "default": 0
-        },
-        {
-          "type": "range",
-          "id": "offset_y_mobile",
-          "min": -200,
-          "max": 200,
-          "step": 5,
-          "unit": "px",
-          "label": "Vertical Offset (Mobile)",
           "default": 0
         },
         {
