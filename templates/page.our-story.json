@@ -1,7 +1,7 @@
 {
   "sections": {
     "hero": {
-      "type": "fr-story-hero",
+      "type": "fr-section-hero",
       "settings": {
         "hero_title": "About Us",
         "hero_height": 75,
@@ -14,7 +14,7 @@
       }
     },
     "we": {
-      "type": "fr-story-image-text",
+      "type": "fr-section-image-text",
       "settings": {
         "image_position": "left",
         "aspect_ratio": "1 / 1",
@@ -24,7 +24,7 @@
       }
     },
     "our_story": {
-      "type": "fr-story-image-text",
+      "type": "fr-section-image-text",
       "settings": {
         "image_position": "right",
         "aspect_ratio": "4 / 5",
@@ -34,7 +34,7 @@
       }
     },
     "founders": {
-      "type": "fr-story-image-text",
+      "type": "fr-section-image-text",
       "settings": {
         "image_position": "left",
         "aspect_ratio": "4 / 5",
@@ -44,7 +44,7 @@
       }
     },
     "design_philosophy": {
-      "type": "fr-story-grid",
+      "type": "fr-section-grid",
       "blocks": {
         "phil_1": {
           "type": "grid_item"
@@ -72,7 +72,7 @@
       }
     },
     "design_inspiration": {
-      "type": "fr-story-grid",
+      "type": "fr-section-grid",
       "blocks": {
         "insp_1": {
           "type": "grid_item"
@@ -108,7 +108,7 @@
       }
     },
     "what_we_have": {
-      "type": "fr-story-grid",
+      "type": "fr-section-grid",
       "blocks": {
         "care_1": {
           "type": "grid_item"
@@ -129,7 +129,7 @@
       }
     },
     "featured_projects": {
-      "type": "fr-story-timeline",
+      "type": "fr-section-timeline",
       "blocks": {
         "time_1": {
           "type": "timeline_item"
@@ -155,7 +155,7 @@
       }
     },
     "our_process": {
-      "type": "fr-story-staggered",
+      "type": "fr-section-staggered",
       "blocks": {
         "proc_1": {
           "type": "staggered_item",
@@ -211,7 +211,7 @@
       }
     },
     "why_choose_us": {
-      "type": "fr-story-grid",
+      "type": "fr-section-grid",
       "blocks": {
         "team_1": {
           "type": "grid_item"
@@ -240,7 +240,7 @@
       }
     },
     "social_slides": {
-      "type": "fr-story-grid",
+      "type": "fr-section-grid",
       "blocks": {
         "soc_1": {
           "type": "grid_item"
