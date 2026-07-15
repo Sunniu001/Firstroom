@@ -324,7 +324,7 @@
         "text_size_mobile": 12,
         "text_color": "#4b5563",
         "button_text": "Discover our inspiration",
-        "button_link": "",
+        "button_link": "shopify://pages/our-story",
         "btn_bg_color": "#1a1a1a",
         "btn_text_color": "#ffffff",
         "btn_border_radius": 0,
