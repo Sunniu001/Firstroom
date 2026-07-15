@@ -221,7 +221,7 @@
     text-transform: uppercase;
     letter-spacing: 0.1em;
     text-decoration: none;
-    border-radius: 4px;
+    border-radius: {{ section.settings.button_radius }}px;
     transition: opacity 0.2s ease;
     align-self: flex-start;
   }
@@ -542,6 +542,16 @@
       "id": "button_text",
       "label": "Button Text",
       "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Button Border Radius",
+      "default": 4
     },
     {
       "type": "header",
