@@ -37,6 +37,7 @@
         "slider_duration": 10,
         "bg_image": "shopify://shop_images/Rectangle_135.png",
         "slide_2": "shopify://shop_images/Hero-Page-Image-1.webp",
+        "slide_3": "shopify://shop_images/Rectangle_474.png",
         "overlay_color": "#000000",
         "overlay_opacity": 25,
         "min_height": 90,
@@ -48,8 +49,8 @@
         "title_size": 44,
         "title_size_mobile": 36,
         "title_color": "#ffffff",
-        "subtitle": "Discover handcrafted wallpapers and thoughtfully curated home décor that transform everyday spaces into timeless expressions of your personality.",
-        "subtitle_size": 18,
+        "subtitle": "Discover handcrafted wallpapers and thoughtfully <br> curated home décor that transform everyday spaces <br> into timeless expressions of your personality.",
+        "subtitle_size": 17,
         "subtitle_size_mobile": 16,
         "subtitle_color": "#f3f4f6",
         "padding_top": 0,
@@ -379,6 +380,7 @@
         "b3",
         "b4"
       ],
+      "disabled": true,
       "settings": {
         "bg_color": "#ffffff",
         "content_max_width": 1100,
