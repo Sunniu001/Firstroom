@@ -136,7 +136,6 @@
           "type": "collection_card",
           "settings": {
             "collection": "wallpaper",
-            "image": "",
             "title": "Wallpaper",
             "link": "shopify://collections/wallpaper"
           }
@@ -145,7 +144,7 @@
           "type": "collection_card",
           "settings": {
             "collection": "home-decor",
-            "image": "",
+            "image": "shopify://shop_images/FRPF003-mu2-w_d6a7aa17-e78e-4b35-8c51-48128688a106.webp",
             "title": "Home Decor",
             "link": "shopify://collections/home-decor"
           }
@@ -154,9 +153,9 @@
           "type": "collection_card",
           "settings": {
             "collection": "",
-            "image": "",
-            "title": "Curated Prints",
-            "link": "shopify://collections/all"
+            "image": "shopify://shop_images/kids-wallpaper-1536x1536.webp",
+            "title": "Kids Wallpaper",
+            "link": "shopify://collections/kids-wallpaper"
           }
         }
       },
@@ -173,7 +172,7 @@
         "heading_size_mobile": 24,
         "heading_color": "#1a1a1a",
         "heading_align": "center",
-        "description": "<p>Find beautifully curated wallpapers and home décor designed to elevate every corner of your home.</p>",
+        "description": "<p>Find beautifully curated wallpapers and home décor designed<br/>to elevate every corner of your home.</p>",
         "description_size": 14,
         "description_size_mobile": 13,
         "description_color": "#4b5563",
@@ -205,7 +204,8 @@
         "t_logo_1": {
           "type": "logo",
           "settings": {
-            "title": "KOHLER",
+            "image": "shopify://shop_images/ChatGPT_Image_Jul_22_2026_at_11_21_55_AM_3.png",
+            "title": "",
             "link": "",
             "custom_width": 0
           }
@@ -213,7 +213,8 @@
         "t_logo_2": {
           "type": "logo",
           "settings": {
-            "title": "M3M",
+            "image": "shopify://shop_images/ChatGPT_Image_Jul_22_2026_at_11_21_55_AM_1.png",
+            "title": "",
             "link": "",
             "custom_width": 0
           }
@@ -221,7 +222,8 @@
         "t_logo_3": {
           "type": "logo",
           "settings": {
-            "title": "Mastercard",
+            "image": "shopify://shop_images/ChatGPT_Image_Jul_22_2026_at_11_21_55_AM_4.png",
+            "title": "",
             "link": "",
             "custom_width": 0
           }
@@ -229,7 +231,8 @@
         "t_logo_4": {
           "type": "logo",
           "settings": {
-            "title": "News Leader",
+            "image": "shopify://shop_images/channels4_profile_1.png",
+            "title": "",
             "link": "",
             "custom_width": 0
           }
@@ -237,7 +240,8 @@
         "t_logo_5": {
           "type": "logo",
           "settings": {
-            "title": "Dana Choga",
+            "image": "shopify://shop_images/ChatGPT_Image_Jul_22_2026_at_12_21_16_PM_1.png",
+            "title": "",
             "link": "",
             "custom_width": 0
           }
@@ -258,13 +262,13 @@
         "heading_size_mobile": 20,
         "heading_color": "#1a1a1a",
         "heading_align": "center",
-        "logo_height": 40,
-        "logo_height_mobile": 28,
-        "grid_gap": 48,
-        "grid_gap_mobile": 24,
+        "logo_height": 44,
+        "logo_height_mobile": 20,
+        "grid_gap": 68,
+        "grid_gap_mobile": 18,
         "enable_grayscale": true,
-        "padding_top": 40,
-        "padding_bottom": 50,
+        "padding_top": 75,
+        "padding_bottom": 120,
         "padding_left": 40,
         "padding_right": 40,
         "padding_top_mobile": 30,
@@ -281,6 +285,7 @@
           "settings": {
             "title": "New arrivals",
             "collection": "all",
+            "product_list": [],
             "product_limit": 4,
             "custom_view_all_link": ""
           }
@@ -290,6 +295,7 @@
           "settings": {
             "title": "Bestseller",
             "collection": "all",
+            "product_list": [],
             "product_limit": 4,
             "custom_view_all_link": ""
           }
@@ -307,6 +313,8 @@
         "heading_size_mobile": 24,
         "heading_color": "#1a1a1a",
         "heading_align": "center",
+        "description": "",
+        "description_color": "#6b7280",
         "columns_desktop": 4,
         "columns_mobile": "2",
         "grid_gap": 20,
@@ -321,13 +329,13 @@
         "view_all_style": "link",
         "view_all_align": "center",
         "padding_top": 60,
-        "padding_bottom": 60,
+        "padding_bottom": 120,
         "padding_left": 40,
         "padding_right": 40,
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 40,
-        "padding_left_mobile": 20,
-        "padding_right_mobile": 20
+        "padding_left_mobile": 30,
+        "padding_right_mobile": 30
       }
     },
     "banners": {
@@ -439,12 +447,12 @@
         "text_bg_color": "rgba(0,0,0,0)",
         "text_padding": 0,
         "text_align": "center",
-        "text_align_mobile": "left",
+        "text_align_mobile": "center",
         "heading": "Inspired by Stories. Designed for Spaces.",
         "heading_align": "center",
-        "heading_align_mobile": "left",
+        "heading_align_mobile": "center",
         "heading_size": 20,
-        "heading_size_mobile": 18,
+        "heading_size_mobile": 16,
         "heading_color": "#1a1a1a",
         "heading_bg_color": "{{ settings.color_palette.color2 }}",
         "heading_padding_y": 20,
@@ -458,7 +466,7 @@
         "btn_bg_color": "#1a1a1a",
         "btn_text_color": "#ffffff",
         "btn_border_radius": 0,
-        "padding_top": 60,
+        "padding_top": 120,
         "padding_top_mobile": 40,
         "padding_bottom": 60,
         "padding_bottom_mobile": 40,
@@ -682,8 +690,8 @@
           "type": "badge",
           "settings": {
             "svg_code": "",
-            "image": "shopify://shop_images/ChatGPT_Image_Jun_25_2026_at_11_58_08_AM_3.png",
-            "title": "",
+            "image": "shopify://shop_images/ChatGPT_Image_Jun_25_2026_at_11_58_08_AM_3_2.png",
+            "title": "Eco Friendly Wallpapers",
             "subtitle": ""
           }
         },
@@ -691,8 +699,8 @@
           "type": "badge",
           "settings": {
             "svg_code": "",
-            "image": "shopify://shop_images/ChatGPT_Image_Jun_25_2026_at_11_58_08_AM_2.png",
-            "title": "",
+            "image": "shopify://shop_images/ChatGPT_Image_Jun_25_2026_at_11_58_08_AM_2_1.png",
+            "title": "PVC Free Surface",
             "subtitle": ""
           }
         },
@@ -700,8 +708,8 @@
           "type": "badge",
           "settings": {
             "svg_code": "",
-            "image": "shopify://shop_images/ChatGPT_Image_Jun_25_2026_at_11_58_08_AM_1.png",
-            "title": "",
+            "image": "shopify://shop_images/ChatGPT_Image_Jul_20_2026_at_05_18_29_PM_1_1.png",
+            "title": "Non-toxic water based Ink",
             "subtitle": ""
           }
         }
@@ -713,7 +721,7 @@
       ],
       "settings": {
         "bg_color": "#ffffff",
-        "content_max_width": 1050,
+        "content_max_width": 850,
         "heading": "",
         "heading_align": "center",
         "heading_size": 28,
@@ -721,21 +729,21 @@
         "heading_color": "#1a1a1a",
         "columns_desktop": 3,
         "columns_mobile": 1,
-        "grid_gap": 40,
-        "show_circle_border": true,
+        "grid_gap": 0,
+        "show_circle_border": false,
         "circle_border_color": "#e5e5e5",
-        "icon_size": 150,
+        "icon_size": 75,
         "icon_size_mobile": 120,
         "text_align": "center",
-        "title_size": 18,
+        "title_size": 14,
         "title_size_mobile": 16,
         "title_color": "#1a1a1a",
         "subtitle_size": 14,
         "subtitle_size_mobile": 12,
         "subtitle_color": "#666666",
-        "padding_top": 40,
+        "padding_top": 52,
         "padding_top_mobile": 40,
-        "padding_bottom": 80,
+        "padding_bottom": 120,
         "padding_bottom_mobile": 60,
         "padding_left": 40,
         "padding_left_mobile": 100,

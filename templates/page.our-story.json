@@ -23,7 +23,7 @@
     "hero": {
       "type": "fr-section-hero",
       "settings": {
-        "hero_image": "shopify://shop_images/Rectangle_252.png",
+        "hero_image": "shopify://shop_images/Rectangle_252_fa63ceb5-60ef-4b3c-b11e-a3756426fdd4.png",
         "hero_overlay_opacity": 0,
         "aspect_ratio": "vh",
         "aspect_ratio_mobile": "vh",
@@ -147,7 +147,7 @@
         "button_bg": "#1a1a1a",
         "button_text": "#ffffff",
         "button_radius": 4,
-        "padding_top": 44,
+        "padding_top": 72,
         "padding_bottom": 44,
         "padding_left": 40,
         "padding_right": 40,
@@ -211,8 +211,8 @@
           "settings": {
             "image": "shopify://shop_images/Ellipse_111.png",
             "icon_svg": "",
-            "title": "Nature Inspired",
-            "subtitle": "Rooted in nature inspired by its beauty",
+            "title": "Timeless Design",
+            "subtitle": "Designed to stay beautiful for years to come.",
             "link": ""
           }
         },
@@ -256,7 +256,7 @@
       "settings": {
         "section_bg": "#ffffff",
         "heading": "Design Philosophy",
-        "heading_align": "left",
+        "heading_align": "center",
         "heading_align_mobile": "center",
         "description": "",
         "description_align": "center",
@@ -370,6 +370,7 @@
         "insp_5",
         "insp_6"
       ],
+      "disabled": true,
       "settings": {
         "section_bg": "#ffffff",
         "heading": "Design Inspiration",
