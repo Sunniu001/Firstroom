@@ -81,7 +81,7 @@
           "type": "text",
           "name": "t:names.text",
           "settings": {
-            "text": "<p>First Room is a luxury home décor and wallpaper brand that focuses on transforming<br/>interiors through custom wallpapers, wall décor and personalized design solutions. The<br/>brand combines Indian cultural influences with contemporary aesthetics to create<br/>spaces that feel personal and meaningful.</p>",
+            "text": "<p>First Room is a luxury home décor and wallpaper brand that focuses on transforming interiors through custom wallpapers, wall décor and personalized design solutions. The brand combines Indian cultural influences with contemporary aesthetics to create spaces that feel personal and meaningful.</p>",
             "width": "100%",
             "max_width": "none",
             "alignment": "center",
