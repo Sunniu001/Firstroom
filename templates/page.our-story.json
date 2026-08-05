@@ -530,10 +530,11 @@
         "time_2",
         "time_3"
       ],
+      "disabled": true,
       "settings": {
         "section_bg": "#ffffff",
         "heading": "Featured Projects",
-        "heading_align": "right",
+        "heading_align": "center",
         "heading_align_mobile": "center",
         "content_max_width": 1200,
         "heading_size": 32,
