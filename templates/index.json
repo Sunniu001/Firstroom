@@ -128,77 +128,205 @@
         "padding_right_mobile": 40
       }
     },
-    "categories": {
-      "type": "fr-section-grid",
+    "collection_slider": {
+      "type": "fr-home-collection-slider",
       "blocks": {
-        "cat1": {
-          "type": "grid_item",
+        "c_slide_1": {
+          "type": "collection_card",
           "settings": {
-            "image": "shopify://shop_images/Ellipse_79.png",
-            "icon_svg": "",
+            "collection": "wallpaper",
+            "image": "",
             "title": "Wallpaper",
-            "subtitle": "",
             "link": "shopify://collections/wallpaper"
           }
         },
-        "cat2": {
-          "type": "grid_item",
+        "c_slide_2": {
+          "type": "collection_card",
           "settings": {
-            "image": "shopify://shop_images/Ellipse_80.png",
-            "icon_svg": "",
+            "collection": "home-decor",
+            "image": "",
             "title": "Home Decor",
-            "subtitle": "",
             "link": "shopify://collections/home-decor"
+          }
+        },
+        "c_slide_3": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "",
+            "image": "",
+            "title": "Curated Prints",
+            "link": "shopify://collections/all"
           }
         }
       },
       "block_order": [
-        "cat1",
-        "cat2"
+        "c_slide_1",
+        "c_slide_2",
+        "c_slide_3"
       ],
       "settings": {
-        "section_bg": "#ffffff",
+        "bg_color": "#ffffff",
+        "content_max_width": 1300,
         "heading": "Explore Our Collections",
-        "heading_align": "left",
-        "heading_align_mobile": "center",
-        "description": "<p>Find beautifully curated wallpapers and home décor designed to elevate every corner of your home.</p>",
-        "description_align": "left",
-        "description_align_mobile": "center",
-        "content_max_width": 800,
         "heading_size": 32,
         "heading_size_mobile": 24,
         "heading_color": "#1a1a1a",
+        "heading_align": "center",
+        "description": "<p>Find beautifully curated wallpapers and home décor designed to elevate every corner of your home.</p>",
         "description_size": 14,
-        "description_size_mobile": 14,
+        "description_size_mobile": 13,
         "description_color": "#4b5563",
-        "columns_desktop": 2,
-        "columns_mobile": 2,
-        "grid_gap": 20,
-        "grid_gap_mobile": 20,
-        "grid_vgap_mobile": 40,
-        "show_vertical_borders": false,
-        "image_shape": "circle",
-        "image_radius": 0,
-        "image_max_width": 250,
-        "image_max_width_mobile": 150,
-        "icon_size": 32,
-        "icon_size_mobile": 24,
-        "text_align": "center",
-        "text_align_mobile": "center",
+        "aspect_ratio": "3/4",
+        "card_radius": 0,
+        "grid_gap": 24,
+        "grid_gap_mobile": 16,
+        "card_width_desktop": 31,
+        "card_width_tablet": 45,
+        "card_width_mobile": 75,
+        "text_position": "below",
+        "card_text_align": "center",
         "title_size": 18,
         "title_size_mobile": 16,
         "title_color": "#1a1a1a",
-        "subtitle_size": 14,
-        "subtitle_size_mobile": 12,
-        "subtitle_color": "#666666",
         "padding_top": 60,
+        "padding_bottom": 40,
+        "padding_left": 40,
+        "padding_right": 40,
         "padding_top_mobile": 40,
+        "padding_bottom_mobile": 30,
+        "padding_left_mobile": 20,
+        "padding_right_mobile": 20
+      }
+    },
+    "trusted_by": {
+      "type": "fr-home-trusted-by",
+      "blocks": {
+        "t_logo_1": {
+          "type": "logo",
+          "settings": {
+            "title": "KOHLER",
+            "link": "",
+            "custom_width": 0
+          }
+        },
+        "t_logo_2": {
+          "type": "logo",
+          "settings": {
+            "title": "M3M",
+            "link": "",
+            "custom_width": 0
+          }
+        },
+        "t_logo_3": {
+          "type": "logo",
+          "settings": {
+            "title": "Mastercard",
+            "link": "",
+            "custom_width": 0
+          }
+        },
+        "t_logo_4": {
+          "type": "logo",
+          "settings": {
+            "title": "News Leader",
+            "link": "",
+            "custom_width": 0
+          }
+        },
+        "t_logo_5": {
+          "type": "logo",
+          "settings": {
+            "title": "Dana Choga",
+            "link": "",
+            "custom_width": 0
+          }
+        }
+      },
+      "block_order": [
+        "t_logo_1",
+        "t_logo_2",
+        "t_logo_3",
+        "t_logo_4",
+        "t_logo_5"
+      ],
+      "settings": {
+        "bg_color": "#ffffff",
+        "content_max_width": 1200,
+        "heading": "Trusted By",
+        "heading_size": 24,
+        "heading_size_mobile": 20,
+        "heading_color": "#1a1a1a",
+        "heading_align": "center",
+        "logo_height": 40,
+        "logo_height_mobile": 28,
+        "grid_gap": 48,
+        "grid_gap_mobile": 24,
+        "enable_grayscale": true,
+        "padding_top": 40,
+        "padding_bottom": 50,
+        "padding_left": 40,
+        "padding_right": 40,
+        "padding_top_mobile": 30,
+        "padding_bottom_mobile": 30,
+        "padding_left_mobile": 20,
+        "padding_right_mobile": 20
+      }
+    },
+    "collection_tabs": {
+      "type": "fr-home-collection-tabs",
+      "blocks": {
+        "c_tab_1": {
+          "type": "tab",
+          "settings": {
+            "title": "New arrivals",
+            "collection": "all",
+            "product_limit": 4,
+            "custom_view_all_link": ""
+          }
+        },
+        "c_tab_2": {
+          "type": "tab",
+          "settings": {
+            "title": "Bestseller",
+            "collection": "all",
+            "product_limit": 4,
+            "custom_view_all_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "c_tab_1",
+        "c_tab_2"
+      ],
+      "settings": {
+        "bg_color": "#ffffff",
+        "content_max_width": 1300,
+        "heading": "Collection",
+        "heading_size": 32,
+        "heading_size_mobile": 24,
+        "heading_color": "#1a1a1a",
+        "heading_align": "center",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "grid_gap": 20,
+        "grid_gap_mobile": 12,
+        "card_aspect_ratio": "1/1",
+        "card_radius": 0,
+        "card_text_align": "left",
+        "show_secondary_image": true,
+        "show_sale_badge": true,
+        "show_view_all": true,
+        "view_all_text": "View all",
+        "view_all_style": "link",
+        "view_all_align": "center",
+        "padding_top": 60,
         "padding_bottom": 60,
+        "padding_left": 40,
+        "padding_right": 40,
+        "padding_top_mobile": 40,
         "padding_bottom_mobile": 40,
-        "padding_left": 84,
-        "padding_left_mobile": 24,
-        "padding_right": 84,
-        "padding_right_mobile": 24
+        "padding_left_mobile": 20,
+        "padding_right_mobile": 20
       }
     },
     "banners": {
@@ -617,7 +745,9 @@
   "order": [
     "hero",
     "feature_split",
-    "categories",
+    "collection_slider",
+    "trusted_by",
+    "collection_tabs",
     "banners",
     "inspire",
     "products",

@@ -1,0 +1,775 @@
+<section class="fr-coll-slider-section" id="fr-coll-slider-{{ section.id }}" style="background-color: {{ section.settings.bg_color }};">
+  <div class="fr-coll-slider__wrapper" style="
+      --pt-d: {{ section.settings.padding_top }}px;
+      --pb-d: {{ section.settings.padding_bottom }}px;
+      --pl-d: {{ section.settings.padding_left }}px;
+      --pr-d: {{ section.settings.padding_right }}px;
+      --pt-m: {{ section.settings.padding_top_mobile | default: section.settings.padding_top }}px;
+      --pb-m: {{ section.settings.padding_bottom_mobile | default: section.settings.padding_bottom }}px;
+      --pl-m: {{ section.settings.padding_left_mobile | default: section.settings.padding_left }}px;
+      --pr-m: {{ section.settings.padding_right_mobile | default: section.settings.padding_right }}px;
+      --max-w: {{ section.settings.content_max_width }}px;
+    ">
+    
+    {%- if section.settings.heading != blank or section.settings.description != blank -%}
+      <div class="fr-coll-slider__header" style="text-align: {{ section.settings.heading_align }};">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="fr-coll-slider__heading" style="
+              color: {{ section.settings.heading_color }};
+              --fz-d: {{ section.settings.heading_size }}px;
+              --fz-m: {{ section.settings.heading_size_mobile | default: section.settings.heading_size | times: 0.8 | round }}px;
+            ">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
+        {%- if section.settings.description != blank -%}
+          <div class="fr-coll-slider__desc" style="
+              color: {{ section.settings.description_color }};
+              --fz-d: {{ section.settings.description_size }}px;
+              --fz-m: {{ section.settings.description_size_mobile | default: section.settings.description_size | times: 0.85 | round }}px;
+            ">
+            {{ section.settings.description }}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="fr-coll-slider__container">
+      <button class="fr-coll-slider__arrow fr-coll-slider__arrow--prev" type="button" aria-label="Previous slide">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+
+      <div class="fr-coll-slider__track-container">
+        <div class="fr-coll-slider__track" style="
+            --gap-d: {{ section.settings.grid_gap }}px;
+            --gap-m: {{ section.settings.grid_gap_mobile | default: section.settings.grid_gap }}px;
+            --card-w-d: {{ section.settings.card_width_desktop }}%;
+            --card-w-t: {{ section.settings.card_width_tablet }}%;
+            --card-w-m: {{ section.settings.card_width_mobile }}%;
+            --card-ar: {{ section.settings.aspect_ratio }};
+            --card-radius: {{ section.settings.card_radius }}px;
+          ">
+          {%- for block in section.blocks -%}
+            {%- liquid
+              assign collection_obj = collections[block.settings.collection]
+              assign card_title = block.settings.title
+              if card_title == blank and collection_obj != blank
+                assign card_title = collection_obj.title
+              endif
+              
+              assign card_link = block.settings.link
+              if card_link == blank and collection_obj != blank
+                assign card_link = collection_obj.url
+              endif
+
+              assign card_image = block.settings.image
+              if card_image == blank and collection_obj.featured_image != blank
+                assign card_image = collection_obj.featured_image
+              endif
+            -%}
+
+            <div class="fr-coll-slider__card-wrapper" {{ block.shopify_attributes }}>
+              <a href="{{ card_link | default: '#' }}" class="fr-coll-slider__card">
+                <div class="fr-coll-slider__image-box">
+                  {%- if card_image != blank -%}
+                    <img
+                      src="{{ card_image | image_url: width: 800 }}"
+                      alt="{{ card_title | escape }}"
+                      loading="lazy"
+                      class="fr-coll-slider__img"
+                    >
+                  {%- else -%}
+                    <div class="fr-coll-slider__placeholder">
+                      <svg viewBox="0 0 100 100" class="fr-coll-slider__placeholder-icon" fill="none" stroke="#ccc" stroke-width="2">
+                        <rect width="80" height="80" x="10" y="10" rx="4"></rect>
+                        <circle cx="35" cy="35" r="10"></circle>
+                        <polyline points="15 75 40 50 65 75"></polyline>
+                        <polyline points="55 65 70 50 85 65"></polyline>
+                      </svg>
+                    </div>
+                  {%- endif -%}
+
+                  {%- if section.settings.text_position == 'overlay' and card_title != blank -%}
+                    <div class="fr-coll-slider__overlay-content">
+                      <h3 class="fr-coll-slider__card-title" style="
+                          color: {{ section.settings.title_color }};
+                          --fz-t-d: {{ section.settings.title_size }}px;
+                          --fz-t-m: {{ section.settings.title_size_mobile | default: section.settings.title_size }}px;
+                        ">
+                        {{ card_title }}
+                      </h3>
+                    </div>
+                  {%- endif -%}
+                </div>
+
+                {%- if section.settings.text_position == 'below' and card_title != blank -%}
+                  <div class="fr-coll-slider__text-below" style="text-align: {{ section.settings.card_text_align }};">
+                    <h3 class="fr-coll-slider__card-title" style="
+                        color: {{ section.settings.title_color }};
+                        --fz-t-d: {{ section.settings.title_size }}px;
+                        --fz-t-m: {{ section.settings.title_size_mobile | default: section.settings.title_size }}px;
+                      ">
+                      {{ card_title }}
+                    </h3>
+                  </div>
+                {%- endif -%}
+              </a>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      <button class="fr-coll-slider__arrow fr-coll-slider__arrow--next" type="button" aria-label="Next slide">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  #fr-coll-slider-{{ section.id }} {
+    font-family: 'Lato', system-ui, sans-serif;
+    line-height: 1.6;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #fr-coll-slider-{{ section.id }} .fr-coll-slider__wrapper {
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding-top: var(--pt-m);
+    padding-bottom: var(--pb-m);
+    padding-left: var(--pl-m);
+    padding-right: var(--pr-m);
+  }
+
+  @media (min-width: 768px) {
+    #fr-coll-slider-{{ section.id }} .fr-coll-slider__wrapper {
+      padding-top: var(--pt-d);
+      padding-bottom: var(--pb-d);
+      padding-left: var(--pl-d);
+      padding-right: var(--pr-d);
+    }
+  }
+
+  #fr-coll-slider-{{ section.id }} .fr-coll-slider__header {
+    margin-bottom: 32px;
+  }
+
+  #fr-coll-slider-{{ section.id }} .fr-coll-slider__heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: var(--fz-m);
+    font-weight: 400;
+    margin: 0 0 10px 0;
+    letter-spacing: 0.01em;
+  }
+
+  #fr-coll-slider-{{ section.id }} .fr-coll-slider__desc {
+    font-size: var(--fz-m);
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  #fr-coll-slider-{{ section.id }} .fr-coll-slider__desc p {
+    margin: 0;
+  }
+
+  @media (min-width: 768px) {
+    #fr-coll-slider-{{ section.id }} .fr-coll-slider__heading {
+      font-size: var(--fz-d);
+    }
+    #fr-coll-slider-{{ section.id }} .fr-coll-slider__desc {
+      font-size: var(--fz-d);
+    }
+  }
+
+  #fr-coll-slider-{{ section.id }} .fr-coll-slider__container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+
+  #fr-coll-slider-{{ section.id }} .fr-coll-slider__track-container {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  #fr-coll-slider-{{ section.id }} .fr-coll-slider__track {
+    display: flex;
+    gap: var(--gap-m);
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 8px 0;
+  }
+
+  #fr-coll-slider-{{ section.id }} .fr-coll-slider__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    #fr-coll-slider-{{ section.id }} .fr-coll-slider__track {
+      gap: var(--gap-d);
+    }
+  }
+
+  #fr-coll-slider-{{ section.id }} .fr-coll-slider__card-wrapper {
+    flex: 0 0 var(--card-w-m);
+    scroll-snap-align: start;
+    box-sizing: border-box;
+  }
+
+  @media (min-width: 600px) and (max-width: 989px) {
+    #fr-coll-slider-{{ section.id }} .fr-coll-slider__card-wrapper {
+      flex: 0 0 var(--card-w-t);
+    }
+  }
+
+  @media (min-width: 990px) {
+    #fr-coll-slider-{{ section.id }} .fr-coll-slider__card-wrapper {
+      flex: 0 0 var(--card-w-d);
+    }
+  }
+
+  #fr-coll-slider-{{ section.id }} .fr-coll-slider__card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+  }
+
+  #fr-coll-slider-{{ section.id }} .fr-coll-slider__image-box {
+    position: relative;
+    width: 100%;
+    aspect-ratio: var(--card-ar);
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    background-color: #f1f1f1;
+  }
+
+  #fr-coll-slider-{{ section.id }} .fr-coll-slider__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  #fr-coll-slider-{{ section.id }} .fr-coll-slider__card:hover .fr-coll-slider__img {
+    transform: scale(1.05);
+  }
+
+  #fr-coll-slider-{{ section.id }} .fr-coll-slider__placeholder {
+    width: 100%;
+    height: 100%;
+    background: #e2e2e2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #fr-coll-slider-{{ section.id }} .fr-coll-slider__placeholder-icon {
+    width: 48px;
+    height: 48px;
+    opacity: 0.4;
+  }
+
+  #fr-coll-slider-{{ section.id }} .fr-coll-slider__overlay-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 24px 20px;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%);
+    display: flex;
+    align-items: flex-end;
+  }
+
+  #fr-coll-slider-{{ section.id }} .fr-coll-slider__text-below {
+    padding-top: 14px;
+  }
+
+  #fr-coll-slider-{{ section.id }} .fr-coll-slider__card-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: var(--fz-t-m);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    margin: 0;
+    transition: color 0.3s ease;
+  }
+
+  @media (min-width: 768px) {
+    #fr-coll-slider-{{ section.id }} .fr-coll-slider__card-title {
+      font-size: var(--fz-t-d);
+    }
+  }
+
+  #fr-coll-slider-{{ section.id }} .fr-coll-slider__card:hover .fr-coll-slider__card-title {
+    opacity: 0.85;
+  }
+
+  #fr-coll-slider-{{ section.id }} .fr-coll-slider__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1a1a1a;
+    transition: all 0.25s ease;
+    opacity: 0.95;
+  }
+
+  #fr-coll-slider-{{ section.id }} .fr-coll-slider__arrow svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  #fr-coll-slider-{{ section.id }} .fr-coll-slider__arrow:hover {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.08);
+    background: #ffffff;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  }
+
+  #fr-coll-slider-{{ section.id }} .fr-coll-slider__arrow--prev {
+    left: -22px;
+  }
+
+  #fr-coll-slider-{{ section.id }} .fr-coll-slider__arrow--next {
+    right: -22px;
+  }
+
+  @media (max-width: 768px) {
+    #fr-coll-slider-{{ section.id }} .fr-coll-slider__arrow {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    function initCollSlider() {
+      const section = document.getElementById('fr-coll-slider-{{ section.id }}');
+      if (!section) return;
+      
+      const track = section.querySelector('.fr-coll-slider__track');
+      const prevBtn = section.querySelector('.fr-coll-slider__arrow--prev');
+      const nextBtn = section.querySelector('.fr-coll-slider__arrow--next');
+      
+      if (!track) return;
+
+      function updateArrows() {
+        if (!prevBtn || !nextBtn) return;
+        const maxScrollLeft = track.scrollWidth - track.clientWidth - 5;
+        prevBtn.style.opacity = track.scrollLeft <= 5 ? '0' : '0.95';
+        prevBtn.style.pointerEvents = track.scrollLeft <= 5 ? 'none' : 'auto';
+        nextBtn.style.opacity = track.scrollLeft >= maxScrollLeft ? '0' : '0.95';
+        nextBtn.style.pointerEvents = track.scrollLeft >= maxScrollLeft ? 'none' : 'auto';
+      }
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+          const card = track.querySelector('.fr-coll-slider__card-wrapper');
+          const step = card ? card.offsetWidth + 20 : 300;
+          track.scrollBy({ left: -step, behavior: 'smooth' });
+        });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+          const card = track.querySelector('.fr-coll-slider__card-wrapper');
+          const step = card ? card.offsetWidth + 20 : 300;
+          track.scrollBy({ left: step, behavior: 'smooth' });
+        });
+      }
+
+      track.addEventListener('scroll', updateArrows, { passive: true });
+      window.addEventListener('resize', updateArrows);
+      setTimeout(updateArrows, 100);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCollSlider);
+    } else {
+      initCollSlider();
+    }
+    document.addEventListener('shopify:section:load', function(e) {
+      if (e.detail && e.detail.sectionId === '{{ section.id }}') {
+        initCollSlider();
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "FR Collection Slider",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "content_max_width",
+      "label": "Content Max Width",
+      "min": 800,
+      "max": 1600,
+      "step": 50,
+      "unit": "px",
+      "default": 1300
+    },
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Explore Our Collections"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading Size (Desktop)",
+      "min": 18,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading Size (Mobile)",
+      "min": 16,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Header Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Find beautifully curated wallpapers and home décor designed to elevate every corner of your home.</p>"
+    },
+    {
+      "type": "range",
+      "id": "description_size",
+      "label": "Description Size (Desktop)",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "description_size_mobile",
+      "label": "Description Size (Mobile)",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "color",
+      "id": "description_color",
+      "label": "Description Color",
+      "default": "#4b5563"
+    },
+    {
+      "type": "header",
+      "content": "Card Layout & Sizing"
+    },
+    {
+      "type": "select",
+      "id": "aspect_ratio",
+      "label": "Card Aspect Ratio",
+      "options": [
+        { "value": "3/4", "label": "3:4 (Tall)" },
+        { "value": "4/5", "label": "4:5 (Standard Portrait)" },
+        { "value": "1/1", "label": "1:1 (Square)" },
+        { "value": "16/9", "label": "16:9 (Landscape)" }
+      ],
+      "default": "3/4"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card Border Radius",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "label": "Gap between cards (Desktop)",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "grid_gap_mobile",
+      "label": "Gap between cards (Mobile)",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "card_width_desktop",
+      "label": "Card Width % (Desktop)",
+      "min": 20,
+      "max": 50,
+      "step": 1,
+      "unit": "%",
+      "default": 31,
+      "info": "Set ~31% for 3 visible cards per view, or ~23% for 4 cards"
+    },
+    {
+      "type": "range",
+      "id": "card_width_tablet",
+      "label": "Card Width % (Tablet)",
+      "min": 30,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 45
+    },
+    {
+      "type": "range",
+      "id": "card_width_mobile",
+      "label": "Card Width % (Mobile)",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 75
+    },
+    {
+      "type": "header",
+      "content": "Card Content & Typography"
+    },
+    {
+      "type": "select",
+      "id": "text_position",
+      "label": "Text Position",
+      "options": [
+        { "value": "below", "label": "Below Card" },
+        { "value": "overlay", "label": "Overlay on Image" }
+      ],
+      "default": "below"
+    },
+    {
+      "type": "select",
+      "id": "card_text_align",
+      "label": "Card Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title Size (Desktop)",
+      "min": 14,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "label": "Title Size (Mobile)",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top (Desktop)",
+      "min": 0,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom (Desktop)",
+      "min": 0,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "label": "Padding Left (Desktop)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "label": "Padding Right (Desktop)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding Top (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_left_mobile",
+      "label": "Padding Left (Mobile)",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_right_mobile",
+      "label": "Padding Right (Mobile)",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_card",
+      "name": "Collection Card",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Select Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom Image (Overrides Collection Image)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Custom Title (Overrides Collection Title)"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Custom Link (Overrides Collection Link)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FR Collection Slider",
+      "blocks": [
+        { "type": "collection_card", "settings": { "title": "Wallpapers" } },
+        { "type": "collection_card", "settings": { "title": "Home Décor" } },
+        { "type": "collection_card", "settings": { "title": "Curated Prints" } },
+        { "type": "collection_card", "settings": { "title": "Handcrafted Accents" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
