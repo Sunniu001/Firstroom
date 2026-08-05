@@ -41,22 +41,28 @@
     background-repeat: no-repeat;
     display: flex;
     overflow: hidden;
-    height: {{ section.settings.hero_height_mobile }}vh;
+    {% if section.settings.aspect_ratio != blank and section.settings.aspect_ratio != 'vh' %}
+      aspect-ratio: {{ section.settings.aspect_ratio_mobile | default: section.settings.aspect_ratio }};
+      height: auto;
+      min-height: 180px;
+    {% else %}
+      height: {{ section.settings.hero_height_mobile }}vh;
+    {% endif %}
     align-items: {% if section.settings.content_alignment_vertical_mobile == 'top' %}flex-start{% elsif section.settings.content_alignment_vertical_mobile == 'bottom' %}flex-end{% else %}center{% endif %};
     justify-content: {% if section.settings.content_alignment_horizontal_mobile == 'left' %}flex-start{% elsif section.settings.content_alignment_horizontal_mobile == 'right' %}flex-end{% else %}center{% endif %};
   }
 
   @media (min-width: 768px) {
     #fr-about-hero-{{ section.id }} .fr-about-hero__wrapper {
-      height: {{ section.settings.hero_height_desktop }}vh;
+      {% if section.settings.aspect_ratio != blank and section.settings.aspect_ratio != 'vh' %}
+        aspect-ratio: {{ section.settings.aspect_ratio }};
+        height: auto;
+        min-height: 250px;
+      {% else %}
+        height: {{ section.settings.hero_height_desktop }}vh;
+      {% endif %}
       align-items: {% if section.settings.content_alignment_vertical == 'top' %}flex-start{% elsif section.settings.content_alignment_vertical == 'bottom' %}flex-end{% else %}center{% endif %};
       justify-content: {% if section.settings.content_alignment_horizontal == 'left' %}flex-start{% elsif section.settings.content_alignment_horizontal == 'right' %}flex-end{% else %}center{% endif %};
-    }
-  }
-
-  @media (min-width: 768px) {
-    #fr-about-hero-{{ section.id }} .fr-about-hero__wrapper {
-      height: {{ section.settings.hero_height_desktop }}vh;
     }
   }
 
@@ -159,27 +165,52 @@
     },
     {
       "type": "header",
-      "content": "Height Controls"
+      "content": "Height & Aspect Ratio"
+    },
+    {
+      "type": "select",
+      "id": "aspect_ratio",
+      "label": "Banner Aspect Ratio (Desktop)",
+      "options": [
+        { "value": "vh", "label": "Use Height Slider (vh)" },
+        { "value": "21/9", "label": "Ultrawide (21:9)" },
+        { "value": "16/9", "label": "Widescreen (16:9)" },
+        { "value": "3/1", "label": "Super Wide (3:1)" },
+        { "value": "2.4/1", "label": "Cinema (2.4:1)" }
+      ],
+      "default": "vh"
+    },
+    {
+      "type": "select",
+      "id": "aspect_ratio_mobile",
+      "label": "Banner Aspect Ratio (Mobile)",
+      "options": [
+        { "value": "vh", "label": "Use Height Slider (vh)" },
+        { "value": "16/9", "label": "Widescreen (16:9)" },
+        { "value": "4/3", "label": "Standard (4:3)" },
+        { "value": "1/1", "label": "Square (1:1)" }
+      ],
+      "default": "vh"
     },
     {
       "type": "range",
       "id": "hero_height_desktop",
-      "min": 40,
+      "min": 20,
       "max": 100,
-      "step": 5,
+      "step": 2,
       "unit": "vh",
-      "label": "Desktop Height",
-      "default": 65
+      "label": "Desktop Height (if Aspect Ratio is vh)",
+      "default": 42
     },
     {
       "type": "range",
       "id": "hero_height_mobile",
-      "min": 30,
+      "min": 20,
       "max": 100,
-      "step": 5,
+      "step": 2,
       "unit": "vh",
-      "label": "Mobile Height",
-      "default": 50
+      "label": "Mobile Height (if Aspect Ratio is vh)",
+      "default": 36
     },
     {
       "type": "header",
