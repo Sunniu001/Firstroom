@@ -25,7 +25,7 @@
       "settings": {
         "hero_image": "shopify://shop_images/Rectangle_252_fa63ceb5-60ef-4b3c-b11e-a3756426fdd4.png",
         "hero_overlay_opacity": 0,
-        "aspect_ratio": "3/1",
+        "aspect_ratio": "2.4/1",
         "aspect_ratio_mobile": "vh",
         "hero_height_desktop": 100,
         "hero_height_mobile": 60,
@@ -33,7 +33,7 @@
         "content_alignment_vertical_mobile": "center",
         "content_alignment_horizontal": "left",
         "content_alignment_horizontal_mobile": "center",
-        "padding_top": 0,
+        "padding_top": 40,
         "padding_bottom": 40,
         "padding_left": 40,
         "padding_right": 40,
