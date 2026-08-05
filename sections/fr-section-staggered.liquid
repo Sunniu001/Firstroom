@@ -1,223 +1,357 @@
-<section class="fr-about-staggered" id="fr-about-staggered-{{ section.id }}" style="background-color: {{ section.settings.section_bg }};">
-  <div class="fr-about-staggered__wrapper" style="
-      --pt-d: {{ section.settings.padding_top }}px;
-      --pb-d: {{ section.settings.padding_bottom }}px;
-      --pl-d: {{ section.settings.padding_left }}px;
-      --pr-d: {{ section.settings.padding_right }}px;
-      --pt-m: {{ section.settings.padding_top_mobile | default: section.settings.padding_top }}px;
-      --pb-m: {{ section.settings.padding_bottom_mobile | default: section.settings.padding_bottom }}px;
-      --pl-m: {{ section.settings.padding_left_mobile | default: 20 }}px;
-      --pr-m: {{ section.settings.padding_right_mobile | default: 20 }}px;
-      --fz-mh-d: {{ section.settings.heading_size }}px;
-      --fz-mh-m: {{ section.settings.heading_size_mobile | default: section.settings.heading_size | times: 0.8 | round }}px;
-      --fz-t-d: {{ section.settings.title_size }}px;
-      --fz-t-m: {{ section.settings.title_size_mobile | default: section.settings.title_size | times: 0.8 | round }}px;
-      --fz-b-d: {{ section.settings.text_size }}px;
-      --fz-b-m: {{ section.settings.text_size_mobile | default: section.settings.text_size }}px;
-      --ta-d: {{ section.settings.text_align }};
-      --ta-m: {{ section.settings.text_align_mobile | default: section.settings.text_align }};
-      --img-w-m: {{ section.settings.image_max_width_mobile | default: 300 }}px;
-    ">
+<section class="fr-about-staggered" id="fr-about-staggered-{{ section.id }}" style="background-color: {{ section.settings.section_bg | default: '#ffffff' }};">
+  <div class="fr-about-staggered__wrapper">
     
     {%- if section.settings.heading != blank -%}
-      <h2 class="fr-about-staggered__main-heading" style="color: {{ section.settings.heading_color }};">
+      <h2 class="fr-about-staggered__main-heading" style="color: {{ section.settings.heading_color | default: '#1a1a1a' }};">
         {{ section.settings.heading }}
       </h2>
     {%- endif -%}
 
-    <div class="fr-about-staggered__container" style="
-      grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
-      gap: {{ section.settings.grid_gap }}px;
-    ">
-      {%- for block in section.blocks -%}
-        <div class="fr-about-staggered__item" {{ block.shopify_attributes }} style="grid-column: {{ block.settings.column_start }}; transform: translateY({{ block.settings.offset_y }}px);">
-          
-          <div class="fr-about-staggered__image-wrapper fr-about-staggered__image-wrapper--{{ section.settings.image_shape }}" style="{% if section.settings.image_shape != 'circle' %}border-radius: {{ section.settings.image_radius }}px;{% endif %} {% if block.settings.border_width > 0 %}border: {{ block.settings.border_width }}px solid {{ block.settings.border_color }};{% endif %}">
-            {%- if block.settings.image != blank -%}
-              <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.title | escape }}" loading="lazy" class="fr-about-staggered__img" style="{% if section.settings.image_shape != 'circle' %}border-radius: {{ section.settings.image_radius }}px;{% endif %}">
-            {%- else -%}
-              <div class="fr-about-staggered__placeholder" style="{% if section.settings.image_shape != 'circle' %}border-radius: {{ section.settings.image_radius }}px;{% endif %}"></div>
-            {%- endif -%}
-            
-            {%- if block.settings.number != blank -%}
-              <div class="fr-about-staggered__number">{{ block.settings.number }}</div>
-            {%- endif -%}
-          </div>
+    <!-- Desktop Horizontal Timeline -->
+    <div class="fr-staggered-timeline-desktop">
+      <div class="fr-staggered-axis"></div>
+      
+      <div class="fr-staggered-track" style="--total-items: {{ section.blocks.size }};">
+        {%- for block in section.blocks -%}
+          {%- assign is_even = forloop.index | modulo: 2 -%}
+          {%- assign pos = 'bottom' -%}
+          {%- if is_even == 0 -%}
+            {%- assign pos = 'top' -%}
+          {%- else -%}
+            {%- assign pos = 'bottom' -%}
+          {%- endif -%}
 
-          {%- if block.settings.title != blank or block.settings.text != blank -%}
-            <div class="fr-about-staggered__text-content">
-              {%- if block.settings.title != blank -%}
-                <h3 class="fr-about-staggered__title" style="color: {{ section.settings.title_color }};">{{ block.settings.title }}</h3>
-              {%- endif -%}
-              {%- if block.settings.text != blank -%}
-                <div class="fr-about-staggered__body" style="color: {{ section.settings.text_color }};">{{ block.settings.text }}</div>
+          <div class="fr-staggered-step fr-staggered-step--pos-{{ pos }}" {{ block.shopify_attributes }}>
+            
+            <!-- Top Slot -->
+            <div class="fr-staggered-slot fr-staggered-slot--top">
+              {%- if pos == 'top' -%}
+                <div class="fr-staggered-card">
+                  {%- if block.settings.number != blank -%}
+                    <div class="fr-staggered-num">{{ block.settings.number }}</div>
+                  {%- endif -%}
+                  {%- if block.settings.title != blank -%}
+                    <h3 class="fr-staggered-title">{{ block.settings.title }}</h3>
+                  {%- endif -%}
+                  {%- if block.settings.text != blank -%}
+                    <div class="fr-staggered-text">{{ block.settings.text }}</div>
+                  {%- endif -%}
+                </div>
+                <div class="fr-staggered-stem fr-staggered-stem--top"></div>
               {%- endif -%}
             </div>
-          {%- endif -%}
-          
-        </div>
-      {%- endfor -%}
+
+            <!-- Center Circle Node -->
+            <div class="fr-staggered-node-wrapper">
+              <div class="fr-staggered-node-circle" style="{% if block.settings.border_width > 0 %}border: {{ block.settings.border_width }}px solid {{ block.settings.border_color }};{% endif %}">
+                {%- if block.settings.image != blank -%}
+                  <img src="{{ block.settings.image | image_url: width: 200 }}" alt="{{ block.settings.title | escape }}" loading="lazy" class="fr-staggered-node-img">
+                {%- endif -%}
+              </div>
+            </div>
+
+            <!-- Bottom Slot -->
+            <div class="fr-staggered-slot fr-staggered-slot--bottom">
+              {%- if pos == 'bottom' -%}
+                <div class="fr-staggered-stem fr-staggered-stem--bottom"></div>
+                <div class="fr-staggered-card">
+                  {%- if block.settings.number != blank -%}
+                    <div class="fr-staggered-num">{{ block.settings.number }}</div>
+                  {%- endif -%}
+                  {%- if block.settings.title != blank -%}
+                    <h3 class="fr-staggered-title">{{ block.settings.title }}</h3>
+                  {%- endif -%}
+                  {%- if block.settings.text != blank -%}
+                    <div class="fr-staggered-text">{{ block.settings.text }}</div>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            </div>
+
+          </div>
+        {%- endfor -%}
+      </div>
     </div>
-    
+
+    <!-- Mobile Vertical Timeline -->
+    <div class="fr-staggered-timeline-mobile">
+      <div class="fr-staggered-v-axis"></div>
+      
+      <div class="fr-staggered-mobile-list">
+        {%- for block in section.blocks -%}
+          <div class="fr-staggered-mobile-item" {{ block.shopify_attributes }}>
+            <div class="fr-staggered-m-node-col">
+              <div class="fr-staggered-node-circle">
+                {%- if block.settings.image != blank -%}
+                  <img src="{{ block.settings.image | image_url: width: 120 }}" alt="{{ block.settings.title | escape }}" loading="lazy" class="fr-staggered-node-img">
+                {%- endif -%}
+              </div>
+            </div>
+            
+            <div class="fr-staggered-m-content-col">
+              {%- if block.settings.number != blank -%}
+                <div class="fr-staggered-num">{{ block.settings.number }}</div>
+              {%- endif -%}
+              {%- if block.settings.title != blank -%}
+                <h3 class="fr-staggered-title">{{ block.settings.title }}</h3>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <div class="fr-staggered-text">{{ block.settings.text }}</div>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+
   </div>
 </section>
 
 <style>
   #fr-about-staggered-{{ section.id }} {
-    font-family: 'Lato', system-ui, sans-serif;
-    line-height: 1.7;
     width: 100%;
+    background-color: {{ section.settings.section_bg | default: '#ffffff' }};
+    padding-top: {{ section.settings.padding_top_mobile | default: 48 }}px;
+    padding-bottom: {{ section.settings.padding_bottom_mobile | default: 48 }}px;
+    padding-left: {{ section.settings.padding_left_mobile | default: 24 }}px;
+    padding-right: {{ section.settings.padding_right_mobile | default: 24 }}px;
+    box-sizing: border-box;
+    font-family: inherit;
+  }
+
+  @media (min-width: 768px) {
+    #fr-about-staggered-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top | default: 80 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | default: 80 }}px;
+      padding-left: {{ section.settings.padding_left | default: 60 }}px;
+      padding-right: {{ section.settings.padding_right | default: 60 }}px;
+    }
   }
 
   #fr-about-staggered-{{ section.id }} .fr-about-staggered__wrapper {
-    max-width: 1400px;
+    max-width: {{ section.settings.content_max_width | default: 1400 }}px;
     margin: 0 auto;
-    padding-top: var(--pt-m);
-    padding-bottom: var(--pb-m);
-    padding-left: var(--pl-m);
-    padding-right: var(--pr-m);
+    width: 100%;
+    box-sizing: border-box;
   }
 
-  @media (min-width: 768px) {
-    #fr-about-staggered-{{ section.id }} .fr-about-staggered__wrapper {
-      padding-top: var(--pt-d);
-      padding-bottom: var(--pb-d);
-      padding-left: var(--pl-d);
-      padding-right: var(--pr-d);
-    }
-  }
-
-  .fr-about-staggered__main-heading {
-    font-family: 'Playfair Display', Georgia, serif;
+  #fr-about-staggered-{{ section.id }} .fr-about-staggered__main-heading {
+    font-size: {{ section.settings.heading_size_mobile | default: 28 }}px;
+    color: {{ section.settings.heading_color | default: '#1a1a1a' }};
     font-weight: 400;
-    margin-top: 0;
-    margin-bottom: 60px;
+    line-height: 1.25;
+    text-align: {{ section.settings.heading_align_mobile | default: section.settings.heading_align | default: 'center' }};
+    margin: 0 0 40px 0;
     letter-spacing: 0.01em;
-    font-size: var(--fz-mh-m);
-    text-align: {{ section.settings.heading_align_mobile | default: section.settings.heading_align }};
   }
+
   @media (min-width: 768px) {
-    .fr-about-staggered__main-heading {
-      font-size: var(--fz-mh-d);
-      text-align: {{ section.settings.heading_align }};
+    #fr-about-staggered-{{ section.id }} .fr-about-staggered__main-heading {
+      font-size: {{ section.settings.heading_size | default: 36 }}px;
+      text-align: {{ section.settings.heading_align | default: 'center' }};
+      margin-bottom: 60px;
     }
   }
 
-  #fr-about-staggered-{{ section.id }} .fr-about-staggered__container {
+  /* Node Circle */
+  #fr-about-staggered-{{ section.id }} .fr-staggered-node-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: #c4c4c4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 3;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    box-sizing: border-box;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 768px) {
+    #fr-about-staggered-{{ section.id }} .fr-staggered-node-circle {
+      width: 52px;
+      height: 52px;
+    }
+  }
+
+  #fr-about-staggered-{{ section.id }} .fr-staggered-step:hover .fr-staggered-node-circle,
+  #fr-about-staggered-{{ section.id }} .fr-staggered-mobile-item:hover .fr-staggered-node-circle {
+    transform: scale(1.1);
+    background-color: #1a1a1a;
+  }
+
+  .fr-staggered-node-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Typography */
+  .fr-staggered-card {
+    text-align: center;
+    box-sizing: border-box;
+    padding: 0 10px;
+  }
+
+  .fr-staggered-num {
+    font-size: 13px;
+    font-weight: 600;
+    color: #888888;
+    margin-bottom: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  .fr-staggered-title {
+    font-size: {{ section.settings.title_size | default: 16 }}px;
+    font-weight: 500;
+    color: {{ section.settings.title_color | default: '#1a1a1a' }};
+    margin: 0 0 6px 0;
+    line-height: 1.3;
+  }
+
+  .fr-staggered-text {
+    font-size: {{ section.settings.text_size | default: 13 }}px;
+    line-height: 1.55;
+    color: {{ section.settings.text_color | default: '#666666' }};
+    margin: 0;
+  }
+
+  /* Desktop Layout */
+  .fr-staggered-timeline-desktop {
+    display: none;
+    position: relative;
+    width: 100%;
+    padding: 40px 0;
+  }
+
+  @media (min-width: 768px) {
+    .fr-staggered-timeline-desktop {
+      display: block;
+    }
+    .fr-staggered-timeline-mobile {
+      display: none;
+    }
+  }
+
+  .fr-staggered-axis {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 1px;
+    background-color: #dcdcdc;
+    z-index: 1;
+  }
+
+  .fr-staggered-track {
     display: grid;
-    grid-template-columns: 1fr;
-    max-width: {{ section.settings.content_max_width }}px;
-    margin: 0 auto;
+    grid-template-columns: repeat(var(--total-items, 5), 1fr);
+    position: relative;
+    z-index: 2;
+    width: 100%;
   }
 
-  @media (min-width: 768px) {
-    /* Desktop columns defined inline */
-  }
-
-  @media (max-width: 767px) {
-    .fr-about-staggered__container {
-      grid-template-columns: 1fr !important;
-      gap: 40px !important;
-    }
-    .fr-about-staggered__item {
-      grid-column: 1 / -1 !important;
-      transform: none !important;
-      max-width: var(--img-w-m);
-      margin: 0 auto;
-    }
-  }
-
-  .fr-about-staggered__item {
+  .fr-staggered-step {
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
-    align-self: start;
-    width: 100%;
   }
 
-  .fr-about-staggered__image-wrapper {
+  .fr-staggered-slot {
+    width: 100%;
+    min-height: 130px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+  .fr-staggered-slot--top {
+    justify-content: flex-end;
+  }
+
+  .fr-staggered-slot--bottom {
+    justify-content: flex-start;
+  }
+
+  .fr-staggered-node-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    padding: 6px 0;
+  }
+
+  .fr-staggered-stem {
+    width: 1px;
+    height: 40px;
+    background-color: #dcdcdc;
+    flex-shrink: 0;
+  }
+
+  .fr-staggered-stem--top {
+    margin-top: 10px;
+  }
+
+  .fr-staggered-stem--bottom {
+    margin-bottom: 10px;
+  }
+
+  /* Mobile Layout */
+  .fr-staggered-timeline-mobile {
     position: relative;
     width: 100%;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-    background-color: #f3f4f6; /* Matching the gray from the mockup */
-    overflow: hidden;
+    padding: 10px 0 10px 10px;
+    box-sizing: border-box;
   }
 
-  .fr-about-staggered__image-wrapper--circle {
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
-  }
-
-  .fr-about-staggered__image-wrapper--square {
-    aspect-ratio: 1 / 1;
-  }
-
-  .fr-about-staggered__image-wrapper--portrait {
-    aspect-ratio: 3 / 4;
-  }
-
-  .fr-about-staggered__image-wrapper--original {
-    /* No aspect ratio constraint */
-  }
-
-  .fr-about-staggered__img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-  
-  .fr-about-staggered__placeholder {
-    width: 100%;
-    height: 100%;
-    background-color: #f3f4f6;
-  }
-
-  .fr-about-staggered__image-wrapper--circle .fr-about-staggered__img,
-  .fr-about-staggered__image-wrapper--circle .fr-about-staggered__placeholder {
-    border-radius: 50%;
-  }
-
-  .fr-about-staggered__number {
+  .fr-staggered-v-axis {
     position: absolute;
-    top: 0;
-    left: 0;
-    font-family: 'Lato', system-ui, sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    color: #1a1a1a;
-    background-color: transparent;
-    padding: 10px;
+    left: calc(10px + 22px - 0.5px);
+    top: 20px;
+    bottom: 20px;
+    width: 1px;
+    background-color: #dcdcdc;
+    z-index: 1;
   }
 
-  .fr-about-staggered__text-content {
-    text-align: var(--ta-m);
-  }
-  @media (min-width: 768px) {
-    .fr-about-staggered__text-content {
-      text-align: var(--ta-d);
-    }
-  }
-
-  .fr-about-staggered__title {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-weight: 400;
-    margin: 0 0 8px 0;
-    letter-spacing: 0.01em;
-    font-size: var(--fz-t-m);
-  }
-  @media (min-width: 768px) {
-    .fr-about-staggered__title { font-size: var(--fz-t-d); }
+  .fr-staggered-mobile-list {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+    position: relative;
+    z-index: 2;
   }
 
-  .fr-about-staggered__body {
-    margin: 0;
-    font-size: var(--fz-b-m);
+  .fr-staggered-mobile-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    position: relative;
   }
-  @media (min-width: 768px) {
-    .fr-about-staggered__body { font-size: var(--fz-b-d); }
+
+  .fr-staggered-m-node-col {
+    position: relative;
+    z-index: 3;
+    background-color: {{ section.settings.section_bg | default: '#ffffff' }};
+    padding: 4px 0;
+    flex-shrink: 0;
+  }
+
+  .fr-staggered-m-content-col {
+    flex: 1;
+    padding-top: 4px;
+    text-align: left;
+  }
+
+  .fr-staggered-m-content-col .fr-staggered-card {
+    text-align: left;
+    padding: 0;
   }
 </style>
 
@@ -233,37 +367,9 @@
       "default": "#ffffff"
     },
     {
-      "type": "text",
-      "id": "heading",
-      "label": "Section Heading",
-      "default": "Our Process"
-    },
-    {
-      "type": "select",
-      "id": "heading_align",
-      "label": "Desktop Heading Alignment",
-      "options": [
-        { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" },
-        { "value": "right", "label": "Right" }
-      ],
-      "default": "left"
-    },
-    {
-      "type": "select",
-      "id": "heading_align_mobile",
-      "label": "Mobile Heading Alignment",
-      "options": [
-        { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" },
-        { "value": "right", "label": "Right" }
-      ],
-      "default": "center"
-    },
-    {
       "type": "range",
       "id": "content_max_width",
-      "min": 600,
+      "min": 800,
       "max": 1600,
       "step": 50,
       "unit": "px",
@@ -271,24 +377,10 @@
       "default": 1400
     },
     {
-      "type": "range",
-      "id": "heading_size",
-      "min": 20,
-      "max": 60,
-      "step": 2,
-      "unit": "px",
-      "label": "Desktop Heading Size",
-      "default": 32
-    },
-    {
-      "type": "range",
-      "id": "heading_size_mobile",
-      "min": 16,
-      "max": 50,
-      "step": 1,
-      "unit": "px",
-      "label": "Mobile Heading Size",
-      "default": 28
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Our process."
     },
     {
       "type": "color",
@@ -297,58 +389,29 @@
       "default": "#1a1a1a"
     },
     {
-      "type": "header",
-      "content": "Grid Layout"
-    },
-    {
       "type": "range",
-      "id": "columns_desktop",
-      "min": 2,
-      "max": 6,
-      "step": 1,
-      "label": "Columns on Desktop",
-      "default": 5
-    },
-    {
-      "type": "select",
-      "id": "image_shape",
-      "label": "Image Shape",
-      "options": [
-        { "value": "original", "label": "Original" },
-        { "value": "square", "label": "Square (1:1)" },
-        { "value": "circle", "label": "Circle" },
-        { "value": "portrait", "label": "Portrait (3:4)" }
-      ],
-      "default": "circle"
-    },
-    {
-      "type": "range",
-      "id": "image_radius",
-      "min": 0,
-      "max": 100,
+      "id": "heading_size",
+      "min": 20,
+      "max": 60,
       "step": 2,
       "unit": "px",
-      "label": "Image Border Radius (for non-circle)",
-      "default": 0
+      "label": "Heading Size (Desktop)",
+      "default": 36
     },
     {
       "type": "range",
-      "id": "grid_gap",
-      "min": 0,
-      "max": 100,
-      "step": 4,
+      "id": "heading_size_mobile",
+      "min": 18,
+      "max": 40,
+      "step": 2,
       "unit": "px",
-      "label": "Grid Gap",
-      "default": 40
-    },
-    {
-      "type": "header",
-      "content": "Text Settings"
+      "label": "Heading Size (Mobile)",
+      "default": 28
     },
     {
       "type": "select",
-      "id": "text_align",
-      "label": "Desktop Text Alignment",
+      "id": "heading_align",
+      "label": "Heading Alignment (Desktop)",
       "options": [
         { "value": "left", "label": "Left" },
         { "value": "center", "label": "Center" },
@@ -358,34 +421,14 @@
     },
     {
       "type": "select",
-      "id": "text_align_mobile",
-      "label": "Mobile Text Alignment",
+      "id": "heading_align_mobile",
+      "label": "Heading Alignment (Mobile)",
       "options": [
         { "value": "left", "label": "Left" },
         { "value": "center", "label": "Center" },
         { "value": "right", "label": "Right" }
       ],
       "default": "center"
-    },
-    {
-      "type": "range",
-      "id": "title_size",
-      "min": 14,
-      "max": 36,
-      "step": 1,
-      "unit": "px",
-      "label": "Desktop Title Size",
-      "default": 20
-    },
-    {
-      "type": "range",
-      "id": "title_size_mobile",
-      "min": 14,
-      "max": 36,
-      "step": 1,
-      "unit": "px",
-      "label": "Mobile Title Size",
-      "default": 18
     },
     {
       "type": "color",
@@ -395,39 +438,29 @@
     },
     {
       "type": "range",
-      "id": "text_size",
+      "id": "title_size",
       "min": 12,
-      "max": 24,
+      "max": 32,
       "step": 1,
       "unit": "px",
-      "label": "Desktop Text Size",
-      "default": 14
-    },
-    {
-      "type": "range",
-      "id": "text_size_mobile",
-      "min": 12,
-      "max": 24,
-      "step": 1,
-      "unit": "px",
-      "label": "Mobile Text Size",
-      "default": 14
-    },
-    {
-      "type": "range",
-      "id": "image_max_width_mobile",
-      "min": 150,
-      "max": 500,
-      "step": 10,
-      "unit": "px",
-      "label": "Mobile Image Max Width",
-      "default": 300
+      "label": "Title Font Size",
+      "default": 16
     },
     {
       "type": "color",
       "id": "text_color",
       "label": "Text Color",
       "default": "#666666"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Text Font Size",
+      "default": 13
     },
     {
       "type": "header",
@@ -437,7 +470,7 @@
       "type": "range",
       "id": "padding_top",
       "min": 0,
-      "max": 200,
+      "max": 160,
       "step": 4,
       "unit": "px",
       "label": "Padding Top",
@@ -447,7 +480,7 @@
       "type": "range",
       "id": "padding_bottom",
       "min": 0,
-      "max": 200,
+      "max": 160,
       "step": 4,
       "unit": "px",
       "label": "Padding Bottom",
@@ -457,45 +490,41 @@
       "type": "range",
       "id": "padding_left",
       "min": 0,
-      "max": 120,
+      "max": 160,
       "step": 4,
       "unit": "px",
       "label": "Padding Left",
-      "default": 40
+      "default": 60
     },
     {
       "type": "range",
       "id": "padding_right",
       "min": 0,
-      "max": 120,
+      "max": 160,
       "step": 4,
       "unit": "px",
-      "label": "Padding Right (Desktop)",
-      "default": 40
-    },
-    {
-      "type": "header",
-      "content": "Mobile Section Padding"
+      "label": "Padding Right",
+      "default": 60
     },
     {
       "type": "range",
       "id": "padding_top_mobile",
       "min": 0,
-      "max": 200,
+      "max": 120,
       "step": 4,
       "unit": "px",
       "label": "Mobile Padding Top",
-      "default": 40
+      "default": 48
     },
     {
       "type": "range",
       "id": "padding_bottom_mobile",
       "min": 0,
-      "max": 200,
+      "max": 120,
       "step": 4,
       "unit": "px",
       "label": "Mobile Padding Bottom",
-      "default": 40
+      "default": 48
     },
     {
       "type": "range",
@@ -505,7 +534,7 @@
       "step": 4,
       "unit": "px",
       "label": "Mobile Padding Left",
-      "default": 20
+      "default": 24
     },
     {
       "type": "range",
@@ -515,7 +544,7 @@
       "step": 4,
       "unit": "px",
       "label": "Mobile Padding Right",
-      "default": 20
+      "default": 24
     }
   ],
   "blocks": [
@@ -526,7 +555,7 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Image"
+          "label": "Image / Node Icon"
         },
         {
           "type": "range",
@@ -535,13 +564,13 @@
           "max": 10,
           "step": 1,
           "unit": "px",
-          "label": "Image Border Width",
+          "label": "Node Border Width",
           "default": 0
         },
         {
           "type": "color",
           "id": "border_color",
-          "label": "Image Border Color",
+          "label": "Node Border Color",
           "default": "#000000"
         },
         {
@@ -553,16 +582,14 @@
         {
           "type": "text",
           "id": "title",
-          "label": "Title"
+          "label": "Title",
+          "default": "Discovery"
         },
         {
           "type": "textarea",
           "id": "text",
-          "label": "Text"
-        },
-        {
-          "type": "header",
-          "content": "Advanced Layout"
+          "label": "Text",
+          "default": "Understanding your vision, space, and aesthetic intent."
         },
         {
           "type": "range",
@@ -590,14 +617,13 @@
     {
       "name": "FR About Staggered",
       "blocks": [
-        { "type": "staggered_item", "settings": { "number": "1.", "column_start": 1, "offset_y": 0 } },
-        { "type": "staggered_item", "settings": { "number": "2.", "column_start": 2, "offset_y": -40 } },
-        { "type": "staggered_item", "settings": { "number": "3.", "column_start": 3, "offset_y": 80 } },
-        { "type": "staggered_item", "settings": { "number": "4.", "column_start": 4, "offset_y": -80 } },
-        { "type": "staggered_item", "settings": { "number": "5.", "column_start": 5, "offset_y": 40 } }
+        { "type": "staggered_item", "settings": { "number": "1.", "title": "Discovery", "text": "Understanding your vision, space, and aesthetic intent." } },
+        { "type": "staggered_item", "settings": { "number": "2.", "title": "Design", "text": "Curating custom motifs, textures, and bespoke palettes." } },
+        { "type": "staggered_item", "settings": { "number": "3.", "title": "Sampling", "text": "Creating tactile strike-offs and exact material proofs." } },
+        { "type": "staggered_item", "settings": { "number": "4.", "title": "Production", "text": "Precision crafting with museum-grade wallpaper finishes." } },
+        { "type": "staggered_item", "settings": { "number": "5.", "title": "Installation", "text": "Seamless on-site application and architectural care." } }
       ]
     }
   ]
 }
 {% endschema %}
- 
