@@ -264,7 +264,7 @@
       "settings": {
         "section_bg": "#ffffff",
         "heading": "Design Philosophy",
-        "heading_align": "left",
+        "heading_align": "center",
         "heading_align_mobile": "center",
         "description": "",
         "description_align": "center",
@@ -378,6 +378,7 @@
         "insp_5",
         "insp_6"
       ],
+      "disabled": true,
       "settings": {
         "section_bg": "#ffffff",
         "heading": "Design Inspiration",
