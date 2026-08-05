@@ -74,6 +74,7 @@
     },
     "we": {
       "type": "fr-section-image-text",
+      "disabled": true,
       "settings": {
         "section_bg": "#ffffff",
         "content_max_width": 950,
