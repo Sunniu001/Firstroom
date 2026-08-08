@@ -1,60 +1,74 @@
 {%- comment -%}
-  FR Custom Projects Section (2-Tier Grid matching Image 3)
-  Row 1: 2 large featured cards (Asymmetric Wide + Medium)
-  Row 2: 4 equal grid cards
-  Each card features a bottom-left white label badge
+  FR Custom Projects Section (2-Tier Layout matching Image 3 Reference)
+  - Centered Heading: "Projects."
+  - Row 1 (Desktop): 2 featured cards (Asymmetric Wide Left ~58% + Right ~42%)
+  - Row 2 (Desktop): 4 equal grid cards spanning the full width
+  - Each card has a crisp white bottom-left floating badge/label
+  - Mobile: Responsive layout (Row 1 stacked or side-by-side, Row 2 in 2x2 grid)
 {%- endcomment -%}
 
 <section id="fr-custom-projects-{{ section.id }}" class="fr-custom-projects" style="
   background-color: {{ section.settings.bg_color | default: '#ffffff' }};
-  --pt-m: {{ section.settings.padding_top_mobile | default: section.settings.padding_top | default: 40 }}px;
-  --pb-m: {{ section.settings.padding_bottom_mobile | default: section.settings.padding_bottom | default: 40 }}px;
+  --pt-m: {{ section.settings.padding_top_mobile | default: 40 }}px;
+  --pb-m: {{ section.settings.padding_bottom_mobile | default: 40 }}px;
   --pt-d: {{ section.settings.padding_top | default: 60 }}px;
   --pb-d: {{ section.settings.padding_bottom | default: 80 }}px;
   padding-left: {{ section.settings.padding_left | default: 24 }}px;
   padding-right: {{ section.settings.padding_right | default: 24 }}px;
+  --gap-d: {{ section.settings.gap | default: 24 }}px;
+  --gap-m: {{ section.settings.gap_mobile | default: 16 }}px;
+  --row1-h-d: {{ section.settings.row1_height | default: 440 }}px;
+  --row1-h-m: {{ section.settings.row1_height_mobile | default: 240 }}px;
+  --row1-split: {{ section.settings.row1_split | default: 58 }}%;
+  --badge-bg: {{ section.settings.badge_bg | default: '#ffffff' }};
+  --badge-color: {{ section.settings.badge_color | default: '#1a1a1a' }};
+  --badge-pad-v: {{ section.settings.badge_padding_v | default: 12 }}px;
+  --badge-pad-h: {{ section.settings.badge_padding_h | default: 24 }}px;
 ">
   <div class="fr-custom-projects__container" style="max-width: {{ section.settings.container_max_width | default: 1300 }}px;">
+    
     {%- if section.settings.heading != blank -%}
       <h2 class="fr-custom-projects__heading" style="
         font-size: {{ section.settings.heading_size | default: 36 }}px;
         color: {{ section.settings.heading_color | default: '#1a1a1a' }};
-        --ha-m: {{ section.settings.heading_align_mobile | default: section.settings.heading_alignment | default: 'center' }};
+        --ha-m: {{ section.settings.heading_align_mobile | default: 'center' }};
         --ha-d: {{ section.settings.heading_alignment | default: 'center' }};
+        margin-bottom: {{ section.settings.heading_margin_bottom | default: 45 }}px;
       ">{{ section.settings.heading }}</h2>
     {%- endif -%}
 
-    <div class="fr-custom-projects__wrapper" style="gap: {{ section.settings.gap | default: 24 }}px;">
+    <div class="fr-custom-projects__grid-wrapper">
       
-      {%- comment -%} --- ROW 1: 2 Featured Cards (Wide + Medium) --- {%- endcomment -%}
+      {%- comment -%} ==========================================
+          ROW 1: 2 Featured Cards (Wide Left + Medium Right)
+      ========================================== {%- endcomment -%}
       {%- assign row1_blocks = section.blocks | slice: 0, 2 -%}
       {%- if row1_blocks.size > 0 -%}
-        <div class="fr-custom-projects__row1" style="gap: {{ section.settings.gap | default: 24 }}px;">
+        <div class="fr-custom-projects__row1">
           {%- for block in row1_blocks -%}
             {%- assign is_first = forloop.first -%}
             <div class="fr-custom-projects__card fr-custom-projects__card--row1 {% if is_first %}fr-custom-projects__card--wide{% else %}fr-custom-projects__card--medium{% endif %}" 
                  {{ block.shopify_attributes }}>
+              
               <div class="fr-custom-projects__card-inner" style="
                 border-radius: {{ section.settings.card_border_radius | default: 0 }}px;
-                {%- if block.settings.aspect_ratio_override != blank and block.settings.aspect_ratio_override > 0 -%}
-                  padding-bottom: {{ block.settings.aspect_ratio_override }}%;
-                {%- else -%}
-                  height: {{ section.settings.row1_height | default: 460 }}px;
-                {%- endif -%}
               ">
                 {%- if block.settings.image != blank -%}
-                  <img src="{{ block.settings.image | image_url: width: 1400 }}" alt="{{ block.settings.title | default: 'Project' | escape }}" loading="lazy" class="fr-custom-projects__image">
+                  <img src="{{ block.settings.image | image_url: width: 1400 }}" 
+                       alt="{{ block.settings.title | default: 'Project' | escape }}" 
+                       loading="lazy" 
+                       class="fr-custom-projects__image">
                 {%- else -%}
                   <div class="fr-custom-projects__placeholder"></div>
                 {%- endif -%}
 
-                {%- if block.settings.title != blank -%}
+                {%- if block.settings.title != blank or block.settings.subtitle != blank -%}
                   <div class="fr-custom-projects__badge" style="
-                    background-color: {{ section.settings.badge_bg | default: '#ffffff' }};
-                    color: {{ section.settings.badge_color | default: '#1a1a1a' }};
                     border-radius: {{ section.settings.badge_radius | default: 0 }}px;
                   ">
-                    <span class="fr-custom-projects__badge-title">{{ block.settings.title }}</span>
+                    {%- if block.settings.title != blank -%}
+                      <span class="fr-custom-projects__badge-title">{{ block.settings.title }}</span>
+                    {%- endif -%}
                     {%- if block.settings.subtitle != blank -%}
                       <span class="fr-custom-projects__badge-sub">{{ block.settings.subtitle }}</span>
                     {%- endif -%}
@@ -65,37 +79,41 @@
                   <a href="{{ block.settings.link }}" class="fr-custom-projects__link" aria-label="{{ block.settings.title | escape }}"></a>
                 {%- endif -%}
               </div>
+
             </div>
           {%- endfor -%}
         </div>
       {%- endif -%}
 
-      {%- comment -%} --- ROW 2: 4 Grid Cards --- {%- endcomment -%}
+      {%- comment -%} ==========================================
+          ROW 2: 4 Equal Grid Cards
+      ========================================== {%- endcomment -%}
       {%- assign row2_blocks = section.blocks | slice: 2, 4 -%}
       {%- if row2_blocks.size > 0 -%}
-        <div class="fr-custom-projects__row2" style="
-          --cols-m: {{ section.settings.row2_cols_mobile | default: 2 }};
-          gap: {{ section.settings.gap | default: 24 }}px;
-        ">
+        <div class="fr-custom-projects__row2">
           {%- for block in row2_blocks -%}
             <div class="fr-custom-projects__card fr-custom-projects__card--row2" {{ block.shopify_attributes }}>
-              <div class="fr-custom-projects__card-inner" style="
+              
+              <div class="fr-custom-projects__card-inner fr-custom-projects__card-inner--aspect" style="
                 border-radius: {{ section.settings.card_border_radius | default: 0 }}px;
-                padding-bottom: {{ block.settings.aspect_ratio_override | default: section.settings.row2_aspect_ratio | default: 110 }}%;
+                padding-bottom: {{ block.settings.aspect_ratio_override | default: section.settings.row2_aspect_ratio | default: 105 }}%;
               ">
                 {%- if block.settings.image != blank -%}
-                  <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.title | default: 'Project' | escape }}" loading="lazy" class="fr-custom-projects__image">
+                  <img src="{{ block.settings.image | image_url: width: 800 }}" 
+                       alt="{{ block.settings.title | default: 'Project' | escape }}" 
+                       loading="lazy" 
+                       class="fr-custom-projects__image">
                 {%- else -%}
                   <div class="fr-custom-projects__placeholder"></div>
                 {%- endif -%}
 
-                {%- if block.settings.title != blank -%}
+                {%- if block.settings.title != blank or block.settings.subtitle != blank -%}
                   <div class="fr-custom-projects__badge" style="
-                    background-color: {{ section.settings.badge_bg | default: '#ffffff' }};
-                    color: {{ section.settings.badge_color | default: '#1a1a1a' }};
                     border-radius: {{ section.settings.badge_radius | default: 0 }}px;
                   ">
-                    <span class="fr-custom-projects__badge-title">{{ block.settings.title }}</span>
+                    {%- if block.settings.title != blank -%}
+                      <span class="fr-custom-projects__badge-title">{{ block.settings.title }}</span>
+                    {%- endif -%}
                     {%- if block.settings.subtitle != blank -%}
                       <span class="fr-custom-projects__badge-sub">{{ block.settings.subtitle }}</span>
                     {%- endif -%}
@@ -106,37 +124,43 @@
                   <a href="{{ block.settings.link }}" class="fr-custom-projects__link" aria-label="{{ block.settings.title | escape }}"></a>
                 {%- endif -%}
               </div>
+
             </div>
           {%- endfor -%}
         </div>
       {%- endif -%}
 
-      {%- comment -%} --- ANY EXTRA BLOCKS (Beyond 6) --- {%- endcomment -%}
+      {%- comment -%} ==========================================
+          ROW 3: Any Additional Blocks (Beyond 6)
+      ========================================== {%- endcomment -%}
       {%- assign extra_blocks = section.blocks | slice: 6, 20 -%}
       {%- if extra_blocks.size > 0 -%}
-        <div class="fr-custom-projects__row2" style="
-          --cols-m: {{ section.settings.row2_cols_mobile | default: 2 }};
-          gap: {{ section.settings.gap | default: 24 }}px;
-        ">
+        <div class="fr-custom-projects__row2">
           {%- for block in extra_blocks -%}
             <div class="fr-custom-projects__card fr-custom-projects__card--row2" {{ block.shopify_attributes }}>
-              <div class="fr-custom-projects__card-inner" style="
+              <div class="fr-custom-projects__card-inner fr-custom-projects__card-inner--aspect" style="
                 border-radius: {{ section.settings.card_border_radius | default: 0 }}px;
-                padding-bottom: {{ block.settings.aspect_ratio_override | default: section.settings.row2_aspect_ratio | default: 110 }}%;
+                padding-bottom: {{ block.settings.aspect_ratio_override | default: section.settings.row2_aspect_ratio | default: 105 }}%;
               ">
                 {%- if block.settings.image != blank -%}
-                  <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.title | default: 'Project' | escape }}" loading="lazy" class="fr-custom-projects__image">
+                  <img src="{{ block.settings.image | image_url: width: 800 }}" 
+                       alt="{{ block.settings.title | default: 'Project' | escape }}" 
+                       loading="lazy" 
+                       class="fr-custom-projects__image">
                 {%- else -%}
                   <div class="fr-custom-projects__placeholder"></div>
                 {%- endif -%}
 
-                {%- if block.settings.title != blank -%}
+                {%- if block.settings.title != blank or block.settings.subtitle != blank -%}
                   <div class="fr-custom-projects__badge" style="
-                    background-color: {{ section.settings.badge_bg | default: '#ffffff' }};
-                    color: {{ section.settings.badge_color | default: '#1a1a1a' }};
                     border-radius: {{ section.settings.badge_radius | default: 0 }}px;
                   ">
-                    <span class="fr-custom-projects__badge-title">{{ block.settings.title }}</span>
+                    {%- if block.settings.title != blank -%}
+                      <span class="fr-custom-projects__badge-title">{{ block.settings.title }}</span>
+                    {%- endif -%}
+                    {%- if block.settings.subtitle != blank -%}
+                      <span class="fr-custom-projects__badge-sub">{{ block.settings.subtitle }}</span>
+                    {%- endif -%}
                   </div>
                 {%- endif -%}
 
@@ -164,7 +188,7 @@
     padding-bottom: var(--pb-m);
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 860px) {
     #fr-custom-projects-{{ section.id }} {
       padding-top: var(--pt-d);
       padding-bottom: var(--pb-d);
@@ -180,32 +204,43 @@
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__heading {
     display: block;
     width: 100%;
-    margin: 0 0 {{ section.settings.heading_margin_bottom | default: 50 }}px 0;
+    margin-top: 0;
     font-family: {{ section.settings.heading_font.family | default: "'Playfair Display'" }}, {{ section.settings.heading_font.fallback_families | default: 'serif' }};
     font-weight: {{ section.settings.heading_font.weight | default: 400 }};
     font-style: {{ section.settings.heading_font.style | default: 'normal' }};
     text-align: var(--ha-m);
     line-height: 1.25;
+    letter-spacing: 0.01em;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 860px) {
     #fr-custom-projects-{{ section.id }} .fr-custom-projects__heading {
       text-align: var(--ha-d);
     }
   }
 
-  #fr-custom-projects-{{ section.id }} .fr-custom-projects__wrapper {
+  #fr-custom-projects-{{ section.id }} .fr-custom-projects__grid-wrapper {
     display: flex;
     flex-direction: column;
     width: 100%;
+    gap: var(--gap-m);
     box-sizing: border-box;
   }
 
-  /* --- ROW 1 (Desktop: 2 cards, 60:40 or 58:42 ratio) --- */
+  @media (min-width: 860px) {
+    #fr-custom-projects-{{ section.id }} .fr-custom-projects__grid-wrapper {
+      gap: var(--gap-d);
+    }
+  }
+
+  /* ==========================================
+     ROW 1 (Desktop: 2 cards, Asymmetric ~58% : 42%)
+     ========================================== */
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__row1 {
     display: flex;
     flex-direction: column;
     width: 100%;
+    gap: var(--gap-m);
     box-sizing: border-box;
   }
 
@@ -213,29 +248,47 @@
     #fr-custom-projects-{{ section.id }} .fr-custom-projects__row1 {
       flex-direction: row;
       align-items: stretch;
+      gap: var(--gap-d);
     }
     #fr-custom-projects-{{ section.id }} .fr-custom-projects__card--wide {
-      flex: 1.45 1 0;
+      width: calc(var(--row1-split) - (var(--gap-d) / 2));
+      flex-shrink: 0;
     }
     #fr-custom-projects-{{ section.id }} .fr-custom-projects__card--medium {
-      flex: 1 1 0;
+      width: calc((100% - var(--row1-split)) - (var(--gap-d) / 2));
+      flex-shrink: 0;
     }
   }
 
-  /* --- ROW 2 (Desktop: 4 equal cards, Tablet/Mobile: 2x2 grid) --- */
+  #fr-custom-projects-{{ section.id }} .fr-custom-projects__card--row1 .fr-custom-projects__card-inner {
+    height: var(--row1-h-m);
+  }
+
+  @media (min-width: 860px) {
+    #fr-custom-projects-{{ section.id }} .fr-custom-projects__card--row1 .fr-custom-projects__card-inner {
+      height: var(--row1-h-d);
+    }
+  }
+
+  /* ==========================================
+     ROW 2 (Desktop: 4 equal cards, Mobile: 2x2 grid)
+     ========================================== */
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__row2 {
     display: grid;
-    grid-template-columns: repeat(var(--cols-m, 2), 1fr);
+    grid-template-columns: repeat({{ section.settings.row2_cols_mobile | default: 2 }}, 1fr);
     width: 100%;
+    gap: var(--gap-m);
     box-sizing: border-box;
   }
 
   @media (min-width: 860px) {
     #fr-custom-projects-{{ section.id }} .fr-custom-projects__row2 {
       grid-template-columns: repeat(4, 1fr);
+      gap: var(--gap-d);
     }
   }
 
+  /* Card Inner Box */
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__card {
     position: relative;
     width: 100%;
@@ -246,7 +299,7 @@
     position: relative;
     width: 100%;
     overflow: hidden;
-    background-color: #f0f0f0;
+    background-color: #dcdcdc;
     box-sizing: border-box;
   }
 
@@ -258,11 +311,11 @@
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__card:hover .fr-custom-projects__image {
-    transform: scale(1.04);
+    transform: scale(1.035);
   }
 
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__placeholder {
@@ -271,51 +324,65 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #e5e5e5;
+    background-color: #dcdcdc;
   }
 
-  /* --- Bottom-Left Badge --- */
+  /* ==========================================
+     Crisp Floating White Badge (Bottom-Left)
+     ========================================== */
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__badge {
     position: absolute;
-    bottom: 16px;
-    left: 16px;
+    bottom: 14px;
+    left: 14px;
     z-index: 2;
-    padding: 10px 18px;
+    background-color: var(--badge-bg);
+    color: var(--badge-color);
+    padding: calc(var(--badge-pad-v) * 0.75) calc(var(--badge-pad-h) * 0.75);
     display: inline-flex;
     flex-direction: column;
-    gap: 2px;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    align-items: flex-start;
+    justify-content: center;
+    gap: 3px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
     pointer-events: none;
     box-sizing: border-box;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 860px) {
     #fr-custom-projects-{{ section.id }} .fr-custom-projects__badge {
-      bottom: 22px;
-      left: 22px;
-      padding: 12px 22px;
+      bottom: 18px;
+      left: 18px;
+      padding: var(--badge-pad-v) var(--badge-pad-h);
     }
   }
 
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__card:hover .fr-custom-projects__badge {
     transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
   }
 
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__badge-title {
     font-family: {{ section.settings.badge_font.family | default: "'Lato'" }}, {{ section.settings.badge_font.fallback_families | default: 'sans-serif' }};
     font-weight: {{ section.settings.badge_font.weight | default: 600 }};
     font-style: {{ section.settings.badge_font.style | default: 'normal' }};
-    font-size: {{ section.settings.badge_font_size | default: 13 }}px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
+    font-size: calc({{ section.settings.badge_font_size | default: 13 }}px * 0.9);
     line-height: 1.2;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+  }
+
+  @media (min-width: 860px) {
+    #fr-custom-projects-{{ section.id }} .fr-custom-projects__badge-title {
+      font-size: {{ section.settings.badge_font_size | default: 13 }}px;
+    }
   }
 
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__badge-sub {
     font-size: 11px;
-    opacity: 0.75;
+    opacity: 0.7;
     line-height: 1.2;
+    white-space: nowrap;
   }
 
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__link {
@@ -401,7 +468,7 @@
       "step": 2,
       "unit": "px",
       "label": "Heading Margin Bottom",
-      "default": 50
+      "default": 45
     },
     {
       "type": "color",
@@ -411,7 +478,18 @@
     },
     {
       "type": "header",
-      "content": "Layout Settings"
+      "content": "Row 1 (Top 2 Featured Cards)"
+    },
+    {
+      "type": "range",
+      "id": "row1_split",
+      "min": 50,
+      "max": 75,
+      "step": 1,
+      "unit": "%",
+      "label": "Left Card Width Share (Desktop)",
+      "info": "58% gives the wide left + medium right split matching the diagram.",
+      "default": 58
     },
     {
       "type": "range",
@@ -421,7 +499,21 @@
       "step": 10,
       "unit": "px",
       "label": "Top Row Height (Desktop)",
-      "default": 460
+      "default": 440
+    },
+    {
+      "type": "range",
+      "id": "row1_height_mobile",
+      "min": 150,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "label": "Top Row Height (Mobile)",
+      "default": 240
+    },
+    {
+      "type": "header",
+      "content": "Row 2 (Bottom 4 Equal Cards)"
     },
     {
       "type": "range",
@@ -431,8 +523,8 @@
       "step": 5,
       "unit": "%",
       "label": "Bottom Row Aspect Ratio",
-      "info": "100% is square, 115% is standard rectangle, 130% is portrait.",
-      "default": 115
+      "info": "100% is square, 105% is near-square matching reference, 125% is portrait.",
+      "default": 105
     },
     {
       "type": "range",
@@ -444,14 +536,28 @@
       "default": 2
     },
     {
+      "type": "header",
+      "content": "Spacing & Grid Gap"
+    },
+    {
       "type": "range",
       "id": "gap",
       "min": 8,
       "max": 60,
       "step": 2,
       "unit": "px",
-      "label": "Grid Gap",
+      "label": "Grid Gap (Desktop)",
       "default": 24
+    },
+    {
+      "type": "range",
+      "id": "gap_mobile",
+      "min": 6,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Grid Gap (Mobile)",
+      "default": 16
     },
     {
       "type": "range",
@@ -465,7 +571,7 @@
     },
     {
       "type": "header",
-      "content": "Badge / Label Settings"
+      "content": "Floating Badge / Label Settings"
     },
     {
       "type": "font_picker",
@@ -504,6 +610,26 @@
       "unit": "px",
       "label": "Badge Border Radius",
       "default": 0
+    },
+    {
+      "type": "range",
+      "id": "badge_padding_v",
+      "min": 4,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Badge Vertical Padding",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "badge_padding_h",
+      "min": 8,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Badge Horizontal Padding",
+      "default": 24
     },
     {
       "type": "header",

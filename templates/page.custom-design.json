@@ -226,167 +226,98 @@
         "padding_right": 40
       }
     },
-    "fr_custom_projects_CHgVxz": {
+    "fr_custom_projects_main": {
       "type": "fr-custom-projects",
       "blocks": {
-        "project_tj366w": {
+        "project_1": {
           "type": "project",
           "settings": {
-            "title": "Project Name",
-            "subtitle": "",
-            "column_start": 1,
-            "text_position": "bottom",
-            "offset_y": 0,
-            "is_invisible": true,
-            "aspect_ratio": 130
-          }
-        },
-        "project_G9tjnD": {
-          "type": "project",
-          "settings": {
-            "image": "shopify://shop_images/Rectangle_267.png",
+            "image": "shopify:\/\/shop_images\/Rectangle_267.png",
             "title": "Project Name 1",
-            "subtitle": "something goes here",
-            "column_start": 2,
-            "text_position": "left",
-            "offset_y": 0,
-            "is_invisible": false,
-            "aspect_ratio": 130
+            "subtitle": "Bespoke Residence"
           }
         },
-        "project_Hz79aw": {
+        "project_2": {
           "type": "project",
           "settings": {
-            "image": "shopify://shop_images/Rectangle_260.png",
+            "image": "shopify:\/\/shop_images\/Rectangle_260.png",
             "title": "Project Name 2",
-            "subtitle": "something goes here",
-            "column_start": 3,
-            "text_position": "right",
-            "offset_y": 0,
-            "is_invisible": false,
-            "aspect_ratio": 130
+            "subtitle": "Modern Living"
           }
         },
-        "project_8MPmxd": {
+        "project_3": {
           "type": "project",
           "settings": {
-            "title": "Project Name",
-            "subtitle": "",
-            "column_start": 4,
-            "text_position": "bottom",
-            "offset_y": 0,
-            "is_invisible": true,
-            "aspect_ratio": 130
+            "image": "shopify:\/\/shop_images\/Rectangle_254.png",
+            "title": "Project Name 3",
+            "subtitle": "Art Studio"
+          }
+        },
+        "project_4": {
+          "type": "project",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/Rectangle_258.png",
+            "title": "Project Name 4",
+            "subtitle": "Botanical Suite"
+          }
+        },
+        "project_5": {
+          "type": "project",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/Rectangle_272.png",
+            "title": "Project Name 5",
+            "subtitle": "Heritage Villa"
+          }
+        },
+        "project_6": {
+          "type": "project",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/Rectangle_261.png",
+            "title": "Project Name 6",
+            "subtitle": "Penthouse"
           }
         }
       },
       "block_order": [
-        "project_tj366w",
-        "project_G9tjnD",
-        "project_Hz79aw",
-        "project_8MPmxd"
+        "project_1",
+        "project_2",
+        "project_3",
+        "project_4",
+        "project_5",
+        "project_6"
       ],
       "name": "FR Custom Projects",
       "settings": {
         "bg_color": "#ffffff",
         "heading": "Projects.",
+        "container_max_width": 1300,
+        "heading_font": "playfair_display_n5",
         "heading_size": 36,
+        "heading_alignment": "center",
+        "heading_align_mobile": "center",
+        "heading_margin_bottom": 45,
         "heading_color": "#1a1a1a",
-        "columns_desktop": 4,
-        "grid_max_width": 900,
-        "grid_gap": 40,
-        "title_size_desktop": 18,
-        "title_size_mobile": 18,
-        "subtitle_size_desktop": 14,
-        "subtitle_size_mobile": 14,
+        "row1_split": 58,
+        "row1_height": 440,
+        "row1_height_mobile": 240,
+        "row2_aspect_ratio": 105,
+        "row2_cols_mobile": 2,
+        "gap": 24,
+        "gap_mobile": 16,
+        "card_border_radius": 0,
+        "badge_font": "lato_n6",
+        "badge_font_size": 13,
+        "badge_bg": "#ffffff",
+        "badge_color": "#1a1a1a",
+        "badge_radius": 0,
+        "badge_padding_v": 12,
+        "badge_padding_h": 24,
         "padding_top": 60,
-        "padding_bottom": 20,
+        "padding_bottom": 80,
         "padding_top_mobile": 40,
-        "padding_bottom_mobile": 0,
-        "padding_left": 40,
-        "padding_right": 40
-      }
-    },
-    "fr_custom_projects_cMejAp": {
-      "type": "fr-custom-projects",
-      "blocks": {
-        "project_8FmnP9": {
-          "type": "project",
-          "settings": {
-            "image": "shopify://shop_images/Rectangle_254.png",
-            "title": "Project Name 3",
-            "subtitle": "something goes here",
-            "column_start": 1,
-            "text_position": "left",
-            "offset_y": 0,
-            "is_invisible": false,
-            "aspect_ratio": 130
-          }
-        },
-        "project_3iHJkJ": {
-          "type": "project",
-          "settings": {
-            "image": "shopify://shop_images/Rectangle_258.png",
-            "title": "Project Name 4",
-            "subtitle": "something goes here",
-            "column_start": 2,
-            "text_position": "bottom",
-            "offset_y": 0,
-            "is_invisible": false,
-            "aspect_ratio": 130
-          }
-        },
-        "project_rrDcaA": {
-          "type": "project",
-          "settings": {
-            "image": "shopify://shop_images/Rectangle_272.png",
-            "title": "Project Name 5",
-            "subtitle": "something goes here",
-            "column_start": 3,
-            "text_position": "right",
-            "offset_y": 0,
-            "is_invisible": false,
-            "aspect_ratio": 130
-          }
-        },
-        "project_yV8WJP": {
-          "type": "project",
-          "settings": {
-            "title": "Project Name",
-            "subtitle": "",
-            "column_start": 4,
-            "text_position": "bottom",
-            "offset_y": 0,
-            "is_invisible": true,
-            "aspect_ratio": 130
-          }
-        }
-      },
-      "block_order": [
-        "project_8FmnP9",
-        "project_3iHJkJ",
-        "project_rrDcaA",
-        "project_yV8WJP"
-      ],
-      "name": "FR Custom Projects",
-      "settings": {
-        "bg_color": "#ffffff",
-        "heading": "",
-        "heading_size": 36,
-        "heading_color": "#1a1a1a",
-        "columns_desktop": 4,
-        "grid_max_width": 900,
-        "grid_gap": 40,
-        "title_size_desktop": 18,
-        "title_size_mobile": 18,
-        "subtitle_size_desktop": 14,
-        "subtitle_size_mobile": 14,
-        "padding_top": 0,
-        "padding_bottom": 20,
-        "padding_top_mobile": 40,
-        "padding_bottom_mobile": 0,
-        "padding_left": 40,
-        "padding_right": 40
+        "padding_bottom_mobile": 40,
+        "padding_left": 24,
+        "padding_right": 24
       }
     },
     "fr_custom_process_GEYcpU": {
@@ -560,8 +491,7 @@
     "fr_custom_hero_czjKym",
     "fr_custom_features_Jj6KVf",
     "fr_custom_cards_teU8DH",
-    "fr_custom_projects_CHgVxz",
-    "fr_custom_projects_cMejAp",
+    "fr_custom_projects_main",
     "fr_custom_process_GEYcpU",
     "fr_contact_form_RwxaFY",
     "fr_custom_faq_mmhbmM"
