@@ -66,7 +66,7 @@
         "padding_bottom": 0,
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 40,
-        "padding_left": 40,
+        "padding_left": 60,
         "padding_right": 0
       }
     },
@@ -635,7 +635,8 @@
         "heading_size": 36,
         "heading_alignment": "center",
         "heading_align_mobile": "center",
-        "heading_margin_bottom": 100,
+        "heading_margin_bottom": 140,
+        "heading_margin_bottom_mobile": 45,
         "heading_color": "#1a1a1a",
         "subheading_color": "#666666",
         "title_font": "playfair_display_n5",
@@ -657,7 +658,7 @@
         "node_border_width": 0,
         "node_text_color": "#1a1a1a",
         "show_number_in_node": false,
-        "padding_top": 80,
+        "padding_top": 32,
         "padding_bottom": 100,
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 50
@@ -693,36 +694,43 @@
         "faq_Bwmw4i": {
           "type": "faq",
           "settings": {
-            "question": "How does the custom design process work?",
-            "answer": "<p>Our process begins with understanding your vision and requirements. Once you share your ideas, inspirations or space details, our design team creates a personalized concept for your review. After approval, the design moves into production and is delivered to your doorstep.<br/></p>"
+            "question": "Can I customize a wallpaper ?",
+            "answer": "<p>Yes! We specialize in fully customized wallpapers. Whether you have a specific design in mind or need help creating one, our team works closely with you to develop artwork that complements your space, style, dimensions, and preferences. From concept to installation, every detail is<br/>tailored to your vision.</p>"
           }
         },
         "faq_g48ePg": {
           "type": "faq",
           "settings": {
-            "question": "Can I customize the design, colors and dimensions?",
-            "answer": "<p>Yes. Every custom design can be tailored to your preferences, including colors, patterns, scale and dimensions. We ensure the final design complements your space and style.<br/></p>"
+            "question": "Do you provide installation?",
+            "answer": "<p>Yes, we provide professional wallpaper installation services to ensure a seamless finish. Our experienced installers handle the process with precision, so your wallpaper looks flawless and lasts for years.</p>"
           }
         },
         "faq_JgPzce": {
           "type": "faq",
           "settings": {
-            "question": "What information do I need to provide?",
-            "answer": "<p>To help us create the perfect design, you can share room dimensions, reference images, preferred colors, design preferences and any specific ideas you have in mind. The more details you provide, the better we can personalize your design.<br/></p>"
+            "question": "Can I order samples ?",
+            "answer": "<p>Yes, you can order wallpaper samples to see the design, colors, and material in person before placing your final order. This helps you make a confident choice and ensures the wallpaper is the perfect fit for your space.</p>"
           }
         },
         "faq_cPYxMF": {
           "type": "faq",
           "settings": {
-            "question": "How long does the custom design process take?",
-            "answer": "<p>The timeline depends on the complexity of the project. Typically, concept development, revisions and production are completed within a few weeks. Our team will provide an estimated timeline once your requirements are reviewed.</p>"
+            "question": "How many types of material are used for the base ?",
+            "answer": "<p>There are 4 main premium material options- Leather, Feather, Line Texture, and Silk. Each offers a distinct finish and is designed to suit different spaces, aesthetic preferences, and durability needs. Our team will help you select the ideal material based on your interior, application, and budget.</p>"
           }
         },
         "faq_r9bjqC": {
           "type": "faq",
           "settings": {
-            "question": "Will I receive a design preview before production?",
-            "answer": "<p>Yes. A digital preview of your custom design will be shared for approval before production begins. This ensures you are completely satisfied with the design before it is printed or manufactured.<br/></p>"
+            "question": "On what surface can I install wallpaper ?",
+            "answer": "<p>Wallpapers can be installed on smooth, clean, and properly prepared surfaces such as painted walls, gypsum board, MDF, plywood, glass and acrylic. For the best results, the surface should be dry, even, and free from dust, moisture, or peeling paint.</p>"
+          }
+        },
+        "faq_LD7TWc": {
+          "type": "faq",
+          "settings": {
+            "question": "Are your wallpapers eco - friendly ?",
+            "answer": "<p>Yes. Our wallpapers are made using eco-friendly materials and non-toxic inks, making them safe for homes, offices, and commercial spaces. They are designed to be durable while maintaining a lower environmental impact.</p>"
           }
         }
       },
@@ -731,7 +739,8 @@
         "faq_g48ePg",
         "faq_JgPzce",
         "faq_cPYxMF",
-        "faq_r9bjqC"
+        "faq_r9bjqC",
+        "faq_LD7TWc"
       ],
       "name": "FR Custom FAQ",
       "settings": {
