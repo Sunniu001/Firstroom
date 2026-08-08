@@ -1,0 +1,815 @@
+{%- comment -%}
+  FR Custom Process 2 Section (Stepped S-Pathway Timeline)
+  - Desktop: Coordinate-perfect SVG pathway (0% -> Node 1 -> Node 2 -> Drop -> Node 3 -> Node 4 -> 100%)
+  - Solid customizable node discs with optional numbers/icons
+  - Content cards positioned above & below the pathway
+  - Mobile: Connected vertical timeline
+{%- endcomment -%}
+
+<section id="fr-custom-process-2-{{ section.id }}" class="fr-custom-process-2" style="
+  background-color: {{ section.settings.bg_color | default: '#ffffff' }};
+  --pt-m: {{ section.settings.padding_top_mobile | default: 40 }}px;
+  --pb-m: {{ section.settings.padding_bottom_mobile | default: 50 }}px;
+  --pt-d: {{ section.settings.padding_top | default: 80 }}px;
+  --pb-d: {{ section.settings.padding_bottom | default: 100 }}px;
+  --line-color: {{ section.settings.line_color | default: '#d8d8d8' }};
+  --line-width: {{ section.settings.line_width | default: 2 }}px;
+  --node-size-d: {{ section.settings.node_size | default: 80 }}px;
+  --node-size-m: {{ section.settings.node_size_mobile | default: 50 }}px;
+  --node-bg: {{ section.settings.node_bg | default: '#d9d9d9' }};
+  --node-border-color: {{ section.settings.node_border_color | default: '#d9d9d9' }};
+  --node-border-width: {{ section.settings.node_border_width | default: 0 }}px;
+  --node-text-color: {{ section.settings.node_text_color | default: '#1a1a1a' }};
+  --tier-height: {{ section.settings.tier_height | default: 380 }}px;
+">
+  <div class="fr-custom-process-2__container" style="max-width: {{ section.settings.container_max_width | default: 1300 }}px;">
+    
+    {%- if section.settings.heading != blank -%}
+      <h2 class="fr-custom-process-2__heading" style="
+        font-size: {{ section.settings.heading_size | default: 36 }}px;
+        color: {{ section.settings.heading_color | default: '#1a1a1a' }};
+        --ha-m: {{ section.settings.heading_align_mobile | default: 'center' }};
+        --ha-d: {{ section.settings.heading_alignment | default: 'center' }};
+        margin-bottom: {{ section.settings.heading_margin_bottom | default: 50 }}px;
+      ">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    {%- if section.settings.subheading != blank -%}
+      <div class="fr-custom-process-2__subheading" style="
+        color: {{ section.settings.subheading_color | default: '#666666' }};
+        --ha-m: {{ section.settings.heading_align_mobile | default: 'center' }};
+        --ha-d: {{ section.settings.heading_alignment | default: 'center' }};
+      ">{{ section.settings.subheading }}</div>
+    {%- endif -%}
+
+    {%- comment -%} ==========================================
+        DESKTOP STEPPED PATHWAY
+    ========================================== {%- endcomment -%}
+    <div class="fr-custom-process-2__desktop-wrapper">
+      
+      <!-- SVG Connecting Pathway: 0% -> Node 1 (23%) -> Node 2 (50%) -> Drop -> Node 3 (50%) -> Node 4 (77%) -> 100% -->
+      <svg class="fr-custom-process-2__svg" viewBox="0 0 1000 380" preserveAspectRatio="none" aria-hidden="true">
+        <!-- Top Horizontal: Left 0 to Center (500) at Y=100 -->
+        <line x1="0" y1="100" x2="500" y2="100" stroke="var(--line-color)" stroke-width="var(--line-width)" />
+        <!-- Vertical Step Drop: at X=500 from Y=100 to Y=280 -->
+        <line x1="500" y1="100" x2="500" y2="280" stroke="var(--line-color)" stroke-width="var(--line-width)" />
+        <!-- Bottom Horizontal: Center (500) to Right 1000 at Y=280 -->
+        <line x1="500" y1="280" x2="1000" y2="280" stroke="var(--line-color)" stroke-width="var(--line-width)" />
+      </svg>
+
+      <!-- 4 Step Nodes & Content Cards -->
+      <div class="fr-custom-process-2__nodes-grid">
+        {%- for block in section.blocks limit: 4 -%}
+          {%- assign step_index = forloop.index -%}
+          
+          <div class="fr-custom-process-2__step-wrapper fr-custom-process-2__step-wrapper--{{ step_index }}" {{ block.shopify_attributes }}>
+            
+            <!-- Step Content Card -->
+            <div class="fr-custom-process-2__card fr-custom-process-2__card--{{ step_index }} {% if step_index <= 2 %}fr-custom-process-2__card--top{% else %}fr-custom-process-2__card--bottom{% endif %}">
+              {%- if block.settings.step_number != blank -%}
+                <span class="fr-custom-process-2__step-num" style="color: {{ section.settings.step_num_color | default: '#999999' }};">
+                  {{ block.settings.step_number }}
+                </span>
+              {%- endif -%}
+
+              {%- if block.settings.title != blank -%}
+                <h3 class="fr-custom-process-2__title" style="
+                  color: {{ section.settings.title_color | default: '#1a1a1a' }};
+                  font-size: {{ section.settings.title_size_desktop | default: 18 }}px;
+                ">{{ block.settings.title }}</h3>
+              {%- endif -%}
+
+              {%- if block.settings.description != blank -%}
+                <div class="fr-custom-process-2__desc" style="
+                  color: {{ section.settings.desc_color | default: '#555555' }};
+                  font-size: {{ section.settings.desc_size_desktop | default: 13 }}px;
+                ">{{ block.settings.description }}</div>
+              {%- endif -%}
+            </div>
+
+            <!-- The Circular Node Disc -->
+            <div class="fr-custom-process-2__node">
+              {%- if block.settings.node_icon != blank -%}
+                <img src="{{ block.settings.node_icon | image_url: width: 120 }}" alt="{{ block.settings.title | escape }}" class="fr-custom-process-2__node-icon" loading="lazy">
+              {%- elsif section.settings.show_number_in_node and block.settings.step_number != blank -%}
+                <span class="fr-custom-process-2__node-inner-num">{{ block.settings.step_number | remove: '.' }}</span>
+              {%- endif -%}
+            </div>
+
+          </div>
+        {%- endfor -%}
+      </div>
+
+    </div>
+
+    {%- comment -%} ==========================================
+        MOBILE RESPONSIVE TIMELINE (Vertical Connected View)
+    ========================================== {%- endcomment -%}
+    <div class="fr-custom-process-2__mobile-timeline">
+      <!-- Vertical connecting line along nodes -->
+      <div class="fr-custom-process-2__mobile-line"></div>
+
+      <div class="fr-custom-process-2__mobile-list">
+        {%- for block in section.blocks -%}
+          <div class="fr-custom-process-2__mobile-item" {{ block.shopify_attributes }}>
+            <!-- Node Disc -->
+            <div class="fr-custom-process-2__node fr-custom-process-2__node--mobile">
+              {%- if block.settings.node_icon != blank -%}
+                <img src="{{ block.settings.node_icon | image_url: width: 80 }}" alt="{{ block.settings.title | escape }}" class="fr-custom-process-2__node-icon" loading="lazy">
+              {%- elsif section.settings.show_number_in_node and block.settings.step_number != blank -%}
+                <span class="fr-custom-process-2__node-inner-num">{{ block.settings.step_number | remove: '.' }}</span>
+              {%- endif -%}
+            </div>
+
+            <!-- Content Card -->
+            <div class="fr-custom-process-2__mobile-content">
+              {%- if block.settings.step_number != blank -%}
+                <span class="fr-custom-process-2__step-num" style="color: {{ section.settings.step_num_color | default: '#999999' }};">
+                  {{ block.settings.step_number }}
+                </span>
+              {%- endif -%}
+
+              {%- if block.settings.title != blank -%}
+                <h3 class="fr-custom-process-2__title" style="
+                  color: {{ section.settings.title_color | default: '#1a1a1a' }};
+                  font-size: {{ section.settings.title_size_mobile | default: 16 }}px;
+                ">{{ block.settings.title }}</h3>
+              {%- endif -%}
+
+              {%- if block.settings.description != blank -%}
+                <div class="fr-custom-process-2__desc" style="
+                  color: {{ section.settings.desc_color | default: '#555555' }};
+                  font-size: {{ section.settings.desc_size_mobile | default: 13 }}px;
+                ">{{ block.settings.description }}</div>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  {{ section.settings.heading_font | font_face: font_display: 'swap' }}
+  {{ section.settings.title_font | font_face: font_display: 'swap' }}
+  {{ section.settings.desc_font | font_face: font_display: 'swap' }}
+
+  #fr-custom-process-2-{{ section.id }} {
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: var(--pt-m);
+    padding-bottom: var(--pb-m);
+    position: relative;
+    overflow: hidden;
+  }
+
+  @media (min-width: 860px) {
+    #fr-custom-process-2-{{ section.id }} {
+      padding-top: var(--pt-d);
+      padding-bottom: var(--pb-d);
+    }
+  }
+
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__container {
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 24px;
+    box-sizing: border-box;
+  }
+
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__heading {
+    display: block;
+    width: 100%;
+    margin-top: 0;
+    font-family: {{ section.settings.heading_font.family | default: "'Playfair Display'" }}, {{ section.settings.heading_font.fallback_families | default: 'serif' }};
+    font-weight: {{ section.settings.heading_font.weight | default: 400 }};
+    font-style: {{ section.settings.heading_font.style | default: 'normal' }};
+    text-align: var(--ha-m);
+    line-height: 1.25;
+  }
+
+  @media (min-width: 860px) {
+    #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__heading {
+      text-align: var(--ha-d);
+    }
+  }
+
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__subheading {
+    font-family: {{ section.settings.desc_font.family | default: "'Lato'" }}, {{ section.settings.desc_font.fallback_families | default: 'sans-serif' }};
+    font-size: 14px;
+    text-align: var(--ha-m);
+    margin-top: -30px;
+    margin-bottom: 40px;
+  }
+
+  @media (min-width: 860px) {
+    #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__subheading {
+      text-align: var(--ha-d);
+    }
+  }
+
+  /* ==========================================
+     DESKTOP STEPPED PATHWAY LAYOUT
+     ========================================== */
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__desktop-wrapper {
+    display: none;
+    position: relative;
+    width: 100%;
+    height: var(--tier-height);
+    margin: 0 auto;
+  }
+
+  @media (min-width: 860px) {
+    #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__desktop-wrapper {
+      display: block;
+    }
+    #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__mobile-timeline {
+      display: none;
+    }
+  }
+
+  /* Continuous SVG Coordinate System */
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__nodes-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+  }
+
+  /* Absolute Node Placements matching reference diagram:
+     - Node 1: Left 23%, Top Y = 100px (26.3% of 380px)
+     - Node 2: Center 50%, Top Y = 100px (26.3% of 380px)
+     - Node 3: Center 50%, Bottom Y = 280px (73.7% of 380px)
+     - Node 4: Right 77%, Bottom Y = 280px (73.7% of 380px)
+  */
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__step-wrapper {
+    position: absolute;
+    width: 0;
+    height: 0;
+  }
+
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__step-wrapper--1 {
+    left: 23%;
+    top: calc(100 / 380 * 100%);
+  }
+
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__step-wrapper--2 {
+    left: 50%;
+    top: calc(100 / 380 * 100%);
+  }
+
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__step-wrapper--3 {
+    left: 50%;
+    top: calc(280 / 380 * 100%);
+  }
+
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__step-wrapper--4 {
+    left: 77%;
+    top: calc(280 / 380 * 100%);
+  }
+
+  /* Node Disc */
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__node {
+    position: absolute;
+    width: var(--node-size-d);
+    height: var(--node-size-d);
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    background-color: var(--node-bg);
+    border: var(--node-border-width) solid var(--node-border-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    z-index: 4;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__step-wrapper:hover .fr-custom-process-2__node {
+    transform: translate(-50%, -50%) scale(1.06);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  }
+
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__node-inner-num {
+    font-family: {{ section.settings.title_font.family | default: "'Playfair Display'" }}, {{ section.settings.title_font.fallback_families | default: 'serif' }};
+    font-size: calc(var(--node-size-d) * 0.32);
+    font-weight: 600;
+    color: var(--node-text-color);
+    line-height: 1;
+  }
+
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__node-icon {
+    max-width: 50%;
+    max-height: 50%;
+    object-fit: contain;
+  }
+
+  /* Content Cards */
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__card {
+    position: absolute;
+    width: 240px;
+    z-index: 5;
+    box-sizing: border-box;
+  }
+
+  /* Node 1: Card above, centered over node */
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__card--1 {
+    bottom: calc((var(--node-size-d) / 2) + 16px);
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+  }
+
+  /* Node 2: Card above, centered over node */
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__card--2 {
+    bottom: calc((var(--node-size-d) / 2) + 16px);
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+  }
+
+  /* Node 3: Card below, centered over node */
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__card--3 {
+    top: calc((var(--node-size-d) / 2) + 16px);
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+  }
+
+  /* Node 4: Card below, centered over node */
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__card--4 {
+    top: calc((var(--node-size-d) / 2) + 16px);
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+  }
+
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__step-num {
+    display: block;
+    font-family: {{ section.settings.desc_font.family | default: "'Lato'" }}, {{ section.settings.desc_font.fallback_families | default: 'sans-serif' }};
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__title {
+    margin: 0 0 6px 0;
+    font-family: {{ section.settings.title_font.family | default: "'Playfair Display'" }}, {{ section.settings.title_font.fallback_families | default: 'serif' }};
+    font-weight: {{ section.settings.title_font.weight | default: 400 }};
+    font-style: {{ section.settings.title_font.style | default: 'normal' }};
+    line-height: 1.3;
+  }
+
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__desc {
+    font-family: {{ section.settings.desc_font.family | default: "'Lato'" }}, {{ section.settings.desc_font.fallback_families | default: 'sans-serif' }};
+    font-weight: {{ section.settings.desc_font.weight | default: 400 }};
+    font-style: {{ section.settings.desc_font.style | default: 'normal' }};
+    line-height: 1.55;
+  }
+
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__desc p {
+    margin: 0;
+  }
+
+  /* ==========================================
+     MOBILE VERTICAL TIMELINE LAYOUT
+     ========================================== */
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__mobile-timeline {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: calc(var(--node-size-m) / 2);
+  }
+
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__mobile-line {
+    position: absolute;
+    top: calc(var(--node-size-m) / 2);
+    bottom: calc(var(--node-size-m) / 2);
+    left: calc(var(--node-size-m) / 2);
+    width: var(--line-width);
+    background-color: var(--line-color);
+    transform: translateX(-50%);
+    z-index: 1;
+  }
+
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__mobile-list {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+    z-index: 2;
+  }
+
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__mobile-item {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__node--mobile {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: translateX(-50%);
+    width: var(--node-size-m);
+    height: var(--node-size-m);
+    flex-shrink: 0;
+  }
+
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__node--mobile .fr-custom-process-2__node-inner-num {
+    font-size: calc(var(--node-size-m) * 0.35);
+  }
+
+  #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__mobile-content {
+    flex: 1;
+    padding-top: 2px;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Custom Process 2",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Process"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading (Optional)"
+    },
+    {
+      "type": "range",
+      "id": "container_max_width",
+      "min": 800,
+      "max": 1600,
+      "step": 20,
+      "unit": "px",
+      "label": "Container Max Width",
+      "default": 1300
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "font_picker",
+      "id": "heading_font",
+      "label": "Heading Font",
+      "default": "playfair_display_n5"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Size",
+      "default": 36
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading Alignment (Desktop)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "heading_align_mobile",
+      "label": "Heading Alignment (Mobile)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "heading_margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Margin Bottom",
+      "default": 50
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading Color",
+      "default": "#666666"
+    },
+    {
+      "type": "font_picker",
+      "id": "title_font",
+      "label": "Step Title Font",
+      "default": "playfair_display_n5"
+    },
+    {
+      "type": "range",
+      "id": "title_size_desktop",
+      "min": 14,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Step Title Size (Desktop)",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Step Title Size (Mobile)",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Step Title Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "font_picker",
+      "id": "desc_font",
+      "label": "Step Description Font",
+      "default": "lato_n4"
+    },
+    {
+      "type": "range",
+      "id": "desc_size_desktop",
+      "min": 11,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Step Description Size (Desktop)",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "desc_size_mobile",
+      "min": 11,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Step Description Size (Mobile)",
+      "default": 13
+    },
+    {
+      "type": "color",
+      "id": "desc_color",
+      "label": "Step Description Color",
+      "default": "#555555"
+    },
+    {
+      "type": "color",
+      "id": "step_num_color",
+      "label": "Step Number Color",
+      "default": "#999999"
+    },
+    {
+      "type": "header",
+      "content": "Pathway & Node Settings"
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Pathway Line Color",
+      "default": "#d8d8d8"
+    },
+    {
+      "type": "range",
+      "id": "line_width",
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "unit": "px",
+      "label": "Pathway Line Width",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "tier_height",
+      "min": 250,
+      "max": 600,
+      "step": 10,
+      "unit": "px",
+      "label": "Stepped Pathway Height (Desktop)",
+      "default": 380
+    },
+    {
+      "type": "range",
+      "id": "node_size",
+      "min": 40,
+      "max": 140,
+      "step": 4,
+      "unit": "px",
+      "label": "Node Disc Size (Desktop)",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "node_size_mobile",
+      "min": 30,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Node Disc Size (Mobile)",
+      "default": 50
+    },
+    {
+      "type": "color",
+      "id": "node_bg",
+      "label": "Node Disc Background",
+      "default": "#d9d9d9"
+    },
+    {
+      "type": "color",
+      "id": "node_border_color",
+      "label": "Node Border Color",
+      "default": "#d9d9d9"
+    },
+    {
+      "type": "range",
+      "id": "node_border_width",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Node Border Width",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "node_text_color",
+      "label": "Node Inner Number Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_number_in_node",
+      "label": "Show Step Number inside Node Disc",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom (Mobile)",
+      "default": 50
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Process Step",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "step_number",
+          "label": "Step Number",
+          "default": "01"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Step Title",
+          "default": "Consultation"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Step Description",
+          "default": "<p>Share your vision, space details, color preferences, and inspirational ideas with our design team.</p>"
+        },
+        {
+          "type": "image_picker",
+          "id": "node_icon",
+          "label": "Custom Node Icon / Image (Optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Process 2",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "step_number": "01",
+            "title": "Consultation",
+            "description": "<p>Share your vision, space details, color preferences, and inspirational ideas with our design team.</p>"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "step_number": "02",
+            "title": "Concept Design",
+            "description": "<p>Our artists craft bespoke sketches, custom colorways, and digital previews tailored to your space.</p>"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "step_number": "03",
+            "title": "Sampling & Approval",
+            "description": "<p>Review physical swatches, material finishes, and refined details before final production.</p>"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "step_number": "04",
+            "title": "Crafting & Delivery",
+            "description": "<p>Your bespoke piece is precision-crafted, quality-checked, and safely delivered to your doorstep.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
