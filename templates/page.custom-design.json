@@ -15,6 +15,7 @@
       "settings": {
         "content_direction": "column",
         "gap": 32,
+        "color_scheme": "",
         "padding-block-start": 40,
         "padding-block-end": 80
       }
@@ -225,153 +226,316 @@
         "padding_right": 40
       }
     },
-    "fr_custom_projects_main": {
+    "fr_custom_projects_CHgVxz": {
       "type": "fr-custom-projects",
       "blocks": {
-        "project_1": {
+        "project_tj366w": {
           "type": "project",
           "settings": {
-            "image": "shopify:\/\/shop_images\/Rectangle_267.png",
+            "title": "Project Name",
+            "subtitle": "",
+            "column_start": 1,
+            "text_position": "bottom",
+            "offset_y": 0,
+            "is_invisible": true,
+            "aspect_ratio": 130
+          }
+        },
+        "project_G9tjnD": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_267.png",
             "title": "Project Name 1",
-            "subtitle": "Bespoke Residence"
+            "subtitle": "something goes here",
+            "column_start": 2,
+            "text_position": "left",
+            "offset_y": 0,
+            "is_invisible": false,
+            "aspect_ratio": 130
           }
         },
-        "project_2": {
+        "project_Hz79aw": {
           "type": "project",
           "settings": {
-            "image": "shopify:\/\/shop_images\/Rectangle_260.png",
+            "image": "shopify://shop_images/Rectangle_260.png",
             "title": "Project Name 2",
-            "subtitle": "Modern Living"
+            "subtitle": "something goes here",
+            "column_start": 3,
+            "text_position": "right",
+            "offset_y": 0,
+            "is_invisible": false,
+            "aspect_ratio": 130
           }
         },
-        "project_3": {
+        "project_8MPmxd": {
           "type": "project",
           "settings": {
-            "image": "shopify:\/\/shop_images\/Rectangle_254.png",
-            "title": "Project Name 3",
-            "subtitle": "Art Studio"
-          }
-        },
-        "project_4": {
-          "type": "project",
-          "settings": {
-            "image": "shopify:\/\/shop_images\/Rectangle_258.png",
-            "title": "Project Name 4",
-            "subtitle": "Botanical Suite"
-          }
-        },
-        "project_5": {
-          "type": "project",
-          "settings": {
-            "image": "shopify:\/\/shop_images\/Rectangle_272.png",
-            "title": "Project Name 5",
-            "subtitle": "Heritage Villa"
-          }
-        },
-        "project_6": {
-          "type": "project",
-          "settings": {
-            "image": "shopify:\/\/shop_images\/Rectangle_261.png",
-            "title": "Project Name 6",
-            "subtitle": "Penthouse"
+            "title": "Project Name",
+            "subtitle": "",
+            "column_start": 4,
+            "text_position": "bottom",
+            "offset_y": 0,
+            "is_invisible": true,
+            "aspect_ratio": 130
           }
         }
       },
       "block_order": [
-        "project_1",
-        "project_2",
-        "project_3",
-        "project_4",
-        "project_5",
-        "project_6"
+        "project_tj366w",
+        "project_G9tjnD",
+        "project_Hz79aw",
+        "project_8MPmxd"
       ],
       "name": "FR Custom Projects",
       "settings": {
         "bg_color": "#ffffff",
         "heading": "Projects.",
-        "container_max_width": 1300,
-        "heading_font": "playfair_display_n5",
         "heading_size": 36,
-        "heading_alignment": "center",
-        "heading_align_mobile": "center",
-        "heading_margin_bottom": 45,
         "heading_color": "#1a1a1a",
-        "row1_split": 58,
-        "row1_height": 440,
-        "row1_height_mobile": 240,
-        "row2_aspect_ratio": 105,
-        "row2_cols_mobile": 2,
-        "gap": 24,
-        "gap_mobile": 16,
-        "card_border_radius": 0,
-        "badge_font": "lato_n6",
-        "badge_font_size": 13,
-        "badge_bg": "#ffffff",
-        "badge_color": "#1a1a1a",
-        "badge_radius": 0,
-        "badge_padding_v": 12,
-        "badge_padding_h": 24,
+        "columns_desktop": 4,
+        "grid_max_width": 900,
+        "grid_gap": 40,
+        "title_size_desktop": 18,
+        "title_size_mobile": 18,
+        "subtitle_size_desktop": 14,
+        "subtitle_size_mobile": 14,
         "padding_top": 60,
-        "padding_bottom": 80,
+        "padding_bottom": 20,
         "padding_top_mobile": 40,
-        "padding_bottom_mobile": 40,
-        "padding_left": 24,
-        "padding_right": 24
+        "padding_bottom_mobile": 0,
+        "padding_left": 40,
+        "padding_right": 40
       }
     },
-    "fr_custom_process_GEYcpU": {
-      "type": "fr-custom-process",
+    "fr_custom_projects_cMejAp": {
+      "type": "fr-custom-projects",
       "blocks": {
-        "step_3BYAMT": {
-          "type": "step",
+        "project_8FmnP9": {
+          "type": "project",
           "settings": {
-            "step_number": "01",
-            "title": "Consultation",
-            "description": "<p>Share your vision, space details, color preferences, and inspirational ideas with our design team.<\/p>"
+            "image": "shopify://shop_images/Rectangle_254.png",
+            "title": "Project Name 3",
+            "subtitle": "something goes here",
+            "column_start": 1,
+            "text_position": "left",
+            "offset_y": 0,
+            "is_invisible": false,
+            "aspect_ratio": 130
           }
         },
-        "step_JpBKCr": {
-          "type": "step",
+        "project_3iHJkJ": {
+          "type": "project",
           "settings": {
-            "step_number": "02",
-            "title": "Concept Design",
-            "description": "<p>Our artists craft bespoke sketches, custom colorways, and digital previews tailored to your space.<\/p>"
+            "image": "shopify://shop_images/Rectangle_258.png",
+            "title": "Project Name 4",
+            "subtitle": "something goes here",
+            "column_start": 2,
+            "text_position": "bottom",
+            "offset_y": 0,
+            "is_invisible": false,
+            "aspect_ratio": 130
           }
         },
-        "step_MHBnDq": {
-          "type": "step",
+        "project_rrDcaA": {
+          "type": "project",
           "settings": {
-            "step_number": "03",
-            "title": "Sampling & Approval",
-            "description": "<p>Review physical swatches, material finishes, and refined details before final production.<\/p>"
+            "image": "shopify://shop_images/Rectangle_272.png",
+            "title": "Project Name 5",
+            "subtitle": "something goes here",
+            "column_start": 3,
+            "text_position": "right",
+            "offset_y": 0,
+            "is_invisible": false,
+            "aspect_ratio": 130
           }
         },
-        "step_Wk47Ni": {
-          "type": "step",
+        "project_yV8WJP": {
+          "type": "project",
           "settings": {
-            "step_number": "04",
-            "title": "Crafting & Delivery",
-            "description": "<p>Your bespoke piece is precision-crafted, quality-checked, and safely delivered to your doorstep.<\/p>"
+            "title": "Project Name",
+            "subtitle": "",
+            "column_start": 4,
+            "text_position": "bottom",
+            "offset_y": 0,
+            "is_invisible": true,
+            "aspect_ratio": 130
           }
         }
       },
       "block_order": [
-        "step_3BYAMT",
-        "step_JpBKCr",
-        "step_MHBnDq",
-        "step_Wk47Ni"
+        "project_8FmnP9",
+        "project_3iHJkJ",
+        "project_rrDcaA",
+        "project_yV8WJP"
       ],
-      "name": "FR Custom Process",
+      "name": "FR Custom Projects",
+      "settings": {
+        "bg_color": "#ffffff",
+        "heading": "",
+        "heading_size": 36,
+        "heading_color": "#1a1a1a",
+        "columns_desktop": 4,
+        "grid_max_width": 900,
+        "grid_gap": 40,
+        "title_size_desktop": 18,
+        "title_size_mobile": 18,
+        "subtitle_size_desktop": 14,
+        "subtitle_size_mobile": 14,
+        "padding_top": 0,
+        "padding_bottom": 20,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 0,
+        "padding_left": 40,
+        "padding_right": 40
+      }
+    },
+    "fr_custom_projects_GEYcpU": {
+      "type": "fr-custom-projects",
+      "blocks": {
+        "project_3BYAMT": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_254.png",
+            "title": "Project Name",
+            "subtitle": "something goes here",
+            "column_start": 1,
+            "text_position": "left",
+            "offset_y": 0,
+            "is_invisible": true,
+            "aspect_ratio": 130
+          }
+        },
+        "project_JpBKCr": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_258.png",
+            "title": "Project Name 1",
+            "subtitle": "something goes here",
+            "column_start": 2,
+            "text_position": "bottom",
+            "offset_y": 0,
+            "is_invisible": true,
+            "aspect_ratio": 130
+          }
+        },
+        "project_MHBnDq": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_261.png",
+            "title": "Project Name 6",
+            "subtitle": "something goes here",
+            "column_start": 3,
+            "text_position": "left",
+            "offset_y": 0,
+            "is_invisible": false,
+            "aspect_ratio": 130
+          }
+        },
+        "project_Wk47Ni": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/Rectangle_268.png",
+            "title": "Project Name 7",
+            "subtitle": "something goes here",
+            "column_start": 4,
+            "text_position": "right",
+            "offset_y": 0,
+            "is_invisible": false,
+            "aspect_ratio": 130
+          }
+        }
+      },
+      "block_order": [
+        "project_3BYAMT",
+        "project_JpBKCr",
+        "project_MHBnDq",
+        "project_Wk47Ni"
+      ],
+      "name": "FR Custom Projects",
+      "settings": {
+        "bg_color": "#ffffff",
+        "heading": "",
+        "heading_size": 36,
+        "heading_color": "#1a1a1a",
+        "columns_desktop": 4,
+        "grid_max_width": 900,
+        "grid_gap": 40,
+        "title_size_desktop": 18,
+        "title_size_mobile": 18,
+        "subtitle_size_desktop": 14,
+        "subtitle_size_mobile": 14,
+        "padding_top": 0,
+        "padding_bottom": 20,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 0,
+        "padding_left": 40,
+        "padding_right": 40
+      }
+    },
+    "fr_custom_process_2_XHFnkR": {
+      "type": "fr-custom-process-2",
+      "blocks": {
+        "step_ncea88": {
+          "type": "step",
+          "settings": {
+            "step_number": "01",
+            "title": "Consultation",
+            "description": "<p>Share your vision, space details, color preferences, and inspirational ideas with our design team.</p>"
+          }
+        },
+        "step_dDijYL": {
+          "type": "step",
+          "settings": {
+            "step_number": "02",
+            "title": "Concept Design",
+            "description": "<p>Our artists craft bespoke sketches, custom colorways, and digital previews tailored to your space.</p>"
+          }
+        },
+        "step_xT49Kj": {
+          "type": "step",
+          "settings": {
+            "step_number": "03",
+            "title": "Sampling & Approval",
+            "description": "<p>Review physical swatches, material finishes, and refined details before final production.</p>"
+          }
+        },
+        "step_GHgGxd": {
+          "type": "step",
+          "settings": {
+            "step_number": "04",
+            "title": "Crafting & Delivery",
+            "description": "<p>Your bespoke piece is precision-crafted, quality-checked, and safely delivered to your doorstep.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "step_ncea88",
+        "step_dDijYL",
+        "step_xT49Kj",
+        "step_GHgGxd"
+      ],
+      "name": "FR Custom Process 2",
       "settings": {
         "bg_color": "#ffffff",
         "heading": "Process",
+        "subheading": "",
         "container_max_width": 1300,
         "heading_font": "playfair_display_n5",
         "heading_size": 36,
         "heading_alignment": "center",
         "heading_align_mobile": "center",
-        "heading_margin_bottom": 50,
+        "heading_margin_bottom": 100,
         "heading_color": "#1a1a1a",
+        "subheading_color": "#666666",
+        "title_font": "playfair_display_n5",
+        "title_size_desktop": 18,
+        "title_size_mobile": 16,
+        "title_color": "#1a1a1a",
+        "desc_font": "lato_n4",
+        "desc_size_desktop": 13,
+        "desc_size_mobile": 13,
+        "desc_color": "#555555",
+        "step_num_color": "#999999",
         "line_color": "#d8d8d8",
         "line_width": 2,
         "tier_height": 380,
@@ -382,15 +546,6 @@
         "node_border_width": 0,
         "node_text_color": "#1a1a1a",
         "show_number_in_node": false,
-        "title_font": "playfair_display_n5",
-        "title_size_desktop": 18,
-        "title_size_mobile": 16,
-        "title_color": "#1a1a1a",
-        "desc_font": "lato_n4",
-        "desc_size_desktop": 13,
-        "desc_size_mobile": 13,
-        "desc_color": "#555555",
-        "step_num_color": "#999999",
         "padding_top": 80,
         "padding_bottom": 100,
         "padding_top_mobile": 40,
@@ -490,8 +645,10 @@
     "fr_custom_hero_czjKym",
     "fr_custom_features_Jj6KVf",
     "fr_custom_cards_teU8DH",
-    "fr_custom_projects_main",
-    "fr_custom_process_GEYcpU",
+    "fr_custom_projects_CHgVxz",
+    "fr_custom_projects_cMejAp",
+    "fr_custom_projects_GEYcpU",
+    "fr_custom_process_2_XHFnkR",
     "fr_contact_form_RwxaFY",
     "fr_custom_faq_mmhbmM"
   ]
