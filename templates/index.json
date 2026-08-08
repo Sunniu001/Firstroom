@@ -318,7 +318,7 @@
         "description_color": "#4b5563",
         "content_align": "left",
         "button_label": "See Collection",
-        "button_link": "shopify://collections/all",
+        "button_link": "shopify://collections/new-arrival",
         "btn_bg": "#ffffff",
         "btn_color": "#1a1a1a",
         "btn_border_color": "#ffffff",
