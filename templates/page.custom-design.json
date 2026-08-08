@@ -202,7 +202,7 @@
       "settings": {
         "bg_color": "#ffffff",
         "heading": "What can be customised",
-        "content_max_width": 1000,
+        "content_max_width": 1100,
         "heading_font": "playfair_display_n5",
         "heading_size": 36,
         "heading_alignment": "center",
@@ -219,7 +219,7 @@
         "text_align_mobile": "center",
         "gap": 30,
         "padding_top": 60,
-        "padding_bottom": 120,
+        "padding_bottom": 68,
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 40,
         "padding_left": 40,
