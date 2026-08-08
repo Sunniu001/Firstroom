@@ -44,6 +44,10 @@
     {% render 'typography-style', settings: block_settings %}
     {% render 'spacing-style', settings: block_settings %}
     --width: {{ block_settings.width }};
+    {% if block_settings.text_color != blank %}
+      --color: {{ block_settings.text_color }};
+      color: {{ block_settings.text_color }};
+    {% endif %}
   "
   {{ block.shopify_attributes }}
 >
@@ -366,6 +370,12 @@
         }
       ],
       "default": "var(--color-foreground)",
+      "visible_if": "{{ block.settings.type_preset != 'rte' }}"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Custom Color",
       "visible_if": "{{ block.settings.type_preset != 'rte' }}"
     },
     {
