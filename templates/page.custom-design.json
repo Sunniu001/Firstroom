@@ -317,6 +317,7 @@
         "step_1": {
           "type": "step",
           "settings": {
+            "step_number": "01",
             "title": "Consultation",
             "description": "<p>Share your vision, space details, color preferences, and inspirational ideas with our design team.<\/p>"
           }
@@ -324,6 +325,7 @@
         "step_2": {
           "type": "step",
           "settings": {
+            "step_number": "02",
             "title": "Concept Design",
             "description": "<p>Our artists craft bespoke sketches, custom colorways, and digital previews tailored to your space.<\/p>"
           }
@@ -331,6 +333,7 @@
         "step_3": {
           "type": "step",
           "settings": {
+            "step_number": "03",
             "title": "Sampling & Approval",
             "description": "<p>Review physical swatches, material finishes, and refined details before final production.<\/p>"
           }
@@ -338,6 +341,7 @@
         "step_4": {
           "type": "step",
           "settings": {
+            "step_number": "04",
             "title": "Crafting & Delivery",
             "description": "<p>Your bespoke piece is precision-crafted, quality-checked, and safely delivered to your doorstep.<\/p>"
           }
@@ -353,20 +357,23 @@
       "settings": {
         "bg_color": "#ffffff",
         "heading": "Process",
-        "container_max_width": 1200,
+        "container_max_width": 1300,
         "heading_font": "playfair_display_n5",
         "heading_size": 36,
         "heading_alignment": "center",
         "heading_align_mobile": "center",
-        "heading_margin_bottom": 60,
+        "heading_margin_bottom": 50,
         "heading_color": "#1a1a1a",
         "line_color": "#d8d8d8",
         "line_width": 2,
-        "node_size": 44,
-        "node_bg": "#f4f4f4",
-        "node_border_color": "#1a1a1a",
-        "node_border_width": 2,
+        "tier_height": 380,
+        "node_size": 80,
+        "node_size_mobile": 50,
+        "node_bg": "#d9d9d9",
+        "node_border_color": "#d9d9d9",
+        "node_border_width": 0,
         "node_text_color": "#1a1a1a",
+        "show_number_in_node": false,
         "title_font": "playfair_display_n5",
         "title_size_desktop": 18,
         "title_size_mobile": 16,
@@ -375,12 +382,11 @@
         "desc_size_desktop": 13,
         "desc_size_mobile": 13,
         "desc_color": "#555555",
+        "step_num_color": "#999999",
         "padding_top": 80,
         "padding_bottom": 100,
         "padding_top_mobile": 40,
-        "padding_bottom_mobile": 40,
-        "padding_left": 24,
-        "padding_right": 24
+        "padding_bottom_mobile": 50
       }
     },
     "fr_contact_form_RwxaFY": {

@@ -1,115 +1,101 @@
 {%- comment -%}
-  FR Custom Process Section (Stepped Pathway Timeline matching Image 4)
-  Upper Tier: Left -> Node 1 -> Node 2
-  Vertical Drop: Node 2 -> Node 3
-  Lower Tier: Node 3 -> Node 4 -> Right
+  FR Custom Process Section (Stepped S-Pathway Timeline)
+  Faithfully implements the design reference:
+  - Top Horizontal Axis: from 0% -> Node 1 (23%) -> Node 2 (50% Center)
+  - Vertical Drop: from Node 2 (50% Center) -> Node 3 (50% Center)
+  - Bottom Horizontal Axis: from Node 3 (50% Center) -> Node 4 (77%) -> 100%
+  - 4 Solid Prominent Circles (Nodes) with customizable text/numbers/icons
+  - Desktop: Coordinate-perfect SVG pathway + positioned step cards
+  - Mobile: Responsive connected vertical timeline
 {%- endcomment -%}
 
 <section id="fr-custom-process-{{ section.id }}" class="fr-custom-process" style="
   background-color: {{ section.settings.bg_color | default: '#ffffff' }};
-  --pt-m: {{ section.settings.padding_top_mobile | default: section.settings.padding_top | default: 40 }}px;
-  --pb-m: {{ section.settings.padding_bottom_mobile | default: section.settings.padding_bottom | default: 40 }}px;
+  --pt-m: {{ section.settings.padding_top_mobile | default: 40 }}px;
+  --pb-m: {{ section.settings.padding_bottom_mobile | default: 50 }}px;
   --pt-d: {{ section.settings.padding_top | default: 80 }}px;
   --pb-d: {{ section.settings.padding_bottom | default: 100 }}px;
-  padding-left: {{ section.settings.padding_left | default: 24 }}px;
-  padding-right: {{ section.settings.padding_right | default: 24 }}px;
-  --line-color: {{ section.settings.line_color | default: '#e0e0e0' }};
+  --line-color: {{ section.settings.line_color | default: '#d8d8d8' }};
   --line-width: {{ section.settings.line_width | default: 2 }}px;
-  --node-size: {{ section.settings.node_size | default: 44 }}px;
-  --node-bg: {{ section.settings.node_bg | default: '#f4f4f4' }};
-  --node-border-color: {{ section.settings.node_border_color | default: '#1a1a1a' }};
-  --node-border-width: {{ section.settings.node_border_width | default: 2 }}px;
+  --node-size-d: {{ section.settings.node_size | default: 80 }}px;
+  --node-size-m: {{ section.settings.node_size_mobile | default: 50 }}px;
+  --node-bg: {{ section.settings.node_bg | default: '#d9d9d9' }};
+  --node-border-color: {{ section.settings.node_border_color | default: '#d9d9d9' }};
+  --node-border-width: {{ section.settings.node_border_width | default: 0 }}px;
   --node-text-color: {{ section.settings.node_text_color | default: '#1a1a1a' }};
+  --tier-height: {{ section.settings.tier_height | default: 380 }}px;
 ">
-  <div class="fr-custom-process__container" style="max-width: {{ section.settings.container_max_width | default: 1200 }}px;">
+  <div class="fr-custom-process__container" style="max-width: {{ section.settings.container_max_width | default: 1300 }}px;">
+    
     {%- if section.settings.heading != blank -%}
       <h2 class="fr-custom-process__heading" style="
         font-size: {{ section.settings.heading_size | default: 36 }}px;
         color: {{ section.settings.heading_color | default: '#1a1a1a' }};
-        --ha-m: {{ section.settings.heading_align_mobile | default: section.settings.heading_alignment | default: 'center' }};
+        --ha-m: {{ section.settings.heading_align_mobile | default: 'center' }};
         --ha-d: {{ section.settings.heading_alignment | default: 'center' }};
+        margin-bottom: {{ section.settings.heading_margin_bottom | default: 50 }}px;
       ">{{ section.settings.heading }}</h2>
     {%- endif -%}
 
     {%- if section.settings.subheading != blank -%}
       <div class="fr-custom-process__subheading" style="
         color: {{ section.settings.subheading_color | default: '#666666' }};
-        --ha-m: {{ section.settings.heading_align_mobile | default: section.settings.heading_alignment | default: 'center' }};
+        --ha-m: {{ section.settings.heading_align_mobile | default: 'center' }};
         --ha-d: {{ section.settings.heading_alignment | default: 'center' }};
       ">{{ section.settings.subheading }}</div>
     {%- endif -%}
 
-    {%- comment -%} --- DESKTOP STEPPED PATHWAY (Image 4) --- {%- endcomment -%}
-    <div class="fr-custom-process__desktop-pathway">
+    {%- comment -%} ==========================================
+        DESKTOP STEPPED PATHWAY (Exact Image 4 Reference)
+    ========================================== {%- endcomment -%}
+    <div class="fr-custom-process__desktop-wrapper">
       
-      <!-- Tier 1 (Upper Horizontal Axis: Node 1 & Node 2) -->
-      <div class="fr-custom-process__tier fr-custom-process__tier--upper">
-        <!-- Connecting Horizontal Line across Tier 1 -->
-        <div class="fr-custom-process__line fr-custom-process__line--h-upper"></div>
+      <!-- SVG Connecting Pathway connecting 0% -> Node 1 (23%) -> Node 2 (50%) -> Node 3 (50%) -> Node 4 (77%) -> 100% -->
+      <svg class="fr-custom-process__svg" viewBox="0 0 1000 380" preserveAspectRatio="none" aria-hidden="true">
+        <!-- Top Horizontal: Left 0 to Center (500) at Y=100 -->
+        <line x1="0" y1="100" x2="500" y2="100" stroke="var(--line-color)" stroke-width="var(--line-width)" />
+        <!-- Vertical Step Drop: at X=500 from Y=100 to Y=280 -->
+        <line x1="500" y1="100" x2="500" y2="280" stroke="var(--line-color)" stroke-width="var(--line-width)" />
+        <!-- Bottom Horizontal: Center (500) to Right 1000 at Y=280 -->
+        <line x1="500" y1="280" x2="1000" y2="280" stroke="var(--line-color)" stroke-width="var(--line-width)" />
+      </svg>
 
-        {%- for block in section.blocks limit: 2 -%}
-          {%- assign step_num = forloop.index -%}
-          <div class="fr-custom-process__step fr-custom-process__step--{{ step_num }}" {{ block.shopify_attributes }}>
+      <!-- 4 Step Nodes & Content Cards -->
+      <div class="fr-custom-process__nodes-grid">
+        {%- for block in section.blocks limit: 4 -%}
+          {%- assign step_index = forloop.index -%}
+          
+          <div class="fr-custom-process__step-wrapper fr-custom-process__step-wrapper--{{ step_index }}" {{ block.shopify_attributes }}>
             
-            {%- comment -%} Content Above or Below {%- endcomment -%}
-            <div class="fr-custom-process__card fr-custom-process__card--top">
-              {%- if block.settings.title != blank -%}
-                <h3 class="fr-custom-process__title" style="color: {{ section.settings.title_color | default: '#1a1a1a' }};">
-                  {{ block.settings.title }}
-                </h3>
+            <!-- Step Content Card -->
+            <div class="fr-custom-process__card fr-custom-process__card--{{ step_index }} {% if step_index <= 2 %}fr-custom-process__card--top{% else %}fr-custom-process__card--bottom{% endif %}">
+              {%- if block.settings.step_number != blank -%}
+                <span class="fr-custom-process__step-num" style="color: {{ section.settings.step_num_color | default: '#999999' }};">
+                  {{ block.settings.step_number }}
+                </span>
               {%- endif -%}
+
+              {%- if block.settings.title != blank -%}
+                <h3 class="fr-custom-process__title" style="
+                  color: {{ section.settings.title_color | default: '#1a1a1a' }};
+                  font-size: {{ section.settings.title_size_desktop | default: 18 }}px;
+                ">{{ block.settings.title }}</h3>
+              {%- endif -%}
+
               {%- if block.settings.description != blank -%}
-                <div class="fr-custom-process__desc" style="color: {{ section.settings.desc_color | default: '#555555' }};">
-                  {{ block.settings.description }}
-                </div>
+                <div class="fr-custom-process__desc" style="
+                  color: {{ section.settings.desc_color | default: '#555555' }};
+                  font-size: {{ section.settings.desc_size_desktop | default: 13 }}px;
+                ">{{ block.settings.description }}</div>
               {%- endif -%}
             </div>
 
-            <!-- Node Circle -->
+            <!-- The Circular Node Disc -->
             <div class="fr-custom-process__node">
               {%- if block.settings.node_icon != blank -%}
-                <img src="{{ block.settings.node_icon | image_url: width: 60 }}" alt="{{ block.settings.title | escape }}" class="fr-custom-process__node-icon">
-              {%- else -%}
-                <span class="fr-custom-process__node-num">{{ step_num }}</span>
-              {%- endif -%}
-            </div>
-
-          </div>
-        {%- endfor -%}
-
-        <!-- Vertical Step Drop Line from Node 2 down to Node 3 -->
-        <div class="fr-custom-process__line fr-custom-process__line--v-step"></div>
-      </div>
-
-      <!-- Tier 2 (Lower Horizontal Axis: Node 3 & Node 4) -->
-      <div class="fr-custom-process__tier fr-custom-process__tier--lower">
-        <!-- Connecting Horizontal Line across Tier 2 -->
-        <div class="fr-custom-process__line fr-custom-process__line--h-lower"></div>
-
-        {%- for block in section.blocks offset: 2 limit: 2 -%}
-          {%- assign step_num = forloop.index | plus: 2 -%}
-          <div class="fr-custom-process__step fr-custom-process__step--{{ step_num }}" {{ block.shopify_attributes }}>
-            
-            <!-- Node Circle -->
-            <div class="fr-custom-process__node">
-              {%- if block.settings.node_icon != blank -%}
-                <img src="{{ block.settings.node_icon | image_url: width: 60 }}" alt="{{ block.settings.title | escape }}" class="fr-custom-process__node-icon">
-              {%- else -%}
-                <span class="fr-custom-process__node-num">{{ step_num }}</span>
-              {%- endif -%}
-            </div>
-
-            <!-- Content Below Node -->
-            <div class="fr-custom-process__card fr-custom-process__card--bottom">
-              {%- if block.settings.title != blank -%}
-                <h3 class="fr-custom-process__title" style="color: {{ section.settings.title_color | default: '#1a1a1a' }};">
-                  {{ block.settings.title }}
-                </h3>
-              {%- endif -%}
-              {%- if block.settings.description != blank -%}
-                <div class="fr-custom-process__desc" style="color: {{ section.settings.desc_color | default: '#555555' }};">
-                  {{ block.settings.description }}
-                </div>
+                <img src="{{ block.settings.node_icon | image_url: width: 120 }}" alt="{{ block.settings.title | escape }}" class="fr-custom-process__node-icon" loading="lazy">
+              {%- elsif section.settings.show_number_in_node and block.settings.step_number != blank -%}
+                <span class="fr-custom-process__node-inner-num">{{ block.settings.step_number | remove: '.' }}</span>
               {%- endif -%}
             </div>
 
@@ -119,32 +105,52 @@
 
     </div>
 
-    {%- comment -%} --- MOBILE VERTICAL TIMELINE --- {%- endcomment -%}
+    {%- comment -%} ==========================================
+        MOBILE RESPONSIVE TIMELINE (Vertical Connected View)
+    ========================================== {%- endcomment -%}
     <div class="fr-custom-process__mobile-timeline">
-      <div class="fr-custom-process__mobile-axis"></div>
-      {%- for block in section.blocks -%}
-        <div class="fr-custom-process__mobile-step" {{ block.shopify_attributes }}>
-          <div class="fr-custom-process__node fr-custom-process__node--mobile">
-            {%- if block.settings.node_icon != blank -%}
-              <img src="{{ block.settings.node_icon | image_url: width: 60 }}" alt="{{ block.settings.title | escape }}" class="fr-custom-process__node-icon">
-            {%- else -%}
-              <span class="fr-custom-process__node-num">{{ forloop.index }}</span>
-            {%- endif -%}
+      <!-- Vertical connecting line along nodes -->
+      <div class="fr-custom-process__mobile-line"></div>
+
+      <div class="fr-custom-process__mobile-list">
+        {%- for block in section.blocks -%}
+          <div class="fr-custom-process__mobile-item" {{ block.shopify_attributes }}>
+            <!-- Node Disc -->
+            <div class="fr-custom-process__node fr-custom-process__node--mobile">
+              {%- if block.settings.node_icon != blank -%}
+                <img src="{{ block.settings.node_icon | image_url: width: 80 }}" alt="{{ block.settings.title | escape }}" class="fr-custom-process__node-icon" loading="lazy">
+              {%- elsif section.settings.show_number_in_node and block.settings.step_number != blank -%}
+                <span class="fr-custom-process__node-inner-num">{{ block.settings.step_number | remove: '.' }}</span>
+              {%- else -%}
+                <span class="fr-custom-process__node-inner-num">{{ forloop.index }}</span>
+              {%- endif -%}
+            </div>
+
+            <!-- Content Card -->
+            <div class="fr-custom-process__mobile-content">
+              {%- if block.settings.step_number != blank -%}
+                <span class="fr-custom-process__step-num" style="color: {{ section.settings.step_num_color | default: '#999999' }};">
+                  {{ block.settings.step_number }}
+                </span>
+              {%- endif -%}
+
+              {%- if block.settings.title != blank -%}
+                <h3 class="fr-custom-process__title" style="
+                  color: {{ section.settings.title_color | default: '#1a1a1a' }};
+                  font-size: {{ section.settings.title_size_mobile | default: 16 }}px;
+                ">{{ block.settings.title }}</h3>
+              {%- endif -%}
+
+              {%- if block.settings.description != blank -%}
+                <div class="fr-custom-process__desc" style="
+                  color: {{ section.settings.desc_color | default: '#555555' }};
+                  font-size: {{ section.settings.desc_size_mobile | default: 13 }}px;
+                ">{{ block.settings.description }}</div>
+              {%- endif -%}
+            </div>
           </div>
-          <div class="fr-custom-process__mobile-content">
-            {%- if block.settings.title != blank -%}
-              <h3 class="fr-custom-process__title" style="color: {{ section.settings.title_color | default: '#1a1a1a' }};">
-                {{ block.settings.title }}
-              </h3>
-            {%- endif -%}
-            {%- if block.settings.description != blank -%}
-              <div class="fr-custom-process__desc" style="color: {{ section.settings.desc_color | default: '#555555' }};">
-                {{ block.settings.description }}
-              </div>
-            {%- endif -%}
-          </div>
-        </div>
-      {%- endfor -%}
+        {%- endfor -%}
+      </div>
     </div>
 
   </div>
@@ -164,7 +170,7 @@
     overflow: hidden;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 860px) {
     #fr-custom-process-{{ section.id }} {
       padding-top: var(--pt-d);
       padding-bottom: var(--pb-d);
@@ -175,21 +181,22 @@
     margin: 0 auto;
     width: 100%;
     box-sizing: border-box;
+    position: relative;
   }
 
   #fr-custom-process-{{ section.id }} .fr-custom-process__heading {
     display: block;
     width: 100%;
-    margin: 0 0 {{ section.settings.heading_margin_bottom | default: 60 }}px 0;
+    margin-top: 0;
     font-family: {{ section.settings.heading_font.family | default: "'Playfair Display'" }}, {{ section.settings.heading_font.fallback_families | default: 'serif' }};
     font-weight: {{ section.settings.heading_font.weight | default: 400 }};
     font-style: {{ section.settings.heading_font.style | default: 'normal' }};
     text-align: var(--ha-m);
-    line-height: 1.2;
+    line-height: 1.25;
     letter-spacing: 0.01em;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 860px) {
     #fr-custom-process-{{ section.id }} .fr-custom-process__heading {
       text-align: var(--ha-d);
     }
@@ -199,119 +206,100 @@
     text-align: var(--ha-m);
     font-family: {{ section.settings.desc_font.family | default: "'Lato'" }}, {{ section.settings.desc_font.fallback_families | default: 'sans-serif' }};
     font-size: 15px;
-    margin-top: -40px;
+    margin-top: -30px;
     margin-bottom: 50px;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 860px) {
     #fr-custom-process-{{ section.id }} .fr-custom-process__subheading {
       text-align: var(--ha-d);
     }
   }
 
-  /* --- DESKTOP STEPPED PATHWAY LAYOUT --- */
-  #fr-custom-process-{{ section.id }} .fr-custom-process__desktop-pathway {
+  /* ====================================================
+     DESKTOP STEPPED PATHWAY (Exact Image 4 Architecture)
+     ==================================================== */
+  #fr-custom-process-{{ section.id }} .fr-custom-process__desktop-wrapper {
     display: none;
     position: relative;
     width: 100%;
-    margin: 0 auto;
+    height: var(--tier-height);
+    margin: 40px 0 20px 0;
     box-sizing: border-box;
   }
 
   @media (min-width: 860px) {
-    #fr-custom-process-{{ section.id }} .fr-custom-process__desktop-pathway {
-      display: flex;
-      flex-direction: column;
-      gap: 120px;
+    #fr-custom-process-{{ section.id }} .fr-custom-process__desktop-wrapper {
+      display: block;
     }
     #fr-custom-process-{{ section.id }} .fr-custom-process__mobile-timeline {
       display: none;
     }
   }
 
-  /* Tiers */
-  #fr-custom-process-{{ section.id }} .fr-custom-process__tier {
-    position: relative;
-    display: flex;
-    align-items: center;
+  #fr-custom-process-{{ section.id }} .fr-custom-process__svg {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    box-sizing: border-box;
-  }
-
-  #fr-custom-process-{{ section.id }} .fr-custom-process__tier--upper {
-    justify-content: flex-start;
-    padding-left: 5%;
-    padding-right: 20%;
-  }
-
-  #fr-custom-process-{{ section.id }} .fr-custom-process__tier--lower {
-    justify-content: flex-end;
-    padding-left: 20%;
-    padding-right: 5%;
-  }
-
-  /* Connecting Lines */
-  #fr-custom-process-{{ section.id }} .fr-custom-process__line--h-upper {
-    position: absolute;
-    top: 50%;
-    left: -100px;
-    right: 20%;
-    height: var(--line-width);
-    background-color: var(--line-color);
-    z-index: 1;
-    transform: translateY(-50%);
-  }
-
-  #fr-custom-process-{{ section.id }} .fr-custom-process__line--h-lower {
-    position: absolute;
-    top: 50%;
-    left: 20%;
-    right: -100px;
-    height: var(--line-width);
-    background-color: var(--line-color);
-    z-index: 1;
-    transform: translateY(-50%);
-  }
-
-  /* Vertical Step Drop Connector */
-  #fr-custom-process-{{ section.id }} .fr-custom-process__line--v-step {
-    position: absolute;
-    top: 50%;
-    right: 20%;
-    width: var(--line-width);
-    height: calc(100% + 120px);
-    background-color: var(--line-color);
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
     z-index: 1;
   }
 
-  /* Step Container on Desktop */
-  #fr-custom-process-{{ section.id }} .fr-custom-process__step {
-    position: relative;
+  #fr-custom-process-{{ section.id }} .fr-custom-process__nodes-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     z-index: 2;
+  }
+
+  /* Node Coordinates Matching Image 4:
+     Node 1: X=23% (230/1000), Y=26.3% (100/380)
+     Node 2: X=50% (500/1000), Y=26.3% (100/380)
+     Node 3: X=50% (500/1000), Y=73.7% (280/380)
+     Node 4: X=77% (770/1000), Y=73.7% (280/380)
+  */
+  #fr-custom-process-{{ section.id }} .fr-custom-process__step-wrapper {
+    position: absolute;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 48%;
+    justify-content: center;
     box-sizing: border-box;
   }
 
-  #fr-custom-process-{{ section.id }} .fr-custom-process__step--1 {
-    margin-right: auto;
-  }
-  #fr-custom-process-{{ section.id }} .fr-custom-process__step--2 {
-    margin-left: auto;
-  }
-  #fr-custom-process-{{ section.id }} .fr-custom-process__step--3 {
-    margin-right: auto;
-  }
-  #fr-custom-process-{{ section.id }} .fr-custom-process__step--4 {
-    margin-left: auto;
+  #fr-custom-process-{{ section.id }} .fr-custom-process__step-wrapper--1 {
+    left: 23%;
+    top: calc(100px / 380 * 100%);
+    transform: translate(-50%, -50%);
   }
 
-  /* Node Circle */
+  #fr-custom-process-{{ section.id }} .fr-custom-process__step-wrapper--2 {
+    left: 50%;
+    top: calc(100px / 380 * 100%);
+    transform: translate(-50%, -50%);
+  }
+
+  #fr-custom-process-{{ section.id }} .fr-custom-process__step-wrapper--3 {
+    left: 50%;
+    top: calc(280px / 380 * 100%);
+    transform: translate(-50%, -50%);
+  }
+
+  #fr-custom-process-{{ section.id }} .fr-custom-process__step-wrapper--4 {
+    left: 77%;
+    top: calc(280px / 380 * 100%);
+    transform: translate(-50%, -50%);
+  }
+
+  /* Solid Node Circular Disc */
   #fr-custom-process-{{ section.id }} .fr-custom-process__node {
-    width: var(--node-size);
-    height: var(--node-size);
+    width: var(--node-size-d);
+    height: var(--node-size-d);
     border-radius: 50%;
     background-color: var(--node-bg);
     border: var(--node-border-width) solid var(--node-border-color);
@@ -320,45 +308,67 @@
     justify-content: center;
     color: var(--node-text-color);
     font-weight: 600;
-    font-size: 14px;
+    font-size: 16px;
     z-index: 3;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
     cursor: default;
     box-sizing: border-box;
+    flex-shrink: 0;
   }
 
-  #fr-custom-process-{{ section.id }} .fr-custom-process__step:hover .fr-custom-process__node {
-    transform: scale(1.12);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  #fr-custom-process-{{ section.id }} .fr-custom-process__step-wrapper:hover .fr-custom-process__node {
+    transform: scale(1.08);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   }
 
   #fr-custom-process-{{ section.id }} .fr-custom-process__node-icon {
     width: 60%;
     height: 60%;
     object-fit: contain;
+    display: block;
   }
 
-  /* Card content */
+  #fr-custom-process-{{ section.id }} .fr-custom-process__node-inner-num {
+    font-family: {{ section.settings.title_font.family | default: "'Playfair Display'" }}, {{ section.settings.title_font.fallback_families | default: 'serif' }};
+    font-size: 16px;
+  }
+
+  /* Step Content Cards */
   #fr-custom-process-{{ section.id }} .fr-custom-process__card {
+    position: absolute;
+    width: 250px;
     text-align: center;
-    max-width: 320px;
     box-sizing: border-box;
+    pointer-events: auto;
   }
 
   #fr-custom-process-{{ section.id }} .fr-custom-process__card--top {
-    margin-bottom: 24px;
+    bottom: calc(100% + 18px);
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   #fr-custom-process-{{ section.id }} .fr-custom-process__card--bottom {
-    margin-top: 24px;
+    top: calc(100% + 18px);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  #fr-custom-process-{{ section.id }} .fr-custom-process__step-num {
+    display: block;
+    font-family: {{ section.settings.desc_font.family | default: "'Lato'" }}, {{ section.settings.desc_font.fallback_families | default: 'sans-serif' }};
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
   }
 
   #fr-custom-process-{{ section.id }} .fr-custom-process__title {
     font-family: {{ section.settings.title_font.family | default: "'Playfair Display'" }}, {{ section.settings.title_font.fallback_families | default: 'serif' }};
     font-weight: {{ section.settings.title_font.weight | default: 500 }};
     font-style: {{ section.settings.title_font.style | default: 'normal' }};
-    font-size: {{ section.settings.title_size_desktop | default: 18 }}px;
-    margin: 0 0 8px 0;
+    margin: 0 0 6px 0;
     line-height: 1.3;
   }
 
@@ -366,8 +376,7 @@
     font-family: {{ section.settings.desc_font.family | default: "'Lato'" }}, {{ section.settings.desc_font.fallback_families | default: 'sans-serif' }};
     font-weight: {{ section.settings.desc_font.weight | default: 400 }};
     font-style: {{ section.settings.desc_font.style | default: 'normal' }};
-    font-size: {{ section.settings.desc_size_desktop | default: 13 }}px;
-    line-height: 1.6;
+    line-height: 1.55;
     margin: 0;
   }
 
@@ -375,50 +384,60 @@
     margin: 0;
   }
 
-  /* --- MOBILE VERTICAL TIMELINE --- */
+  /* ====================================================
+     MOBILE RESPONSIVE TIMELINE
+     ==================================================== */
   #fr-custom-process-{{ section.id }} .fr-custom-process__mobile-timeline {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 36px;
-    padding-left: 20px;
+    width: 100%;
     box-sizing: border-box;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
-  #fr-custom-process-{{ section.id }} .fr-custom-process__mobile-axis {
+  #fr-custom-process-{{ section.id }} .fr-custom-process__mobile-line {
     position: absolute;
-    top: 20px;
-    bottom: 20px;
-    left: calc(20px + var(--node-size) / 2);
+    top: calc(var(--node-size-m) / 2);
+    bottom: calc(var(--node-size-m) / 2);
+    left: calc(10px + var(--node-size-m) / 2);
     width: var(--line-width);
     background-color: var(--line-color);
     transform: translateX(-50%);
     z-index: 1;
   }
 
-  #fr-custom-process-{{ section.id }} .fr-custom-process__mobile-step {
+  #fr-custom-process-{{ section.id }} .fr-custom-process__mobile-list {
     display: flex;
-    align-items: flex-start;
-    gap: 20px;
+    flex-direction: column;
+    gap: 32px;
     position: relative;
     z-index: 2;
   }
 
+  #fr-custom-process-{{ section.id }} .fr-custom-process__mobile-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    position: relative;
+  }
+
   #fr-custom-process-{{ section.id }} .fr-custom-process__node--mobile {
-    flex-shrink: 0;
+    width: var(--node-size-m);
+    height: var(--node-size-m);
+    font-size: 13px;
   }
 
   #fr-custom-process-{{ section.id }} .fr-custom-process__mobile-content {
     flex: 1;
+    padding-top: 2px;
   }
 
   #fr-custom-process-{{ section.id }} .fr-custom-process__mobile-content .fr-custom-process__title {
-    font-size: {{ section.settings.title_size_mobile | default: 16 }}px;
     text-align: left;
+    margin-bottom: 4px;
   }
 
   #fr-custom-process-{{ section.id }} .fr-custom-process__mobile-content .fr-custom-process__desc {
-    font-size: {{ section.settings.desc_size_mobile | default: 13 }}px;
     text-align: left;
   }
 </style>
@@ -449,11 +468,11 @@
       "type": "range",
       "id": "container_max_width",
       "min": 800,
-      "max": 1500,
+      "max": 1600,
       "step": 20,
       "unit": "px",
       "label": "Container Max Width",
-      "default": 1200
+      "default": 1300
     },
     {
       "type": "font_picker",
@@ -501,7 +520,7 @@
       "step": 2,
       "unit": "px",
       "label": "Heading Margin Bottom",
-      "default": 60
+      "default": 50
     },
     {
       "type": "color",
@@ -517,7 +536,7 @@
     },
     {
       "type": "header",
-      "content": "Pathway Line & Node Settings"
+      "content": "Pathway Line Settings"
     },
     {
       "type": "color",
@@ -537,25 +556,49 @@
     },
     {
       "type": "range",
+      "id": "tier_height",
+      "min": 250,
+      "max": 600,
+      "step": 10,
+      "unit": "px",
+      "label": "Stepped Pathway Height (Desktop)",
+      "default": 380
+    },
+    {
+      "type": "header",
+      "content": "Node (Circle) Settings"
+    },
+    {
+      "type": "range",
       "id": "node_size",
-      "min": 24,
-      "max": 70,
+      "min": 40,
+      "max": 140,
+      "step": 4,
+      "unit": "px",
+      "label": "Node Circle Diameter (Desktop)",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "node_size_mobile",
+      "min": 30,
+      "max": 80,
       "step": 2,
       "unit": "px",
-      "label": "Node Circle Size",
-      "default": 44
+      "label": "Node Circle Diameter (Mobile)",
+      "default": 50
     },
     {
       "type": "color",
       "id": "node_bg",
       "label": "Node Background Color",
-      "default": "#f4f4f4"
+      "default": "#d9d9d9"
     },
     {
       "type": "color",
       "id": "node_border_color",
       "label": "Node Border Color",
-      "default": "#1a1a1a"
+      "default": "#d9d9d9"
     },
     {
       "type": "range",
@@ -565,13 +608,19 @@
       "step": 1,
       "unit": "px",
       "label": "Node Border Width",
-      "default": 2
+      "default": 0
     },
     {
       "type": "color",
       "id": "node_text_color",
-      "label": "Node Number Color",
+      "label": "Node Inner Text Color",
       "default": "#1a1a1a"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_number_in_node",
+      "label": "Show Step Number Inside Circle",
+      "default": false
     },
     {
       "type": "header",
@@ -642,6 +691,12 @@
       "default": "#555555"
     },
     {
+      "type": "color",
+      "id": "step_num_color",
+      "label": "Step Number Sub-label Color",
+      "default": "#999999"
+    },
+    {
       "type": "header",
       "content": "Section Spacing"
     },
@@ -683,27 +738,7 @@
       "step": 4,
       "unit": "px",
       "label": "Padding Bottom (Mobile)",
-      "default": 40
-    },
-    {
-      "type": "range",
-      "id": "padding_left",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "label": "Padding Left",
-      "default": 24
-    },
-    {
-      "type": "range",
-      "id": "padding_right",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "label": "Padding Right",
-      "default": 24
+      "default": 50
     }
   ],
   "blocks": [
@@ -711,6 +746,12 @@
       "type": "step",
       "name": "Process Step",
       "settings": [
+        {
+          "type": "text",
+          "id": "step_number",
+          "label": "Step Number (e.g. 01)",
+          "default": "01"
+        },
         {
           "type": "image_picker",
           "id": "node_icon",
@@ -735,10 +776,38 @@
     {
       "name": "FR Custom Process",
       "blocks": [
-        { "type": "step", "settings": { "title": "Consultation", "description": "<p>Share your vision, space details, color preferences, and inspirational ideas with our design team.</p>" } },
-        { "type": "step", "settings": { "title": "Concept Design", "description": "<p>Our artists craft bespoke sketches, custom colorways, and digital previews tailored to your space.</p>" } },
-        { "type": "step", "settings": { "title": "Sampling & Approval", "description": "<p>Review physical swatches, material finishes, and refined details before final production.</p>" } },
-        { "type": "step", "settings": { "title": "Crafting & Delivery", "description": "<p>Your bespoke piece is precision-crafted, quality-checked, and safely delivered to your doorstep.</p>" } }
+        {
+          "type": "step",
+          "settings": {
+            "step_number": "01",
+            "title": "Consultation",
+            "description": "<p>Share your vision, space details, color preferences, and inspirational ideas with our design team.</p>"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "step_number": "02",
+            "title": "Concept Design",
+            "description": "<p>Our artists craft bespoke sketches, custom colorways, and digital previews tailored to your space.</p>"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "step_number": "03",
+            "title": "Sampling & Approval",
+            "description": "<p>Review physical swatches, material finishes, and refined details before final production.</p>"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "step_number": "04",
+            "title": "Crafting & Delivery",
+            "description": "<p>Your bespoke piece is precision-crafted, quality-checked, and safely delivered to your doorstep.</p>"
+          }
+        }
       ]
     }
   ]
