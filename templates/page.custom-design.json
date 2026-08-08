@@ -226,6 +226,110 @@
         "padding_right": 40
       }
     },
+    "fr_new_projects_NUAYwD": {
+      "type": "fr-new-projects",
+      "blocks": {
+        "project_n8xPQF": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/1_588e58d4-9cf5-43a1-9cab-53896c436b6c.png",
+            "title": "Project Name 1",
+            "subtitle": "something goes here",
+            "link": ""
+          }
+        },
+        "project_8zawDx": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/2_ddc76c0b-1726-405c-8cb6-68df988418e7.png",
+            "title": "Project Name 2",
+            "subtitle": "something goes here",
+            "link": ""
+          }
+        },
+        "project_CG4fGK": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/3_2cde91ee-1ec2-426f-9223-09e466411b5a.png",
+            "title": "Project Name 3",
+            "subtitle": "something goes here",
+            "link": ""
+          }
+        },
+        "project_EEWz9n": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/4_b29a0282-b211-41fb-851d-6e341d3cd8ac.png",
+            "title": "Project Name 4",
+            "subtitle": "something goes here",
+            "link": ""
+          }
+        },
+        "project_fXBYKH": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/5.png",
+            "title": "Project Name 5",
+            "subtitle": "something goes here",
+            "link": ""
+          }
+        },
+        "project_iKrYtt": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/6.png",
+            "title": "Project Name 6",
+            "subtitle": "something goes here",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "project_n8xPQF",
+        "project_8zawDx",
+        "project_CG4fGK",
+        "project_EEWz9n",
+        "project_fXBYKH",
+        "project_iKrYtt"
+      ],
+      "name": "FR New Projects",
+      "settings": {
+        "bg_color": "#ffffff",
+        "heading": "Projects.",
+        "subheading": "",
+        "container_max_width": 1300,
+        "heading_font": "playfair_display_n4",
+        "heading_size": 36,
+        "heading_alignment": "center",
+        "heading_align_mobile": "center",
+        "heading_margin_bottom": 40,
+        "heading_color": "#1a1a1a",
+        "subheading_color": "#666666",
+        "title_font": "playfair_display_n5",
+        "badge_title_size": 16,
+        "sub_font": "lato_n4",
+        "badge_sub_size": 12,
+        "row1_split": 58,
+        "row1_height": 440,
+        "row1_height_mobile": 250,
+        "row2_aspect_ratio": 105,
+        "row2_cols_mobile": "2",
+        "grid_gap_desktop": 24,
+        "grid_gap_mobile": 16,
+        "card_border_radius": 0,
+        "badge_bg_color": "#ffffff",
+        "badge_title_color": "#1a1a1a",
+        "badge_sub_color": "#777777",
+        "badge_padding_v": 12,
+        "badge_padding_h": 20,
+        "badge_radius": 0,
+        "badge_shadow": false,
+        "padding_top": 70,
+        "padding_bottom": 90,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 50
+      }
+    },
     "fr_custom_projects_CHgVxz": {
       "type": "fr-custom-projects",
       "blocks": {
@@ -286,6 +390,7 @@
         "project_Hz79aw",
         "project_8MPmxd"
       ],
+      "disabled": true,
       "name": "FR Custom Projects",
       "settings": {
         "bg_color": "#ffffff",
@@ -368,6 +473,7 @@
         "project_rrDcaA",
         "project_yV8WJP"
       ],
+      "disabled": true,
       "name": "FR Custom Projects",
       "settings": {
         "bg_color": "#ffffff",
@@ -451,6 +557,7 @@
         "project_MHBnDq",
         "project_Wk47Ni"
       ],
+      "disabled": true,
       "name": "FR Custom Projects",
       "settings": {
         "bg_color": "#ffffff",
@@ -649,6 +756,7 @@
     "fr_custom_hero_czjKym",
     "fr_custom_features_Jj6KVf",
     "fr_custom_cards_teU8DH",
+    "fr_new_projects_NUAYwD",
     "fr_custom_projects_CHgVxz",
     "fr_custom_projects_cMejAp",
     "fr_custom_projects_GEYcpU",
