@@ -69,7 +69,8 @@
             --gap-m: {{ section.settings.cards_gap_mobile }}px;
             --card-radius: {{ section.settings.card_border_radius }}px;
             --card-ar: {{ section.settings.card_aspect_ratio }};
-            --card-min-h: {{ section.settings.card_custom_height }}px;
+            --card-h-d: {{ section.settings.card_custom_height }}px;
+            --card-h-m: {{ section.settings.card_custom_height_mobile }}px;
           ">
           {%- for block in section.blocks -%}
             <div class="fr-new-season__card-col" {{ block.shopify_attributes }}>
@@ -77,7 +78,7 @@
                 <div class="fr-new-season__image-box">
                   {%- if block.settings.image != blank -%}
                     <img
-                      src="{{ block.settings.image | image_url: width: 700 }}"
+                      src="{{ block.settings.image | image_url: width: 900 }}"
                       alt="{{ block.settings.title | default: section.settings.heading | escape }}"
                       loading="lazy"
                       class="fr-new-season__img"
@@ -156,7 +157,7 @@
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      gap: 48px;
+      gap: 40px;
     }
   }
 
@@ -171,8 +172,8 @@
 
   @media (min-width: 990px) {
     #fr-new-season-{{ section.id }} .fr-new-season__content {
-      flex: 0 0 34%;
-      max-width: 440px;
+      flex: 0 0 32%;
+      max-width: 380px;
     }
   }
 
@@ -283,7 +284,7 @@
       gap: var(--gap-m);
     }
     #fr-new-season-{{ section.id }} .fr-new-season__card-col {
-      flex: 0 0 62%;
+      flex: 0 0 65%;
       scroll-snap-align: start;
     }
   }
@@ -305,14 +306,15 @@
   #fr-new-season-{{ section.id }} .fr-new-season__card-col {
     position: relative;
     box-sizing: border-box;
+    display: flex;
   }
 
   #fr-new-season-{{ section.id }} .fr-new-season__card {
-    display: block;
+    display: flex;
+    flex-direction: column;
     text-decoration: none;
     color: inherit;
     width: 100%;
-    height: 100%;
     border-radius: var(--card-radius);
     overflow: hidden;
     background-color: #ffffff;
@@ -329,9 +331,16 @@
     position: relative;
     width: 100%;
     aspect-ratio: var(--card-ar);
-    min-height: var(--card-min-h);
+    min-height: var(--card-h-m);
+    height: 100%;
     overflow: hidden;
     background-color: #f2f2f2;
+  }
+
+  @media (min-width: 768px) {
+    #fr-new-season-{{ section.id }} .fr-new-season__image-box {
+      min-height: var(--card-h-d);
+    }
   }
 
   #fr-new-season-{{ section.id }} .fr-new-season__img {
@@ -475,8 +484,8 @@
       "id": "heading_size",
       "label": "Heading Size (Desktop)",
       "min": 20,
-      "max": 56,
-      "step": 2,
+      "max": 60,
+      "step": 1,
       "unit": "px",
       "default": 36
     },
@@ -533,14 +542,11 @@
       "id": "content_align",
       "label": "Text Alignment",
       "options": [
-        { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" }
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Right" }
       ],
-      "default": "left"
-    },
-    {
-      "type": "header",
-      "content": "Button / CTA"
+      "default": "flex-start"
     },
     {
       "type": "text",
@@ -600,22 +606,34 @@
       "id": "card_aspect_ratio",
       "label": "Card Aspect Ratio",
       "options": [
+        { "value": "1/2.4", "label": "1:2.4 (Ultra Tall - Mockup Style)" },
+        { "value": "1/2.2", "label": "1:2.2 (Ultra Tall)" },
+        { "value": "1/2", "label": "1:2 (Tall)" },
         { "value": "9/16", "label": "9:16 (Tall Vertical Roll)" },
-        { "value": "1/2", "label": "1:2 (Ultra Tall)" },
         { "value": "2/3", "label": "2:3 (Portrait)" },
         { "value": "3/4", "label": "3:4 (Standard)" }
       ],
-      "default": "9/16"
+      "default": "1/2.4"
     },
     {
       "type": "range",
       "id": "card_custom_height",
-      "label": "Card Minimum Height (px)",
-      "min": 250,
-      "max": 650,
+      "label": "Card Height Desktop (px)",
+      "min": 300,
+      "max": 800,
       "step": 10,
       "unit": "px",
-      "default": 380
+      "default": 560
+    },
+    {
+      "type": "range",
+      "id": "card_custom_height_mobile",
+      "label": "Card Height Mobile (px)",
+      "min": 200,
+      "max": 550,
+      "step": 10,
+      "unit": "px",
+      "default": 360
     },
     {
       "type": "range",
@@ -659,7 +677,7 @@
       "max": 140,
       "step": 5,
       "unit": "px",
-      "default": 70
+      "default": 50
     },
     {
       "type": "range",
@@ -669,7 +687,7 @@
       "max": 140,
       "step": 5,
       "unit": "px",
-      "default": 70
+      "default": 50
     },
     {
       "type": "range",
@@ -699,7 +717,7 @@
       "max": 100,
       "step": 5,
       "unit": "px",
-      "default": 45
+      "default": 40
     },
     {
       "type": "range",
@@ -709,7 +727,7 @@
       "max": 100,
       "step": 5,
       "unit": "px",
-      "default": 45
+      "default": 40
     },
     {
       "type": "range",
