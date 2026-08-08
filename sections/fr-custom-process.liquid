@@ -314,6 +314,7 @@
     cursor: default;
     box-sizing: border-box;
     flex-shrink: 0;
+    overflow: hidden;
   }
 
   #fr-custom-process-{{ section.id }} .fr-custom-process__step-wrapper:hover .fr-custom-process__node {
@@ -322,9 +323,10 @@
   }
 
   #fr-custom-process-{{ section.id }} .fr-custom-process__node-icon {
-    width: 60%;
-    height: 60%;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
     display: block;
   }
 

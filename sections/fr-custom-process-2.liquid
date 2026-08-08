@@ -299,6 +299,7 @@
     box-shadow: 0 4px 16px rgba(0,0,0,0.06);
     z-index: 4;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
   }
 
   #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__step-wrapper:hover .fr-custom-process-2__node {
@@ -315,9 +316,11 @@
   }
 
   #fr-custom-process-2-{{ section.id }} .fr-custom-process-2__node-icon {
-    max-width: 50%;
-    max-height: 50%;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
   }
 
   /* Content Cards */
