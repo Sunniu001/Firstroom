@@ -138,6 +138,7 @@
             "collection": "kids-wallpaper",
             "image": "shopify://shop_images/kids.png",
             "title": "Kids",
+            "description": "Playful adventures unfold through whimsical landscapes, cheerful animals,\nand dreamy skies, sparking imagination, curiosity, and joyful storytelling.",
             "link": "shopify://collections/kids-wallpaper"
           }
         },
@@ -147,6 +148,7 @@
             "collection": "artistic",
             "image": "shopify://shop_images/artistic.png",
             "title": "Artistic",
+            "description": "A poetic blend of hand-painted landscapes, heritage motifs, and serene\nnature scenes, bringing artistic storytelling into contemporary living spaces.",
             "link": "shopify://collections/artistic"
           }
         },
@@ -156,6 +158,7 @@
             "collection": "timeless",
             "image": "shopify://shop_images/mural.png",
             "title": "Timeless",
+            "description": "Inspired by regal architecture and lush gardens, evoking enduring beauty,\ncultural richness, and graceful luxury across generations.",
             "link": "shopify://collections/timeless"
           }
         },
@@ -165,6 +168,7 @@
             "collection": "tropical",
             "image": "shopify://shop_images/tropical.png",
             "title": "Tropical",
+            "description": "Lush palms, exotic foliage, and vibrant wildlife create an immersive tropical\nescape filled with warmth, vitality, and natural wonder.",
             "link": "shopify://collections/tropical"
           }
         },
@@ -174,6 +178,7 @@
             "collection": "inner-landscape",
             "image": "shopify://shop_images/spiritual.png",
             "title": "Inner Landscapes",
+            "description": "Inspired by tranquil rivers, rainbows, and meditative retreats, creating a\npeaceful sanctuary that nurtures calm, balance, and reflection.",
             "link": "shopify://collections/inner-landscape"
           }
         },
@@ -183,6 +188,7 @@
             "collection": "motif-impression",
             "image": "shopify://shop_images/motif.png",
             "title": "Motif Impressions",
+            "description": "Classic ornamental patterns meet curated botanical motifs, blending heritage\ncharm with refined",
             "link": "shopify://collections/motif-impression"
           }
         },
@@ -192,6 +198,7 @@
             "collection": "botanical-rhythm",
             "image": "shopify://shop_images/floral.png",
             "title": "Botanical",
+            "description": "Å delicate celebration of blooming meadows, where soft florals and graceful\nfoliage bring serenity, freshness, and timeless botanical elegance indoors.",
             "link": "shopify://collections/botanical-rhythm"
           }
         }
@@ -217,19 +224,23 @@
         "description_size": 14,
         "description_size_mobile": 13,
         "description_color": "#4b5563",
+        "columns_desktop": "3",
+        "columns_tablet": "2",
+        "card_width_desktop": 31,
+        "card_width_tablet": 45,
+        "card_width_mobile": 80,
         "aspect_ratio": "3/4",
+        "card_custom_height_desktop": 0,
+        "card_custom_height_mobile": 0,
         "card_radius": 0,
         "grid_gap": 24,
         "grid_gap_mobile": 16,
-        "columns_desktop": "3",
-        "columns_tablet": "2",
-        "card_width_mobile": 80,
         "text_position": "below",
         "card_text_align": "center",
         "title_size": 18,
         "title_size_mobile": 16,
         "title_color": "#1a1a1a",
-        "card_desc_size": 13,
+        "card_desc_size": 12,
         "card_desc_size_mobile": 12,
         "card_desc_color": "#666666",
         "card_desc_margin_top": 6,
@@ -297,11 +308,11 @@
         "badge_color": "#1a1a1a",
         "badge_size": 12,
         "badge_size_mobile": 11,
-        "heading": "New Season, New Design",
+        "heading": "The Latest Edit",
         "heading_size": 36,
         "heading_size_mobile": 24,
         "heading_color": "#1a1a1a",
-        "description": "<p>Discover our newly launched season collection featuring bespoke textures, artistic botanicals, and modern architectural aesthetics created to elevate your interior spaces.</p>",
+        "description": "<p>Rooted in tradition yet expansive in expression, this is a capsule collection-layered, detailed, and unapologetically rich. Each design draws from a different cultural landscape of India, transforming heritage into immersive wall art.</p>",
         "description_size": 14,
         "description_size_mobile": 13,
         "description_color": "#4b5563",
@@ -313,8 +324,8 @@
         "btn_border_color": "#ffffff",
         "btn_size": 14,
         "btn_radius": 2,
-        "card_aspect_ratio": "9/16",
-        "card_custom_height": 380,
+        "card_aspect_ratio": "1/2",
+        "card_custom_height": 250,
         "card_border_radius": 2,
         "cards_gap": 16,
         "cards_gap_mobile": 12,
