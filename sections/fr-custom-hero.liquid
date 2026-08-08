@@ -46,10 +46,9 @@
         {%- endif -%}
 
         {%- if section.settings.button_label != blank -%}
-          <a href="{{ section.settings.button_link }}" class="fr-custom-hero__btn" style="
-            background-color: {{ section.settings.button_bg }};
-            color: {{ section.settings.button_text }};
-          ">{{ section.settings.button_label }}</a>
+          <a href="{{ section.settings.button_link }}" class="fr-custom-hero__btn">
+            {{ section.settings.button_label }}
+          </a>
         {%- endif -%}
       </div>
     </div>
@@ -71,6 +70,36 @@
 
   #fr-custom-hero-{{ section.id }} .fr-custom-hero__btn {
     font-family: {{ section.settings.button_font.family }}, {{ section.settings.button_font.fallback_families }};
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: {{ section.settings.button_padding_v_mobile | default: 10 }}px {{ section.settings.button_padding_h_mobile | default: 20 }}px;
+    background-color: {{ section.settings.button_bg | default: '#ffffff' }};
+    color: {{ section.settings.button_text | default: '#1a1a1a' }};
+    border: {{ section.settings.button_border_width | default: 0 }}px solid {{ section.settings.button_border_color | default: 'transparent' }};
+    border-radius: {{ section.settings.button_border_radius | default: 0 }}px;
+    font-size: {{ section.settings.button_font_size_mobile | default: 12 }}px;
+    font-weight: {{ section.settings.button_font.weight | default: 600 }};
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    cursor: pointer;
+    margin-top: {{ section.settings.button_margin_top | default: 16 }}px;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease, transform 0.2s ease;
+    box-sizing: border-box;
+  }
+
+  @media (min-width: 768px) {
+    #fr-custom-hero-{{ section.id }} .fr-custom-hero__btn {
+      padding: {{ section.settings.button_padding_v | default: 14 }}px {{ section.settings.button_padding_h | default: 28 }}px;
+      font-size: {{ section.settings.button_font_size | default: 13 }}px;
+    }
+  }
+
+  #fr-custom-hero-{{ section.id }} .fr-custom-hero__btn:hover {
+    background-color: {{ section.settings.button_hover_bg | default: '#1a1a1a' }};
+    color: {{ section.settings.button_hover_text | default: '#ffffff' }};
+    border-color: {{ section.settings.button_hover_border_color | default: '#1a1a1a' }};
   }
 
   #fr-custom-hero-{{ section.id }} {
@@ -178,24 +207,6 @@
     line-height: 1.5;
   }
 
-  #fr-custom-hero-{{ section.id }} .fr-custom-hero__btn {
-    display: inline-block;
-    padding: 12px 0;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: {{ section.settings.button_font.weight | default: 600 }};
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border: none;
-    cursor: pointer;
-    align-self: flex-start;
-    transition: opacity 0.3s ease;
-  }
-
-  #fr-custom-hero-{{ section.id }} .fr-custom-hero__btn:hover {
-    opacity: 0.8;
-  }
-
   @media (max-width: 767px) {
     #fr-custom-hero-{{ section.id }} .fr-custom-hero__inner {
       min-height: {{ section.settings.min_height_mobile }}px;
@@ -207,9 +218,6 @@
     }
     #fr-custom-hero-{{ section.id }} .fr-custom-hero__heading {
       margin-bottom: 20px;
-    }
-    #fr-custom-hero-{{ section.id }} .fr-custom-hero__btn {
-      /* Button inherits align-items from the parent container now */
     }
   }
 </style>
@@ -345,6 +353,10 @@
       "default": "#1a1a1a"
     },
     {
+      "type": "header",
+      "content": "CTA Button Settings"
+    },
+    {
       "type": "font_picker",
       "id": "button_font",
       "label": "Button Font",
@@ -364,14 +376,128 @@
     {
       "type": "color",
       "id": "button_bg",
-      "label": "Button Background",
-      "default": "transparent"
+      "label": "Button Background Color",
+      "default": "#ffffff"
     },
     {
       "type": "color",
       "id": "button_text",
       "label": "Button Text Color",
       "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "button_border_color",
+      "label": "Button Border Color",
+      "default": "transparent"
+    },
+    {
+      "type": "range",
+      "id": "button_border_width",
+      "min": 0,
+      "max": 6,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Border Width",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Border Radius",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg",
+      "label": "Button Hover Background",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text",
+      "label": "Button Hover Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_border_color",
+      "label": "Button Hover Border Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "button_padding_v",
+      "min": 4,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Button Vertical Padding (Desktop)",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "button_padding_h",
+      "min": 8,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Button Horizontal Padding (Desktop)",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "button_padding_v_mobile",
+      "min": 4,
+      "max": 28,
+      "step": 2,
+      "unit": "px",
+      "label": "Button Vertical Padding (Mobile)",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "button_padding_h_mobile",
+      "min": 8,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Button Horizontal Padding (Mobile)",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "min": 10,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Font Size (Desktop)",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "button_font_size_mobile",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Font Size (Mobile)",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "button_margin_top",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Button Margin Top",
+      "default": 16
     },
     {
       "type": "header",

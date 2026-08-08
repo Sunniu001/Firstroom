@@ -3,45 +3,61 @@
 {%- endcomment -%}
 
 <section id="fr-custom-cards-{{ section.id }}" class="fr-custom-cards" style="
-  background-color: {{ section.settings.bg_color }};
-  --pt-m: {{ section.settings.padding_top_mobile | default: section.settings.padding_top }}px;
-  --pb-m: {{ section.settings.padding_bottom_mobile | default: section.settings.padding_bottom }}px;
-  --pt-d: {{ section.settings.padding_top }}px;
-  --pb-d: {{ section.settings.padding_bottom }}px;
-  padding-left: {{ section.settings.padding_left }}px;
-  padding-right: {{ section.settings.padding_right }}px;
-  --fz-txt-d: {{ section.settings.text_size_desktop }}px;
-  --fz-txt-m: {{ section.settings.text_size_mobile }}px;
-  --fz-desc-d: {{ section.settings.desc_size_desktop }}px;
-  --fz-desc-m: {{ section.settings.desc_size_mobile }}px;
+  background-color: {{ section.settings.bg_color | default: '#ffffff' }};
+  --pt-m: {{ section.settings.padding_top_mobile | default: section.settings.padding_top | default: 40 }}px;
+  --pb-m: {{ section.settings.padding_bottom_mobile | default: section.settings.padding_bottom | default: 40 }}px;
+  --pt-d: {{ section.settings.padding_top | default: 60 }}px;
+  --pb-d: {{ section.settings.padding_bottom | default: 60 }}px;
+  padding-left: {{ section.settings.padding_left | default: 24 }}px;
+  padding-right: {{ section.settings.padding_right | default: 24 }}px;
+  --fz-txt-d: {{ section.settings.text_size_desktop | default: 16 }}px;
+  --fz-txt-m: {{ section.settings.text_size_mobile | default: 15 }}px;
+  --fz-desc-d: {{ section.settings.desc_size_desktop | default: 13 }}px;
+  --fz-desc-m: {{ section.settings.desc_size_mobile | default: 12 }}px;
 ">
-  <div class="fr-custom-cards__container" style="max-width: {{ section.settings.content_max_width }}px;">
+  <div class="fr-custom-cards__container" style="max-width: {{ section.settings.content_max_width | default: 1300 }}px;">
     {%- if section.settings.heading != blank -%}
       <h2 class="fr-custom-cards__heading" style="
-        font-size: {{ section.settings.heading_size }}px;
-        color: {{ section.settings.heading_color }};
-        --ha-m: {{ section.settings.heading_align_mobile | default: section.settings.heading_alignment }};
-        --ha-d: {{ section.settings.heading_alignment }};
+        font-size: {{ section.settings.heading_size | default: 36 }}px;
+        color: {{ section.settings.heading_color | default: '#1a1a1a' }};
+        --ha-m: {{ section.settings.heading_align_mobile | default: section.settings.heading_alignment | default: 'center' }};
+        --ha-d: {{ section.settings.heading_alignment | default: 'center' }};
       ">{{ section.settings.heading }}</h2>
     {%- endif -%}
 
-    <div class="fr-custom-cards__grid" style="gap: {{ section.settings.gap }}px;">
+    <div class="fr-custom-cards__grid" style="
+      --cols-d: {{ section.settings.columns_desktop | default: 4 }};
+      --cols-m: {{ section.settings.columns_mobile | default: 1 }};
+      gap: {{ section.settings.gap | default: 30 }}px;
+    ">
       {%- for block in section.blocks -%}
-        <div class="fr-custom-cards__card" {{ block.shopify_attributes }} style="transform: translateY({{ block.settings.offset_y }}px); --ta-m: {{ section.settings.text_align_mobile | default: 'center' }}; --ta-d: {{ section.settings.text_align | default: 'center' }};">
+        {%- assign card_ratio = block.settings.aspect_ratio | default: section.settings.default_aspect_ratio | default: 125 -%}
+        <div class="fr-custom-cards__card" {{ block.shopify_attributes }} style="
+          transform: translateY({{ block.settings.offset_y | default: 0 }}px);
+          --ta-m: {{ section.settings.text_align_mobile | default: 'center' }};
+          --ta-d: {{ section.settings.text_align | default: 'center' }};
+        ">
           <div class="fr-custom-cards__image-wrapper" style="
-            padding-bottom: {{ block.settings.aspect_ratio }}%;
+            padding-bottom: {{ card_ratio }}%;
+            border-radius: {{ section.settings.card_border_radius | default: 0 }}px;
           ">
             {%- if block.settings.image != blank -%}
-              <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.image.alt | escape }}" loading="lazy" class="fr-custom-cards__image">
+              <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.text | default: block.settings.image.alt | escape }}" loading="lazy" class="fr-custom-cards__image">
             {%- else -%}
               <div class="fr-custom-cards__placeholder"></div>
             {%- endif -%}
           </div>
+          
           {%- if block.settings.text != blank -%}
-            <div class="fr-custom-cards__text" style="color: {{ section.settings.text_color }};">{{ block.settings.text }}</div>
+            <h3 class="fr-custom-cards__text" style="color: {{ section.settings.text_color | default: '#1a1a1a' }};">
+              {{ block.settings.text }}
+            </h3>
           {%- endif -%}
+          
           {%- if block.settings.description != blank -%}
-            <div class="fr-custom-cards__desc" style="color: {{ section.settings.text_color }};">{{ block.settings.description }}</div>
+            <div class="fr-custom-cards__desc" style="color: {{ section.settings.desc_color | default: '#555555' }};">
+              {{ block.settings.description }}
+            </div>
           {%- endif -%}
         </div>
       {%- endfor -%}
@@ -52,60 +68,86 @@
 <style>
   {{ section.settings.heading_font | font_face: font_display: 'swap' }}
   {{ section.settings.text_font | font_face: font_display: 'swap' }}
+  {{ section.settings.desc_font | font_face: font_display: 'swap' }}
 
   #fr-custom-cards-{{ section.id }} {
+    width: 100%;
+    box-sizing: border-box;
     padding-top: var(--pt-m);
     padding-bottom: var(--pb-m);
   }
 
-  #fr-custom-cards-{{ section.id }} .fr-custom-cards__heading {
-    font-family: {{ section.settings.heading_font.family }}, {{ section.settings.heading_font.fallback_families }};
-  }
-  
-  #fr-custom-cards-{{ section.id }} .fr-custom-cards__text {
-    font-family: {{ section.settings.text_font.family }}, {{ section.settings.text_font.fallback_families }};
-    font-size: var(--fz-txt-m);
-    margin-top: 15px;
-  }
-
-  #fr-custom-cards-{{ section.id }} .fr-custom-cards__desc {
-    font-family: 'Lato', system-ui, sans-serif;
-    font-size: var(--fz-desc-m);
-    margin-top: 8px;
+  @media (min-width: 768px) {
+    #fr-custom-cards-{{ section.id }} {
+      padding-top: var(--pt-d);
+      padding-bottom: var(--pb-d);
+    }
   }
 
   #fr-custom-cards-{{ section.id }} .fr-custom-cards__container {
     margin: 0 auto;
-    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   #fr-custom-cards-{{ section.id }} .fr-custom-cards__heading {
     display: block;
     width: 100%;
-    margin: 0 0 {{ section.settings.heading_margin_bottom }}px 0;
-    font-weight: {{ section.settings.heading_font.weight | default: 500 }};
+    margin: 0 0 {{ section.settings.heading_margin_bottom | default: 50 }}px 0;
+    font-family: {{ section.settings.heading_font.family | default: "'Playfair Display'" }}, {{ section.settings.heading_font.fallback_families | default: 'serif' }};
+    font-weight: {{ section.settings.heading_font.weight | default: 400 }};
+    font-style: {{ section.settings.heading_font.style | default: 'normal' }};
     text-align: var(--ha-m);
+    line-height: 1.25;
+    letter-spacing: 0.01em;
+  }
+
+  @media (min-width: 768px) {
+    #fr-custom-cards-{{ section.id }} .fr-custom-cards__heading {
+      text-align: var(--ha-d);
+    }
   }
 
   #fr-custom-cards-{{ section.id }} .fr-custom-cards__grid {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: center; /* This helps with staggered heights if images vary */
+    display: grid;
+    grid-template-columns: repeat(var(--cols-m, 1), 1fr);
+    align-items: flex-start;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  @media (min-width: 600px) and (max-width: 989px) {
+    #fr-custom-cards-{{ section.id }} .fr-custom-cards__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 990px) {
+    #fr-custom-cards-{{ section.id }} .fr-custom-cards__grid {
+      grid-template-columns: repeat(var(--cols-d, 4), 1fr);
+    }
   }
 
   #fr-custom-cards-{{ section.id }} .fr-custom-cards__card {
-    flex: 1 1 0;
     display: flex;
     flex-direction: column;
     text-align: var(--ta-m);
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  @media (min-width: 768px) {
+    #fr-custom-cards-{{ section.id }} .fr-custom-cards__card {
+      text-align: var(--ta-d);
+    }
   }
 
   #fr-custom-cards-{{ section.id }} .fr-custom-cards__image-wrapper {
     position: relative;
     width: 100%;
     overflow: hidden;
-    background-color: #e0e0e0;
+    background-color: #f2f2f2;
+    box-sizing: border-box;
   }
 
   #fr-custom-cards-{{ section.id }} .fr-custom-cards__image {
@@ -115,6 +157,12 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  #fr-custom-cards-{{ section.id }} .fr-custom-cards__card:hover .fr-custom-cards__image {
+    transform: scale(1.03);
   }
 
   #fr-custom-cards-{{ section.id }} .fr-custom-cards__placeholder {
@@ -123,41 +171,40 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #d8d8d8;
+    background-color: #e5e5e5;
   }
   
   #fr-custom-cards-{{ section.id }} .fr-custom-cards__text {
-    margin-top: 16px;
-    font-weight: {{ section.settings.text_font.weight | default: 400 }};
+    font-family: {{ section.settings.text_font.family | default: "'Lato'" }}, {{ section.settings.text_font.fallback_families | default: 'sans-serif' }};
+    font-weight: {{ section.settings.text_font.weight | default: 600 }};
+    font-style: {{ section.settings.text_font.style | default: 'normal' }};
+    font-size: var(--fz-txt-m);
+    margin: 18px 0 6px 0;
+    line-height: 1.35;
   }
 
   @media (min-width: 768px) {
-    #fr-custom-cards-{{ section.id }} {
-      padding-top: var(--pt-d);
-      padding-bottom: var(--pb-d);
-    }
-    #fr-custom-cards-{{ section.id }} .fr-custom-cards__heading {
-      text-align: var(--ha-d);
-    }
-    #fr-custom-cards-{{ section.id }} .fr-custom-cards__card {
-      text-align: var(--ta-d);
-    }
     #fr-custom-cards-{{ section.id }} .fr-custom-cards__text {
       font-size: var(--fz-txt-d);
     }
-    #fr-custom-cards-{{ section.id }} .fr-custom-cards__desc {
-      font-size: var(--fz-desc-d);
-    }
   }
 
-  @media (max-width: 767px) {
-    #fr-custom-cards-{{ section.id }} .fr-custom-cards__grid {
-      flex-direction: column;
-    }
-    #fr-custom-cards-{{ section.id }} .fr-custom-cards__card {
-      width: 100%;
-      max-width: 100%;
-      transform: none !important;
+  #fr-custom-cards-{{ section.id }} .fr-custom-cards__desc {
+    font-family: {{ section.settings.desc_font.family | default: "'Lato'" }}, {{ section.settings.desc_font.fallback_families | default: 'sans-serif' }};
+    font-weight: {{ section.settings.desc_font.weight | default: 400 }};
+    font-style: {{ section.settings.desc_font.style | default: 'normal' }};
+    font-size: var(--fz-desc-m);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  #fr-custom-cards-{{ section.id }} .fr-custom-cards__desc p {
+    margin: 0;
+  }
+
+  @media (min-width: 768px) {
+    #fr-custom-cards-{{ section.id }} .fr-custom-cards__desc {
+      font-size: var(--fz-desc-d);
     }
   }
 </style>
@@ -182,12 +229,51 @@
     {
       "type": "range",
       "id": "content_max_width",
-      "min": 600,
+      "min": 800,
       "max": 1600,
       "step": 20,
       "unit": "px",
       "label": "Content Max Width",
-      "default": 1200
+      "default": 1300
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "label": "Columns (Desktop)",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "min": 1,
+      "max": 2,
+      "step": 1,
+      "label": "Columns (Mobile)",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "default_aspect_ratio",
+      "min": 60,
+      "max": 180,
+      "step": 5,
+      "unit": "%",
+      "label": "Default Image Aspect Ratio",
+      "info": "100% is square, 125% is 4:5 portrait, 140% is tall.",
+      "default": 125
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Image Border Radius",
+      "default": 0
     },
     {
       "type": "font_picker",
@@ -235,7 +321,7 @@
       "step": 2,
       "unit": "px",
       "label": "Heading Margin Bottom",
-      "default": 40
+      "default": 50
     },
     {
       "type": "color",
@@ -246,8 +332,8 @@
     {
       "type": "font_picker",
       "id": "text_font",
-      "label": "Text Font",
-      "default": "lato_n4"
+      "label": "Card Title Font",
+      "default": "lato_n6"
     },
     {
       "type": "range",
@@ -256,7 +342,7 @@
       "max": 32,
       "step": 1,
       "unit": "px",
-      "label": "Text Size (Desktop)",
+      "label": "Card Title Size (Desktop)",
       "default": 16
     },
     {
@@ -266,23 +352,35 @@
       "max": 32,
       "step": 1,
       "unit": "px",
-      "label": "Text Size (Mobile)",
-      "default": 14
+      "label": "Card Title Size (Mobile)",
+      "default": 15
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Card Title Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "font_picker",
+      "id": "desc_font",
+      "label": "Card Description Font",
+      "default": "lato_n4"
     },
     {
       "type": "range",
       "id": "desc_size_desktop",
-      "min": 12,
+      "min": 11,
       "max": 24,
       "step": 1,
       "unit": "px",
       "label": "Description Size (Desktop)",
-      "default": 14
+      "default": 13
     },
     {
       "type": "range",
       "id": "desc_size_mobile",
-      "min": 12,
+      "min": 11,
       "max": 24,
       "step": 1,
       "unit": "px",
@@ -291,9 +389,9 @@
     },
     {
       "type": "color",
-      "id": "text_color",
-      "label": "Text Color",
-      "default": "#1a1a1a"
+      "id": "desc_color",
+      "label": "Description Color",
+      "default": "#555555"
     },
     {
       "type": "select",
@@ -321,11 +419,11 @@
       "type": "range",
       "id": "gap",
       "min": 0,
-      "max": 100,
+      "max": 80,
       "step": 5,
       "unit": "px",
       "label": "Space between cards",
-      "default": 20
+      "default": 30
     },
     {
       "type": "header",
@@ -335,7 +433,7 @@
       "type": "range",
       "id": "padding_top",
       "min": 0,
-      "max": 120,
+      "max": 160,
       "step": 4,
       "unit": "px",
       "label": "Padding Top",
@@ -345,11 +443,11 @@
       "type": "range",
       "id": "padding_bottom",
       "min": 0,
-      "max": 120,
+      "max": 160,
       "step": 4,
       "unit": "px",
       "label": "Padding Bottom (Desktop)",
-      "default": 60
+      "default": 100
     },
     {
       "type": "range",
@@ -379,7 +477,7 @@
       "step": 4,
       "unit": "px",
       "label": "Padding Left",
-      "default": 20
+      "default": 24
     },
     {
       "type": "range",
@@ -389,7 +487,7 @@
       "step": 4,
       "unit": "px",
       "label": "Padding Right",
-      "default": 20
+      "default": 24
     }
   ],
   "blocks": [
@@ -410,8 +508,8 @@
           "step": 5,
           "unit": "%",
           "label": "Image Height (Aspect Ratio)",
-          "info": "100% is square, 150% is tall, 75% is wide.",
-          "default": 120
+          "info": "Leave blank or 125% for 4:5 portrait.",
+          "default": 125
         },
         {
           "type": "range",
@@ -421,18 +519,19 @@
           "step": 2,
           "unit": "px",
           "label": "Vertical Offset",
-          "info": "Use this to push individual cards up or down to create a staggered look.",
           "default": 0
         },
         {
           "type": "text",
           "id": "text",
-          "label": "Title Text"
+          "label": "Title Text",
+          "default": "Custom Category"
         },
         {
           "type": "richtext",
           "id": "description",
-          "label": "Description"
+          "label": "Description",
+          "default": "<p>Design bespoke items crafted to suit your interior aesthetic.</p>"
         }
       ]
     }
@@ -441,9 +540,10 @@
     {
       "name": "FR Custom Cards",
       "blocks": [
-        { "type": "card", "settings": { "aspect_ratio": 130 } },
-        { "type": "card", "settings": { "aspect_ratio": 100 } },
-        { "type": "card", "settings": { "aspect_ratio": 130 } }
+        { "type": "card", "settings": { "text": "Wallpapers", "description": "<p>Design bespoke wallpapers with custom patterns, artwork, colors and dimensions, crafted to suit your interiors.</p>" } },
+        { "type": "card", "settings": { "text": "Decals & Wall art", "description": "<p>Personalize decorative decals with unique illustrations, motifs and layouts that enhance any wall or corner.</p>" } },
+        { "type": "card", "settings": { "text": "Name Plates", "description": "<p>Create personalized Nameplates with custom names, typography, and finishes, designed to make every entrance uniquely yours.</p>" } },
+        { "type": "card", "settings": { "text": "Frames", "description": "<p>Customize decorative frames with your preferred artwork, dimensions, and finishes to complement your interior style.</p>" } }
       ]
     }
   ]

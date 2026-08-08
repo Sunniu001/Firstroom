@@ -1,101 +1,253 @@
 {%- comment -%}
-  FR Custom Projects Section (Advanced Staggered Grid)
+  FR Custom Projects Section (2-Tier Grid matching Image 3)
+  Row 1: 2 large featured cards (Asymmetric Wide + Medium)
+  Row 2: 4 equal grid cards
+  Each card features a bottom-left white label badge
 {%- endcomment -%}
 
 <section id="fr-custom-projects-{{ section.id }}" class="fr-custom-projects" style="
-  background-color: {{ section.settings.bg_color }};
-  padding-top: {{ section.settings.padding_top_mobile | default: section.settings.padding_top }}px;
-  padding-bottom: {{ section.settings.padding_bottom_mobile | default: section.settings.padding_bottom }}px;
-  --pt-d: {{ section.settings.padding_top }}px;
-  --pb-d: {{ section.settings.padding_bottom }}px;
-  padding-left: {{ section.settings.padding_left }}px;
-  padding-right: {{ section.settings.padding_right }}px;
-  --fz-title-d: {{ section.settings.title_size_desktop }}px;
-  --fz-title-m: {{ section.settings.title_size_mobile }}px;
-  --fz-sub-d: {{ section.settings.subtitle_size_desktop }}px;
-  --fz-sub-m: {{ section.settings.subtitle_size_mobile }}px;
+  background-color: {{ section.settings.bg_color | default: '#ffffff' }};
+  --pt-m: {{ section.settings.padding_top_mobile | default: section.settings.padding_top | default: 40 }}px;
+  --pb-m: {{ section.settings.padding_bottom_mobile | default: section.settings.padding_bottom | default: 40 }}px;
+  --pt-d: {{ section.settings.padding_top | default: 60 }}px;
+  --pb-d: {{ section.settings.padding_bottom | default: 80 }}px;
+  padding-left: {{ section.settings.padding_left | default: 24 }}px;
+  padding-right: {{ section.settings.padding_right | default: 24 }}px;
 ">
-  <div class="fr-custom-projects__container">
+  <div class="fr-custom-projects__container" style="max-width: {{ section.settings.container_max_width | default: 1300 }}px;">
     {%- if section.settings.heading != blank -%}
       <h2 class="fr-custom-projects__heading" style="
-        font-size: {{ section.settings.heading_size }}px;
-        color: {{ section.settings.heading_color }};
+        font-size: {{ section.settings.heading_size | default: 36 }}px;
+        color: {{ section.settings.heading_color | default: '#1a1a1a' }};
+        --ha-m: {{ section.settings.heading_align_mobile | default: section.settings.heading_alignment | default: 'center' }};
+        --ha-d: {{ section.settings.heading_alignment | default: 'center' }};
       ">{{ section.settings.heading }}</h2>
     {%- endif -%}
 
-    <div class="fr-custom-projects__grid" style="
-      gap: {{ section.settings.grid_gap }}px;
-      max-width: {{ section.settings.grid_max_width }}px;
-    ">
-      {%- for block in section.blocks -%}
-        <div class="fr-custom-projects__item fr-custom-projects__item--text-{{ block.settings.text_position }}" 
-             {{ block.shopify_attributes }}
-             style="grid-column: {{ block.settings.column_start }}; transform: translateY({{ block.settings.offset_y }}px); {%- if block.settings.is_invisible -%}opacity: 0; pointer-events: none;{%- endif -%}">
-             
-          <div class="fr-custom-projects__image-wrapper" style="padding-bottom: {{ block.settings.aspect_ratio }}%;">
-            {%- if block.settings.image != blank -%}
-              <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.title | escape }}" loading="lazy" class="fr-custom-projects__image">
-            {%- else -%}
-              <div class="fr-custom-projects__placeholder"></div>
-            {%- endif -%}
-          </div>
+    <div class="fr-custom-projects__wrapper" style="gap: {{ section.settings.gap | default: 24 }}px;">
+      
+      {%- comment -%} --- ROW 1: 2 Featured Cards (Wide + Medium) --- {%- endcomment -%}
+      {%- assign row1_blocks = section.blocks | slice: 0, 2 -%}
+      {%- if row1_blocks.size > 0 -%}
+        <div class="fr-custom-projects__row1" style="gap: {{ section.settings.gap | default: 24 }}px;">
+          {%- for block in row1_blocks -%}
+            {%- assign is_first = forloop.first -%}
+            <div class="fr-custom-projects__card fr-custom-projects__card--row1 {% if is_first %}fr-custom-projects__card--wide{% else %}fr-custom-projects__card--medium{% endif %}" 
+                 {{ block.shopify_attributes }}>
+              <div class="fr-custom-projects__card-inner" style="
+                border-radius: {{ section.settings.card_border_radius | default: 0 }}px;
+                {%- if block.settings.aspect_ratio_override != blank and block.settings.aspect_ratio_override > 0 -%}
+                  padding-bottom: {{ block.settings.aspect_ratio_override }}%;
+                {%- else -%}
+                  height: {{ section.settings.row1_height | default: 460 }}px;
+                {%- endif -%}
+              ">
+                {%- if block.settings.image != blank -%}
+                  <img src="{{ block.settings.image | image_url: width: 1400 }}" alt="{{ block.settings.title | default: 'Project' | escape }}" loading="lazy" class="fr-custom-projects__image">
+                {%- else -%}
+                  <div class="fr-custom-projects__placeholder"></div>
+                {%- endif -%}
 
-          {%- if block.settings.title != blank or block.settings.subtitle != blank -%}
-            <div class="fr-custom-projects__content">
-              {%- if block.settings.title != blank -%}
-                <h3 class="fr-custom-projects__title">{{ block.settings.title }}</h3>
-              {%- endif -%}
-              {%- if block.settings.subtitle != blank -%}
-                <p class="fr-custom-projects__subtitle">{{ block.settings.subtitle }}</p>
-              {%- endif -%}
+                {%- if block.settings.title != blank -%}
+                  <div class="fr-custom-projects__badge" style="
+                    background-color: {{ section.settings.badge_bg | default: '#ffffff' }};
+                    color: {{ section.settings.badge_color | default: '#1a1a1a' }};
+                    border-radius: {{ section.settings.badge_radius | default: 0 }}px;
+                  ">
+                    <span class="fr-custom-projects__badge-title">{{ block.settings.title }}</span>
+                    {%- if block.settings.subtitle != blank -%}
+                      <span class="fr-custom-projects__badge-sub">{{ block.settings.subtitle }}</span>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.link != blank -%}
+                  <a href="{{ block.settings.link }}" class="fr-custom-projects__link" aria-label="{{ block.settings.title | escape }}"></a>
+                {%- endif -%}
+              </div>
             </div>
-          {%- endif -%}
+          {%- endfor -%}
         </div>
-      {%- endfor -%}
+      {%- endif -%}
+
+      {%- comment -%} --- ROW 2: 4 Grid Cards --- {%- endcomment -%}
+      {%- assign row2_blocks = section.blocks | slice: 2, 4 -%}
+      {%- if row2_blocks.size > 0 -%}
+        <div class="fr-custom-projects__row2" style="
+          --cols-m: {{ section.settings.row2_cols_mobile | default: 2 }};
+          gap: {{ section.settings.gap | default: 24 }}px;
+        ">
+          {%- for block in row2_blocks -%}
+            <div class="fr-custom-projects__card fr-custom-projects__card--row2" {{ block.shopify_attributes }}>
+              <div class="fr-custom-projects__card-inner" style="
+                border-radius: {{ section.settings.card_border_radius | default: 0 }}px;
+                padding-bottom: {{ block.settings.aspect_ratio_override | default: section.settings.row2_aspect_ratio | default: 110 }}%;
+              ">
+                {%- if block.settings.image != blank -%}
+                  <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.title | default: 'Project' | escape }}" loading="lazy" class="fr-custom-projects__image">
+                {%- else -%}
+                  <div class="fr-custom-projects__placeholder"></div>
+                {%- endif -%}
+
+                {%- if block.settings.title != blank -%}
+                  <div class="fr-custom-projects__badge" style="
+                    background-color: {{ section.settings.badge_bg | default: '#ffffff' }};
+                    color: {{ section.settings.badge_color | default: '#1a1a1a' }};
+                    border-radius: {{ section.settings.badge_radius | default: 0 }}px;
+                  ">
+                    <span class="fr-custom-projects__badge-title">{{ block.settings.title }}</span>
+                    {%- if block.settings.subtitle != blank -%}
+                      <span class="fr-custom-projects__badge-sub">{{ block.settings.subtitle }}</span>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.link != blank -%}
+                  <a href="{{ block.settings.link }}" class="fr-custom-projects__link" aria-label="{{ block.settings.title | escape }}"></a>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} --- ANY EXTRA BLOCKS (Beyond 6) --- {%- endcomment -%}
+      {%- assign extra_blocks = section.blocks | slice: 6, 20 -%}
+      {%- if extra_blocks.size > 0 -%}
+        <div class="fr-custom-projects__row2" style="
+          --cols-m: {{ section.settings.row2_cols_mobile | default: 2 }};
+          gap: {{ section.settings.gap | default: 24 }}px;
+        ">
+          {%- for block in extra_blocks -%}
+            <div class="fr-custom-projects__card fr-custom-projects__card--row2" {{ block.shopify_attributes }}>
+              <div class="fr-custom-projects__card-inner" style="
+                border-radius: {{ section.settings.card_border_radius | default: 0 }}px;
+                padding-bottom: {{ block.settings.aspect_ratio_override | default: section.settings.row2_aspect_ratio | default: 110 }}%;
+              ">
+                {%- if block.settings.image != blank -%}
+                  <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.title | default: 'Project' | escape }}" loading="lazy" class="fr-custom-projects__image">
+                {%- else -%}
+                  <div class="fr-custom-projects__placeholder"></div>
+                {%- endif -%}
+
+                {%- if block.settings.title != blank -%}
+                  <div class="fr-custom-projects__badge" style="
+                    background-color: {{ section.settings.badge_bg | default: '#ffffff' }};
+                    color: {{ section.settings.badge_color | default: '#1a1a1a' }};
+                    border-radius: {{ section.settings.badge_radius | default: 0 }}px;
+                  ">
+                    <span class="fr-custom-projects__badge-title">{{ block.settings.title }}</span>
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.link != blank -%}
+                  <a href="{{ block.settings.link }}" class="fr-custom-projects__link" aria-label="{{ block.settings.title | escape }}"></a>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
     </div>
   </div>
 </section>
 
 <style>
-  #fr-custom-projects-{{ section.id }} .fr-custom-projects__container {
-    max-width: 1400px;
-    margin: 0 auto;
+  {{ section.settings.heading_font | font_face: font_display: 'swap' }}
+  {{ section.settings.badge_font | font_face: font_display: 'swap' }}
+
+  #fr-custom-projects-{{ section.id }} {
+    width: 100%;
+    box-sizing: border-box;
+    padding-top: var(--pt-m);
+    padding-bottom: var(--pb-m);
   }
 
   @media (min-width: 768px) {
     #fr-custom-projects-{{ section.id }} {
-      padding-top: var(--pt-d) !important;
-      padding-bottom: var(--pb-d) !important;
+      padding-top: var(--pt-d);
+      padding-bottom: var(--pb-d);
     }
   }
 
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__container {
-    padding: 0 40px; /* Extra padding so absolutely positioned text doesn't hit screen edge */
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__heading {
-    margin: 0 0 60px 0;
-    font-family: 'Playfair Display', Georgia, serif;
-    font-weight: 500;
+    display: block;
+    width: 100%;
+    margin: 0 0 {{ section.settings.heading_margin_bottom | default: 50 }}px 0;
+    font-family: {{ section.settings.heading_font.family | default: "'Playfair Display'" }}, {{ section.settings.heading_font.fallback_families | default: 'serif' }};
+    font-weight: {{ section.settings.heading_font.weight | default: 400 }};
+    font-style: {{ section.settings.heading_font.style | default: 'normal' }};
+    text-align: var(--ha-m);
+    line-height: 1.25;
   }
 
-  #fr-custom-projects-{{ section.id }} .fr-custom-projects__grid {
+  @media (min-width: 768px) {
+    #fr-custom-projects-{{ section.id }} .fr-custom-projects__heading {
+      text-align: var(--ha-d);
+    }
+  }
+
+  #fr-custom-projects-{{ section.id }} .fr-custom-projects__wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* --- ROW 1 (Desktop: 2 cards, 60:40 or 58:42 ratio) --- */
+  #fr-custom-projects-{{ section.id }} .fr-custom-projects__row1 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  @media (min-width: 860px) {
+    #fr-custom-projects-{{ section.id }} .fr-custom-projects__row1 {
+      flex-direction: row;
+      align-items: stretch;
+    }
+    #fr-custom-projects-{{ section.id }} .fr-custom-projects__card--wide {
+      flex: 1.45 1 0;
+    }
+    #fr-custom-projects-{{ section.id }} .fr-custom-projects__card--medium {
+      flex: 1 1 0;
+    }
+  }
+
+  /* --- ROW 2 (Desktop: 4 equal cards, Tablet/Mobile: 2x2 grid) --- */
+  #fr-custom-projects-{{ section.id }} .fr-custom-projects__row2 {
     display: grid;
-    grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
-    margin: 0 auto;
+    grid-template-columns: repeat(var(--cols-m, 2), 1fr);
+    width: 100%;
+    box-sizing: border-box;
   }
 
-  #fr-custom-projects-{{ section.id }} .fr-custom-projects__item {
-    position: relative;
-    width: 100%;
-    align-self: start;
-    /* No margin bottom, we rely on grid gap */
+  @media (min-width: 860px) {
+    #fr-custom-projects-{{ section.id }} .fr-custom-projects__row2 {
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
 
-  #fr-custom-projects-{{ section.id }} .fr-custom-projects__image-wrapper {
+  #fr-custom-projects-{{ section.id }} .fr-custom-projects__card {
     position: relative;
     width: 100%;
-    background-color: #e0e0e0;
+    box-sizing: border-box;
+  }
+
+  #fr-custom-projects-{{ section.id }} .fr-custom-projects__card-inner {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: #f0f0f0;
+    box-sizing: border-box;
   }
 
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__image {
@@ -106,6 +258,11 @@
     height: 100%;
     object-fit: cover;
     display: block;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  #fr-custom-projects-{{ section.id }} .fr-custom-projects__card:hover .fr-custom-projects__image {
+    transform: scale(1.04);
   }
 
   #fr-custom-projects-{{ section.id }} .fr-custom-projects__placeholder {
@@ -114,77 +271,60 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #e0e0e0;
+    background-color: #e5e5e5;
   }
 
-  #fr-custom-projects-{{ section.id }} .fr-custom-projects__title {
-    margin: 0 0 4px 0;
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: var(--fz-title-m);
-    color: #1a1a1a;
-  }
-
-  #fr-custom-projects-{{ section.id }} .fr-custom-projects__subtitle {
-    margin: 0;
-    font-family: 'Lato', system-ui, sans-serif;
-    font-size: var(--fz-sub-m);
-    color: #666;
-  }
-
-  /* Text Positioning */
-  #fr-custom-projects-{{ section.id }} .fr-custom-projects__item--text-bottom .fr-custom-projects__content {
-    margin-top: 16px;
-    text-align: center;
+  /* --- Bottom-Left Badge --- */
+  #fr-custom-projects-{{ section.id }} .fr-custom-projects__badge {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    z-index: 2;
+    padding: 10px 18px;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 2px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    pointer-events: none;
+    box-sizing: border-box;
+    transition: transform 0.3s ease;
   }
 
   @media (min-width: 768px) {
-    #fr-custom-projects-{{ section.id }} .fr-custom-projects__item--text-left .fr-custom-projects__content {
-      position: absolute;
-      right: calc(100% + 20px);
-      bottom: 0;
-      width: max-content;
-      max-width: 250px;
-      text-align: right;
-      z-index: 2;
-    }
-
-    #fr-custom-projects-{{ section.id }} .fr-custom-projects__item--text-right .fr-custom-projects__content {
-      position: absolute;
-      left: calc(100% + 20px);
-      bottom: 0;
-      width: max-content;
-      max-width: 250px;
-      text-align: left;
-      z-index: 2;
-    }
-
-    #fr-custom-projects-{{ section.id }} .fr-custom-projects__title {
-      font-size: var(--fz-title-d);
-    }
-    #fr-custom-projects-{{ section.id }} .fr-custom-projects__subtitle {
-      font-size: var(--fz-sub-d);
+    #fr-custom-projects-{{ section.id }} .fr-custom-projects__badge {
+      bottom: 22px;
+      left: 22px;
+      padding: 12px 22px;
     }
   }
 
-  @media (max-width: 767px) {
-    #fr-custom-projects-{{ section.id }} .fr-custom-projects__grid {
-      grid-template-columns: 1fr;
-    }
-    #fr-custom-projects-{{ section.id }} .fr-custom-projects__item {
-      grid-column: 1 !important;
-      transform: none !important;
-      {% comment %} On mobile, invisible items shouldn't take up full rows of blank space {% endcomment %}
-    }
-    #fr-custom-projects-{{ section.id }} .fr-custom-projects__item[style*="opacity: 0"] {
-      display: none !important;
-    }
-    #fr-custom-projects-{{ section.id }} .fr-custom-projects__content {
-      position: static !important;
-      transform: none !important;
-      width: 100% !important;
-      padding: 16px 0 0 0 !important;
-      text-align: center !important;
-    }
+  #fr-custom-projects-{{ section.id }} .fr-custom-projects__card:hover .fr-custom-projects__badge {
+    transform: translateY(-2px);
+  }
+
+  #fr-custom-projects-{{ section.id }} .fr-custom-projects__badge-title {
+    font-family: {{ section.settings.badge_font.family | default: "'Lato'" }}, {{ section.settings.badge_font.fallback_families | default: 'sans-serif' }};
+    font-weight: {{ section.settings.badge_font.weight | default: 600 }};
+    font-style: {{ section.settings.badge_font.style | default: 'normal' }};
+    font-size: {{ section.settings.badge_font_size | default: 13 }}px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    line-height: 1.2;
+  }
+
+  #fr-custom-projects-{{ section.id }} .fr-custom-projects__badge-sub {
+    font-size: 11px;
+    opacity: 0.75;
+    line-height: 1.2;
+  }
+
+  #fr-custom-projects-{{ section.id }} .fr-custom-projects__link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
   }
 </style>
 
@@ -207,6 +347,22 @@
     },
     {
       "type": "range",
+      "id": "container_max_width",
+      "min": 800,
+      "max": 1600,
+      "step": 20,
+      "unit": "px",
+      "label": "Container Max Width",
+      "default": 1300
+    },
+    {
+      "type": "font_picker",
+      "id": "heading_font",
+      "label": "Heading Font",
+      "default": "playfair_display_n5"
+    },
+    {
+      "type": "range",
       "id": "heading_size",
       "min": 20,
       "max": 60,
@@ -216,6 +372,38 @@
       "default": 36
     },
     {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading Alignment (Desktop)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "heading_align_mobile",
+      "label": "Heading Alignment (Mobile)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "heading_margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Margin Bottom",
+      "default": 50
+    },
+    {
       "type": "color",
       "id": "heading_color",
       "label": "Heading Color",
@@ -223,90 +411,109 @@
     },
     {
       "type": "header",
-      "content": "Grid Settings"
+      "content": "Layout Settings"
     },
     {
       "type": "range",
-      "id": "columns_desktop",
-      "min": 2,
-      "max": 4,
-      "step": 1,
-      "label": "Columns on Desktop",
-      "default": 3
-    },
-    {
-      "type": "range",
-      "id": "grid_max_width",
-      "min": 600,
-      "max": 1400,
-      "step": 20,
+      "id": "row1_height",
+      "min": 250,
+      "max": 700,
+      "step": 10,
       "unit": "px",
-      "label": "Grid Max Width (Desktop)",
-      "default": 900
+      "label": "Top Row Height (Desktop)",
+      "default": 460
     },
     {
       "type": "range",
-      "id": "grid_gap",
-      "min": 0,
-      "max": 100,
+      "id": "row2_aspect_ratio",
+      "min": 60,
+      "max": 180,
       "step": 5,
+      "unit": "%",
+      "label": "Bottom Row Aspect Ratio",
+      "info": "100% is square, 115% is standard rectangle, 130% is portrait.",
+      "default": 115
+    },
+    {
+      "type": "range",
+      "id": "row2_cols_mobile",
+      "min": 1,
+      "max": 2,
+      "step": 1,
+      "label": "Bottom Row Columns (Mobile)",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 8,
+      "max": 60,
+      "step": 2,
       "unit": "px",
       "label": "Grid Gap",
-      "default": 40
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "label": "Card Border Radius",
+      "default": 0
     },
     {
       "type": "header",
-      "content": "Text Sizes"
+      "content": "Badge / Label Settings"
+    },
+    {
+      "type": "font_picker",
+      "id": "badge_font",
+      "label": "Badge Font",
+      "default": "lato_n6"
     },
     {
       "type": "range",
-      "id": "title_size_desktop",
-      "min": 14,
-      "max": 36,
+      "id": "badge_font_size",
+      "min": 10,
+      "max": 20,
       "step": 1,
       "unit": "px",
-      "label": "Desktop Title Size",
-      "default": 18
+      "label": "Badge Font Size",
+      "default": 13
+    },
+    {
+      "type": "color",
+      "id": "badge_bg",
+      "label": "Badge Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "badge_color",
+      "label": "Badge Text Color",
+      "default": "#1a1a1a"
     },
     {
       "type": "range",
-      "id": "title_size_mobile",
-      "min": 14,
-      "max": 36,
+      "id": "badge_radius",
+      "min": 0,
+      "max": 20,
       "step": 1,
       "unit": "px",
-      "label": "Mobile Title Size",
-      "default": 18
-    },
-    {
-      "type": "range",
-      "id": "subtitle_size_desktop",
-      "min": 12,
-      "max": 24,
-      "step": 1,
-      "unit": "px",
-      "label": "Desktop Description Size",
-      "default": 14
-    },
-    {
-      "type": "range",
-      "id": "subtitle_size_mobile",
-      "min": 12,
-      "max": 24,
-      "step": 1,
-      "unit": "px",
-      "label": "Mobile Description Size",
-      "default": 14
+      "label": "Badge Border Radius",
+      "default": 0
     },
     {
       "type": "header",
-      "content": "Spacing"
+      "content": "Section Spacing"
     },
     {
       "type": "range",
       "id": "padding_top",
       "min": 0,
-      "max": 120,
+      "max": 160,
       "step": 4,
       "unit": "px",
       "label": "Padding Top",
@@ -316,11 +523,11 @@
       "type": "range",
       "id": "padding_bottom",
       "min": 0,
-      "max": 120,
+      "max": 160,
       "step": 4,
       "unit": "px",
-      "label": "Padding Bottom (Desktop)",
-      "default": 60
+      "label": "Padding Bottom",
+      "default": 80
     },
     {
       "type": "range",
@@ -350,7 +557,7 @@
       "step": 4,
       "unit": "px",
       "label": "Padding Left",
-      "default": 20
+      "default": 24
     },
     {
       "type": "range",
@@ -360,13 +567,13 @@
       "step": 4,
       "unit": "px",
       "label": "Padding Right",
-      "default": 20
+      "default": 24
     }
   ],
   "blocks": [
     {
       "type": "project",
-      "name": "Project",
+      "name": "Project Card",
       "settings": [
         {
           "type": "image_picker",
@@ -376,65 +583,28 @@
         {
           "type": "text",
           "id": "title",
-          "label": "Title",
+          "label": "Project Title",
           "default": "Project Name"
         },
         {
           "type": "text",
           "id": "subtitle",
-          "label": "Subtitle / Description"
+          "label": "Subtitle (Optional)"
         },
         {
-          "type": "header",
-          "content": "Advanced Layout"
-        },
-        {
-          "type": "range",
-          "id": "column_start",
-          "min": 1,
-          "max": 4,
-          "step": 1,
-          "label": "Grid Column (1 to 4)",
-          "default": 1
-        },
-        {
-          "type": "select",
-          "id": "text_position",
-          "label": "Text Position (Desktop)",
-          "options": [
-            { "value": "left", "label": "Left of Image" },
-            { "value": "bottom", "label": "Below Image" },
-            { "value": "right", "label": "Right of Image" }
-          ],
-          "default": "bottom"
+          "type": "url",
+          "id": "link",
+          "label": "Project Link (Optional)"
         },
         {
           "type": "range",
-          "id": "offset_y",
-          "min": -200,
-          "max": 200,
-          "step": 5,
-          "unit": "px",
-          "label": "Vertical Offset",
-          "info": "Push this individual image up or down to create a staggered grid effect.",
-          "default": 0
-        },
-        {
-          "type": "checkbox",
-          "id": "is_invisible",
-          "label": "Make this project an invisible spacer",
-          "default": false
-        },
-        {
-          "type": "range",
-          "id": "aspect_ratio",
-          "min": 50,
+          "id": "aspect_ratio_override",
+          "min": 0,
           "max": 200,
           "step": 5,
           "unit": "%",
-          "label": "Image Height (Aspect Ratio)",
-          "info": "100% is square, 150% is tall, 75% is wide.",
-          "default": 130
+          "label": "Custom Aspect Ratio (0 for default)",
+          "default": 0
         }
       ]
     }
@@ -443,11 +613,12 @@
     {
       "name": "FR Custom Projects",
       "blocks": [
-        { "type": "project", "settings": { "column_start": 2, "text_position": "left" } },
-        { "type": "project", "settings": { "column_start": 3, "text_position": "right" } },
-        { "type": "project", "settings": { "column_start": 1, "text_position": "left" } },
-        { "type": "project", "settings": { "column_start": 2, "text_position": "bottom" } },
-        { "type": "project", "settings": { "column_start": 3, "text_position": "right" } }
+        { "type": "project", "settings": { "title": "Project Name 1" } },
+        { "type": "project", "settings": { "title": "Project Name 2" } },
+        { "type": "project", "settings": { "title": "Project Name 3" } },
+        { "type": "project", "settings": { "title": "Project Name 4" } },
+        { "type": "project", "settings": { "title": "Project Name 5" } },
+        { "type": "project", "settings": { "title": "Project Name 6" } }
       ]
     }
   ]
