@@ -221,20 +221,109 @@
         "card_radius": 0,
         "grid_gap": 24,
         "grid_gap_mobile": 16,
-        "card_width_desktop": 31,
-        "card_width_tablet": 45,
-        "card_width_mobile": 75,
+        "columns_desktop": "3",
+        "columns_tablet": "2",
+        "card_width_mobile": 80,
         "text_position": "below",
         "card_text_align": "center",
         "title_size": 18,
         "title_size_mobile": 16,
         "title_color": "#1a1a1a",
+        "card_desc_size": 13,
+        "card_desc_size_mobile": 12,
+        "card_desc_color": "#666666",
+        "card_desc_margin_top": 6,
         "padding_top": 60,
         "padding_bottom": 40,
         "padding_left": 40,
         "padding_right": 40,
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 30,
+        "padding_left_mobile": 20,
+        "padding_right_mobile": 20
+      }
+    },
+    "new_season_new_design": {
+      "type": "fr-home-new-season",
+      "blocks": {
+        "season_card_1": {
+          "type": "season_card",
+          "settings": {
+            "image": "shopify://shop_images/floral.png",
+            "title": "Botanical Rhythm",
+            "subtitle": "New Arrival",
+            "link": "shopify://collections/botanical-rhythm"
+          }
+        },
+        "season_card_2": {
+          "type": "season_card",
+          "settings": {
+            "image": "shopify://shop_images/artistic.png",
+            "title": "Artistic Strokes",
+            "subtitle": "Modern Living",
+            "link": "shopify://collections/artistic"
+          }
+        },
+        "season_card_3": {
+          "type": "season_card",
+          "settings": {
+            "image": "shopify://shop_images/mural.png",
+            "title": "Timeless Garden",
+            "subtitle": "Bespoke Mural",
+            "link": "shopify://collections/timeless"
+          }
+        },
+        "season_card_4": {
+          "type": "season_card",
+          "settings": {
+            "image": "shopify://shop_images/tropical.png",
+            "title": "Tropical Canopy",
+            "subtitle": "Nature Edit",
+            "link": "shopify://collections/tropical"
+          }
+        }
+      },
+      "block_order": [
+        "season_card_1",
+        "season_card_2",
+        "season_card_3",
+        "season_card_4"
+      ],
+      "settings": {
+        "bg_color": "#e5e5e5",
+        "content_max_width": 1350,
+        "badge_text": "2026",
+        "badge_bg": "#ffffff",
+        "badge_color": "#1a1a1a",
+        "badge_size": 12,
+        "badge_size_mobile": 11,
+        "heading": "New Season, New Design",
+        "heading_size": 36,
+        "heading_size_mobile": 24,
+        "heading_color": "#1a1a1a",
+        "description": "<p>Discover our newly launched season collection featuring bespoke textures, artistic botanicals, and modern architectural aesthetics created to elevate your interior spaces.</p>",
+        "description_size": 14,
+        "description_size_mobile": 13,
+        "description_color": "#4b5563",
+        "content_align": "left",
+        "button_label": "See Collection",
+        "button_link": "shopify://collections/all",
+        "btn_bg": "#ffffff",
+        "btn_color": "#1a1a1a",
+        "btn_border_color": "#ffffff",
+        "btn_size": 14,
+        "btn_radius": 2,
+        "card_aspect_ratio": "9/16",
+        "card_custom_height": 380,
+        "card_border_radius": 2,
+        "cards_gap": 16,
+        "cards_gap_mobile": 12,
+        "padding_top": 70,
+        "padding_bottom": 70,
+        "padding_left": 40,
+        "padding_right": 40,
+        "padding_top_mobile": 45,
+        "padding_bottom_mobile": 45,
         "padding_left_mobile": 20,
         "padding_right_mobile": 20
       }
@@ -867,6 +956,7 @@
     "hero",
     "feature_split",
     "collection_slider",
+    "new_season_new_design",
     "trusted_by",
     "collection_tabs",
     "banners",

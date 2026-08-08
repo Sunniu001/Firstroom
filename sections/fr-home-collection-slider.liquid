@@ -34,6 +34,28 @@
       </div>
     {%- endif -%}
 
+    {%- liquid
+      assign cols_d = section.settings.columns_desktop | default: '3'
+      if cols_d == '3'
+        assign card_w_d = 'calc((100% - (var(--gap-d) * 2)) / 3)'
+      elsif cols_d == '4'
+        assign card_w_d = 'calc((100% - (var(--gap-d) * 3)) / 4)'
+      elsif cols_d == '2'
+        assign card_w_d = 'calc((100% - var(--gap-d)) / 2)'
+      else
+        assign card_w_d = section.settings.card_width_desktop | append: '%'
+      endif
+
+      assign cols_t = section.settings.columns_tablet | default: '2'
+      if cols_t == '2'
+        assign card_w_t = 'calc((100% - var(--gap-m)) / 2)'
+      elsif cols_t == '1'
+        assign card_w_t = '100%'
+      else
+        assign card_w_t = section.settings.card_width_tablet | append: '%'
+      endif
+    -%}
+
     <div class="fr-coll-slider__container">
       <button class="fr-coll-slider__arrow fr-coll-slider__arrow--prev" type="button" aria-label="Previous slide">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -45,11 +67,13 @@
         <div class="fr-coll-slider__track" style="
             --gap-d: {{ section.settings.grid_gap }}px;
             --gap-m: {{ section.settings.grid_gap_mobile | default: section.settings.grid_gap }}px;
-            --card-w-d: {{ section.settings.card_width_desktop }}%;
-            --card-w-t: {{ section.settings.card_width_tablet }}%;
+            --card-w-d: {{ card_w_d }};
+            --card-w-t: {{ card_w_t }};
             --card-w-m: {{ section.settings.card_width_mobile }}%;
             --card-ar: {{ section.settings.aspect_ratio }};
             --card-radius: {{ section.settings.card_radius }}px;
+            --card-custom-h-d: {% if section.settings.card_custom_height_desktop > 0 %}{{ section.settings.card_custom_height_desktop }}px{% else %}auto{% endif %};
+            --card-custom-h-m: {% if section.settings.card_custom_height_mobile > 0 %}{{ section.settings.card_custom_height_mobile }}px{% else %}auto{% endif %};
           ">
           {%- for block in section.blocks -%}
             {%- liquid
@@ -59,6 +83,8 @@
                 assign card_title = collection_obj.title
               endif
               
+              assign card_desc = block.settings.description
+
               assign card_link = block.settings.link
               if card_link == blank and collection_obj != blank
                 assign card_link = collection_obj.url
@@ -91,8 +117,34 @@
                     </div>
                   {%- endif -%}
 
-                  {%- if section.settings.text_position == 'overlay' and card_title != blank -%}
-                    <div class="fr-coll-slider__overlay-content">
+                  {%- if section.settings.text_position == 'overlay' -%}
+                    <div class="fr-coll-slider__overlay-content" style="text-align: {{ section.settings.card_text_align }};">
+                      {%- if card_title != blank -%}
+                        <h3 class="fr-coll-slider__card-title" style="
+                            color: {{ section.settings.title_color }};
+                            --fz-t-d: {{ section.settings.title_size }}px;
+                            --fz-t-m: {{ section.settings.title_size_mobile | default: section.settings.title_size }}px;
+                          ">
+                          {{ card_title }}
+                        </h3>
+                      {%- endif -%}
+                      {%- if card_desc != blank -%}
+                        <div class="fr-coll-slider__card-desc" style="
+                            color: {{ section.settings.card_desc_color }};
+                            --fz-cd-d: {{ section.settings.card_desc_size }}px;
+                            --fz-cd-m: {{ section.settings.card_desc_size_mobile | default: section.settings.card_desc_size }}px;
+                            margin-top: {{ section.settings.card_desc_margin_top }}px;
+                          ">
+                          {{ card_desc }}
+                        </div>
+                      {%- endif -%}
+                    </div>
+                  {%- endif -%}
+                </div>
+
+                {%- if section.settings.text_position == 'below' -%}
+                  <div class="fr-coll-slider__text-below" style="text-align: {{ section.settings.card_text_align }};">
+                    {%- if card_title != blank -%}
                       <h3 class="fr-coll-slider__card-title" style="
                           color: {{ section.settings.title_color }};
                           --fz-t-d: {{ section.settings.title_size }}px;
@@ -100,19 +152,17 @@
                         ">
                         {{ card_title }}
                       </h3>
-                    </div>
-                  {%- endif -%}
-                </div>
-
-                {%- if section.settings.text_position == 'below' and card_title != blank -%}
-                  <div class="fr-coll-slider__text-below" style="text-align: {{ section.settings.card_text_align }};">
-                    <h3 class="fr-coll-slider__card-title" style="
-                        color: {{ section.settings.title_color }};
-                        --fz-t-d: {{ section.settings.title_size }}px;
-                        --fz-t-m: {{ section.settings.title_size_mobile | default: section.settings.title_size }}px;
-                      ">
-                      {{ card_title }}
-                    </h3>
+                    {%- endif -%}
+                    {%- if card_desc != blank -%}
+                      <div class="fr-coll-slider__card-desc" style="
+                          color: {{ section.settings.card_desc_color }};
+                          --fz-cd-d: {{ section.settings.card_desc_size }}px;
+                          --fz-cd-m: {{ section.settings.card_desc_size_mobile | default: section.settings.card_desc_size }}px;
+                          margin-top: {{ section.settings.card_desc_margin_top }}px;
+                        ">
+                        {{ card_desc }}
+                      </div>
+                    {%- endif -%}
                   </div>
                 {%- endif -%}
               </a>
@@ -256,6 +306,18 @@
     background-color: #f1f1f1;
   }
 
+  @media (max-width: 767px) {
+    #fr-coll-slider-{{ section.id }} .fr-coll-slider__image-box {
+      height: var(--card-custom-h-m);
+    }
+  }
+
+  @media (min-width: 768px) {
+    #fr-coll-slider-{{ section.id }} .fr-coll-slider__image-box {
+      height: var(--card-custom-h-d);
+    }
+  }
+
   #fr-coll-slider-{{ section.id }} .fr-coll-slider__img {
     width: 100%;
     height: 100%;
@@ -291,7 +353,8 @@
     padding: 24px 20px;
     background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%);
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
+    justify-content: flex-end;
   }
 
   #fr-coll-slider-{{ section.id }} .fr-coll-slider__text-below {
@@ -310,6 +373,18 @@
   @media (min-width: 768px) {
     #fr-coll-slider-{{ section.id }} .fr-coll-slider__card-title {
       font-size: var(--fz-t-d);
+    }
+  }
+
+  #fr-coll-slider-{{ section.id }} .fr-coll-slider__card-desc {
+    font-size: var(--fz-cd-m);
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+  }
+
+  @media (min-width: 768px) {
+    #fr-coll-slider-{{ section.id }} .fr-coll-slider__card-desc {
+      font-size: var(--fz-cd-d);
     }
   }
 
@@ -388,7 +463,8 @@
       if (prevBtn) {
         prevBtn.addEventListener('click', () => {
           const card = track.querySelector('.fr-coll-slider__card-wrapper');
-          const step = card ? card.offsetWidth + 20 : 300;
+          const gap = parseInt(window.getComputedStyle(track).gap) || 24;
+          const step = card ? card.offsetWidth + gap : 320;
           track.scrollBy({ left: -step, behavior: 'smooth' });
         });
       }
@@ -396,7 +472,8 @@
       if (nextBtn) {
         nextBtn.addEventListener('click', () => {
           const card = track.querySelector('.fr-coll-slider__card-wrapper');
-          const step = card ? card.offsetWidth + 20 : 300;
+          const gap = parseInt(window.getComputedStyle(track).gap) || 24;
+          const step = card ? card.offsetWidth + gap : 320;
           track.scrollBy({ left: step, behavior: 'smooth' });
         });
       }
@@ -521,7 +598,65 @@
     },
     {
       "type": "header",
-      "content": "Card Layout & Sizing"
+      "content": "Card Layout & Visible Columns"
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Visible Cards (Desktop)",
+      "options": [
+        { "value": "3", "label": "3 Cards (Exact / No Clipping)" },
+        { "value": "4", "label": "4 Cards (Exact / No Clipping)" },
+        { "value": "2", "label": "2 Cards (Exact / No Clipping)" },
+        { "value": "custom", "label": "Custom Width %" }
+      ],
+      "default": "3",
+      "info": "Choose '3 Cards' to guarantee exactly 3 visible cards without the 4th card peeking"
+    },
+    {
+      "type": "select",
+      "id": "columns_tablet",
+      "label": "Visible Cards (Tablet)",
+      "options": [
+        { "value": "2", "label": "2 Cards (Exact)" },
+        { "value": "1", "label": "1 Card (Full Width)" },
+        { "value": "custom", "label": "Custom Width %" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "id": "card_width_desktop",
+      "label": "Card Width % (If Custom Desktop selected)",
+      "min": 20,
+      "max": 50,
+      "step": 1,
+      "unit": "%",
+      "default": 31
+    },
+    {
+      "type": "range",
+      "id": "card_width_tablet",
+      "label": "Card Width % (If Custom Tablet selected)",
+      "min": 30,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "default": 45
+    },
+    {
+      "type": "range",
+      "id": "card_width_mobile",
+      "label": "Card Width % (Mobile)",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Card Dimensions & Sizing"
     },
     {
       "type": "select",
@@ -531,9 +666,30 @@
         { "value": "3/4", "label": "3:4 (Tall)" },
         { "value": "4/5", "label": "4:5 (Standard Portrait)" },
         { "value": "1/1", "label": "1:1 (Square)" },
+        { "value": "2/3", "label": "2:3 (Portrait)" },
         { "value": "16/9", "label": "16:9 (Landscape)" }
       ],
       "default": "3/4"
+    },
+    {
+      "type": "range",
+      "id": "card_custom_height_desktop",
+      "label": "Fixed Card Height Desktop (px, 0 = Use Aspect Ratio)",
+      "min": 0,
+      "max": 700,
+      "step": 10,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "card_custom_height_mobile",
+      "label": "Fixed Card Height Mobile (px, 0 = Use Aspect Ratio)",
+      "min": 0,
+      "max": 500,
+      "step": 10,
+      "unit": "px",
+      "default": 0
     },
     {
       "type": "range",
@@ -564,37 +720,6 @@
       "step": 2,
       "unit": "px",
       "default": 16
-    },
-    {
-      "type": "range",
-      "id": "card_width_desktop",
-      "label": "Card Width % (Desktop)",
-      "min": 20,
-      "max": 50,
-      "step": 1,
-      "unit": "%",
-      "default": 31,
-      "info": "Set ~31% for 3 visible cards per view, or ~23% for 4 cards"
-    },
-    {
-      "type": "range",
-      "id": "card_width_tablet",
-      "label": "Card Width % (Tablet)",
-      "min": 30,
-      "max": 80,
-      "step": 5,
-      "unit": "%",
-      "default": 45
-    },
-    {
-      "type": "range",
-      "id": "card_width_mobile",
-      "label": "Card Width % (Mobile)",
-      "min": 50,
-      "max": 100,
-      "step": 5,
-      "unit": "%",
-      "default": 75
     },
     {
       "type": "header",
@@ -646,6 +771,42 @@
       "id": "title_color",
       "label": "Title Color",
       "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "card_desc_size",
+      "label": "Card Description Size (Desktop)",
+      "min": 10,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "card_desc_size_mobile",
+      "label": "Card Description Size (Mobile)",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "card_desc_color",
+      "label": "Card Description Color",
+      "default": "#666666"
+    },
+    {
+      "type": "range",
+      "id": "card_desc_margin_top",
+      "label": "Card Description Margin Top",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 6
     },
     {
       "type": "header",
@@ -753,6 +914,11 @@
           "label": "Custom Title (Overrides Collection Title)"
         },
         {
+          "type": "textarea",
+          "id": "description",
+          "label": "Card Description (Optional)"
+        },
+        {
           "type": "url",
           "id": "link",
           "label": "Custom Link (Overrides Collection Link)"
@@ -764,10 +930,10 @@
     {
       "name": "FR Collection Slider",
       "blocks": [
-        { "type": "collection_card", "settings": { "title": "Wallpapers" } },
-        { "type": "collection_card", "settings": { "title": "Home Décor" } },
-        { "type": "collection_card", "settings": { "title": "Curated Prints" } },
-        { "type": "collection_card", "settings": { "title": "Handcrafted Accents" } }
+        { "type": "collection_card", "settings": { "title": "Wallpapers", "description": "Handcrafted artistic wallpapers" } },
+        { "type": "collection_card", "settings": { "title": "Home Décor", "description": "Curated modern aesthetic pieces" } },
+        { "type": "collection_card", "settings": { "title": "Curated Prints", "description": "Timeless wall murals and art" } },
+        { "type": "collection_card", "settings": { "title": "Handcrafted Accents", "description": "Customized bespoke designs" } }
       ]
     }
   ]
