@@ -62,7 +62,7 @@
         "text_alignment": "left",
         "text_align_mobile": "left",
         "content_max_width": 640,
-        "padding_top": 40,
+        "padding_top": 60,
         "padding_bottom": 0,
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 40,
