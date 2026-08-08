@@ -135,7 +135,7 @@
         "collection_card_9aEJHB": {
           "type": "collection_card",
           "settings": {
-            "collection": "",
+            "collection": "kids-wallpaper",
             "image": "shopify://shop_images/kids.png",
             "title": "Kids",
             "link": "shopify://collections/kids-wallpaper"
@@ -144,7 +144,7 @@
         "c_slide_1": {
           "type": "collection_card",
           "settings": {
-            "collection": "wallpaper",
+            "collection": "artistic",
             "image": "shopify://shop_images/artistic.png",
             "title": "Artistic",
             "link": "shopify://collections/artistic"
@@ -153,10 +153,9 @@
         "c_slide_2": {
           "type": "collection_card",
           "settings": {
-            "collection": "home-decor",
-            "image": "shopify://shop_images/FRPF003-mu2-w_d6a7aa17-e78e-4b35-8c51-48128688a106.webp",
-            "title": "Home Decor",
-            "link": "shopify://collections/home-decor"
+            "collection": "timeless",
+            "title": "Timeless",
+            "link": "shopify://collections/timeless"
           }
         },
         "c_slide_3": {
