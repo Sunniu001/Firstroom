@@ -520,6 +520,32 @@
     "1786181745070ecba6": {
       "type": "_blocks",
       "blocks": {
+        "text_VLN4wy": {
+          "type": "text",
+          "name": "t:names.text",
+          "settings": {
+            "text": "<p>From Our Feed</p>",
+            "width": "fit-content",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "h4",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
         "instafeed_app_block_UpQLWe": {
           "type": "shopify://apps/instafeed/blocks/app-block/c447db20-095d-4a10-9725-b5977662c9d5",
           "settings": {
@@ -540,6 +566,7 @@
         }
       },
       "block_order": [
+        "text_VLN4wy",
         "instafeed_app_block_UpQLWe"
       ],
       "settings": {
@@ -548,7 +575,7 @@
         "horizontal_alignment": "flex-start",
         "vertical_alignment": "center",
         "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "flex-start",
+        "horizontal_alignment_flex_direction_column": "center",
         "vertical_alignment_flex_direction_column": "center",
         "gap": 12,
         "section_width": "page-width",
