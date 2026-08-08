@@ -322,7 +322,7 @@
         "c_tab_1": {
           "type": "tab",
           "settings": {
-            "title": "New arrivals",
+            "title": "The Latest Edit",
             "collection": "all",
             "product_list": [],
             "product_limit": 4,
@@ -352,7 +352,7 @@
         "heading_size_mobile": 24,
         "heading_color": "#1a1a1a",
         "heading_align": "center",
-        "description": "",
+        "description": "<p>Rooted in tradition yet expansive in expression, this is a capsule collection  layered, detailed, and unapologetically rich.<br/>Each design draws from a different cultural landscape of India, transforming heritage into immersive wall art.</p>",
         "description_color": "#6b7280",
         "columns_desktop": 4,
         "columns_mobile": "2",
