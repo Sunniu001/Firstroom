@@ -132,12 +132,13 @@
     "collection_slider": {
       "type": "fr-home-collection-slider",
       "blocks": {
-        "collection_card_URyctR": {
+        "collection_card_7zfHcY": {
           "type": "collection_card",
           "settings": {
-            "collection": "inner-landscape",
-            "title": "Inner Landscapes",
-            "link": "shopify://collections/inner-landscape"
+            "collection": "motif-impression",
+            "image": "shopify://shop_images/motif.png",
+            "title": "Motif Impressions",
+            "link": "shopify://collections/motif-impression"
           }
         },
         "collection_card_9aEJHB": {
@@ -174,14 +175,23 @@
             "title": "Tropical",
             "link": "shopify://collections/tropical"
           }
+        },
+        "collection_card_URyctR": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "inner-landscape",
+            "title": "Inner Landscapes",
+            "link": "shopify://collections/inner-landscape"
+          }
         }
       },
       "block_order": [
-        "collection_card_URyctR",
+        "collection_card_7zfHcY",
         "collection_card_9aEJHB",
         "c_slide_1",
         "c_slide_2",
-        "collection_card_JM7b8e"
+        "collection_card_JM7b8e",
+        "collection_card_URyctR"
       ],
       "settings": {
         "bg_color": "#ffffff",
