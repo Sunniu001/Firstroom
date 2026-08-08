@@ -154,6 +154,7 @@
           "type": "collection_card",
           "settings": {
             "collection": "timeless",
+            "image": "shopify://shop_images/mural.png",
             "title": "Timeless",
             "link": "shopify://collections/timeless"
           }
@@ -189,6 +190,7 @@
           "type": "collection_card",
           "settings": {
             "collection": "botanical-rhythm",
+            "image": "shopify://shop_images/floral.png",
             "title": "Botanical",
             "link": "shopify://collections/botanical-rhythm"
           }
