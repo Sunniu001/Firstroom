@@ -749,7 +749,7 @@
         "team_1": {
           "type": "grid_item",
           "settings": {
-            "image": "shopify://shop_images/Ellipse_129.png",
+            "image": "shopify://shop_images/1_0853a543-6b1d-4863-960c-4a1b06a58962.png",
             "icon": "shopify://shop_images/1.png",
             "icon_svg": "",
             "title": "Bespoke Design",
@@ -760,7 +760,7 @@
         "team_2": {
           "type": "grid_item",
           "settings": {
-            "image": "shopify://shop_images/Ellipse_130.png",
+            "image": "shopify://shop_images/2_b861f3a8-5667-48d5-be80-763a3843ad4b.png",
             "icon": "shopify://shop_images/4.png",
             "icon_svg": "",
             "title": "Premium Craftsmanship",
@@ -771,7 +771,7 @@
         "team_3": {
           "type": "grid_item",
           "settings": {
-            "image": "shopify://shop_images/Ellipse_131.png",
+            "image": "shopify://shop_images/3_04742c39-132b-40e9-8f0d-f53d3aa00afe.png",
             "icon": "shopify://shop_images/3.png",
             "icon_svg": "",
             "title": "Personalized Experience",
@@ -782,7 +782,7 @@
         "team_4": {
           "type": "grid_item",
           "settings": {
-            "image": "shopify://shop_images/Ellipse_132.png",
+            "image": "shopify://shop_images/4_7234e999-86df-4efa-b2df-8a7768fbba17.png",
             "icon": "shopify://shop_images/2.png",
             "icon_svg": "",
             "title": "Timeless Aesthetics",
