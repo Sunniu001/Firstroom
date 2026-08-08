@@ -260,37 +260,37 @@
         "season_card_1": {
           "type": "season_card",
           "settings": {
-            "image": "shopify://shop_images/floral.png",
-            "title": "Botanical Rhythm",
-            "subtitle": "New Arrival",
-            "link": "shopify://collections/botanical-rhythm"
+            "image": "shopify://shop_images/1st.png",
+            "title": "",
+            "subtitle": "",
+            "link": ""
           }
         },
         "season_card_2": {
           "type": "season_card",
           "settings": {
-            "image": "shopify://shop_images/artistic.png",
-            "title": "Artistic Strokes",
-            "subtitle": "Modern Living",
-            "link": "shopify://collections/artistic"
+            "image": "shopify://shop_images/2nd.png",
+            "title": "",
+            "subtitle": "",
+            "link": ""
           }
         },
         "season_card_3": {
           "type": "season_card",
           "settings": {
-            "image": "shopify://shop_images/mural.png",
-            "title": "Timeless Garden",
-            "subtitle": "Bespoke Mural",
-            "link": "shopify://collections/timeless"
+            "image": "shopify://shop_images/3th.png",
+            "title": "",
+            "subtitle": "",
+            "link": ""
           }
         },
         "season_card_4": {
           "type": "season_card",
           "settings": {
-            "image": "shopify://shop_images/tropical.png",
-            "title": "Tropical Canopy",
-            "subtitle": "Nature Edit",
-            "link": "shopify://collections/tropical"
+            "image": "shopify://shop_images/4th.png",
+            "title": "",
+            "subtitle": "",
+            "link": ""
           }
         }
       },
