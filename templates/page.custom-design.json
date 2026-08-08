@@ -25,7 +25,7 @@
       "name": "FR Custom Hero",
       "settings": {
         "image": "shopify://shop_images/Rectangle_223.png",
-        "min_height": 600,
+        "min_height": 440,
         "min_height_mobile": 480,
         "overlay_color": "#000000",
         "overlay_opacity": 0,
