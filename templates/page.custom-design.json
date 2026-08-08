@@ -189,7 +189,7 @@
       "settings": {
         "bg_color": "#ffffff",
         "heading": "What can be customised",
-        "content_max_width": 860,
+        "content_max_width": 1000,
         "heading_font": "playfair_display_n5",
         "heading_size": 36,
         "heading_alignment": "center",
