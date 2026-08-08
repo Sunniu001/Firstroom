@@ -936,7 +936,10 @@
           "settings": {
             "tag": "",
             "quote": "The wallpaper completely transformed our space. It feels like a piece of art you live with every day.",
-            "author": "AYESHA, MUMBAI"
+            "author": "AYESHA, MUMBAI",
+            "image_1": "shopify://shop_images/1.jpg",
+            "image_2": "shopify://shop_images/2.jpg",
+            "image_3": "shopify://shop_images/3_4646c8f4-658a-4c1e-af3e-55f313d94929.png"
           }
         },
         "testimonial_D3WREU": {
@@ -944,7 +947,10 @@
           "settings": {
             "tag": "",
             "quote": "From consultation to final install, the precision and luxury feel exceeded all our expectations.",
-            "author": "ROHAN & NEHA, DELHI"
+            "author": "ROHAN & NEHA, DELHI",
+            "image_1": "shopify://shop_images/4_c6689921-bb0b-48f3-a4f3-2481ee872e1f.png",
+            "image_2": "shopify://shop_images/5_5ebc0fa8-e6c0-4754-8153-17358de591b3.png",
+            "image_3": "shopify://shop_images/6_230e9635-47f5-4f76-87e9-357e68275512.png"
           }
         },
         "testimonial_Ap3PFc": {
@@ -952,7 +958,10 @@
           "settings": {
             "tag": "",
             "quote": "Bespoke artistry at its finest. The custom colors blend seamlessly with our home interior.",
-            "author": "PRIYA S., BANGALORE"
+            "author": "PRIYA S., BANGALORE",
+            "image_1": "shopify://shop_images/7.png",
+            "image_2": "shopify://shop_images/FRWPFL012_mu2.jpg",
+            "image_3": "shopify://shop_images/floral.png"
           }
         }
       },
