@@ -479,32 +479,36 @@
           "type": "step",
           "settings": {
             "step_number": "01",
-            "title": "Consultation",
-            "description": "<p>Share your vision, space details, color preferences, and inspirational ideas with our design team.</p>"
+            "title": "One-on-One Consultation",
+            "description": "<p>Collaborate directly with our design experts to understand your ideas, preferences, and vision.</p>",
+            "node_icon": "shopify://shop_images/1._One-on-One_Consultation.png"
           }
         },
         "step_dDijYL": {
           "type": "step",
           "settings": {
             "step_number": "02",
-            "title": "Concept Design",
-            "description": "<p>Our artists craft bespoke sketches, custom colorways, and digital previews tailored to your space.</p>"
+            "title": "Exclusive Artwork",
+            "description": "<p>Every wallpaper is thoughtfully designed from scratch, creating a unique artwork that's made exclusively for your space.</p>",
+            "node_icon": "shopify://shop_images/2._Exclusive_Artwork.png"
           }
         },
         "step_xT49Kj": {
           "type": "step",
           "settings": {
             "step_number": "03",
-            "title": "Sampling & Approval",
-            "description": "<p>Review physical swatches, material finishes, and refined details before final production.</p>"
+            "title": "Designed for Your Space",
+            "description": "<p>Each design is tailored to your wall dimensions, interior style, and architectural details for a seamless fit.</p>",
+            "node_icon": "shopify://shop_images/3._Designed_for_Your_Space.jpg"
           }
         },
         "step_GHgGxd": {
           "type": "step",
           "settings": {
             "step_number": "04",
-            "title": "Crafting & Delivery",
-            "description": "<p>Your bespoke piece is precision-crafted, quality-checked, and safely delivered to your doorstep.</p>"
+            "title": "Wide Choice of Materials",
+            "description": "<p>Choose from a curated selection of premium wallpaper materials and<br/>finishes to suit your space and lifestyle.</p>",
+            "node_icon": "shopify://shop_images/4._Wide_Choice_of_Materials.png"
           }
         }
       },
