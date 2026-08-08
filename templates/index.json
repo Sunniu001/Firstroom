@@ -145,8 +145,9 @@
           "type": "collection_card",
           "settings": {
             "collection": "wallpaper",
-            "title": "Wallpaper",
-            "link": "shopify://collections/wallpaper"
+            "image": "shopify://shop_images/artistic.png",
+            "title": "Artistic",
+            "link": "shopify://collections/artistic"
           }
         },
         "c_slide_2": {
