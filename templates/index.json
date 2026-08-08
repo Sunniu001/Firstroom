@@ -132,6 +132,15 @@
     "collection_slider": {
       "type": "fr-home-collection-slider",
       "blocks": {
+        "collection_card_JM7b8e": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "tropical",
+            "image": "shopify://shop_images/tropical.png",
+            "title": "Tropical",
+            "link": "shopify://collections/tropical"
+          }
+        },
         "collection_card_9aEJHB": {
           "type": "collection_card",
           "settings": {
@@ -157,22 +166,13 @@
             "title": "Timeless",
             "link": "shopify://collections/timeless"
           }
-        },
-        "c_slide_3": {
-          "type": "collection_card",
-          "settings": {
-            "collection": "",
-            "image": "shopify://shop_images/kids-wallpaper-1536x1536.webp",
-            "title": "Kids Wallpaper",
-            "link": "shopify://collections/kids-wallpaper"
-          }
         }
       },
       "block_order": [
+        "collection_card_JM7b8e",
         "collection_card_9aEJHB",
         "c_slide_1",
-        "c_slide_2",
-        "c_slide_3"
+        "c_slide_2"
       ],
       "settings": {
         "bg_color": "#ffffff",
