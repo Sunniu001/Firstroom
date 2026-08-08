@@ -136,6 +136,7 @@
           "type": "collection_card",
           "settings": {
             "collection": "",
+            "image": "shopify://shop_images/kids.png",
             "title": "Kids",
             "link": "shopify://collections/kids-wallpaper"
           }
