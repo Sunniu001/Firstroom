@@ -426,7 +426,7 @@
           "type": "tab",
           "settings": {
             "title": "Bestseller",
-            "collection": "all",
+            "collection": "bestseller",
             "product_list": [],
             "product_limit": 4,
             "custom_view_all_link": ""
