@@ -1,0 +1,79 @@
+{%- doc -%}
+  Overrides default theme typography for product detail pages (title, description, price)
+  to achieve a lighter, more minimal/elegant feel.
+  
+  Rendered from the product-information section so it applies to all product templates.
+{%- enddoc -%}
+
+{% stylesheet %}
+  /* ============================================================
+     FR Product Page Typography — Lighter / Minimal / Elegant
+     ============================================================ */
+
+  /* ----- Product Title (h1 rendered via h4 preset) ----- */
+  .product-information .product-details .group-block .text-block.h4 > *,
+  .product-information .product-details .group-block .text-block.h4 :is(h1, h2, h3, h4, h5, h6) {
+    font-weight: 400 !important;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+  }
+
+  /* ----- Product Description ----- */
+  .product-information .product-details .group-block .text-block.paragraph > *,
+  .product-information .product-details .group-block .text-block.paragraph p {
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: #555;
+    font-style: italic;
+  }
+
+  /* ----- Price block ----- */
+  .product-information .product-details .group-block product-price.text-block > * {
+    font-weight: 400 !important;
+  }
+
+  .product-information .product-details .group-block product-price .price,
+  .product-information .product-details .group-block product-price .price-item--sale {
+    font-weight: 400 !important;
+    letter-spacing: 0;
+  }
+
+  /* Compare-at / strikethrough price */
+  .product-information .product-details .group-block product-price .compare-at-price {
+    font-weight: 400 !important;
+    opacity: 0.6;
+  }
+
+  /* ----- "From" prefix text (for wallpapers with price range) ----- */
+  .product-information .product-details .group-block product-price .price__regular .price,
+  .product-information .product-details .group-block product-price .price__sale .price {
+    font-weight: 400 !important;
+  }
+
+  /* Custom preset price (used in wallpaper template) */
+  .product-information .product-details product-price.custom-typography {
+    font-weight: 400 !important;
+  }
+  .product-information .product-details product-price.custom-typography > * {
+    font-weight: 400 !important;
+  }
+
+  /* ----- MRP / tax note line ----- */
+  .product-information .product-details .tax-note {
+    font-size: 0.75rem;
+    color: #888;
+    font-weight: 400;
+  }
+
+  /* ----- h5 preset (used in default product.json price block) ----- */
+  .product-information .product-details product-price.h5 > *,
+  .product-information .product-details product-price.h5 .price {
+    font-weight: 400 !important;
+  }
+
+  /* ----- Stepper labels — keep lightweight ----- */
+  .product-information .fr-step-label {
+    font-weight: 400;
+  }
+{% endstylesheet %}
