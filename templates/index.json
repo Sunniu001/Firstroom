@@ -132,6 +132,14 @@
     "collection_slider": {
       "type": "fr-home-collection-slider",
       "blocks": {
+        "collection_card_9aEJHB": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "",
+            "title": "Kids",
+            "link": ""
+          }
+        },
         "c_slide_1": {
           "type": "collection_card",
           "settings": {
@@ -160,6 +168,7 @@
         }
       },
       "block_order": [
+        "collection_card_9aEJHB",
         "c_slide_1",
         "c_slide_2",
         "c_slide_3"
