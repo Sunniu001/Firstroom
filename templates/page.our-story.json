@@ -733,10 +733,15 @@
         "text_font": "lato_n4",
         "text_color": "#666666",
         "text_size": 12,
+        "node_size_desktop": 90,
+        "node_size_mobile": 56,
+        "stem_height": 50,
+        "axis_color": "#dcdcdc",
+        "axis_width": 1,
         "padding_top": 80,
         "padding_bottom": 80,
-        "padding_left": 80,
-        "padding_right": 80,
+        "padding_left": 40,
+        "padding_right": 40,
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 40,
         "padding_left_mobile": 40,
@@ -894,6 +899,7 @@
         "text_HUjqap",
         "instafeed_app_block_77btMt"
       ],
+      "disabled": true,
       "settings": {
         "content_direction": "column",
         "vertical_on_mobile": true,
@@ -921,6 +927,72 @@
         "padding-block-start": 30,
         "padding-block-end": 100
       }
+    },
+    "fr_testimonials_showcase_xEhTMU": {
+      "type": "fr-testimonials-showcase",
+      "blocks": {
+        "testimonial_kxeC6c": {
+          "type": "testimonial",
+          "settings": {
+            "tag": "",
+            "quote": "The wallpaper completely transformed our space. It feels like a piece of art you live with every day.",
+            "author": "AYESHA, MUMBAI"
+          }
+        },
+        "testimonial_D3WREU": {
+          "type": "testimonial",
+          "settings": {
+            "tag": "",
+            "quote": "From consultation to final install, the precision and luxury feel exceeded all our expectations.",
+            "author": "ROHAN & NEHA, DELHI"
+          }
+        },
+        "testimonial_Ap3PFc": {
+          "type": "testimonial",
+          "settings": {
+            "tag": "",
+            "quote": "Bespoke artistry at its finest. The custom colors blend seamlessly with our home interior.",
+            "author": "PRIYA S., BANGALORE"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_kxeC6c",
+        "testimonial_D3WREU",
+        "testimonial_Ap3PFc"
+      ],
+      "name": "FR Customer Testimonials",
+      "settings": {
+        "tag": "WHAT OUR CUSTOMERS SAY",
+        "tag_color": "#1a1a1a",
+        "tag_font_size": 13,
+        "quote_font": "playfair_display_n4",
+        "quote_color": "#1a1a1a",
+        "quote_font_size": 19,
+        "quote_font_size_mobile": 16,
+        "icon_color": "#1a1a1a",
+        "author_font": "lato_n4",
+        "author_color": "#2b2b2b",
+        "author_font_size": 12,
+        "image_aspect_ratio": "1/1",
+        "image_corner_radius": 0,
+        "image_border_color": "#e5e5e5",
+        "image_border_width": 1,
+        "arrow_color": "#1a1a1a",
+        "arrow_border_color": "#cccccc",
+        "arrow_bg_color": "rgba(0,0,0,0)",
+        "arrow_hover_bg": "#1a1a1a",
+        "arrow_hover_color": "#ffffff",
+        "show_dots": true,
+        "autoplay": false,
+        "autoplay_speed": 5000,
+        "bg_color": "#ffffff",
+        "container_max_width": 1360,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "padding_top_mobile": 45,
+        "padding_bottom_mobile": 45
+      }
     }
   },
   "order": [
@@ -936,6 +1008,7 @@
     "featured_projects",
     "our_process",
     "why_choose_us",
-    "blocks_NpcnRe"
+    "blocks_NpcnRe",
+    "fr_testimonials_showcase_xEhTMU"
   ]
 }
