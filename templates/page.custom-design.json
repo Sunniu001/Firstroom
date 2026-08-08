@@ -389,35 +389,35 @@
         "padding_right": 40
       }
     },
-    "fr_custom_projects_GEYcpU": {
-      "type": "fr-custom-projects",
+    "fr_custom_process_GEYcpU": {
+      "type": "fr-custom-process",
       "blocks": {
-        "project_3BYAMT": {
-          "type": "project",
+        "step_3BYAMT": {
+          "type": "step",
           "settings": {
             "step_number": "01",
             "title": "Consultation",
             "description": "<p>Share your vision, space details, color preferences, and inspirational ideas with our design team.<\/p>"
           }
         },
-        "project_JpBKCr": {
-          "type": "project",
+        "step_JpBKCr": {
+          "type": "step",
           "settings": {
             "step_number": "02",
             "title": "Concept Design",
             "description": "<p>Our artists craft bespoke sketches, custom colorways, and digital previews tailored to your space.<\/p>"
           }
         },
-        "project_MHBnDq": {
-          "type": "project",
+        "step_MHBnDq": {
+          "type": "step",
           "settings": {
             "step_number": "03",
             "title": "Sampling & Approval",
             "description": "<p>Review physical swatches, material finishes, and refined details before final production.<\/p>"
           }
         },
-        "project_Wk47Ni": {
-          "type": "project",
+        "step_Wk47Ni": {
+          "type": "step",
           "settings": {
             "step_number": "04",
             "title": "Crafting & Delivery",
@@ -426,12 +426,12 @@
         }
       },
       "block_order": [
-        "project_3BYAMT",
-        "project_JpBKCr",
-        "project_MHBnDq",
-        "project_Wk47Ni"
+        "step_3BYAMT",
+        "step_JpBKCr",
+        "step_MHBnDq",
+        "step_Wk47Ni"
       ],
-      "name": "FR Custom Projects",
+      "name": "FR Custom Process",
       "settings": {
         "bg_color": "#ffffff",
         "heading": "Process",
@@ -562,7 +562,7 @@
     "fr_custom_cards_teU8DH",
     "fr_custom_projects_CHgVxz",
     "fr_custom_projects_cMejAp",
-    "fr_custom_projects_GEYcpU",
+    "fr_custom_process_GEYcpU",
     "fr_contact_form_RwxaFY",
     "fr_custom_faq_mmhbmM"
   ]
