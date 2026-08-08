@@ -1,4 +1,11 @@
-<section class="fr-about-staggered" id="fr-about-staggered-{{ section.id }}" style="background-color: {{ section.settings.section_bg | default: '#ffffff' }};">
+<section class="fr-about-staggered" id="fr-about-staggered-{{ section.id }}" style="
+  background-color: {{ section.settings.section_bg | default: '#ffffff' }};
+  --node-size-d: {{ section.settings.node_size_desktop | default: 85 }}px;
+  --node-size-m: {{ section.settings.node_size_mobile | default: 56 }}px;
+  --stem-height: {{ section.settings.stem_height | default: 45 }}px;
+  --axis-color: {{ section.settings.axis_color | default: '#dcdcdc' }};
+  --axis-width: {{ section.settings.axis_width | default: 1 }}px;
+">
   <div class="fr-about-staggered__wrapper">
     
     {%- if section.settings.heading != blank -%}
@@ -45,7 +52,7 @@
             <div class="fr-staggered-node-wrapper">
               <div class="fr-staggered-node-circle" style="{% if block.settings.border_width > 0 %}border: {{ block.settings.border_width }}px solid {{ block.settings.border_color }};{% endif %}">
                 {%- if block.settings.image != blank -%}
-                  <img src="{{ block.settings.image | image_url: width: 200 }}" alt="{{ block.settings.title | escape }}" loading="lazy" class="fr-staggered-node-img">
+                  <img src="{{ block.settings.image | image_url: width: 300 }}" alt="{{ block.settings.title | escape }}" loading="lazy" class="fr-staggered-node-img">
                 {%- endif -%}
               </div>
             </div>
@@ -160,8 +167,8 @@
 
   /* Node Circle */
   #fr-about-staggered-{{ section.id }} .fr-staggered-node-circle {
-    width: 44px;
-    height: 44px;
+    width: var(--node-size-m);
+    height: var(--node-size-m);
     border-radius: 50%;
     background-color: #c4c4c4;
     display: flex;
@@ -169,7 +176,7 @@
     justify-content: center;
     position: relative;
     z-index: 3;
-    transition: transform 0.3s ease, background-color 0.3s ease;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
     box-sizing: border-box;
     overflow: hidden;
     flex-shrink: 0;
@@ -177,21 +184,23 @@
 
   @media (min-width: 768px) {
     #fr-about-staggered-{{ section.id }} .fr-staggered-node-circle {
-      width: 52px;
-      height: 52px;
+      width: var(--node-size-d);
+      height: var(--node-size-d);
     }
   }
 
   #fr-about-staggered-{{ section.id }} .fr-staggered-step:hover .fr-staggered-node-circle,
   #fr-about-staggered-{{ section.id }} .fr-staggered-mobile-item:hover .fr-staggered-node-circle {
-    transform: scale(1.1);
-    background-color: #1a1a1a;
+    transform: scale(1.08);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
   }
 
   .fr-staggered-node-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 50%;
+    display: block;
   }
 
   /* Typography */
@@ -253,8 +262,8 @@
     right: 0;
     top: 50%;
     transform: translateY(-50%);
-    height: 1px;
-    background-color: #dcdcdc;
+    height: var(--axis-width);
+    background-color: var(--axis-color);
     z-index: 1;
   }
 
@@ -299,9 +308,9 @@
   }
 
   .fr-staggered-stem {
-    width: 1px;
-    height: 40px;
-    background-color: #dcdcdc;
+    width: var(--axis-width);
+    height: var(--stem-height);
+    background-color: var(--axis-color);
     flex-shrink: 0;
   }
 
@@ -323,11 +332,11 @@
 
   .fr-staggered-v-axis {
     position: absolute;
-    left: calc(10px + 22px - 0.5px);
+    left: calc(10px + (var(--node-size-m) / 2) - (var(--axis-width) / 2));
     top: 20px;
     bottom: 20px;
-    width: 1px;
-    background-color: #dcdcdc;
+    width: var(--axis-width);
+    background-color: var(--axis-color);
     z-index: 1;
   }
 
@@ -498,6 +507,56 @@
       "unit": "px",
       "label": "Text Font Size",
       "default": 13
+    },
+    {
+      "type": "header",
+      "content": "Timeline Nodes & Axis"
+    },
+    {
+      "type": "range",
+      "id": "node_size_desktop",
+      "min": 40,
+      "max": 140,
+      "step": 5,
+      "unit": "px",
+      "label": "Node Circle Size (Desktop)",
+      "default": 85
+    },
+    {
+      "type": "range",
+      "id": "node_size_mobile",
+      "min": 30,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Node Circle Size (Mobile)",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "stem_height",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Stem Connector Height",
+      "default": 45
+    },
+    {
+      "type": "color",
+      "id": "axis_color",
+      "label": "Timeline Axis Color",
+      "default": "#dcdcdc"
+    },
+    {
+      "type": "range",
+      "id": "axis_width",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "label": "Timeline Axis Width",
+      "default": 1
     },
     {
       "type": "header",
