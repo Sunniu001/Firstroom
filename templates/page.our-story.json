@@ -647,11 +647,12 @@
         "proc_1": {
           "type": "staggered_item",
           "settings": {
+            "image": "shopify://shop_images/1._Brainstorming.png",
             "border_width": 0,
             "border_color": "#000000",
             "number": "1.",
-            "title": "Process 1",
-            "text": "Some Description goes here",
+            "title": "Brainstorming",
+            "text": "Understanding the space, style, and inspiration to define the creative\ndirection.",
             "column_start": 1,
             "offset_y": 0
           }
@@ -659,11 +660,12 @@
         "proc_2": {
           "type": "staggered_item",
           "settings": {
+            "image": "shopify://shop_images/2._Ideation.png",
             "border_width": 0,
             "border_color": "#000000",
             "number": "2.",
-            "title": "Process 2",
-            "text": "Some Description goes here",
+            "title": "Ideation",
+            "text": "Transforming concepts into unique wallpaper designs through sketches\nand detailed artwork.",
             "column_start": 2,
             "offset_y": -40
           }
@@ -671,11 +673,12 @@
         "proc_3": {
           "type": "staggered_item",
           "settings": {
+            "image": "shopify://shop_images/3._Designing.png",
             "border_width": 0,
             "border_color": "#000000",
             "number": "3.",
-            "title": "Process 3",
-            "text": "Some Description goes here",
+            "title": "Designing",
+            "text": "Each design is meticulously crafted by blending creativity with precision\nto deliver wallpapers that are both distinctive and timeless.",
             "column_start": 3,
             "offset_y": 80
           }
@@ -683,11 +686,12 @@
         "proc_4": {
           "type": "staggered_item",
           "settings": {
+            "image": "shopify://shop_images/4_4eacef81-323c-44b5-9316-604637c5fdd5.png",
             "border_width": 0,
             "border_color": "#000000",
             "number": "4.",
-            "title": "Process 4",
-            "text": "Some Description goes here",
+            "title": "Printing",
+            "text": "Producing the design with high-quality printing for rich colors, sharp\ndetails, and lasting performance according to the chosen material.",
             "column_start": 4,
             "offset_y": -80
           }
@@ -695,11 +699,12 @@
         "proc_5": {
           "type": "staggered_item",
           "settings": {
+            "image": "shopify://shop_images/5._Installation.png",
             "border_width": 0,
             "border_color": "#000000",
             "number": "5.",
-            "title": "Process 5",
-            "text": "Some Description goes here",
+            "title": "Installation",
+            "text": "Expertly installing the wallpaper with precision for a seamless, flawless\nfinish.",
             "column_start": 5,
             "offset_y": 40
           }
