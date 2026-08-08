@@ -132,13 +132,12 @@
     "collection_slider": {
       "type": "fr-home-collection-slider",
       "blocks": {
-        "collection_card_JM7b8e": {
+        "collection_card_URyctR": {
           "type": "collection_card",
           "settings": {
-            "collection": "tropical",
-            "image": "shopify://shop_images/tropical.png",
-            "title": "Tropical",
-            "link": "shopify://collections/tropical"
+            "collection": "inner-landscape",
+            "title": "Inner Landscapes",
+            "link": "shopify://collections/inner-landscape"
           }
         },
         "collection_card_9aEJHB": {
@@ -166,13 +165,23 @@
             "title": "Timeless",
             "link": "shopify://collections/timeless"
           }
+        },
+        "collection_card_JM7b8e": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "tropical",
+            "image": "shopify://shop_images/tropical.png",
+            "title": "Tropical",
+            "link": "shopify://collections/tropical"
+          }
         }
       },
       "block_order": [
-        "collection_card_JM7b8e",
+        "collection_card_URyctR",
         "collection_card_9aEJHB",
         "c_slide_1",
-        "c_slide_2"
+        "c_slide_2",
+        "collection_card_JM7b8e"
       ],
       "settings": {
         "bg_color": "#ffffff",
