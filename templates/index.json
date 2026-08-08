@@ -132,14 +132,6 @@
     "collection_slider": {
       "type": "fr-home-collection-slider",
       "blocks": {
-        "collection_card_bLzJT9": {
-          "type": "collection_card",
-          "settings": {
-            "collection": "botanical-rhythm",
-            "title": "Botanical",
-            "link": "shopify://collections/botanical-rhythm"
-          }
-        },
         "collection_card_9aEJHB": {
           "type": "collection_card",
           "settings": {
@@ -179,6 +171,7 @@
           "type": "collection_card",
           "settings": {
             "collection": "inner-landscape",
+            "image": "shopify://shop_images/spiritual.png",
             "title": "Inner Landscapes",
             "link": "shopify://collections/inner-landscape"
           }
@@ -191,16 +184,24 @@
             "title": "Motif Impressions",
             "link": "shopify://collections/motif-impression"
           }
+        },
+        "collection_card_bLzJT9": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "botanical-rhythm",
+            "title": "Botanical",
+            "link": "shopify://collections/botanical-rhythm"
+          }
         }
       },
       "block_order": [
-        "collection_card_bLzJT9",
         "collection_card_9aEJHB",
         "c_slide_1",
         "c_slide_2",
         "collection_card_JM7b8e",
         "collection_card_URyctR",
-        "collection_card_7zfHcY"
+        "collection_card_7zfHcY",
+        "collection_card_bLzJT9"
       ],
       "settings": {
         "bg_color": "#ffffff",
