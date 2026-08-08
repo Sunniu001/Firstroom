@@ -733,7 +733,7 @@
         "text_font": "lato_n4",
         "text_color": "#666666",
         "text_size": 12,
-        "node_size_desktop": 90,
+        "node_size_desktop": 80,
         "node_size_mobile": 56,
         "stem_height": 50,
         "axis_color": "#dcdcdc",
