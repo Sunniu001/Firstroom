@@ -13,12 +13,19 @@
       "type": "fr-breadcrumbs",
       "name": "FR Breadcrumbs",
       "settings": {
+        "alignment_desktop": "flex-start",
+        "font_size": 14,
         "padding_top": 20,
         "padding_bottom": 20,
         "padding_left": 70,
         "padding_right": 0,
-        "font_size": 14,
-        "text_color": "#333333"
+        "text_color": "#333333",
+        "alignment_mobile": "flex-start",
+        "font_size_mobile": 12,
+        "padding_top_mobile": 12,
+        "padding_bottom_mobile": 12,
+        "padding_left_mobile": 22,
+        "padding_right_mobile": 16
       }
     },
     "main": {
@@ -34,7 +41,7 @@
             "large_first_image": false,
             "icons_style": "none",
             "slideshow_controls_style": "thumbnails",
-            "slideshow_mobile_controls_style": "dots",
+            "slideshow_mobile_controls_style": "counter",
             "thumbnail_position": "left",
             "thumbnail_width": 72,
             "thumbnail_radius": 0,
@@ -257,8 +264,30 @@
                 "use_whatsapp": true,
                 "whatsapp_number": "919310845706",
                 "whatsapp_message": "Hi, I'd like to know more about this wallpaper.",
+                "note_alignment": "left",
+                "note_font_size": 14,
+                "button_alignment": "flex-start",
+                "button_font_size": 14,
+                "button_padding_v": 16,
+                "button_padding_h": 16,
+                "button_border_radius": 4,
+                "full_width_single_btn": true,
                 "padding_top": 0,
-                "padding_bottom": 0
+                "padding_bottom": 0,
+                "padding_left": 0,
+                "padding_right": 0,
+                "layout_mobile": "row",
+                "button_alignment_mobile": "center",
+                "note_alignment_mobile": "left",
+                "note_font_size_mobile": 13,
+                "button_font_size_mobile": 13,
+                "button_padding_v_mobile": 14,
+                "button_padding_h_mobile": 14,
+                "gap_mobile": 12,
+                "padding_top_mobile": 0,
+                "padding_bottom_mobile": 16,
+                "padding_left_mobile": 0,
+                "padding_right_mobile": 0
               },
               "blocks": {}
             },
@@ -269,8 +298,22 @@
                 "step_2_text": "Enter Dimensions",
                 "step_3_text": "Production",
                 "step_4_text": "Delivered",
+                "alignment_desktop": "space-between",
+                "font_size_desktop": 10,
+                "circle_size_desktop": 24,
+                "circle_font_size_desktop": 11,
                 "padding_top": 0,
-                "padding_bottom": 0
+                "padding_bottom": 0,
+                "padding_left": 0,
+                "padding_right": 0,
+                "alignment_mobile": "space-between",
+                "font_size_mobile": 9,
+                "circle_size_mobile": 20,
+                "circle_font_size_mobile": 10,
+                "padding_top_mobile": 16,
+                "padding_bottom_mobile": 16,
+                "padding_left_mobile": 0,
+                "padding_right_mobile": 0
               },
               "blocks": {}
             },
@@ -290,7 +333,15 @@
             "dimensions_calculator": {
               "type": "fr-dimensions-calculator",
               "settings": {
-                "minimum_area": "25"
+                "minimum_area": "25",
+                "padding_top": 16,
+                "padding_bottom": 16,
+                "input_layout_mobile": "row",
+                "title_font_size_mobile": 14,
+                "padding_top_mobile": 12,
+                "padding_bottom_mobile": 12,
+                "padding_left_mobile": 0,
+                "padding_right_mobile": 0
               },
               "blocks": {}
             },
@@ -302,7 +353,25 @@
                 "badge_2_icon": "shopify://shop_images/ChatGPT_Image_Jun_25_2026_at_11_58_08_AM_2_1.png",
                 "badge_2_text": "PVC Free Surface",
                 "badge_3_icon": "shopify://shop_images/ChatGPT_Image_Jul_20_2026_at_05_18_29_PM_1_1.png",
-                "badge_3_text": "Non-toxic water based Ink"
+                "badge_3_text": "Non-toxic water based Ink",
+                "alignment_desktop": "space-around",
+                "text_align_desktop": "center",
+                "font_size_desktop": 13.5,
+                "icon_size_desktop": 48,
+                "padding_top": 24,
+                "padding_bottom": 24,
+                "padding_left": 0,
+                "padding_right": 0,
+                "layout_mobile": "row",
+                "alignment_mobile": "space-around",
+                "text_align_mobile": "center",
+                "font_size_mobile": 11.5,
+                "icon_size_mobile": 38,
+                "gap_mobile": 12,
+                "padding_top_mobile": 16,
+                "padding_bottom_mobile": 16,
+                "padding_left_mobile": 0,
+                "padding_right_mobile": 0
               },
               "blocks": {}
             }
@@ -340,10 +409,22 @@
         "material_html": "<p><strong>Shipping Timeline:<br/></strong>Dispatched within 3-5 Days<br/>Shipping 7 - 10 working days (domestic)<br/>Refer to Shipping Policy<br/><br/><strong>Care Instructions:<br/></strong>Wipe gently using a damp cloth or sponge<br/>No detergents or harsh chemicals<br/>Do not scrub or over-clean<br/>Environmental factors may affect durability<br/><strong><br/>Packaging:<br/></strong>Packed safely with minimal or recyclable plastic to protect the product during delivery</p>",
         "shipping_html": "<p>- All wallpapers are made to order<br/>- Production waste is responsibly managed to avoid landfill<br/>- Returns are not accepted<br/>- Please refer to our Terms & Conditions<br/><br/>Note: Slight color variations from display images may occur</p>",
         "quality_html": "<p><strong>Material:<br/></strong>Non-woven wallpaper (non-self-adhesive)<br/><strong>Panels:<br/></strong>Printed in multiple parts; number of panels varies as per wall size<strong><br/>Print:</strong><br/>Digitally printed using eco-conscious, child-safe inks<strong><br/>Installation:<br/></strong>Requires professional installation<br/>We do not provide installation services at all locations<br/>Contact customer care for recommended independent installers<br/>Seamless joints after proper installation<br/><strong>Best Surface Application:<br/></strong>Smooth indoor walls, MDF panels, or wooden surfaces<br/>Oil-based paint or primer must be applied at least 5 days before installation<br/>Not suitable for outdoor areas or direct sunlight<br/><strong>Manufactured & Marketed by:<br/></strong>First Room CollectivesA10, Block A, Greenwood City, Sector 45, Gurugram – 122003, Haryana, India<br/>firstroom2019@gmail.com<br/>+91 96507 06644</p>",
+        "alignment_desktop": "flex-start",
+        "tab_font_size_desktop": 14,
+        "content_font_size_desktop": 14,
+        "tab_gap_desktop": 40,
         "padding_top": 60,
         "padding_bottom": 32,
         "padding_left": 100,
-        "padding_right": 40
+        "padding_right": 40,
+        "alignment_mobile": "flex-start",
+        "tab_font_size_mobile": 12,
+        "content_font_size_mobile": 12,
+        "tab_gap_mobile": 14,
+        "padding_top_mobile": 8,
+        "padding_bottom_mobile": 0,
+        "padding_left_mobile": 16,
+        "padding_right_mobile": 16
       }
     },
     "fr_customer_reviews_R4dtng": {
@@ -579,12 +660,18 @@
         "heading_alignment": "center",
         "heading_align_mobile": "center",
         "heading_color": "#1a1a1a",
+        "question_size_desktop": 16,
+        "question_size_mobile": 12,
+        "answer_size_desktop": 14,
+        "answer_size_mobile": 12,
         "padding_top": 60,
         "padding_bottom": 60,
-        "padding_top_mobile": 40,
-        "padding_bottom_mobile": 40,
         "padding_left": 20,
-        "padding_right": 20
+        "padding_right": 20,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20,
+        "padding_left_mobile": 16,
+        "padding_right_mobile": 16
       }
     }
   },
