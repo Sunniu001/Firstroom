@@ -260,33 +260,6 @@
               },
               "blocks": {}
             },
-            "fr_product_stepper_8rGWGQ": {
-              "type": "fr-product-stepper",
-              "name": "FR - Progress Stepper",
-              "settings": {
-                "step_1_text": "Enter Name",
-                "step_2_text": "Choose Font",
-                "step_3_text": "Production",
-                "step_4_text": "Delivered",
-                "alignment_desktop": "space-between",
-                "font_size_desktop": 10,
-                "circle_size_desktop": 24,
-                "circle_font_size_desktop": 11,
-                "padding_top": 0,
-                "padding_bottom": 0,
-                "padding_left": 0,
-                "padding_right": 0,
-                "alignment_mobile": "space-between",
-                "font_size_mobile": 9,
-                "circle_size_mobile": 20,
-                "circle_font_size_mobile": 10,
-                "padding_top_mobile": 16,
-                "padding_bottom_mobile": 16,
-                "padding_left_mobile": 0,
-                "padding_right_mobile": 0
-              },
-              "blocks": {}
-            },
             "fr_product_stepper_nwGigg": {
               "type": "fr-product-stepper",
               "settings": {
@@ -414,7 +387,6 @@
             "group_icgrde",
             "divider_xUraFn",
             "text_BKdRhg",
-            "fr_product_stepper_8rGWGQ",
             "fr_product_stepper_nwGigg",
             "fr_nameplate_preview_xeqriE",
             "variant_picker_R3rGDr",
