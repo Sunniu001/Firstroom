@@ -79,7 +79,7 @@
         "hero_overlay_opacity": 15,
         "aspect_ratio": "vh",
         "aspect_ratio_mobile": "vh",
-        "hero_height_desktop": 72,
+        "hero_height_desktop": 82,
         "hero_height_mobile": 60,
         "content_alignment_vertical": "center",
         "content_alignment_vertical_mobile": "center",
