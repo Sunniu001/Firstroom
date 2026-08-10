@@ -191,7 +191,7 @@
                     "color": "var(--color-foreground)",
                     "text_color": "#bd0202",
                     "padding-block-start": 4,
-                    "padding-block-end": 10,
+                    "padding-block-end": 20,
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
                   },
