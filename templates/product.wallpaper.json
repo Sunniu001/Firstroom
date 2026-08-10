@@ -219,10 +219,15 @@
             "custom-actions": {
               "type": "fr-product-actions",
               "settings": {
+                "note_text": "Made to your exact wall. Order yourself if you have the dimensions, or get expert help with measuring, paper finish, and preview.",
+                "show_order_button": false,
                 "order_text": "Order directly",
                 "order_link": "",
                 "specialist_text": "Talk to a specialist",
                 "specialist_link": "",
+                "use_whatsapp": true,
+                "whatsapp_number": "919310845706",
+                "whatsapp_message": "Hi, I'd like to know more about this wallpaper.",
                 "padding_top": 0,
                 "padding_bottom": 0
               },
