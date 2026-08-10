@@ -1,53 +1,65 @@
 <div class="fr-trust-badges" {{ block.shopify_attributes }}>
   <div class="fr-badges-grid">
+    <!-- Badge 1 -->
     <div class="fr-badge-item">
       <div class="fr-icon-wrapper">
-        <svg class="fr-trust-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-          <!-- Circular cycle arrows -->
-          <circle cx="32" cy="32" r="25" stroke-dasharray="120 20" stroke-dashoffset="10" />
-          <path d="M 52 20 L 57 26 L 49 27" />
-          <path d="M 12 44 L 7 38 L 15 37" />
-          <!-- Central leaves -->
-          <path d="M 32 44 V 24" stroke-width="1.4" />
-          <path d="M 32 38 C 24 35 23 25 32 22 C 41 25 40 35 32 38 Z" fill="none" stroke-width="1.3" />
-          <path d="M 32 30 C 26 27 26 19 32 16 C 38 19 38 27 32 30 Z" fill="none" stroke-width="1.3" />
-          <path d="M 32 36 L 27 33" stroke-width="1.2" />
-          <path d="M 32 32 L 37 29" stroke-width="1.2" />
-        </svg>
+        {% if block.settings.badge_1_icon != blank %}
+          {{ block.settings.badge_1_icon | image_url: width: 120 | image_tag: class: 'fr-trust-img-icon', loading: 'lazy', alt: block.settings.badge_1_text }}
+        {% else %}
+          <svg class="fr-trust-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Circular cycle arrows -->
+            <circle cx="32" cy="32" r="25" stroke-dasharray="120 20" stroke-dashoffset="10" />
+            <path d="M 52 20 L 57 26 L 49 27" />
+            <path d="M 12 44 L 7 38 L 15 37" />
+            <!-- Central leaves -->
+            <path d="M 32 44 V 24" stroke-width="1.4" />
+            <path d="M 32 38 C 24 35 23 25 32 22 C 41 25 40 35 32 38 Z" fill="none" stroke-width="1.3" />
+            <path d="M 32 30 C 26 27 26 19 32 16 C 38 19 38 27 32 30 Z" fill="none" stroke-width="1.3" />
+            <path d="M 32 36 L 27 33" stroke-width="1.2" />
+            <path d="M 32 32 L 37 29" stroke-width="1.2" />
+          </svg>
+        {% endif %}
       </div>
       <span class="fr-badge-label">{{ block.settings.badge_1_text | default: "Eco Friendly Wallpapers" }}</span>
     </div>
 
+    <!-- Badge 2 -->
     <div class="fr-badge-item">
       <div class="fr-icon-wrapper">
-        <svg class="fr-trust-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-          <!-- Triangular Mobius / Recycling loop -->
-          <!-- Top horizontal arrow -->
-          <path d="M 24 14 H 42 L 50 28" />
-          <polyline points="44 29 50 28 48 22" />
-          <!-- Right-to-bottom arrow -->
-          <path d="M 52 32 L 43 47 H 22" />
-          <polyline points="23 52 17 47 23 42" />
-          <!-- Left-to-top arrow -->
-          <path d="M 14 42 L 7 28 L 18 14" />
-          <polyline points="13 18 18 14 22 19" />
-          <!-- Center PVC label -->
-          <text x="32" y="32.5" font-family="var(--font-body--family), system-ui, sans-serif" font-size="8.5" font-weight="600" fill="currentColor" stroke="none" text-anchor="middle" dominant-baseline="central" letter-spacing="0.5">PVC</text>
-        </svg>
+        {% if block.settings.badge_2_icon != blank %}
+          {{ block.settings.badge_2_icon | image_url: width: 120 | image_tag: class: 'fr-trust-img-icon', loading: 'lazy', alt: block.settings.badge_2_text }}
+        {% else %}
+          <svg class="fr-trust-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Triangular Mobius / Recycling loop -->
+            <path d="M 24 14 H 42 L 50 28" />
+            <polyline points="44 29 50 28 48 22" />
+            <path d="M 52 32 L 43 47 H 22" />
+            <polyline points="23 52 17 47 23 42" />
+            <path d="M 14 42 L 7 28 L 18 14" />
+            <polyline points="13 18 18 14 22 19" />
+            <!-- Center PVC label -->
+            <text x="32" y="32.5" font-family="var(--font-body--family), system-ui, sans-serif" font-size="8.5" font-weight="600" fill="currentColor" stroke="none" text-anchor="middle" dominant-baseline="central" letter-spacing="0.5">PVC</text>
+          </svg>
+        {% endif %}
       </div>
       <span class="fr-badge-label">{{ block.settings.badge_2_text | default: "PVC Free Surface" }}</span>
     </div>
 
+    <!-- Badge 3 -->
     <div class="fr-badge-item">
       <div class="fr-icon-wrapper">
-        <svg class="fr-trust-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-          <!-- Outer Circle -->
-          <circle cx="32" cy="32" r="25" />
-          <!-- Water Drop -->
-          <path d="M 32 16 C 32 16 22 27 22 34 A 10 10 0 0 0 42 34 C 42 27 32 16 32 16 Z" fill="none" stroke-width="1.3" />
-          <!-- Wavy Water Line inside circle -->
-          <path d="M 7 38 Q 13 34 19 38 T 32 38 T 45 38 T 57 38" stroke-width="1.2" />
-        </svg>
+        {% if block.settings.badge_3_icon != blank %}
+          {{ block.settings.badge_3_icon | image_url: width: 120 | image_tag: class: 'fr-trust-img-icon', loading: 'lazy', alt: block.settings.badge_3_text }}
+        {% else %}
+          <svg class="fr-trust-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Outer Circle -->
+            <circle cx="32" cy="32" r="25" />
+            <!-- Water Drop -->
+            <path d="M 32 16 C 32 16 22 27 22 34 A 10 10 0 0 0 42 34 C 42 27 32 16 32 16 Z" fill="none" stroke-width="1.3" />
+            <!-- Wavy Water Line inside circle -->
+            <path d="M 7 38 Q 13 34 19 38 T 32 38 T 45 38 T 57 38" stroke-width="1.2" />
+          </svg>
+        {% endif %}
       </div>
       <span class="fr-badge-label">{{ block.settings.badge_3_text | default: "Non-toxic water based Ink" }}</span>
     </div>
@@ -86,9 +98,11 @@
     height: 52px;
     color: #222;
   }
-  .fr-trust-icon {
+  .fr-trust-icon,
+  .fr-trust-img-icon {
     width: 48px;
     height: 48px;
+    object-fit: contain;
   }
   .fr-badge-label {
     font-family: var(--font-accent--family), var(--font-heading--family), Georgia, serif;
@@ -107,7 +121,8 @@
       width: 42px;
       height: 42px;
     }
-    .fr-trust-icon {
+    .fr-trust-icon,
+    .fr-trust-img-icon {
       width: 38px;
       height: 38px;
     }
@@ -122,16 +137,46 @@
   "name": "FR - Trust Badges",
   "settings": [
     {
+      "type": "header",
+      "content": "Badge 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_1_icon",
+      "label": "Badge 1 Icon Image",
+      "info": "Optional. Overrides default SVG icon."
+    },
+    {
       "type": "text",
       "id": "badge_1_text",
       "label": "Badge 1 Text",
       "default": "Eco Friendly Wallpapers"
     },
     {
+      "type": "header",
+      "content": "Badge 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_2_icon",
+      "label": "Badge 2 Icon Image",
+      "info": "Optional. Overrides default SVG icon."
+    },
+    {
       "type": "text",
       "id": "badge_2_text",
       "label": "Badge 2 Text",
       "default": "PVC Free Surface"
+    },
+    {
+      "type": "header",
+      "content": "Badge 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_3_icon",
+      "label": "Badge 3 Icon Image",
+      "info": "Optional. Overrides default SVG icon."
     },
     {
       "type": "text",
