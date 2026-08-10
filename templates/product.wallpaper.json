@@ -219,6 +219,7 @@
             "text_XwmBPw": {
               "type": "text",
               "name": "t:names.text",
+              "disabled": true,
               "settings": {
                 "text": "<p>Made to your exact wall. Order yourself if you have the dimensions, or get expert help with measuring, paper finish, and preview.</p>",
                 "width": "100%",
