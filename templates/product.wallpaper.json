@@ -216,10 +216,37 @@
               },
               "blocks": {}
             },
+            "text_XwmBPw": {
+              "type": "text",
+              "name": "t:names.text",
+              "settings": {
+                "text": "<p>Made to your exact wall. Order yourself if you have the dimensions, or get expert help with measuring, paper finish, and preview.</p>",
+                "width": "fit-content",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "custom",
+                "font": "var(--font-subheading--family)",
+                "font_size": "0.75rem",
+                "line_height": "tight",
+                "letter_spacing": "tight",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "text_color": "#828282",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 16,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
             "custom-actions": {
               "type": "fr-product-actions",
               "settings": {
-                "note_text": "Made to your exact wall. Order yourself if you have the dimensions, or get expert help with measuring, paper finish, and preview.",
+                "note_text": "",
                 "show_order_button": false,
                 "order_text": "Order directly",
                 "order_link": "",
@@ -274,6 +301,7 @@
           "block_order": [
             "group_icgrde",
             "divider_B3e4Am",
+            "text_XwmBPw",
             "custom-actions",
             "stepper",
             "variant_picker_R3rGDr",
