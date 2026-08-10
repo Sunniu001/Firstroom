@@ -222,6 +222,7 @@
             "divider_xUraFn": {
               "type": "_divider",
               "name": "t:names.divider",
+              "disabled": true,
               "settings": {
                 "thickness": 1,
                 "corner_radius": "square",
@@ -231,28 +232,56 @@
               },
               "blocks": {}
             },
-            "fr_product_actions_9McLAG": {
+            "text_MaVLRC": {
+              "type": "text",
+              "name": "t:names.text",
+              "disabled": true,
+              "settings": {
+                "text": "<p>Made to your exact wall. Order yourself if you have the dimensions, or get expert help with measuring, paper finish, and preview.</p>",
+                "width": "100%",
+                "max_width": "none",
+                "alignment": "left",
+                "type_preset": "custom",
+                "font": "var(--font-subheading--family)",
+                "font_size": "0.75rem",
+                "line_height": "tight",
+                "letter_spacing": "tight",
+                "case": "none",
+                "wrap": "pretty",
+                "color": "var(--color-foreground)",
+                "text_color": "#828282",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 16,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
+            "fr_product_actions_fan4AR": {
               "type": "fr-product-actions",
               "settings": {
-                "note_text": "Made to your exact wall. Order yourself if you have the dimensions, or get expert help with measuring, paper finish, and preview.",
-                "show_order_button": true,
+                "note_text": "",
+                "show_order_button": false,
                 "order_text": "Order directly",
                 "order_link": "",
                 "specialist_text": "Talk to a specialist",
                 "specialist_link": "",
-                "use_whatsapp": false,
+                "use_whatsapp": true,
                 "whatsapp_number": "919310845706",
                 "whatsapp_message": "Hi, I'd like to know more about this wallpaper.",
                 "note_alignment": "left",
                 "note_font_size": 14,
                 "button_alignment": "flex-start",
                 "button_font_size": 14,
-                "button_padding_v": 16,
+                "button_padding_v": 14,
                 "button_padding_h": 16,
                 "button_border_radius": 4,
                 "full_width_single_btn": true,
                 "padding_top": 0,
-                "padding_bottom": 32,
+                "padding_bottom": 16,
                 "padding_left": 0,
                 "padding_right": 0,
                 "layout_mobile": "row",
@@ -352,7 +381,8 @@
           "block_order": [
             "group_icgrde",
             "divider_xUraFn",
-            "fr_product_actions_9McLAG",
+            "text_MaVLRC",
+            "fr_product_actions_fan4AR",
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi",
             "fr_trust_badges_mcWreb"
@@ -397,10 +427,10 @@
         "padding_right_mobile": 16
       }
     },
-    "product_recommendations_qggXJq": {
+    "product_recommendations_tzdyye": {
       "type": "product-recommendations",
       "blocks": {
-        "text_cbcgyb": {
+        "text_LpyWm4": {
           "type": "text",
           "name": "t:names.header",
           "settings": {
@@ -421,7 +451,7 @@
             "background_color": "#00000026",
             "corner_radius": 0,
             "padding-block-start": 0,
-            "padding-block-end": 14,
+            "padding-block-end": 15,
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
@@ -432,7 +462,7 @@
           "name": "t:names.product_card",
           "static": true,
           "settings": {
-            "product_card_gap": 8,
+            "product_card_gap": 10,
             "inherit_color_scheme": true,
             "color_scheme": "",
             "border": "none",
@@ -445,7 +475,7 @@
             "padding-inline-end": 0
           },
           "blocks": {
-            "product_card_gallery_DNizbJ": {
+            "product_card_gallery_AfMCTX": {
               "type": "_product-card-gallery",
               "name": "t:names.product_card_media",
               "settings": {
@@ -461,7 +491,7 @@
               },
               "blocks": {}
             },
-            "product_title_M7MJkb": {
+            "product_title_bmpEfi": {
               "type": "product-title",
               "name": "t:names.product_title",
               "settings": {
@@ -486,7 +516,7 @@
               },
               "blocks": {}
             },
-            "price_gLWgA6": {
+            "price_Y6NTpn": {
               "type": "price",
               "settings": {
                 "show_sale_price_first": true,
@@ -511,28 +541,28 @@
             }
           },
           "block_order": [
-            "product_card_gallery_DNizbJ",
-            "product_title_M7MJkb",
-            "price_gLWgA6"
+            "product_card_gallery_AfMCTX",
+            "product_title_bmpEfi",
+            "price_Y6NTpn"
           ]
         }
       },
       "block_order": [
-        "text_cbcgyb"
+        "text_LpyWm4"
       ],
       "name": "t:names.product_recommendations",
       "settings": {
         "product": "{{ closest.product }}",
         "recommendation_type": "related",
         "layout_type": "grid",
-        "carousel_on_mobile": true,
+        "carousel_on_mobile": false,
         "max_products": 4,
         "columns": 4,
         "mobile_columns": "2",
-        "columns_gap": 14,
+        "columns_gap": 15,
         "rows_gap": 24,
         "icons_style": "arrow",
-        "icons_shape": "none",
+        "icons_shape": "square",
         "section_width": "page-width",
         "gap": 20,
         "color_scheme": "",
@@ -545,6 +575,6 @@
     "fr_breadcrumbs_9gJG8w",
     "main",
     "fr_product_tabs_hGpUAa",
-    "product_recommendations_qggXJq"
+    "product_recommendations_tzdyye"
   ]
 }
