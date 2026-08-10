@@ -206,7 +206,7 @@
       "settings": {
         "color_scheme": "",
         "section_width": "full-width",
-        "thickness": 1,
+        "thickness": 0.5,
         "corner_radius": "square",
         "width_percent": 100,
         "alignment_horizontal": "center",
@@ -250,14 +250,28 @@
         "button_bg": "#1a1a1a",
         "button_text": "#ffffff",
         "button_radius": 4,
-        "padding_top": 72,
-        "padding_bottom": 44,
+        "padding_top": 52,
+        "padding_bottom": 52,
         "padding_left": 40,
         "padding_right": 40,
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 0,
         "padding_left_mobile": 48,
         "padding_right_mobile": 48
+      }
+    },
+    "divider_nxAj8E": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "color_scheme": "",
+        "section_width": "full-width",
+        "thickness": 0.5,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     },
     "founders": {
@@ -296,8 +310,8 @@
         "button_bg": "#1a1a1a",
         "button_text": "#ffffff",
         "button_radius": 4,
-        "padding_top": 44,
-        "padding_bottom": 44,
+        "padding_top": 52,
+        "padding_bottom": 52,
         "padding_left": 40,
         "padding_right": 40,
         "padding_top_mobile": 40,
@@ -1027,6 +1041,7 @@
     "we",
     "divider_pmGKCr",
     "fr_section_image_text_FcKRCK",
+    "divider_nxAj8E",
     "founders",
     "design_philosophy",
     "design_inspiration",
