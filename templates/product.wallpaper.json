@@ -296,7 +296,14 @@
             },
             "trust-badges": {
               "type": "fr-trust-badges",
-              "settings": {},
+              "settings": {
+                "badge_1_icon": "shopify://shop_images/ChatGPT_Image_Jun_25_2026_at_11_58_08_AM_3_2.png",
+                "badge_1_text": "Eco Friendly Wallpapers",
+                "badge_2_icon": "shopify://shop_images/ChatGPT_Image_Jun_25_2026_at_11_58_08_AM_2_1.png",
+                "badge_2_text": "PVC Free Surface",
+                "badge_3_icon": "shopify://shop_images/ChatGPT_Image_Jul_20_2026_at_05_18_29_PM_1_1.png",
+                "badge_3_text": "Non-toxic water based Ink"
+              },
               "blocks": {}
             }
           },
