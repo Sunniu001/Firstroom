@@ -162,33 +162,6 @@
                   },
                   "blocks": {}
                 },
-                "product_description_TRxVqR": {
-                  "type": "product-description",
-                  "name": "t:names.product_description",
-                  "settings": {
-                    "text": "<p>{{ closest.product.description }}</p>",
-                    "width": "100%",
-                    "max_width": "none",
-                    "alignment": "left",
-                    "type_preset": "paragraph",
-                    "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
-                    "case": "none",
-                    "wrap": "pretty",
-                    "color": "var(--color-foreground)",
-                    "text_color": "",
-                    "background": false,
-                    "background_color": "#00000026",
-                    "corner_radius": 0,
-                    "padding-block-start": 0,
-                    "padding-block-end": 0,
-                    "padding-inline-start": 0,
-                    "padding-inline-end": 0
-                  },
-                  "blocks": {}
-                },
                 "product_description_3xC8Jy": {
                   "type": "product-description",
                   "name": "t:names.product_description",
@@ -216,22 +189,22 @@
                   },
                   "blocks": {}
                 },
-                "price_ywML9U": {
+                "price_MfVTyD": {
                   "type": "price",
                   "settings": {
                     "show_sale_price_first": true,
                     "show_installments": false,
-                    "show_tax_info": false,
+                    "show_tax_info": true,
                     "type_preset": "custom",
                     "width": "100%",
                     "alignment": "left",
-                    "font": "var(--font-accent--family)",
-                    "font_size": "1.125rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1.25rem",
+                    "line_height": "loose",
+                    "letter_spacing": "loose",
                     "case": "none",
                     "color": "var(--color-foreground)",
-                    "text_color": "",
+                    "text_color": "#bd0202",
                     "padding-block-start": 4,
                     "padding-block-end": 20,
                     "padding-inline-start": 0,
@@ -242,9 +215,8 @@
               },
               "block_order": [
                 "text_UdwgFV",
-                "product_description_TRxVqR",
                 "product_description_3xC8Jy",
-                "price_ywML9U"
+                "price_MfVTyD"
               ]
             },
             "divider_VJhene": {
