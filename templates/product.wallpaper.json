@@ -191,7 +191,7 @@
                     "color": "var(--color-foreground)",
                     "text_color": "#bd0202",
                     "padding-block-start": 4,
-                    "padding-block-end": 20,
+                    "padding-block-end": 10,
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
                   },
@@ -221,7 +221,7 @@
               "name": "t:names.text",
               "settings": {
                 "text": "<p>Made to your exact wall. Order yourself if you have the dimensions, or get expert help with measuring, paper finish, and preview.</p>",
-                "width": "fit-content",
+                "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
                 "type_preset": "custom",
