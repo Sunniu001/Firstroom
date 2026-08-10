@@ -271,19 +271,19 @@
               },
               "blocks": {}
             },
-            "fr_product_stepper_LkYNzd": {
+            "fr_product_stepper_iWhgL8": {
               "type": "fr-product-stepper",
               "settings": {
                 "step_1_text": "Select Material",
-                "step_2_text": "Add To Cart",
+                "step_2_text": "Add TO Cart",
                 "step_3_text": "Production",
                 "step_4_text": "Delivered",
                 "alignment_desktop": "space-between",
                 "font_size_desktop": 10,
                 "circle_size_desktop": 24,
                 "circle_font_size_desktop": 11,
-                "padding_top": 0,
-                "padding_bottom": 0,
+                "padding_top": 12,
+                "padding_bottom": 20,
                 "padding_left": 0,
                 "padding_right": 0,
                 "alignment_mobile": "space-between",
@@ -379,7 +379,7 @@
             "group_icgrde",
             "divider_VJhene",
             "fr_product_actions_4VLiKP",
-            "fr_product_stepper_LkYNzd",
+            "fr_product_stepper_iWhgL8",
             "variant_picker_ThfVAa",
             "buy_buttons_eYQEYi",
             "fr_trust_badges_hbUXNL"
