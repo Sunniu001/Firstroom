@@ -210,7 +210,7 @@
       ],
       "settings": {
         "bg_color": "#ffffff",
-        "content_max_width": 1050,
+        "content_max_width": 1150,
         "section_heading": "",
         "section_heading_size": 32,
         "section_heading_size_mobile": 26,
@@ -223,7 +223,7 @@
         "image_position": "left",
         "column_ratio": "1fr|1fr",
         "vertical_align": "center",
-        "gap": 44,
+        "gap": 60,
         "mobile_layout": "image_first",
         "image": "shopify://shop_images/compressed_FRWPTR012-full-for-website_1.png",
         "image_max_width": 600,
