@@ -30,10 +30,11 @@
 </div>
 
 {% stylesheet %}
-  /* Clear padding on mobile, if not full-width */
+  /* Mobile padding support */
   @media screen and (max-width: 749px) {
     .product-information.section--page-width .product-details > .group-block {
-      padding-inline: 0;
+      padding-block: var(--padding-block-start-mobile, var(--padding-block-start, 0px)) var(--padding-block-end-mobile, var(--padding-block-end, 0px));
+      padding-inline: var(--padding-inline-start-mobile, 0px) var(--padding-inline-end-mobile, 0px);
     }
   }
 
@@ -424,6 +425,50 @@
       "type": "range",
       "id": "padding-inline-end",
       "label": "t:settings.right",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Mobile Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start-mobile",
+      "label": "Top (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end-mobile",
+      "label": "Bottom (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start-mobile",
+      "label": "Left (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end-mobile",
+      "label": "Right (Mobile)",
       "min": 0,
       "max": 100,
       "step": 1,

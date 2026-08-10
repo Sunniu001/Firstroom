@@ -183,4 +183,43 @@
   /* Nameplate Size Placeholders */
   .fr-finish-image.fr-size-nameplate-17x8-inches, .fr-finish-image.fr-size-nameplate-17-x-8-inches { background: #e6e6e6; }
   .fr-finish-image.fr-size-nameplate-12x5-inches, .fr-finish-image.fr-size-nameplate-12-x-5-inches { background: #f2f2f2; }
+
+  /* Mobile Variant Picker Size Reduction */
+  @media (max-width: 767px) {
+    .fr-custom-finish-card {
+      width: calc(50% - 6px);
+      min-width: 0;
+    }
+    .fr-finish-image {
+      height: 60px;
+    }
+    .fr-finish-content {
+      padding: 8px 10px;
+    }
+    .fr-finish-title {
+      font-size: 12px;
+      margin-bottom: 2px;
+    }
+    .fr-finish-tag {
+      font-size: 9px;
+      margin-bottom: 4px;
+    }
+    .fr-finish-desc {
+      font-size: 10px;
+      margin-bottom: 6px;
+      line-height: 1.25;
+    }
+    .fr-finish-divider {
+      margin-bottom: 6px;
+    }
+    .fr-finish-sub {
+      font-size: 9px;
+    }
+    .fr-finish-check {
+      top: 6px;
+      right: 6px;
+      width: 18px !important;
+      height: 18px !important;
+    }
+  }
 {% endstylesheet %}

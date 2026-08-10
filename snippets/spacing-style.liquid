@@ -9,7 +9,7 @@
 {%- enddoc -%}
 {%- liquid
   assign scale_min = 20
-  assign keys = 'padding-block-start,padding-block-end,padding-inline-start,padding-inline-end' | split: ','
+  assign keys = 'padding-block-start,padding-block-end,padding-inline-start,padding-inline-end,padding-block-start-mobile,padding-block-end-mobile,padding-inline-start-mobile,padding-inline-end-mobile' | split: ','
 
   for key in keys
     assign value = settings[key]
@@ -19,7 +19,7 @@
       echo key
       echo ': '
 
-      if value > scale_min
+      if value > scale_min and key contains 'mobile' == false
         echo 'max('
         echo scale_min
         echo 'px, calc(var(--spacing-scale) * '
