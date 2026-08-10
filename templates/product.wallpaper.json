@@ -627,38 +627,38 @@
         "padding-block-end": 16
       }
     },
-    "fr_custom_faq_brTBem": {
+    "fr_custom_faq_XkNXLJ": {
       "type": "fr-custom-faq",
       "blocks": {
-        "faq_V3MhNm": {
+        "faq_4NJRhK": {
           "type": "faq",
           "settings": {
             "question": "How do I calculate the wallpaper quantity for my wall?",
             "answer": "<p>Measure the height and width of your wall and share the dimensions while placing your order. Our team will help you calculate the exact quantity required, ensuring minimal wastage and a perfect fit.<br/></p>"
           }
         },
-        "faq_mxJ4yq": {
+        "faq_4KN9LY": {
           "type": "faq",
           "settings": {
             "question": "Can I order a sample before purchasing?",
             "answer": "<p>Yes. We offer wallpaper samples so you can experience the material, texture and colors in your own space before making a final purchase.<br/></p>"
           }
         },
-        "faq_ftdeNy": {
+        "faq_GJ3Gqg": {
           "type": "faq",
           "settings": {
             "question": "Will the wallpaper damage my walls when removed?",
             "answer": "<p>Our wallpapers are designed for clean removal when installed and removed correctly. Following the recommended installation and removal guidelines helps protect your wall surface.<br/></p>"
           }
         },
-        "faq_mYemxz": {
+        "faq_zjJXbL": {
           "type": "faq",
           "settings": {
             "question": "Can I install the wallpaper myself, or do I need professional help?",
             "answer": "<p>Many of our wallpapers can be installed by following the provided instructions. However, for large walls or premium finishes, we recommend professional installation to achieve the best results.<br/></p>"
           }
         },
-        "faq_W3Dj69": {
+        "faq_Bq3R6j": {
           "type": "faq",
           "settings": {
             "question": "What makes First Room wallpapers different from standard wallpapers?",
@@ -667,11 +667,11 @@
         }
       },
       "block_order": [
-        "faq_V3MhNm",
-        "faq_mxJ4yq",
-        "faq_ftdeNy",
-        "faq_mYemxz",
-        "faq_W3Dj69"
+        "faq_4NJRhK",
+        "faq_4KN9LY",
+        "faq_GJ3Gqg",
+        "faq_zjJXbL",
+        "faq_Bq3R6j"
       ],
       "name": "FR Custom FAQ",
       "settings": {
@@ -706,6 +706,6 @@
     "divider_xprei8",
     "product_recommendations_qggXJq",
     "divider_LYDdab",
-    "fr_custom_faq_brTBem"
+    "fr_custom_faq_XkNXLJ"
   ]
 }
