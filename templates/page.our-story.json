@@ -218,7 +218,7 @@
       "type": "fr-section-image-text",
       "settings": {
         "section_bg": "#E5E5E5",
-        "content_max_width": 1000,
+        "content_max_width": 1100,
         "image_position": "right",
         "column_ratio": "1fr|1fr",
         "vertical_alignment": "start",
