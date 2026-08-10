@@ -461,6 +461,20 @@
         "padding_right_mobile": 16
       }
     },
+    "divider_Wbwq6q": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "color_scheme": "",
+        "section_width": "full-width",
+        "thickness": 0.5,
+        "corner_radius": "square",
+        "width_percent": 90,
+        "alignment_horizontal": "center",
+        "padding-block-start": 16,
+        "padding-block-end": 16
+      }
+    },
     "product_recommendations_qjfTBz": {
       "type": "product-recommendations",
       "blocks": {
@@ -604,20 +618,6 @@
         "padding-block-end": 60
       }
     },
-    "divider_Wbwq6q": {
-      "type": "divider",
-      "name": "t:names.divider_section",
-      "settings": {
-        "color_scheme": "",
-        "section_width": "full-width",
-        "thickness": 0.5,
-        "corner_radius": "square",
-        "width_percent": 90,
-        "alignment_horizontal": "center",
-        "padding-block-start": 16,
-        "padding-block-end": 16
-      }
-    },
     "divider_KGctEB": {
       "type": "divider",
       "name": "t:names.divider_section",
@@ -631,6 +631,75 @@
         "padding-block-start": 16,
         "padding-block-end": 16
       }
+    },
+    "fr_custom_faq_NWAKQf": {
+      "type": "fr-custom-faq",
+      "blocks": {
+        "faq_XcFiwM": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I calculate the wallpaper quantity for my wall?",
+            "answer": "<p>Measure the height and width of your wall and share the dimensions while placing your order. Our team will help you calculate the exact quantity required, ensuring minimal wastage and a perfect fit.<br/></p>"
+          }
+        },
+        "faq_LETGBi": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I order a sample before purchasing?",
+            "answer": "<p>Yes. We offer wallpaper samples so you can experience the material, texture and colors in your own space before making a final purchase.<br/></p>"
+          }
+        },
+        "faq_bwiqQK": {
+          "type": "faq",
+          "settings": {
+            "question": "Will the wallpaper damage my walls when removed?",
+            "answer": "<p>Our wallpapers are designed for clean removal when installed and removed correctly. Following the recommended installation and removal guidelines helps protect your wall surface.<br/></p>"
+          }
+        },
+        "faq_XD6fqx": {
+          "type": "faq",
+          "settings": {
+            "question": "Can I install the wallpaper myself, or do I need professional help?",
+            "answer": "<p>Many of our wallpapers can be installed by following the provided instructions. However, for large walls or premium finishes, we recommend professional installation to achieve the best results.<br/></p>"
+          }
+        },
+        "faq_tWkMQV": {
+          "type": "faq",
+          "settings": {
+            "question": "What makes First Room wallpapers different from standard wallpapers?",
+            "answer": "<p>First Room wallpapers combine premium materials, thoughtfully curated designs and exceptional craftsmanship to create spaces that are both visually inspiring and long-lasting. Every collection is designed to elevate the character of your interiors.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_XcFiwM",
+        "faq_LETGBi",
+        "faq_bwiqQK",
+        "faq_XD6fqx",
+        "faq_tWkMQV"
+      ],
+      "name": "FR Custom FAQ",
+      "settings": {
+        "bg_color": "#ffffff",
+        "heading": "FAQ's",
+        "heading_size": 30,
+        "heading_size_mobile": 24,
+        "heading_alignment": "center",
+        "heading_align_mobile": "center",
+        "heading_color": "#1a1a1a",
+        "question_size_desktop": 16,
+        "question_size_mobile": 12,
+        "answer_size_desktop": 14,
+        "answer_size_mobile": 12,
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_left": 20,
+        "padding_right": 20,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20,
+        "padding_left_mobile": 16,
+        "padding_right_mobile": 16
+      }
     }
   },
   "order": [
@@ -639,6 +708,7 @@
     "fr_product_tabs_hGpUAa",
     "divider_Wbwq6q",
     "product_recommendations_qjfTBz",
-    "divider_KGctEB"
+    "divider_KGctEB",
+    "fr_custom_faq_NWAKQf"
   ]
 }
