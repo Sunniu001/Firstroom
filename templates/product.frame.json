@@ -150,7 +150,7 @@
                   "type": "product-description",
                   "name": "t:names.product_description",
                   "settings": {
-                    "text": "<p><em>{{ closest.product.description }}</em></p>",
+                    "text": "<p>{{ closest.product.description }}</p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
