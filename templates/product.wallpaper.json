@@ -151,7 +151,7 @@
                   "type": "product-description",
                   "name": "t:names.product_description",
                   "settings": {
-                    "text": "{{ closest.product.description }}",
+                    "text": "<p><em>{{ closest.product.description }}</em></p>",
                     "width": "100%",
                     "max_width": "none",
                     "alignment": "left",
@@ -167,8 +167,8 @@
                     "background": false,
                     "background_color": "#00000026",
                     "corner_radius": 0,
-                    "padding-block-start": 10,
-                    "padding-block-end": 10,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
                   },
@@ -189,7 +189,7 @@
                     "letter_spacing": "loose",
                     "case": "none",
                     "color": "var(--color-foreground)",
-                    "text_color": "#BD0202",
+                    "text_color": "#bd0202",
                     "padding-block-start": 4,
                     "padding-block-end": 20,
                     "padding-inline-start": 0,
