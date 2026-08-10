@@ -11,7 +11,7 @@
     ">
     
     {%- if section.settings.heading != blank -%}
-      <h2 class="fr-home-badges__main-heading" style="text-align: {{ section.settings.heading_align }}; --fz-d: {{ section.settings.heading_size }}px; --fz-m: {{ section.settings.heading_size_mobile | default: section.settings.heading_size | times: 0.8 | round }}px; color: {{ section.settings.heading_color }};">
+      <h2 class="fr-home-badges__main-heading" style="text-align: {{ section.settings.heading_align }}; --ta-m: {{ section.settings.heading_align_mobile | default: section.settings.heading_align }}; --fz-d: {{ section.settings.heading_size }}px; --fz-m: {{ section.settings.heading_size_mobile | default: section.settings.heading_size | times: 0.8 | round }}px; color: {{ section.settings.heading_color }};">
         {{ section.settings.heading }}
       </h2>
     {%- endif -%}
@@ -19,7 +19,8 @@
     <div class="fr-home-badges__container" style="
         --cols-d: {{ section.settings.columns_desktop }};
         --cols-m: {{ section.settings.columns_mobile }};
-        gap: {{ section.settings.grid_gap }}px;
+        --gap-d: {{ section.settings.grid_gap }}px;
+        --gap-m: {{ section.settings.grid_gap_mobile | default: section.settings.grid_gap }}px;
       ">
       
       {%- for block in section.blocks -%}
@@ -36,7 +37,7 @@
             {%- endif -%}
           </div>
 
-          <div class="fr-home-badges__text" style="text-align: {{ section.settings.text_align }};">
+          <div class="fr-home-badges__text" style="--ta-d: {{ section.settings.text_align }}; --ta-m: {{ section.settings.text_align_mobile | default: section.settings.text_align }};">
             {%- if block.settings.title != blank -%}
               <h3 class="fr-home-badges__title" style="--fz-t-d: {{ section.settings.title_size }}px; --fz-t-m: {{ section.settings.title_size_mobile | default: section.settings.title_size | times: 0.8 | round }}px; color: {{ section.settings.title_color }};">
                 {{ block.settings.title }}
@@ -78,6 +79,7 @@
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(var(--cols-m), 1fr);
+    gap: var(--gap-m);
   }
 
   .fr-home-badges__main-heading {
@@ -92,13 +94,20 @@
     font-size: var(--fz-m);
   }
 
+  .fr-home-badges__text {
+    text-align: var(--ta-m);
+  }
+
   @media (max-width: 767px) {
-    #fr-home-badges-{{ section.id }} .fr-home-badges__container {
-      gap: 30px !important;
+    .fr-home-badges__main-heading {
+      text-align: var(--ta-m) !important;
     }
   }
 
   @media (min-width: 768px) {
+    .fr-home-badges__text {
+      text-align: var(--ta-d);
+    }
     #fr-home-badges-{{ section.id }} .fr-home-badges__wrapper {
       padding-top: var(--pt-d);
       padding-bottom: var(--pb-d);
@@ -268,8 +277,18 @@
       "max": 100,
       "step": 4,
       "unit": "px",
-      "label": "Grid Gap",
+      "label": "Grid Gap (Desktop)",
       "default": 40
+    },
+    {
+      "type": "range",
+      "id": "grid_gap_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Grid Gap (Mobile)",
+      "default": 30
     },
     {
       "type": "header",
@@ -318,7 +337,18 @@
     {
       "type": "select",
       "id": "text_align",
-      "label": "Text Alignment",
+      "label": "Text Alignment (Desktop)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "text_align_mobile",
+      "label": "Text Alignment (Mobile)",
       "options": [
         { "value": "left", "label": "Left" },
         { "value": "center", "label": "Center" },

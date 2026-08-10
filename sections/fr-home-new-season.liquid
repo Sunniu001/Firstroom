@@ -15,6 +15,7 @@
       <!-- Left Column: Content -->
       <div class="fr-new-season__content" style="
           --content-align: {{ section.settings.content_align }};
+          --content-align-m: {{ section.settings.content_align_mobile | default: section.settings.content_align }};
         ">
         {%- if section.settings.badge_text != blank -%}
           <div class="fr-new-season__badge" style="
@@ -165,13 +166,15 @@
   #fr-new-season-{{ section.id }} .fr-new-season__content {
     display: flex;
     flex-direction: column;
-    align-items: var(--content-align);
-    text-align: var(--content-align);
+    align-items: var(--content-align-m);
+    text-align: var(--content-align-m);
     flex: 0 0 100%;
   }
 
   @media (min-width: 990px) {
     #fr-new-season-{{ section.id }} .fr-new-season__content {
+      align-items: var(--content-align);
+      text-align: var(--content-align);
       flex: 0 0 32%;
       max-width: 380px;
     }
@@ -540,7 +543,18 @@
     {
       "type": "select",
       "id": "content_align",
-      "label": "Text Alignment",
+      "label": "Text Alignment (Desktop)",
+      "options": [
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Right" }
+      ],
+      "default": "flex-start"
+    },
+    {
+      "type": "select",
+      "id": "content_align_mobile",
+      "label": "Text Alignment (Mobile)",
       "options": [
         { "value": "flex-start", "label": "Left" },
         { "value": "center", "label": "Center" },

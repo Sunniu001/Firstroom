@@ -12,7 +12,7 @@
     ">
     
     {%- if section.settings.heading != blank -%}
-      <div class="fr-trusted-by__header" style="text-align: {{ section.settings.heading_align }};">
+      <div class="fr-trusted-by__header" style="--ha-d: {{ section.settings.heading_align }}; --ha-m: {{ section.settings.heading_align_mobile | default: section.settings.heading_align }};">
         <h2 class="fr-trusted-by__heading" style="
             color: {{ section.settings.heading_color }};
             --fz-d: {{ section.settings.heading_size }}px;
@@ -88,6 +88,13 @@
 
   #fr-trusted-by-{{ section.id }} .fr-trusted-by__header {
     margin-bottom: 36px;
+    text-align: var(--ha-m);
+  }
+
+  @media (min-width: 768px) {
+    #fr-trusted-by-{{ section.id }} .fr-trusted-by__header {
+      text-align: var(--ha-d);
+    }
   }
 
   #fr-trusted-by-{{ section.id }} .fr-trusted-by__heading {
@@ -237,7 +244,18 @@
     {
       "type": "select",
       "id": "heading_align",
-      "label": "Heading Alignment",
+      "label": "Heading Alignment (Desktop)",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "heading_align_mobile",
+      "label": "Heading Alignment (Mobile)",
       "options": [
         { "value": "left", "label": "Left" },
         { "value": "center", "label": "Center" },
