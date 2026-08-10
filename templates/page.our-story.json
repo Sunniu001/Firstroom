@@ -217,7 +217,7 @@
     "fr_section_image_text_FcKRCK": {
       "type": "fr-section-image-text",
       "settings": {
-        "section_bg": "#ffffff",
+        "section_bg": "#E5E5E5",
         "content_max_width": 1000,
         "image_position": "right",
         "column_ratio": "1fr|1fr",
@@ -590,7 +590,7 @@
         "care_2"
       ],
       "settings": {
-        "section_bg": "#ffffff",
+        "section_bg": "#E5E5E5",
         "heading": "What we have for you",
         "heading_align": "center",
         "heading_align_mobile": "center",
