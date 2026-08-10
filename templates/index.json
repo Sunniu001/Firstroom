@@ -353,7 +353,7 @@
         "columns_tablet": "2",
         "card_width_desktop": 31,
         "card_width_tablet": 45,
-        "card_width_mobile": 80,
+        "card_width_mobile": 100,
         "aspect_ratio": "3/4",
         "card_custom_height_desktop": 0,
         "card_custom_height_mobile": 0,
@@ -375,8 +375,8 @@
         "padding_right": 40,
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 30,
-        "padding_left_mobile": 20,
-        "padding_right_mobile": 20
+        "padding_left_mobile": 30,
+        "padding_right_mobile": 30
       }
     },
     "divider_4DRKh6": {
@@ -456,7 +456,7 @@
         "description_size_mobile": 13,
         "description_color": "#4b5563",
         "content_align": "left",
-        "content_align_mobile": "flex-start",
+        "content_align_mobile": "center",
         "button_label": "See Collection",
         "button_link": "shopify://collections/new-arrival",
         "btn_bg": "#ffffff",
@@ -466,7 +466,7 @@
         "btn_radius": 2,
         "card_aspect_ratio": "1/2.4",
         "card_custom_height": 430,
-        "card_custom_height_mobile": 360,
+        "card_custom_height_mobile": 200,
         "card_border_radius": 2,
         "cards_gap": 14,
         "cards_gap_mobile": 12,
@@ -476,8 +476,8 @@
         "padding_right": 50,
         "padding_top_mobile": 45,
         "padding_bottom_mobile": 45,
-        "padding_left_mobile": 20,
-        "padding_right_mobile": 20
+        "padding_left_mobile": 40,
+        "padding_right_mobile": 40
       }
     },
     "divider_xMVWM8": {
@@ -623,9 +623,9 @@
         "heading_align": "center",
         "heading_align_mobile": "center",
         "logo_height": 62,
-        "logo_height_mobile": 20,
+        "logo_height_mobile": 32,
         "grid_gap": 80,
-        "grid_gap_mobile": 18,
+        "grid_gap_mobile": 30,
         "enable_grayscale": true,
         "padding_top": 10,
         "padding_bottom": 70,
