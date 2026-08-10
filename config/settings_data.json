@@ -15,7 +15,7 @@
     "favicon": "shopify://shop_images/605210910_1381588727033172_2806877699449079126_n.jpg",
     "page_text_color": "{{ settings.color_palette.foreground }}",
     "type_body_font": "inter_n4",
-    "type_subheading_font": "inter_n5",
+    "type_subheading_font": "inter_i3",
     "type_heading_font": "inter_n7",
     "type_accent_font": "playfair_display_n4",
     "type_size_paragraph": "12",
