@@ -35,7 +35,7 @@
     {%- endif -%}
 
     {%- liquid
-      assign cols_d = section.settings.columns_desktop | default: '3'
+      assign cols_d = section.settings.columns_desktop | default: '4'
       if cols_d == '3'
         assign card_w_d = 'calc((100% - (var(--gap-d) * 2)) / 3)'
       elsif cols_d == '4'
@@ -53,6 +53,17 @@
         assign card_w_t = '100%'
       else
         assign card_w_t = section.settings.card_width_tablet | append: '%'
+      endif
+
+      assign cols_m = section.settings.columns_mobile | default: '1'
+      if cols_m == '1'
+        assign card_w_m = '100%'
+      elsif cols_m == '2'
+        assign card_w_m = 'calc((100% - var(--gap-m)) / 2)'
+      elsif cols_m == 'peek'
+        assign card_w_m = '82%'
+      else
+        assign card_w_m = section.settings.card_width_mobile | append: '%'
       endif
     -%}
 
@@ -434,7 +445,19 @@
 
   @media (max-width: 768px) {
     #fr-coll-slider-{{ section.id }} .fr-coll-slider__arrow {
-      display: none;
+      width: 36px;
+      height: 36px;
+      opacity: 0.9;
+    }
+    #fr-coll-slider-{{ section.id }} .fr-coll-slider__arrow svg {
+      width: 16px;
+      height: 16px;
+    }
+    #fr-coll-slider-{{ section.id }} .fr-coll-slider__arrow--prev {
+      left: 6px;
+    }
+    #fr-coll-slider-{{ section.id }} .fr-coll-slider__arrow--next {
+      right: 6px;
     }
   }
 </style>
@@ -623,6 +646,19 @@
         { "value": "custom", "label": "Custom Width %" }
       ],
       "default": "2"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Visible Cards (Mobile)",
+      "options": [
+        { "value": "1", "label": "1 Card (Full Width / Slider)" },
+        { "value": "peek", "label": "1 Card + Peeking Next Card" },
+        { "value": "2", "label": "2 Cards (Side-by-Side)" },
+        { "value": "custom", "label": "Custom Width %" }
+      ],
+      "default": "1",
+      "info": "Choose '1 Card (Full Width / Slider)' for 1 card visible on mobile with swipe/slider support"
     },
     {
       "type": "range",
