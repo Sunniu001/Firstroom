@@ -9,16 +9,23 @@
  */
 {
   "sections": {
-    "fr_breadcrumbs_fBCBt4": {
+    "fr_breadcrumbs_7GPxqe": {
       "type": "fr-breadcrumbs",
       "name": "FR Breadcrumbs",
       "settings": {
+        "alignment_desktop": "flex-start",
+        "font_size": 14,
         "padding_top": 20,
         "padding_bottom": 20,
-        "padding_left": 70,
+        "padding_left": 40,
         "padding_right": 0,
-        "font_size": 14,
-        "text_color": "#333333"
+        "text_color": "#333333",
+        "alignment_mobile": "flex-start",
+        "font_size_mobile": 12,
+        "padding_top_mobile": 12,
+        "padding_bottom_mobile": 12,
+        "padding_left_mobile": 22,
+        "padding_right_mobile": 16
       }
     },
     "main": {
@@ -48,8 +55,12 @@
             "hide_variants": true,
             "padding-block-start": 0,
             "padding-block-end": 0,
-            "padding-inline-start": 30,
-            "padding-inline-end": 0
+            "padding-inline-start": 0,
+            "padding-inline-end": 0,
+            "padding-block-start-mobile": 0,
+            "padding-block-end-mobile": 0,
+            "padding-inline-start-mobile": 0,
+            "padding-inline-end-mobile": 0
           },
           "blocks": {}
         },
@@ -77,7 +88,11 @@
             "padding-block-start": 0,
             "padding-block-end": 24,
             "padding-inline-start": 0,
-            "padding-inline-end": 60
+            "padding-inline-end": 60,
+            "padding-block-start-mobile": 0,
+            "padding-block-end-mobile": 0,
+            "padding-inline-start-mobile": 0,
+            "padding-inline-end-mobile": 0
           },
           "blocks": {
             "group_icgrde": {
@@ -136,6 +151,7 @@
                     "case": "none",
                     "wrap": "pretty",
                     "color": "var(--color-foreground)",
+                    "text_color": "",
                     "background": false,
                     "background_color": "#00000026",
                     "corner_radius": 0,
@@ -162,6 +178,7 @@
                     "case": "none",
                     "wrap": "pretty",
                     "color": "var(--color-foreground)",
+                    "text_color": "",
                     "background": false,
                     "background_color": "#00000026",
                     "corner_radius": 0,
@@ -187,6 +204,7 @@
                     "letter_spacing": "normal",
                     "case": "none",
                     "color": "var(--color-foreground)",
+                    "text_color": "",
                     "padding-block-start": 4,
                     "padding-block-end": 20,
                     "padding-inline-start": 0,
@@ -216,12 +234,39 @@
             "fr_product_actions_9McLAG": {
               "type": "fr-product-actions",
               "settings": {
+                "note_text": "Made to your exact wall. Order yourself if you have the dimensions, or get expert help with measuring, paper finish, and preview.",
+                "show_order_button": true,
                 "order_text": "Order directly",
                 "order_link": "",
                 "specialist_text": "Talk to a specialist",
                 "specialist_link": "",
+                "use_whatsapp": false,
+                "whatsapp_number": "919310845706",
+                "whatsapp_message": "Hi, I'd like to know more about this wallpaper.",
+                "note_alignment": "left",
+                "note_font_size": 14,
+                "button_alignment": "flex-start",
+                "button_font_size": 14,
+                "button_padding_v": 16,
+                "button_padding_h": 16,
+                "button_border_radius": 4,
+                "full_width_single_btn": true,
                 "padding_top": 0,
-                "padding_bottom": 0
+                "padding_bottom": 0,
+                "padding_left": 0,
+                "padding_right": 0,
+                "layout_mobile": "row",
+                "button_alignment_mobile": "center",
+                "note_alignment_mobile": "left",
+                "note_font_size_mobile": 13,
+                "button_font_size_mobile": 13,
+                "button_padding_v_mobile": 14,
+                "button_padding_h_mobile": 14,
+                "gap_mobile": 12,
+                "padding_top_mobile": 0,
+                "padding_bottom_mobile": 16,
+                "padding_left_mobile": 0,
+                "padding_right_mobile": 0
               },
               "blocks": {}
             },
@@ -233,8 +278,22 @@
                 "step_2_text": "Choose Font",
                 "step_3_text": "Production",
                 "step_4_text": "Delivered",
+                "alignment_desktop": "space-between",
+                "font_size_desktop": 10,
+                "circle_size_desktop": 24,
+                "circle_font_size_desktop": 11,
                 "padding_top": 0,
-                "padding_bottom": 0
+                "padding_bottom": 0,
+                "padding_left": 0,
+                "padding_right": 0,
+                "alignment_mobile": "space-between",
+                "font_size_mobile": 9,
+                "circle_size_mobile": 20,
+                "circle_font_size_mobile": 10,
+                "padding_top_mobile": 16,
+                "padding_bottom_mobile": 16,
+                "padding_left_mobile": 0,
+                "padding_right_mobile": 0
               },
               "blocks": {}
             },
@@ -309,7 +368,29 @@
             },
             "fr_trust_badges_mcWreb": {
               "type": "fr-trust-badges",
-              "settings": {},
+              "settings": {
+                "badge_1_text": "Eco Friendly Wallpapers",
+                "badge_2_text": "PVC Free Surface",
+                "badge_3_text": "Non-toxic water based Ink",
+                "alignment_desktop": "space-around",
+                "text_align_desktop": "center",
+                "font_size_desktop": 13.5,
+                "icon_size_desktop": 48,
+                "padding_top": 24,
+                "padding_bottom": 24,
+                "padding_left": 0,
+                "padding_right": 0,
+                "layout_mobile": "row",
+                "alignment_mobile": "space-around",
+                "text_align_mobile": "center",
+                "font_size_mobile": 11.5,
+                "icon_size_mobile": 38,
+                "gap_mobile": 12,
+                "padding_top_mobile": 16,
+                "padding_bottom_mobile": 16,
+                "padding_left_mobile": 0,
+                "padding_right_mobile": 0
+              },
               "blocks": {}
             }
           },
@@ -345,10 +426,22 @@
         "material_html": "<p><strong>Shipping Timeline:<br/></strong>Dispatched within 3-5 Days<br/>Shipping 7 - 10 working days (domestic)<br/>Refer to Shipping Policy<br/><br/><strong>Care Instructions:<br/></strong>Wipe gently with a soft, damp cloth<br/>Do not use soap, harsh cleaners, or scrub<br/>Avoid exposure to direct sunlight or water<br/><strong><br/>Packaging:<br/></strong>Carefully packed using minimal or recyclable plastic to ensure safe delivery</p>",
         "shipping_html": "<p>- Name plates are made to order<br/>- All waste is disposed of responsibly, contributing zero to landfills<br/>- Returns are not accepted<br/>- Refer to our Terms & Conditions<br/><br/>Note: Handcrafted nature may lead to slight variations in finish</p>",
         "quality_html": "<p><strong>Material:<br/></strong>Pine wood frame, solid acrylic base, vinyl print, raised acrylic letters<strong><br/>Size Options:</strong><br/>17 x 8 inches<br/>12 x 5 inches (as selected during order)<br/><strong>Finish:<br/></strong>Digitally printed using long-lasting, eco-safe inks<strong><br/>Installation:</strong><br/>Comes with mounting hardware<br/>Ready for easy self-installation<strong><br/>Best Use:<br/></strong>Suitable for indoor or semi-covered outdoor spaces, away from harsh weather<br/><strong>Manufactured & Marketed by:<br/></strong>First Room CollectivesA10, Block A, Greenwood City, Sector 45, Gurugram – 122003, Haryana, India<br/>firstroom2019@gmail.com<br/>+91 96507 06644</p>",
+        "alignment_desktop": "flex-start",
+        "tab_font_size_desktop": 14,
+        "content_font_size_desktop": 14,
+        "tab_gap_desktop": 40,
         "padding_top": 60,
         "padding_bottom": 32,
         "padding_left": 100,
-        "padding_right": 40
+        "padding_right": 40,
+        "alignment_mobile": "flex-start",
+        "tab_font_size_mobile": 13,
+        "content_font_size_mobile": 13,
+        "tab_gap_mobile": 20,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20,
+        "padding_left_mobile": 16,
+        "padding_right_mobile": 16
       }
     },
     "product_recommendations_qggXJq": {
@@ -370,6 +463,7 @@
             "case": "none",
             "wrap": "pretty",
             "color": "var(--color-foreground)",
+            "text_color": "",
             "background": false,
             "background_color": "#00000026",
             "corner_radius": 0,
@@ -454,6 +548,7 @@
                 "letter_spacing": "normal",
                 "case": "none",
                 "color": "var(--color-foreground)",
+                "text_color": "",
                 "padding-block-start": 0,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
@@ -494,7 +589,7 @@
     }
   },
   "order": [
-    "fr_breadcrumbs_fBCBt4",
+    "fr_breadcrumbs_7GPxqe",
     "main",
     "fr_product_tabs_hGpUAa",
     "product_recommendations_qggXJq"
