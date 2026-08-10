@@ -197,7 +197,7 @@
         "gap_mobile": 20,
         "text_color": "#1a1a1a",
         "padding_top": 96,
-        "padding_bottom": 68,
+        "padding_bottom": 72,
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 40,
         "padding_left": 20,
@@ -318,7 +318,7 @@
           "settings": {
             "image": "shopify://shop_images/1_588e58d4-9cf5-43a1-9cab-53896c436b6c.png",
             "title": "Project Name 1",
-            "subtitle": "something goes here",
+            "subtitle": "",
             "link": ""
           }
         },
@@ -327,7 +327,7 @@
           "settings": {
             "image": "shopify://shop_images/2_ddc76c0b-1726-405c-8cb6-68df988418e7.png",
             "title": "Project Name 2",
-            "subtitle": "something goes here",
+            "subtitle": "",
             "link": ""
           }
         },
@@ -336,7 +336,7 @@
           "settings": {
             "image": "shopify://shop_images/3_2cde91ee-1ec2-426f-9223-09e466411b5a.png",
             "title": "Project Name 3",
-            "subtitle": "something goes here",
+            "subtitle": "",
             "link": ""
           }
         },
@@ -345,7 +345,7 @@
           "settings": {
             "image": "shopify://shop_images/4_b29a0282-b211-41fb-851d-6e341d3cd8ac.png",
             "title": "Project Name 4",
-            "subtitle": "something goes here",
+            "subtitle": "",
             "link": ""
           }
         },
@@ -354,7 +354,7 @@
           "settings": {
             "image": "shopify://shop_images/5.png",
             "title": "Project Name 5",
-            "subtitle": "something goes here",
+            "subtitle": "",
             "link": ""
           }
         },
@@ -363,7 +363,7 @@
           "settings": {
             "image": "shopify://shop_images/6.png",
             "title": "Project Name 6",
-            "subtitle": "something goes here",
+            "subtitle": "",
             "link": ""
           }
         }
@@ -763,8 +763,8 @@
         "axis_width": 1,
         "padding_top": 72,
         "padding_bottom": 72,
-        "padding_left": 60,
-        "padding_right": 60,
+        "padding_left": 24,
+        "padding_right": 24,
         "padding_top_mobile": 48,
         "padding_bottom_mobile": 48,
         "padding_left_mobile": 24,
