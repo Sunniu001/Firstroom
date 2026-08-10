@@ -7,6 +7,94 @@
       "id": "minimum_area",
       "label": "Minimum Area (sq ft)",
       "default": "25"
+    },
+    {
+      "type": "header",
+      "content": "Desktop Settings"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Desktop Top Padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Desktop Bottom Padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Mobile Responsiveness Settings"
+    },
+    {
+      "type": "select",
+      "id": "input_layout_mobile",
+      "label": "Mobile Inputs Layout",
+      "options": [
+        { "value": "row", "label": "Side-by-side (Row)" },
+        { "value": "column", "label": "Stacked (Column)" }
+      ],
+      "default": "row"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size_mobile",
+      "label": "Mobile Title Font Size",
+      "min": 11,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Mobile Top Padding",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Mobile Bottom Padding",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_left_mobile",
+      "label": "Mobile Left Padding",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_right_mobile",
+      "label": "Mobile Right Padding",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 0
     }
   ],
   "presets": [
@@ -18,7 +106,7 @@
 {% endschema %}
 
 {%- assign product_form_id = 'product-form-' | append: section.id -%}
-<div class="fr-dimensions-wrapper" {{ block.shopify_attributes }}>
+<div class="fr-dimensions-wrapper fr-dw-{{ block.id }}" {{ block.shopify_attributes }}>
   <div class="fr-dim-header">
     <h3 class="fr-dim-title">Enter Dimensions <span style="font-weight: 400; font-size: 11px; color: #777;">(Minimum Order: {{ block.settings.minimum_area | default: 25 }} Sq.Ft.)</span></h3>
     <div class="fr-dim-toggle">
@@ -162,10 +250,24 @@
 </div>
 
 <style>
-.fr-dimensions-wrapper {
-  margin-top: 20px;
-  margin-bottom: 20px;
+.fr-dw-{{ block.id }} {
+  padding-top: {{ block.settings.padding_top | default: 16 }}px;
+  padding-bottom: {{ block.settings.padding_bottom | default: 16 }}px;
   width: 100%;
+}
+@media (max-width: 767px) {
+  .fr-dw-{{ block.id }} {
+    padding-top: {{ block.settings.padding_top_mobile | default: 12 }}px;
+    padding-bottom: {{ block.settings.padding_bottom_mobile | default: 12 }}px;
+    padding-left: {{ block.settings.padding_left_mobile | default: 0 }}px;
+    padding-right: {{ block.settings.padding_right_mobile | default: 0 }}px;
+  }
+  .fr-dw-{{ block.id }} .fr-dim-title {
+    font-size: {{ block.settings.title_font_size_mobile | default: 14 }}px;
+  }
+  .fr-dw-{{ block.id }} .fr-dim-inputs {
+    flex-direction: {% if block.settings.input_layout_mobile == 'column' %}column{% else %}row{% endif %};
+  }
 }
 .fr-dim-header {
   display: flex;

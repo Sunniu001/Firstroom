@@ -1,4 +1,4 @@
-<div class="fr-actions-container" style="margin-top: {{ block.settings.padding_top }}px; margin-bottom: {{ block.settings.padding_bottom }}px;" {{ block.shopify_attributes }}>
+<div class="fr-actions-container fr-pa-{{ block.id }}" {{ block.shopify_attributes }}>
   {% if block.settings.note_text != blank %}
     <div class="fr-actions-note">
       {{ block.settings.note_text }}
@@ -24,58 +24,89 @@
 </div>
 
 <style>
-  .fr-actions-container {
+  .fr-pa-{{ block.id }} {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    padding-top: {{ block.settings.padding_top }}px;
+    padding-bottom: {{ block.settings.padding_bottom }}px;
+    padding-left: {{ block.settings.padding_left | default: 0 }}px;
+    padding-right: {{ block.settings.padding_right | default: 0 }}px;
   }
-  .fr-actions-note {
-    font-size: 14px;
+  .fr-pa-{{ block.id }} .fr-actions-note {
+    font-size: {{ block.settings.note_font_size | default: 14 }}px;
     line-height: 1.6;
     color: #555;
+    text-align: {{ block.settings.note_alignment | default: 'left' }};
     border-top: 1px solid #e5e5e5;
     padding-top: 1rem;
   }
-  .fr-actions-buttons {
+  .fr-pa-{{ block.id }} .fr-actions-buttons {
     display: flex;
+    justify-content: {{ block.settings.button_alignment | default: 'flex-start' }};
     gap: 1rem;
   }
-  .fr-action-btn {
+  .fr-pa-{{ block.id }} .fr-action-btn {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1rem;
-    font-size: 14px;
+    padding: {{ block.settings.button_padding_v | default: 16 }}px {{ block.settings.button_padding_h | default: 16 }}px;
+    font-size: {{ block.settings.button_font_size | default: 14 }}px;
     text-decoration: none;
-    border-radius: 4px;
+    border-radius: {{ block.settings.button_border_radius | default: 4 }}px;
     transition: opacity 0.2s ease;
   }
-  .fr-action-btn:hover {
+  .fr-pa-{{ block.id }} .fr-action-btn:hover {
     opacity: 0.8;
   }
-  .fr-btn-primary {
+  .fr-pa-{{ block.id }} .fr-btn-primary {
     background: #000;
     color: #fff;
   }
-  .fr-btn-secondary {
+  .fr-pa-{{ block.id }} .fr-btn-secondary {
     background: #fff;
     color: #000;
     border: 1px solid #e0e0e0;
     gap: 0.5rem;
   }
-  .fr-status-dot {
+  .fr-pa-{{ block.id }} .fr-status-dot {
     width: 8px;
     height: 8px;
     background-color: #4CAF50;
     border-radius: 50%;
     display: inline-block;
   }
-  /* When only one button, don't stretch full width */
-  .fr-actions-buttons:has(:only-child) .fr-action-btn {
-    flex: none;
-    padding-left: 2rem;
-    padding-right: 2rem;
+  /* When only one button, don't stretch full width if auto width is chosen */
+  .fr-pa-{{ block.id }} .fr-actions-buttons:has(:only-child) .fr-action-btn {
+    {% if block.settings.full_width_single_btn == false %}
+      flex: none;
+      padding-left: 2rem;
+      padding-right: 2rem;
+    {% endif %}
+  }
+
+  @media (max-width: 767px) {
+    .fr-pa-{{ block.id }} {
+      padding-top: {{ block.settings.padding_top_mobile | default: 0 }}px;
+      padding-bottom: {{ block.settings.padding_bottom_mobile | default: 16 }}px;
+      padding-left: {{ block.settings.padding_left_mobile | default: 0 }}px;
+      padding-right: {{ block.settings.padding_right_mobile | default: 0 }}px;
+    }
+    .fr-pa-{{ block.id }} .fr-actions-note {
+      font-size: {{ block.settings.note_font_size_mobile | default: 13 }}px;
+      text-align: {{ block.settings.note_alignment_mobile | default: 'left' }};
+    }
+    .fr-pa-{{ block.id }} .fr-actions-buttons {
+      flex-direction: {% if block.settings.layout_mobile == 'column' %}column{% else %}row{% endif %};
+      justify-content: {{ block.settings.button_alignment_mobile | default: 'center' }};
+      gap: {{ block.settings.gap_mobile | default: 12 }}px;
+    }
+    .fr-pa-{{ block.id }} .fr-action-btn {
+      padding: {{ block.settings.button_padding_v_mobile | default: 14 }}px {{ block.settings.button_padding_h_mobile | default: 14 }}px;
+      font-size: {{ block.settings.button_font_size_mobile | default: 13 }}px;
+      width: {% if block.settings.layout_mobile == 'column' %}100%{% else %}auto{% endif %};
+    }
   }
 </style>
 
@@ -147,12 +178,90 @@
     },
     {
       "type": "header",
-      "content": "Block Padding"
+      "content": "Desktop Settings"
+    },
+    {
+      "type": "select",
+      "id": "note_alignment",
+      "label": "Note Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "note_font_size",
+      "label": "Note Font Size",
+      "min": 11,
+      "max": 20,
+      "step": 0.5,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "button_alignment",
+      "label": "Buttons Horizontal Alignment",
+      "options": [
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Right" }
+      ],
+      "default": "flex-start"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Button Font Size",
+      "min": 11,
+      "max": 20,
+      "step": 0.5,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "button_padding_v",
+      "label": "Button Vertical Padding",
+      "min": 8,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_padding_h",
+      "label": "Button Horizontal Padding",
+      "min": 12,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Button Border Radius",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width_single_btn",
+      "label": "Full Width Single Button",
+      "default": true
     },
     {
       "type": "range",
       "id": "padding_top",
-      "label": "Top Padding",
+      "label": "Desktop Top Padding",
       "min": 0,
       "max": 100,
       "step": 4,
@@ -162,12 +271,158 @@
     {
       "type": "range",
       "id": "padding_bottom",
-      "label": "Bottom Padding",
+      "label": "Desktop Bottom Padding",
       "min": 0,
       "max": 100,
       "step": 4,
       "default": 32,
       "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "label": "Desktop Left Padding",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "label": "Desktop Right Padding",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Mobile Responsiveness Settings"
+    },
+    {
+      "type": "select",
+      "id": "layout_mobile",
+      "label": "Mobile Buttons Layout",
+      "options": [
+        { "value": "row", "label": "Horizontal Row" },
+        { "value": "column", "label": "Vertical Stack (Full Width)" }
+      ],
+      "default": "row"
+    },
+    {
+      "type": "select",
+      "id": "button_alignment_mobile",
+      "label": "Mobile Buttons Alignment",
+      "options": [
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "note_alignment_mobile",
+      "label": "Mobile Note Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "note_font_size_mobile",
+      "label": "Mobile Note Font Size",
+      "min": 10,
+      "max": 18,
+      "step": 0.5,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "button_font_size_mobile",
+      "label": "Mobile Button Font Size",
+      "min": 10,
+      "max": 18,
+      "step": 0.5,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "button_padding_v_mobile",
+      "label": "Mobile Button Vertical Padding",
+      "min": 6,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "button_padding_h_mobile",
+      "label": "Mobile Button Horizontal Padding",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "gap_mobile",
+      "label": "Mobile Buttons Gap",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Mobile Top Padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Mobile Bottom Padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_left_mobile",
+      "label": "Mobile Left Padding",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_right_mobile",
+      "label": "Mobile Right Padding",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 0
     }
   ],
   "presets": [

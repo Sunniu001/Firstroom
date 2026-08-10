@@ -1,4 +1,4 @@
-<nav class="fr-breadcrumbs page-width" role="navigation" aria-label="breadcrumbs">
+<nav class="fr-breadcrumbs fr-bc-{{ section.id }} page-width" role="navigation" aria-label="breadcrumbs">
   <ol class="fr-breadcrumbs__list">
     <li class="fr-breadcrumbs__item">
       <a href="{{ routes.root_url }}">Home</a>
@@ -47,7 +47,7 @@
 </nav>
 
 <style>
-  .fr-breadcrumbs {
+  .fr-bc-{{ section.id }} {
     padding-top: {{ section.settings.padding_top }}px;
     padding-bottom: {{ section.settings.padding_bottom }}px;
     padding-left: {{ section.settings.padding_left }}px;
@@ -56,37 +56,51 @@
     color: {{ section.settings.text_color }};
     font-family: inherit;
   }
-  .fr-breadcrumbs__list {
+  .fr-bc-{{ section.id }} .fr-breadcrumbs__list {
     list-style-type: none;
     margin: 0;
     padding: 0;
     display: flex;
     align-items: center;
+    justify-content: {{ section.settings.alignment_desktop | default: 'flex-start' }};
     flex-wrap: wrap;
     gap: 8px;
   }
-  .fr-breadcrumbs__item {
+  .fr-bc-{{ section.id }} .fr-breadcrumbs__item {
     display: flex;
     align-items: center;
   }
-  .fr-breadcrumbs__item:not(:last-child)::after {
+  .fr-bc-{{ section.id }} .fr-breadcrumbs__item:not(:last-child)::after {
     content: "›";
     display: inline-block;
     margin-left: 8px;
     opacity: 0.6;
   }
-  .fr-breadcrumbs__item a {
+  .fr-bc-{{ section.id }} .fr-breadcrumbs__item a {
     text-decoration: none;
     color: inherit;
     opacity: 0.8;
     transition: opacity 0.2s ease;
   }
-  .fr-breadcrumbs__item a:hover {
+  .fr-bc-{{ section.id }} .fr-breadcrumbs__item a:hover {
     opacity: 1;
     text-decoration: underline;
   }
-  .fr-breadcrumbs__item span {
+  .fr-bc-{{ section.id }} .fr-breadcrumbs__item span {
     opacity: 1;
+  }
+
+  @media (max-width: 767px) {
+    .fr-bc-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile | default: 12 }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile | default: 12 }}px;
+      padding-left: {{ section.settings.padding_left_mobile | default: 16 }}px;
+      padding-right: {{ section.settings.padding_right_mobile | default: 16 }}px;
+      font-size: {{ section.settings.font_size_mobile | default: 12 }}px;
+    }
+    .fr-bc-{{ section.id }} .fr-breadcrumbs__list {
+      justify-content: {{ section.settings.alignment_mobile | default: 'flex-start' }};
+    }
   }
 </style>
 
@@ -95,23 +109,48 @@
   "name": "FR Breadcrumbs",
   "settings": [
     {
+      "type": "header",
+      "content": "Desktop Settings"
+    },
+    {
+      "type": "select",
+      "id": "alignment_desktop",
+      "label": "Desktop Alignment",
+      "options": [
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Right" }
+      ],
+      "default": "flex-start"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop Font Size",
+      "default": 14
+    },
+    {
       "type": "range",
       "id": "padding_top",
       "min": 0,
-      "max": 60,
+      "max": 80,
       "step": 4,
       "unit": "px",
-      "label": "Top Padding",
+      "label": "Desktop Top Padding",
       "default": 20
     },
     {
       "type": "range",
       "id": "padding_bottom",
       "min": 0,
-      "max": 60,
+      "max": 80,
       "step": 4,
       "unit": "px",
-      "label": "Bottom Padding",
+      "label": "Desktop Bottom Padding",
       "default": 20
     },
     {
@@ -121,7 +160,7 @@
       "max": 100,
       "step": 2,
       "unit": "px",
-      "label": "Left Padding",
+      "label": "Desktop Left Padding",
       "default": 0
     },
     {
@@ -131,24 +170,79 @@
       "max": 100,
       "step": 2,
       "unit": "px",
-      "label": "Right Padding",
+      "label": "Desktop Right Padding",
       "default": 0
-    },
-    {
-      "type": "range",
-      "id": "font_size",
-      "min": 10,
-      "max": 24,
-      "step": 1,
-      "unit": "px",
-      "label": "Font Size",
-      "default": 14
     },
     {
       "type": "color",
       "id": "text_color",
       "label": "Text Color",
       "default": "#333333"
+    },
+    {
+      "type": "header",
+      "content": "Mobile Responsiveness Settings"
+    },
+    {
+      "type": "select",
+      "id": "alignment_mobile",
+      "label": "Mobile Alignment",
+      "options": [
+        { "value": "flex-start", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-end", "label": "Right" }
+      ],
+      "default": "flex-start"
+    },
+    {
+      "type": "range",
+      "id": "font_size_mobile",
+      "min": 9,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile Font Size",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile Top Padding",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile Bottom Padding",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_left_mobile",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile Left Padding",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_right_mobile",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile Right Padding",
+      "default": 16
     }
   ],
   "presets": [

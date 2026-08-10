@@ -6,10 +6,12 @@
   background-color: {{ section.settings.bg_color }};
   padding-top: {{ section.settings.padding_top_mobile | default: section.settings.padding_top }}px;
   padding-bottom: {{ section.settings.padding_bottom_mobile | default: section.settings.padding_bottom }}px;
+  padding-left: {{ section.settings.padding_left_mobile | default: section.settings.padding_left }}px;
+  padding-right: {{ section.settings.padding_right_mobile | default: section.settings.padding_right }}px;
   --pt-d: {{ section.settings.padding_top }}px;
   --pb-d: {{ section.settings.padding_bottom }}px;
-  padding-left: {{ section.settings.padding_left }}px;
-  padding-right: {{ section.settings.padding_right }}px;
+  --pl-d: {{ section.settings.padding_left }}px;
+  --pr-d: {{ section.settings.padding_right }}px;
 ">
   <div class="fr-custom-faq__container">
     {%- if section.settings.heading != blank -%}
@@ -54,14 +56,30 @@
     font-weight: 500;
   }
   
+  #fr-custom-faq-{{ section.id }} .fr-custom-faq__question {
+    font-size: {{ section.settings.question_size_mobile | default: 15 }}px;
+  }
+  
+  #fr-custom-faq-{{ section.id }} .fr-custom-faq__answer-inner {
+    font-size: {{ section.settings.answer_size_mobile | default: 13 }}px;
+  }
+
   @media (min-width: 768px) {
     #fr-custom-faq-{{ section.id }} {
       padding-top: var(--pt-d) !important;
       padding-bottom: var(--pb-d) !important;
+      padding-left: var(--pl-d) !important;
+      padding-right: var(--pr-d) !important;
     }
     #fr-custom-faq-{{ section.id }} .fr-custom-faq__heading {
       text-align: var(--ha-d);
       font-size: var(--fz-hd-d) !important;
+    }
+    #fr-custom-faq-{{ section.id }} .fr-custom-faq__question {
+      font-size: {{ section.settings.question_size_desktop | default: 16 }}px;
+    }
+    #fr-custom-faq-{{ section.id }} .fr-custom-faq__answer-inner {
+      font-size: {{ section.settings.answer_size_desktop | default: 14 }}px;
     }
   }
 
@@ -86,7 +104,6 @@
     align-items: center;
     cursor: pointer;
     font-family: 'Lato', system-ui, sans-serif;
-    font-size: 16px;
     color: #1a1a1a;
     font-weight: 600;
   }
@@ -110,7 +127,6 @@
   #fr-custom-faq-{{ section.id }} .fr-custom-faq__answer-inner {
     padding: 0 24px 24px 24px;
     font-family: 'Lato', system-ui, sans-serif;
-    font-size: 14px;
     color: #444;
     line-height: 1.5;
   }
@@ -219,7 +235,51 @@
     },
     {
       "type": "header",
-      "content": "Spacing"
+      "content": "Typography Settings"
+    },
+    {
+      "type": "range",
+      "id": "question_size_desktop",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Question Size (Desktop)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "question_size_mobile",
+      "min": 11,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Question Size (Mobile)",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "answer_size_desktop",
+      "min": 11,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Answer Size (Desktop)",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "answer_size_mobile",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Answer Size (Mobile)",
+      "default": 13
+    },
+    {
+      "type": "header",
+      "content": "Desktop Spacing"
     },
     {
       "type": "range",
@@ -228,7 +288,7 @@
       "max": 120,
       "step": 4,
       "unit": "px",
-      "label": "Padding Top",
+      "label": "Padding Top (Desktop)",
       "default": 60
     },
     {
@@ -240,6 +300,30 @@
       "unit": "px",
       "label": "Padding Bottom (Desktop)",
       "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Left (Desktop)",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Right (Desktop)",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Mobile Spacing"
     },
     {
       "type": "range",
@@ -263,23 +347,23 @@
     },
     {
       "type": "range",
-      "id": "padding_left",
+      "id": "padding_left_mobile",
       "min": 0,
-      "max": 120,
-      "step": 4,
+      "max": 60,
+      "step": 2,
       "unit": "px",
-      "label": "Padding Left",
-      "default": 20
+      "label": "Padding Left (Mobile)",
+      "default": 16
     },
     {
       "type": "range",
-      "id": "padding_right",
+      "id": "padding_right_mobile",
       "min": 0,
-      "max": 120,
-      "step": 4,
+      "max": 60,
+      "step": 2,
       "unit": "px",
-      "label": "Padding Right",
-      "default": 20
+      "label": "Padding Right (Mobile)",
+      "default": 16
     }
   ],
   "blocks": [

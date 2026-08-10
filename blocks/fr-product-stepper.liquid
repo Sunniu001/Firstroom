@@ -1,4 +1,4 @@
-<div class="fr-stepper-container" style="margin-top: {{ block.settings.padding_top }}px; margin-bottom: {{ block.settings.padding_bottom }}px;" {{ block.shopify_attributes }}>
+<div class="fr-stepper-container fr-ps-{{ block.id }}" {{ block.shopify_attributes }}>
   <div class="fr-stepper">
     <div class="fr-step">
       <div class="fr-step-circle">1</div>
@@ -23,17 +23,20 @@
 </div>
 
 <style>
-  .fr-stepper-container {
-    padding: 1.5rem 0;
+  .fr-ps-{{ block.id }} {
+    padding-top: {{ block.settings.padding_top | default: 24 }}px;
+    padding-bottom: {{ block.settings.padding_bottom | default: 24 }}px;
+    padding-left: {{ block.settings.padding_left | default: 0 }}px;
+    padding-right: {{ block.settings.padding_right | default: 0 }}px;
     border-bottom: 1px solid rgba(0,0,0,0.1);
   }
-  .fr-stepper {
+  .fr-ps-{{ block.id }} .fr-stepper {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: {{ block.settings.alignment_desktop | default: 'space-between' }};
     width: 100%;
   }
-  .fr-step {
+  .fr-ps-{{ block.id }} .fr-step {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -41,30 +44,54 @@
     position: relative;
     z-index: 2;
   }
-  .fr-step-circle {
-    width: 24px;
-    height: 24px;
+  .fr-ps-{{ block.id }} .fr-step-circle {
+    width: {{ block.settings.circle_size_desktop | default: 24 }}px;
+    height: {{ block.settings.circle_size_desktop | default: 24 }}px;
     border-radius: 50%;
     border: 1px solid #000;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 11px;
+    font-size: {{ block.settings.circle_font_size_desktop | default: 11 }}px;
     background: #fff;
   }
-  .fr-step-label {
-    font-size: 10px;
+  .fr-ps-{{ block.id }} .fr-step-label {
+    font-size: {{ block.settings.font_size_desktop | default: 10 }}px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     text-align: center;
     color: #666;
   }
-  .fr-step-line {
+  .fr-ps-{{ block.id }} .fr-step-line {
     flex-grow: 1;
     height: 1px;
     background-color: rgba(0,0,0,0.2);
     margin: 0 10px;
-    margin-top: -15px; /* adjust to align with circles */
+    margin-top: -15px;
+  }
+
+  @media (max-width: 767px) {
+    .fr-ps-{{ block.id }} {
+      padding-top: {{ block.settings.padding_top_mobile | default: 16 }}px;
+      padding-bottom: {{ block.settings.padding_bottom_mobile | default: 16 }}px;
+      padding-left: {{ block.settings.padding_left_mobile | default: 0 }}px;
+      padding-right: {{ block.settings.padding_right_mobile | default: 0 }}px;
+    }
+    .fr-ps-{{ block.id }} .fr-stepper {
+      justify-content: {{ block.settings.alignment_mobile | default: 'space-between' }};
+    }
+    .fr-ps-{{ block.id }} .fr-step-circle {
+      width: {{ block.settings.circle_size_mobile | default: 20 }}px;
+      height: {{ block.settings.circle_size_mobile | default: 20 }}px;
+      font-size: {{ block.settings.circle_font_size_mobile | default: 10 }}px;
+    }
+    .fr-ps-{{ block.id }} .fr-step-label {
+      font-size: {{ block.settings.font_size_mobile | default: 9 }}px;
+    }
+    .fr-ps-{{ block.id }} .fr-step-line {
+      margin: 0 4px;
+      margin-top: -12px;
+    }
   }
 </style>
 
@@ -77,9 +104,44 @@
     { "type": "text", "id": "step_2_text", "label": "Step 2 Text", "default": "Digital preview" },
     { "type": "text", "id": "step_3_text", "label": "Step 3 Text", "default": "Production" },
     { "type": "text", "id": "step_4_text", "label": "Step 4 Text", "default": "Delivered" },
-    { "type": "header", "content": "Block Padding" },
-    { "type": "range", "id": "padding_top", "label": "Top Padding", "min": 0, "max": 100, "step": 4, "default": 0, "unit": "px" },
-    { "type": "range", "id": "padding_bottom", "label": "Bottom Padding", "min": 0, "max": 100, "step": 4, "default": 32, "unit": "px" }
+    { "type": "header", "content": "Desktop Settings" },
+    {
+      "type": "select",
+      "id": "alignment_desktop",
+      "label": "Desktop Stepper Alignment",
+      "options": [
+        { "value": "space-between", "label": "Space Between" },
+        { "value": "space-around", "label": "Space Around" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "space-between"
+    },
+    { "type": "range", "id": "font_size_desktop", "label": "Desktop Label Font Size", "min": 8, "max": 16, "step": 0.5, "unit": "px", "default": 10 },
+    { "type": "range", "id": "circle_size_desktop", "label": "Desktop Circle Size", "min": 16, "max": 36, "step": 1, "unit": "px", "default": 24 },
+    { "type": "range", "id": "circle_font_size_desktop", "label": "Desktop Circle Font Size", "min": 8, "max": 16, "step": 1, "unit": "px", "default": 11 },
+    { "type": "range", "id": "padding_top", "label": "Desktop Top Padding", "min": 0, "max": 100, "step": 4, "default": 24, "unit": "px" },
+    { "type": "range", "id": "padding_bottom", "label": "Desktop Bottom Padding", "min": 0, "max": 100, "step": 4, "default": 24, "unit": "px" },
+    { "type": "range", "id": "padding_left", "label": "Desktop Left Padding", "min": 0, "max": 60, "step": 4, "default": 0, "unit": "px" },
+    { "type": "range", "id": "padding_right", "label": "Desktop Right Padding", "min": 0, "max": 60, "step": 4, "default": 0, "unit": "px" },
+    { "type": "header", "content": "Mobile Responsiveness Settings" },
+    {
+      "type": "select",
+      "id": "alignment_mobile",
+      "label": "Mobile Stepper Alignment",
+      "options": [
+        { "value": "space-between", "label": "Space Between" },
+        { "value": "space-around", "label": "Space Around" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "space-between"
+    },
+    { "type": "range", "id": "font_size_mobile", "label": "Mobile Label Font Size", "min": 7, "max": 14, "step": 0.5, "unit": "px", "default": 9 },
+    { "type": "range", "id": "circle_size_mobile", "label": "Mobile Circle Size", "min": 14, "max": 30, "step": 1, "unit": "px", "default": 20 },
+    { "type": "range", "id": "circle_font_size_mobile", "label": "Mobile Circle Font Size", "min": 7, "max": 14, "step": 1, "unit": "px", "default": 10 },
+    { "type": "range", "id": "padding_top_mobile", "label": "Mobile Top Padding", "min": 0, "max": 80, "step": 4, "default": 16, "unit": "px" },
+    { "type": "range", "id": "padding_bottom_mobile", "label": "Mobile Bottom Padding", "min": 0, "max": 80, "step": 4, "default": 16, "unit": "px" },
+    { "type": "range", "id": "padding_left_mobile", "label": "Mobile Left Padding", "min": 0, "max": 60, "step": 4, "default": 0, "unit": "px" },
+    { "type": "range", "id": "padding_right_mobile", "label": "Mobile Right Padding", "min": 0, "max": 60, "step": 4, "default": 0, "unit": "px" }
   ],
   "presets": [
     {

@@ -1,4 +1,4 @@
-<div class="fr-trust-badges" {{ block.shopify_attributes }}>
+<div class="fr-trust-badges fr-tb-{{ block.id }}" {{ block.shopify_attributes }}>
   <div class="fr-badges-grid">
     <!-- Badge 1 -->
     <div class="fr-badge-item">
@@ -7,11 +7,9 @@
           {{ block.settings.badge_1_icon | image_url: width: 120 | image_tag: class: 'fr-trust-img-icon', loading: 'lazy', alt: block.settings.badge_1_text }}
         {% else %}
           <svg class="fr-trust-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-            <!-- Circular cycle arrows -->
             <circle cx="32" cy="32" r="25" stroke-dasharray="120 20" stroke-dashoffset="10" />
             <path d="M 52 20 L 57 26 L 49 27" />
             <path d="M 12 44 L 7 38 L 15 37" />
-            <!-- Central leaves -->
             <path d="M 32 44 V 24" stroke-width="1.4" />
             <path d="M 32 38 C 24 35 23 25 32 22 C 41 25 40 35 32 38 Z" fill="none" stroke-width="1.3" />
             <path d="M 32 30 C 26 27 26 19 32 16 C 38 19 38 27 32 30 Z" fill="none" stroke-width="1.3" />
@@ -30,14 +28,12 @@
           {{ block.settings.badge_2_icon | image_url: width: 120 | image_tag: class: 'fr-trust-img-icon', loading: 'lazy', alt: block.settings.badge_2_text }}
         {% else %}
           <svg class="fr-trust-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-            <!-- Triangular Mobius / Recycling loop -->
             <path d="M 24 14 H 42 L 50 28" />
             <polyline points="44 29 50 28 48 22" />
             <path d="M 52 32 L 43 47 H 22" />
             <polyline points="23 52 17 47 23 42" />
             <path d="M 14 42 L 7 28 L 18 14" />
             <polyline points="13 18 18 14 22 19" />
-            <!-- Center PVC label -->
             <text x="32" y="32.5" font-family="var(--font-body--family), system-ui, sans-serif" font-size="8.5" font-weight="600" fill="currentColor" stroke="none" text-anchor="middle" dominant-baseline="central" letter-spacing="0.5">PVC</text>
           </svg>
         {% endif %}
@@ -52,11 +48,8 @@
           {{ block.settings.badge_3_icon | image_url: width: 120 | image_tag: class: 'fr-trust-img-icon', loading: 'lazy', alt: block.settings.badge_3_text }}
         {% else %}
           <svg class="fr-trust-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-            <!-- Outer Circle -->
             <circle cx="32" cy="32" r="25" />
-            <!-- Water Drop -->
             <path d="M 32 16 C 32 16 22 27 22 34 A 10 10 0 0 0 42 34 C 42 27 32 16 32 16 Z" fill="none" stroke-width="1.3" />
-            <!-- Wavy Water Line inside circle -->
             <path d="M 7 38 Q 13 34 19 38 T 32 38 T 45 38 T 57 38" stroke-width="1.2" />
           </svg>
         {% endif %}
@@ -67,67 +60,82 @@
 </div>
 
 <style>
-  .fr-trust-badges {
-    margin-top: 1.5rem;
+  .fr-tb-{{ block.id }} {
+    margin-top: 1rem;
     margin-bottom: 1rem;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-top: {{ block.settings.padding_top }}px;
+    padding-bottom: {{ block.settings.padding_bottom }}px;
+    padding-left: {{ block.settings.padding_left | default: 0 }}px;
+    padding-right: {{ block.settings.padding_right | default: 0 }}px;
     border-top: 1px solid #eaeaea;
     border-bottom: 1px solid #eaeaea;
   }
-  .fr-badges-grid {
+  .fr-tb-{{ block.id }} .fr-badges-grid {
     display: flex;
-    justify-content: space-around;
+    justify-content: {{ block.settings.alignment_desktop | default: 'space-around' }};
     align-items: flex-start;
     gap: 1rem;
   }
-  .fr-badge-item {
+  .fr-tb-{{ block.id }} .fr-badge-item {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
+    text-align: {{ block.settings.text_align_desktop | default: 'center' }};
     gap: 0.75rem;
     max-width: 180px;
   }
-  .fr-icon-wrapper {
+  .fr-tb-{{ block.id }} .fr-icon-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 52px;
-    height: 52px;
+    width: {{ block.settings.icon_size_desktop | default: 48 }}px;
+    height: {{ block.settings.icon_size_desktop | default: 48 }}px;
     color: #222;
   }
-  .fr-trust-icon,
-  .fr-trust-img-icon {
-    width: 48px;
-    height: 48px;
+  .fr-tb-{{ block.id }} .fr-trust-icon,
+  .fr-tb-{{ block.id }} .fr-trust-img-icon {
+    width: {{ block.settings.icon_size_desktop | default: 48 }}px;
+    height: {{ block.settings.icon_size_desktop | default: 48 }}px;
     object-fit: contain;
   }
-  .fr-badge-label {
+  .fr-tb-{{ block.id }} .fr-badge-label {
     font-family: var(--font-accent--family), var(--font-heading--family), Georgia, serif;
-    font-size: 13.5px;
+    font-size: {{ block.settings.font_size_desktop | default: 13.5 }}px;
     color: #222;
     font-weight: 400;
     line-height: 1.35;
     word-break: break-word;
   }
 
-  @media (max-width: 640px) {
-    .fr-badges-grid {
-      gap: 0.75rem;
+  @media (max-width: 767px) {
+    .fr-tb-{{ block.id }} {
+      padding-top: {{ block.settings.padding_top_mobile | default: 16 }}px;
+      padding-bottom: {{ block.settings.padding_bottom_mobile | default: 16 }}px;
+      padding-left: {{ block.settings.padding_left_mobile | default: 0 }}px;
+      padding-right: {{ block.settings.padding_right_mobile | default: 0 }}px;
     }
-    .fr-icon-wrapper {
-      width: 42px;
-      height: 42px;
+    .fr-tb-{{ block.id }} .fr-badges-grid {
+      flex-direction: {% if block.settings.layout_mobile == 'column' %}column{% else %}row{% endif %};
+      justify-content: {{ block.settings.alignment_mobile | default: 'space-around' }};
+      align-items: {% if block.settings.layout_mobile == 'column' %}center{% else %}flex-start{% endif %};
+      gap: {{ block.settings.gap_mobile | default: 12 }}px;
     }
-    .fr-trust-icon,
-    .fr-trust-img-icon {
-      width: 38px;
-      height: 38px;
+    .fr-tb-{{ block.id }} .fr-badge-item {
+      text-align: {{ block.settings.text_align_mobile | default: 'center' }};
+      max-width: {% if block.settings.layout_mobile == 'column' %}100%{% else %}180px{% endif %};
     }
-    .fr-badge-label {
-      font-size: 11.5px;
+    .fr-tb-{{ block.id }} .fr-icon-wrapper {
+      width: {{ block.settings.icon_size_mobile | default: 38 }}px;
+      height: {{ block.settings.icon_size_mobile | default: 38 }}px;
+    }
+    .fr-tb-{{ block.id }} .fr-trust-icon,
+    .fr-tb-{{ block.id }} .fr-trust-img-icon {
+      width: {{ block.settings.icon_size_mobile | default: 38 }}px;
+      height: {{ block.settings.icon_size_mobile | default: 38 }}px;
+    }
+    .fr-tb-{{ block.id }} .fr-badge-label {
+      font-size: {{ block.settings.font_size_mobile | default: 11.5 }}px;
     }
   }
 </style>
@@ -183,6 +191,200 @@
       "id": "badge_3_text",
       "label": "Badge 3 Text",
       "default": "Non-toxic water based Ink"
+    },
+    {
+      "type": "header",
+      "content": "Desktop Settings"
+    },
+    {
+      "type": "select",
+      "id": "alignment_desktop",
+      "label": "Desktop Grid Alignment",
+      "options": [
+        { "value": "space-around", "label": "Space Around" },
+        { "value": "space-between", "label": "Space Between" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-start", "label": "Left" }
+      ],
+      "default": "space-around"
+    },
+    {
+      "type": "select",
+      "id": "text_align_desktop",
+      "label": "Desktop Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "font_size_desktop",
+      "label": "Desktop Font Size",
+      "min": 10,
+      "max": 20,
+      "step": 0.5,
+      "unit": "px",
+      "default": 13.5
+    },
+    {
+      "type": "range",
+      "id": "icon_size_desktop",
+      "label": "Desktop Icon Size",
+      "min": 24,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Desktop Top Padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Desktop Bottom Padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_left",
+      "label": "Desktop Left Padding",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_right",
+      "label": "Desktop Right Padding",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Mobile Responsiveness Settings"
+    },
+    {
+      "type": "select",
+      "id": "layout_mobile",
+      "label": "Mobile Layout Direction",
+      "options": [
+        { "value": "row", "label": "Horizontal Row" },
+        { "value": "column", "label": "Vertical Stack" }
+      ],
+      "default": "row"
+    },
+    {
+      "type": "select",
+      "id": "alignment_mobile",
+      "label": "Mobile Grid Alignment",
+      "options": [
+        { "value": "space-around", "label": "Space Around" },
+        { "value": "space-between", "label": "Space Between" },
+        { "value": "center", "label": "Center" },
+        { "value": "flex-start", "label": "Left" }
+      ],
+      "default": "space-around"
+    },
+    {
+      "type": "select",
+      "id": "text_align_mobile",
+      "label": "Mobile Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "font_size_mobile",
+      "label": "Mobile Font Size",
+      "min": 9,
+      "max": 16,
+      "step": 0.5,
+      "unit": "px",
+      "default": 11.5
+    },
+    {
+      "type": "range",
+      "id": "icon_size_mobile",
+      "label": "Mobile Icon Size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 38
+    },
+    {
+      "type": "range",
+      "id": "gap_mobile",
+      "label": "Mobile Item Gap",
+      "min": 4,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Mobile Top Padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Mobile Bottom Padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "padding_left_mobile",
+      "label": "Mobile Left Padding",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_right_mobile",
+      "label": "Mobile Right Padding",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 0
     }
   ],
   "presets": [
