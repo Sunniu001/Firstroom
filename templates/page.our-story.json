@@ -149,8 +149,8 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 70,
-        "padding-block-end": 56
+        "padding-block-start": 50,
+        "padding-block-end": 40
       }
     },
     "we": {
@@ -198,6 +198,20 @@
         "padding_bottom_mobile": 40,
         "padding_left_mobile": 44,
         "padding_right_mobile": 44
+      }
+    },
+    "divider_pmGKCr": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "color_scheme": "",
+        "section_width": "full-width",
+        "thickness": 1,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     },
     "fr_section_image_text_FcKRCK": {
@@ -1011,6 +1025,7 @@
     "hero",
     "section_UwUmHt",
     "we",
+    "divider_pmGKCr",
     "fr_section_image_text_FcKRCK",
     "founders",
     "design_philosophy",
