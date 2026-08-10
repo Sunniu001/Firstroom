@@ -299,6 +299,32 @@
               },
               "blocks": {}
             },
+            "fr_product_stepper_wUTRVD": {
+              "type": "fr-product-stepper",
+              "settings": {
+                "step_1_text": "Select the Product",
+                "step_2_text": "Add to Cart",
+                "step_3_text": "Production",
+                "step_4_text": "Delivered",
+                "alignment_desktop": "space-between",
+                "font_size_desktop": 10,
+                "circle_size_desktop": 24,
+                "circle_font_size_desktop": 11,
+                "padding_top": 12,
+                "padding_bottom": 20,
+                "padding_left": 0,
+                "padding_right": 0,
+                "alignment_mobile": "space-between",
+                "font_size_mobile": 9,
+                "circle_size_mobile": 20,
+                "circle_font_size_mobile": 10,
+                "padding_top_mobile": 16,
+                "padding_bottom_mobile": 16,
+                "padding_left_mobile": 0,
+                "padding_right_mobile": 0
+              },
+              "blocks": {}
+            },
             "variant_picker_R3rGDr": {
               "type": "variant-picker",
               "disabled": true,
@@ -383,6 +409,7 @@
             "divider_xUraFn",
             "text_MaVLRC",
             "fr_product_actions_fan4AR",
+            "fr_product_stepper_wUTRVD",
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi",
             "fr_trust_badges_mcWreb"
@@ -428,20 +455,6 @@
       }
     },
     "divider_fKrMXJ": {
-      "type": "divider",
-      "name": "t:names.divider_section",
-      "settings": {
-        "color_scheme": "",
-        "section_width": "full-width",
-        "thickness": 0.5,
-        "corner_radius": "square",
-        "width_percent": 90,
-        "alignment_horizontal": "center",
-        "padding-block-start": 16,
-        "padding-block-end": 16
-      }
-    },
-    "divider_cqy9xg": {
       "type": "divider",
       "name": "t:names.divider_section",
       "settings": {
@@ -597,6 +610,81 @@
         "padding-block-start": 60,
         "padding-block-end": 60
       }
+    },
+    "divider_cqy9xg": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "color_scheme": "",
+        "section_width": "full-width",
+        "thickness": 0.5,
+        "corner_radius": "square",
+        "width_percent": 90,
+        "alignment_horizontal": "center",
+        "padding-block-start": 16,
+        "padding-block-end": 16
+      }
+    },
+    "fr_custom_faq_MaitYD": {
+      "type": "fr-custom-faq",
+      "blocks": {
+        "faq_y74bhE": {
+          "type": "faq",
+          "settings": {
+            "question": "Frequently asked question?",
+            "answer": "<p>Here is the answer to the frequently asked question.</p>"
+          }
+        },
+        "faq_qhrxAx": {
+          "type": "faq",
+          "settings": {
+            "question": "Frequently asked question?",
+            "answer": "<p>Here is the answer to the frequently asked question.</p>"
+          }
+        },
+        "faq_3DRiJB": {
+          "type": "faq",
+          "settings": {
+            "question": "Frequently asked question?",
+            "answer": "<p>Here is the answer to the frequently asked question.</p>"
+          }
+        },
+        "faq_hAhEVD": {
+          "type": "faq",
+          "settings": {
+            "question": "Frequently asked question?",
+            "answer": "<p>Here is the answer to the frequently asked question.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_y74bhE",
+        "faq_qhrxAx",
+        "faq_3DRiJB",
+        "faq_hAhEVD"
+      ],
+      "name": "FR Custom FAQ",
+      "settings": {
+        "bg_color": "#ffffff",
+        "heading": "FAQ's",
+        "heading_size": 30,
+        "heading_size_mobile": 24,
+        "heading_alignment": "center",
+        "heading_align_mobile": "center",
+        "heading_color": "#1a1a1a",
+        "question_size_desktop": 16,
+        "question_size_mobile": 15,
+        "answer_size_desktop": 14,
+        "answer_size_mobile": 13,
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_left": 20,
+        "padding_right": 20,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40,
+        "padding_left_mobile": 16,
+        "padding_right_mobile": 16
+      }
     }
   },
   "order": [
@@ -605,6 +693,7 @@
     "fr_product_tabs_hGpUAa",
     "divider_fKrMXJ",
     "product_recommendations_tzdyye",
-    "divider_cqy9xg"
+    "divider_cqy9xg",
+    "fr_custom_faq_MaitYD"
   ]
 }
