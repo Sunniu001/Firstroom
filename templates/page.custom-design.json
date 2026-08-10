@@ -196,12 +196,26 @@
         "gap": 80,
         "gap_mobile": 20,
         "text_color": "#1a1a1a",
-        "padding_top": 100,
+        "padding_top": 96,
         "padding_bottom": 40,
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 40,
         "padding_left": 20,
         "padding_right": 20
+      }
+    },
+    "divider_Lmgzxt": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "color_scheme": "",
+        "section_width": "full-width",
+        "thickness": 0.5,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     },
     "fr_custom_cards_teU8DH": {
@@ -256,7 +270,7 @@
       ],
       "name": "FR Custom Cards",
       "settings": {
-        "bg_color": "#ffffff",
+        "bg_color": "{{ settings.color_palette.background }}",
         "heading": "What can be customised",
         "content_max_width": 1100,
         "heading_font": "playfair_display_n5",
@@ -274,12 +288,26 @@
         "text_align": "center",
         "text_align_mobile": "center",
         "gap": 30,
-        "padding_top": 60,
-        "padding_bottom": 68,
+        "padding_top": 72,
+        "padding_bottom": 72,
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 40,
         "padding_left": 40,
         "padding_right": 40
+      }
+    },
+    "divider_tjwVzY": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "color_scheme": "",
+        "section_width": "full-width",
+        "thickness": 0.5,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     },
     "fr_new_projects_NUAYwD": {
@@ -350,7 +378,7 @@
       ],
       "name": "FR New Projects",
       "settings": {
-        "bg_color": "#ffffff",
+        "bg_color": "#E5E5E5",
         "heading": "Projects.",
         "subheading": "",
         "container_max_width": 1300,
@@ -381,9 +409,23 @@
         "badge_radius": 0,
         "badge_shadow": false,
         "padding_top": 70,
-        "padding_bottom": 90,
+        "padding_bottom": 70,
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 50
+      }
+    },
+    "divider_6MXnJ4": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "color_scheme": "",
+        "section_width": "full-width",
+        "thickness": 0.5,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     },
     "fr_custom_projects_CHgVxz": {
@@ -635,6 +677,114 @@
         "padding_right": 40
       }
     },
+    "fr_section_staggered_HtGqFG": {
+      "type": "fr-section-staggered",
+      "blocks": {
+        "staggered_item_K6ND3c": {
+          "type": "staggered_item",
+          "settings": {
+            "image": "shopify://shop_images/1._One-on-One_Consultation.png",
+            "border_width": 0,
+            "border_color": "#000000",
+            "number": "1.",
+            "title": "One-on-One Consultation",
+            "text": "Collaborate directly with our design experts to understand your ideas, preferences, and vision.",
+            "column_start": 1,
+            "offset_y": 0
+          }
+        },
+        "staggered_item_HgiQnG": {
+          "type": "staggered_item",
+          "settings": {
+            "image": "shopify://shop_images/2._Exclusive_Artwork.png",
+            "border_width": 0,
+            "border_color": "#000000",
+            "number": "2.",
+            "title": "Exclusive Artwork",
+            "text": "Every wallpaper is thoughtfully designed from scratch, creating a unique artwork that's made exclusively for your space.",
+            "column_start": 1,
+            "offset_y": 0
+          }
+        },
+        "staggered_item_eAgic7": {
+          "type": "staggered_item",
+          "settings": {
+            "image": "shopify://shop_images/3._Designed_for_Your_Space.jpg",
+            "border_width": 0,
+            "border_color": "#000000",
+            "number": "3.",
+            "title": "Designed for Your Space",
+            "text": "Each design is tailored to your wall dimensions, interior style, and architectural details for a seamless fit.",
+            "column_start": 1,
+            "offset_y": 0
+          }
+        },
+        "staggered_item_PnJpBL": {
+          "type": "staggered_item",
+          "settings": {
+            "image": "shopify://shop_images/4._Wide_Choice_of_Materials.png",
+            "border_width": 0,
+            "border_color": "#000000",
+            "number": "4.",
+            "title": "Wide Choice of Materials",
+            "text": "Choose from a curated selection of premium wallpaper materials and\nfinishes to suit your space and lifestyle.",
+            "column_start": 1,
+            "offset_y": 0
+          }
+        }
+      },
+      "block_order": [
+        "staggered_item_K6ND3c",
+        "staggered_item_HgiQnG",
+        "staggered_item_eAgic7",
+        "staggered_item_PnJpBL"
+      ],
+      "name": "FR About Staggered",
+      "settings": {
+        "section_bg": "#ffffff",
+        "content_max_width": 1400,
+        "heading": "Why Go Custom",
+        "heading_font": "playfair_display_n4",
+        "heading_color": "#1a1a1a",
+        "heading_size": 36,
+        "heading_size_mobile": 28,
+        "heading_align": "center",
+        "heading_align_mobile": "center",
+        "title_font": "lato_n4",
+        "title_color": "#1a1a1a",
+        "title_size": 15,
+        "text_font": "lato_n4",
+        "text_color": "#666666",
+        "text_size": 12,
+        "node_size_desktop": 120,
+        "node_size_mobile": 56,
+        "stem_height": 45,
+        "axis_color": "#dcdcdc",
+        "axis_width": 1,
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "padding_left": 60,
+        "padding_right": 60,
+        "padding_top_mobile": 48,
+        "padding_bottom_mobile": 48,
+        "padding_left_mobile": 24,
+        "padding_right_mobile": 24
+      }
+    },
+    "divider_zABWbL": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "color_scheme": "",
+        "section_width": "full-width",
+        "thickness": 0.5,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
     "fr_custom_process_2_XHFnkR": {
       "type": "fr-custom-process-2",
       "blocks": {
@@ -681,6 +831,7 @@
         "step_xT49Kj",
         "step_GHgGxd"
       ],
+      "disabled": true,
       "name": "FR Custom Process 2",
       "settings": {
         "bg_color": "#ffffff",
@@ -724,7 +875,7 @@
       "type": "fr-contact-form",
       "name": "FR Contact Form",
       "settings": {
-        "section_bg": "#ffffff",
+        "section_bg": "#E5E5E5",
         "accent_color": "#b53939",
         "heading": "Get In Touch",
         "subheading": "We'd be happy to connect with you.",
@@ -737,11 +888,25 @@
         "button_size": 13,
         "button_bg": "#1a1a1a",
         "button_text": "#ffffff",
-        "form_max_width": 680,
-        "padding_top": 120,
-        "padding_bottom": 80,
+        "form_max_width": 740,
+        "padding_top": 72,
+        "padding_bottom": 72,
         "padding_left": 40,
         "padding_right": 40
+      }
+    },
+    "divider_UttpRg": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "color_scheme": "",
+        "section_width": "full-width",
+        "thickness": 0.5,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     },
     "fr_custom_faq_mmhbmM": {
@@ -807,8 +972,8 @@
         "heading_alignment": "center",
         "heading_align_mobile": "center",
         "heading_color": "#1a1a1a",
-        "padding_top": 60,
-        "padding_bottom": 100,
+        "padding_top": 72,
+        "padding_bottom": 120,
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 40,
         "padding_left": 20,
@@ -821,13 +986,19 @@
     "fr_custom_hero_czjKym",
     "fr_section_hero_AiVBL6",
     "fr_custom_features_Jj6KVf",
+    "divider_Lmgzxt",
     "fr_custom_cards_teU8DH",
+    "divider_tjwVzY",
     "fr_new_projects_NUAYwD",
+    "divider_6MXnJ4",
     "fr_custom_projects_CHgVxz",
     "fr_custom_projects_cMejAp",
     "fr_custom_projects_GEYcpU",
+    "fr_section_staggered_HtGqFG",
+    "divider_zABWbL",
     "fr_custom_process_2_XHFnkR",
     "fr_contact_form_RwxaFY",
+    "divider_UttpRg",
     "fr_custom_faq_mmhbmM"
   ]
 }
