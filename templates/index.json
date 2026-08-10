@@ -229,7 +229,7 @@
         "image_max_width": 600,
         "text_align": "left",
         "text_align_mobile": "center",
-        "text_max_width": 330,
+        "text_max_width": 350,
         "padding_top": 80,
         "padding_top_mobile": 40,
         "padding_bottom": 60,
