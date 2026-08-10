@@ -149,7 +149,7 @@
         "overlay_color": "#00000026",
         "overlay_style": "solid",
         "gradient_direction": "to top",
-        "padding-block-start": 50,
+        "padding-block-start": 30,
         "padding-block-end": 40
       }
     },
@@ -320,6 +320,20 @@
         "padding_right_mobile": 48
       }
     },
+    "divider_qD8tAc": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "color_scheme": "",
+        "section_width": "full-width",
+        "thickness": 0.5,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
     "design_philosophy": {
       "type": "fr-section-grid",
       "blocks": {
@@ -405,9 +419,9 @@
         "subtitle_size": 13,
         "subtitle_size_mobile": 12,
         "subtitle_color": "#666666",
-        "padding_top": 60,
+        "padding_top": 52,
         "padding_top_mobile": 40,
-        "padding_bottom": 60,
+        "padding_bottom": 52,
         "padding_bottom_mobile": 40,
         "padding_left": 120,
         "padding_left_mobile": 20,
@@ -533,6 +547,20 @@
         "padding_right_mobile": 32
       }
     },
+    "divider_WULEQ3": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "color_scheme": "",
+        "section_width": "full-width",
+        "thickness": 0.5,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
+    },
     "what_we_have": {
       "type": "fr-section-grid",
       "blocks": {
@@ -596,9 +624,9 @@
         "subtitle_size": 14,
         "subtitle_size_mobile": 12,
         "subtitle_color": "#666666",
-        "padding_top": 92,
+        "padding_top": 52,
         "padding_top_mobile": 40,
-        "padding_bottom": 60,
+        "padding_bottom": 52,
         "padding_bottom_mobile": 40,
         "padding_left": 120,
         "padding_left_mobile": 24,
@@ -668,6 +696,20 @@
         "padding_bottom_mobile": 40,
         "padding_left_mobile": 28,
         "padding_right_mobile": 28
+      }
+    },
+    "divider_e3d4kd": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "color_scheme": "",
+        "section_width": "full-width",
+        "thickness": 0.5,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     },
     "our_process": {
@@ -767,14 +809,28 @@
         "stem_height": 50,
         "axis_color": "#dcdcdc",
         "axis_width": 1,
-        "padding_top": 80,
-        "padding_bottom": 80,
+        "padding_top": 52,
+        "padding_bottom": 52,
         "padding_left": 40,
         "padding_right": 40,
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 40,
         "padding_left_mobile": 40,
         "padding_right_mobile": 40
+      }
+    },
+    "divider_njareK": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "color_scheme": "",
+        "section_width": "full-width",
+        "thickness": 0.5,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     },
     "why_choose_us": {
@@ -866,14 +922,28 @@
         "subtitle_size": 12,
         "subtitle_size_mobile": 12,
         "subtitle_color": "#666666",
-        "padding_top": 92,
+        "padding_top": 52,
         "padding_top_mobile": 40,
-        "padding_bottom": 60,
+        "padding_bottom": 52,
         "padding_bottom_mobile": 40,
         "padding_left": 120,
         "padding_left_mobile": 20,
         "padding_right": 120,
         "padding_right_mobile": 20
+      }
+    },
+    "divider_k4DgYT": {
+      "type": "divider",
+      "name": "t:names.divider_section",
+      "settings": {
+        "color_scheme": "",
+        "section_width": "full-width",
+        "thickness": 0.5,
+        "corner_radius": "square",
+        "width_percent": 100,
+        "alignment_horizontal": "center",
+        "padding-block-start": 0,
+        "padding-block-end": 0
       }
     },
     "blocks_NpcnRe": {
@@ -1027,7 +1097,7 @@
         "autoplay_speed": 5000,
         "bg_color": "#ffffff",
         "container_max_width": 1320,
-        "padding_top": 80,
+        "padding_top": 50,
         "padding_bottom": 80,
         "padding_top_mobile": 45,
         "padding_bottom_mobile": 45
@@ -1043,12 +1113,17 @@
     "fr_section_image_text_FcKRCK",
     "divider_nxAj8E",
     "founders",
+    "divider_qD8tAc",
     "design_philosophy",
     "design_inspiration",
+    "divider_WULEQ3",
     "what_we_have",
     "featured_projects",
+    "divider_e3d4kd",
     "our_process",
+    "divider_njareK",
     "why_choose_us",
+    "divider_k4DgYT",
     "blocks_NpcnRe",
     "fr_testimonials_showcase_xEhTMU"
   ]
