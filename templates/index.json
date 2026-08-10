@@ -667,7 +667,7 @@
         "c_tab_2"
       ],
       "settings": {
-        "bg_color": "#ffffff",
+        "bg_color": "#E5E5E5",
         "content_max_width": 1300,
         "heading": "Collection",
         "heading_size": 32,
@@ -938,8 +938,8 @@
         "border_width": 1,
         "border_opacity": 100,
         "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
+        "toggle_overlay": true,
+        "overlay_color": "#E5E5E5",
         "overlay_style": "solid",
         "gradient_direction": "to top",
         "padding-block-start": 72,
