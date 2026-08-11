@@ -504,39 +504,33 @@
           `;
           document.head.appendChild(style);
 
+          var hideObsTimer = null;
           var hideObs = new MutationObserver(function() {
-            var allEls = document.querySelectorAll('a, span, div');
-            for (var i = 0; i < allEls.length; i++) {
-              if (allEls[i].textContent.includes('Powered by Cart Pilot')) {
-                var cpDrawer = allEls[i].closest('[role="dialog"], [class*="drawer"], [class*="sidebar"], [class*="cart"], div');
+            if (hideObsTimer) return;
+            hideObsTimer = setTimeout(function() {
+              hideObsTimer = null;
+              var cpDrawers = document.querySelectorAll('[class*="cart-pilot"], [id*="cart-pilot"], [data-cart-pilot], [class*="cartpilot"], [id*="cartpilot"]');
+              cpDrawers.forEach(function(cpDrawer) {
                 if (cpDrawer && cpDrawer.style.display !== 'none') {
                   cpDrawer.style.setProperty('display', 'none', 'important');
                   cpDrawer.style.setProperty('visibility', 'hidden', 'important');
                   cpDrawer.style.setProperty('pointer-events', 'none', 'important');
-                  var overlay = cpDrawer.parentElement.querySelector('[class*="overlay"], [class*="backdrop"]');
-                  if (overlay) {
-                    overlay.style.setProperty('display', 'none', 'important');
-                    overlay.style.setProperty('visibility', 'hidden', 'important');
-                  }
                 }
-              }
-            }
+              });
+            }, 300);
           });
           hideObs.observe(document.body, { childList: true, subtree: true });
           return;
         }
 
         function tryInjectViewCart() {
-          // Already injected? Skip.
           if (document.querySelector('.fr-view-cart-btn')) return;
 
-          // Find Cart Pilot's checkout button by text content
           var btns = document.querySelectorAll('a, button');
           var checkoutBtn = null;
           for (var j = 0; j < btns.length; j++) {
             var txt = btns[j].textContent.trim().toLowerCase();
             if (txt.includes('checkout') && btns[j].offsetParent !== null) {
-              // Make sure it's inside a Cart Pilot context (not the cart page checkout)
               if (btns[j].closest('.cart-page')) continue;
               checkoutBtn = btns[j];
               break;
@@ -544,7 +538,6 @@
           }
           if (!checkoutBtn) return;
 
-          // Create View Cart button
           var viewCartBtn = document.createElement('a');
           viewCartBtn.href = '/cart';
           viewCartBtn.className = 'fr-view-cart-btn';
@@ -559,7 +552,6 @@
             this.style.color = '#000';
           });
 
-          // Insert before the checkout button
           checkoutBtn.parentElement.insertBefore(viewCartBtn, checkoutBtn);
         }
 
@@ -596,12 +588,12 @@
 
         function hideQty() {
            if (wallpaperTitles.length === 0) return;
-           var allEls = document.querySelectorAll('button, div, span, a');
+           var targetButtons = document.querySelectorAll('quantity-selector button, .cart-items__quantity button, button[name="plus"]');
            var qtyContainers = [];
-           for (var i = 0; i < allEls.length; i++) {
-              if (allEls[i].textContent.trim() === '+' && allEls[i].offsetParent !== null) {
-                 var parent = allEls[i].parentElement;
-                 if (parent && parent.textContent.includes('-') && qtyContainers.indexOf(parent) === -1) {
+           for (var i = 0; i < targetButtons.length; i++) {
+              if (targetButtons[i].textContent.trim() === '+' && targetButtons[i].offsetParent !== null) {
+                 var parent = targetButtons[i].parentElement;
+                 if (parent && qtyContainers.indexOf(parent) === -1) {
                     qtyContainers.push(parent);
                  }
               }
@@ -610,7 +602,7 @@
            qtyContainers.forEach(function(container) {
               var curr = container;
               var isWallpaper = false;
-              for (var j = 0; j < 8; j++) {
+              for (var j = 0; j < 6; j++) {
                  if (!curr) break;
                  for (var k = 0; k < wallpaperTitles.length; k++) {
                     if (curr.textContent.includes(wallpaperTitles[k])) {
@@ -627,10 +619,15 @@
            });
         }
 
-        // Persistent observer — Cart Pilot rebuilds its DOM on every drawer open
+        // Persistent observer — debounced to avoid main thread jank during scrolling
+        var mainObsTimer = null;
         var obs = new MutationObserver(function() {
-          tryInjectViewCart();
-          tryHideWallpaperQty();
+          if (mainObsTimer) return;
+          mainObsTimer = setTimeout(function() {
+            mainObsTimer = null;
+            tryInjectViewCart();
+            tryHideWallpaperQty();
+          }, 250);
         });
         obs.observe(document.body, { childList: true, subtree: true });
       })();
