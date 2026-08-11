@@ -213,16 +213,105 @@
     .fr-wishlist-page-container {
       margin: 20px auto 60px;
       padding: 0 16px;
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
+      overflow-x: hidden;
     }
     .fr-wishlist-title {
       font-size: 24px;
       margin-bottom: 16px;
+    }
+    .fr-wishlist-filters {
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .fr-wishlist-table-container {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      overflow-x: visible !important;
+      border: none !important;
+      background: transparent !important;
+      box-sizing: border-box !important;
+    }
+    .fr-wishlist-table {
+      min-width: 0 !important;
+      width: 100% !important;
+      display: block !important;
+      box-sizing: border-box !important;
+    }
+    .fr-wishlist-table thead {
+      display: none !important;
+    }
+    .fr-wishlist-table tbody {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+      box-sizing: border-box !important;
+    }
+    .fr-wishlist-table tr {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      box-sizing: border-box !important;
+      background: #ffffff;
+      border: 1px solid #eaeaea !important;
+      border-radius: 8px;
+      padding: 16px;
+      gap: 12px;
+    }
+    .fr-wishlist-table tr td.fr-wishlist-empty {
+      border: none !important;
+      padding: 40px 16px !important;
+      text-align: center !important;
+      display: block !important;
+    }
+    .fr-wishlist-table td {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      box-sizing: border-box !important;
+      padding: 8px 0 !important;
+      border-bottom: 1px dashed #f0f0f0 !important;
+      text-align: left !important;
+      font-size: 0.88rem;
+    }
+    .fr-wishlist-table td:last-child {
+      border-bottom: none !important;
+      padding-bottom: 0 !important;
+    }
+    .fr-wishlist-table td:first-child {
+      border-bottom: 1px solid #ebebeb !important;
+      padding-bottom: 12px !important;
+      display: block !important;
+    }
+    .fr-wishlist-table td[data-label]:not(:first-child)::before {
+      content: attr(data-label);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .fr-wishlist-action-btn {
+      width: 100% !important;
+      max-width: 100% !important;
+      text-align: center !important;
+      justify-content: center !important;
     }
     .fr-wishlist-bottom-actions {
       flex-direction: column;
       gap: 12px;
       align-items: stretch;
       padding: 16px;
+      border: 1px solid #eaeaea;
+      border-radius: 8px;
+      background: #ffffff;
+      margin-top: 16px;
     }
     .fr-wishlist-bottom-actions .left-actions,
     .fr-wishlist-bottom-actions .right-actions {
@@ -231,7 +320,6 @@
       gap: 10px;
     }
     .fr-wishlist-btn-return,
-    .fr-wishlist-action-btn,
     .fr-wishlist-btn-remove {
       width: 100%;
       max-width: 100%;
@@ -365,20 +453,20 @@
 
       html += `
         <tr>
-          <td>
+          <td data-label="PRODUCT">
             <div class="fr-wishlist-product-col">
               <input type="checkbox" class="fr-wishlist-checkbox" value="${product.handle}" data-variant-id="${variant.id}" data-has-options="${hasOptions}" onchange="updateGlobalButtons()">
               <img src="${img}" class="fr-wishlist-product-img" alt="">
               <a href="${product.url}" class="fr-wishlist-product-title">${product.title}</a>
             </div>
           </td>
-          <td class="fr-wishlist-price-col">
+          <td class="fr-wishlist-price-col" data-label="PRICE">
             ${comparePrice ? `<strike>${comparePrice}</strike>` : ''} ${price}
           </td>
-          <td class="fr-wishlist-stock-col ${stockClass}">
+          <td class="fr-wishlist-stock-col ${stockClass}" data-label="STOCK STATUS">
             ${stockText}
           </td>
-          <td>
+          <td data-label="ACTION">
             ${isAvailable 
               ? (hasOptions 
                   ? `<a href="${product.url}" class="fr-wishlist-action-btn" style="display:inline-block; text-align:center; text-decoration:none; box-sizing:border-box;">SELECT OPTIONS</a>` 
