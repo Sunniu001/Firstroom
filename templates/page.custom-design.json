@@ -191,6 +191,7 @@
       "name": "FR Custom Features",
       "settings": {
         "bg_color": "#ffffff",
+        "columns_mobile": "slider_peek",
         "heading": "What is custom design",
         "heading_font": "playfair_display_n5",
         "heading_size": 36,

@@ -18,7 +18,8 @@
   <div class="fr-custom-cards__container" style="max-width: {{ section.settings.content_max_width | default: 1300 }}px;">
     {%- if section.settings.heading != blank -%}
       <h2 class="fr-custom-cards__heading" style="
-        font-size: {{ section.settings.heading_size | default: 36 }}px;
+        --fz-hd-d: {{ section.settings.heading_size | default: 36 }}px;
+        --fz-hd-m: {{ section.settings.heading_size_mobile | default: section.settings.heading_size | default: 28 }}px;
         color: {{ section.settings.heading_color | default: '#1a1a1a' }};
         --ha-m: {{ section.settings.heading_align_mobile | default: section.settings.heading_alignment | default: 'center' }};
         --ha-d: {{ section.settings.heading_alignment | default: 'center' }};
@@ -97,6 +98,7 @@
     font-family: {{ section.settings.heading_font.family | default: "'Playfair Display'" }}, {{ section.settings.heading_font.fallback_families | default: 'serif' }};
     font-weight: {{ section.settings.heading_font.weight | default: 400 }};
     font-style: {{ section.settings.heading_font.style | default: 'normal' }};
+    font-size: var(--fz-hd-m);
     text-align: var(--ha-m);
     line-height: 1.25;
     letter-spacing: 0.01em;
@@ -104,6 +106,7 @@
 
   @media (min-width: 768px) {
     #fr-custom-cards-{{ section.id }} .fr-custom-cards__heading {
+      font-size: var(--fz-hd-d);
       text-align: var(--ha-d);
     }
   }
@@ -288,8 +291,18 @@
       "max": 60,
       "step": 2,
       "unit": "px",
-      "label": "Heading Size",
+      "label": "Heading Size (Desktop)",
       "default": 36
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 16,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading Size (Mobile)",
+      "default": 28
     },
     {
       "type": "select",
