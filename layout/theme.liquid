@@ -496,10 +496,15 @@
           // Pure CSS to suppress all cart drawers, blur filters, and backdrop overlays on Cart page except mobile nav
           var style = document.createElement('style');
           style.textContent = `
-            body, html, .page-wrapper, main, #MainContent, .cart-page {
+            body, html, .page-wrapper {
               filter: none !important;
               backdrop-filter: none !important;
-              overflow-y: auto !important;
+            }
+
+            main, #MainContent, .cart-page {
+              filter: none !important;
+              backdrop-filter: none !important;
+              overflow: visible !important;
             }
 
             #shopify-section-cart-drawer-section,
