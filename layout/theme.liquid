@@ -493,47 +493,47 @@
     <script>
       (function() {
         if (window.location.pathname === '/cart') {
-          // If we are on the cart page, hide Cart Pilot drawer and any dialog/overlays
+          // Pure CSS to suppress all cart drawers/modals on Cart page except mobile nav
           var style = document.createElement('style');
           style.textContent = `
-            [class*="cart-pilot"], [id*="cart-pilot"], [data-cart-pilot], [class*="cartpilot"], [id*="cartpilot"] {
+            #shopify-section-cart-drawer-section,
+            #cart-drawer,
+            theme-drawer#cart-drawer,
+            cart-drawer-component,
+            [role="dialog"]:not(#fr-mobile-nav-drawer),
+            dialog:not(#fr-mobile-nav-drawer),
+            [class*="cart-pilot"], [id*="cart-pilot"], [data-cart-pilot], [class*="cartpilot"], [id*="cartpilot"],
+            [class*="cp-drawer"], [class*="cp_drawer"], [class*="cp-modal"], [class*="cp_modal"], [class*="cp-overlay"], [class*="cp_overlay"] {
               display: none !important;
               visibility: hidden !important;
               pointer-events: none !important;
+              opacity: 0 !important;
             }
           `;
           document.head.appendChild(style);
 
-          function hideCartPilotOnCartPage() {
-            var els = document.querySelectorAll('div, span, p, a, button, dialog');
-            for (var i = 0; i < els.length; i++) {
-              if (els[i].textContent.includes('Powered by Cart Pilot')) {
-                var cpDrawer = els[i].closest('[role="dialog"], dialog, [class*="drawer"], [class*="sidebar"], [class*="cart"], div');
-                if (cpDrawer && cpDrawer.style.display !== 'none') {
-                  cpDrawer.style.setProperty('display', 'none', 'important');
-                  cpDrawer.style.setProperty('visibility', 'hidden', 'important');
-                  cpDrawer.style.setProperty('pointer-events', 'none', 'important');
-                  if (cpDrawer.parentElement) {
-                    var overlay = cpDrawer.parentElement.querySelector('[class*="overlay"], [class*="backdrop"]');
-                    if (overlay) {
-                      overlay.style.setProperty('display', 'none', 'important');
-                      overlay.style.setProperty('visibility', 'hidden', 'important');
-                    }
-                  }
-                }
+          function hideCPDrawer() {
+            var dialogs = document.querySelectorAll('dialog, [role="dialog"], [class*="drawer"], [class*="sidebar"]');
+            dialogs.forEach(function(d) {
+              if (d.id === 'fr-mobile-nav-drawer' || d.classList.contains('fr-mobile-drawer')) return;
+              var txt = d.textContent || '';
+              if (txt.includes('Cart Pilot') || txt.includes('Checkout')) {
+                d.style.setProperty('display', 'none', 'important');
+                d.style.setProperty('visibility', 'hidden', 'important');
+                d.style.setProperty('pointer-events', 'none', 'important');
+                d.style.setProperty('opacity', '0', 'important');
               }
-            }
+            });
           }
 
-          hideCartPilotOnCartPage();
-
+          hideCPDrawer();
           var hideObsTimer = null;
           var hideObs = new MutationObserver(function() {
             if (hideObsTimer) return;
             hideObsTimer = setTimeout(function() {
               hideObsTimer = null;
-              hideCartPilotOnCartPage();
-            }, 100);
+              hideCPDrawer();
+            }, 250);
           });
           hideObs.observe(document.body, { childList: true, subtree: true });
           return;
