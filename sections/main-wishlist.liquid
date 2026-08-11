@@ -282,14 +282,17 @@
     }
     .fr-wishlist-table td:last-child {
       border-bottom: none !important;
+      padding-top: 8px !important;
       padding-bottom: 0 !important;
+      display: block !important;
+      width: 100% !important;
     }
     .fr-wishlist-table td:first-child {
       border-bottom: 1px solid #ebebeb !important;
       padding-bottom: 12px !important;
       display: block !important;
     }
-    .fr-wishlist-table td[data-label]:not(:first-child)::before {
+    .fr-wishlist-table td[data-label]:not(:first-child):not(:last-child)::before {
       content: attr(data-label);
       font-size: 0.75rem;
       font-weight: 600;
@@ -302,6 +305,8 @@
       max-width: 100% !important;
       text-align: center !important;
       justify-content: center !important;
+      display: block !important;
+      box-sizing: border-box !important;
     }
     .fr-wishlist-bottom-actions {
       flex-direction: column;
