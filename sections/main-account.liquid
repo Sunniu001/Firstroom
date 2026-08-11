@@ -1062,6 +1062,68 @@
     color: #666;
   }
 
+  @media (max-width: 767px) {
+    .fr-account {
+      padding: 24px 0 60px 0;
+    }
+    .fr-account__container {
+      padding: 0 16px;
+      gap: 20px;
+    }
+    .fr-account__sidebar {
+      gap: 16px;
+    }
+    .fr-account__user-info {
+      padding-bottom: 12px;
+    }
+    .fr-account__user-name {
+      font-size: 1.25rem;
+    }
+    .fr-account__nav {
+      flex-direction: row;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      white-space: nowrap;
+      gap: 8px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #ebebeb;
+    }
+    .fr-account__nav::-webkit-scrollbar {
+      display: none;
+    }
+    .fr-account__nav-btn,
+    .fr-account__nav-link {
+      width: auto;
+      flex: 0 0 auto;
+      padding: 8px 16px;
+      font-size: 0.82rem;
+      border-radius: 20px;
+      background-color: #f5f5f5;
+    }
+    .fr-account__nav-btn.active {
+      background-color: #1a1a1a;
+      color: #ffffff;
+    }
+    .fr-account__nav-link--logout {
+      margin-top: 0;
+      color: #b53939;
+    }
+    .fr-account__panel-title {
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+    }
+    .fr-account__table {
+      min-width: 500px;
+    }
+    .fr-account__table th,
+    .fr-account__table td {
+      padding: 12px 10px;
+      font-size: 0.8rem;
+    }
+  }
+
   /* ── Content Panel Styling ── */
   .fr-account__content {
     background-color: #ffffff;
