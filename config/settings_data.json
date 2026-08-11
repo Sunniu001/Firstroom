@@ -12,11 +12,7 @@
     "logo": "shopify://shop_images/Logo.png",
     "logo_height": 36,
     "logo_height_mobile": 28,
-    "checkout_logo": "shopify://shop_images/Logo.png",
-    "checkout_logo_image": "shopify://shop_images/Logo.png",
-    "checkout_logo_position": "left",
-    "checkout_logo_size": "medium",
-    "favicon": "shopify://shop_images/605210910_1381588727033172_2806877699449079126_n.jpg",
+    "favicon": "shopify://shop_images/Artboard_1.png",
     "page_text_color": "{{ settings.color_palette.foreground }}",
     "type_body_font": "inter_n4",
     "type_subheading_font": "inter_i3",
@@ -112,6 +108,10 @@
     "variant_button_border_width": 1,
     "variant_button_radius": 14,
     "variant_button_width": "equal-width-buttons",
+    "checkout_logo": "shopify://shop_images/Logo.png",
+    "checkout_logo_image": "shopify://shop_images/Logo.png",
+    "checkout_logo_position": "left",
+    "checkout_logo_size": "medium",
     "content_for_index": [],
     "blocks": {
       "1034475246680997518": {
