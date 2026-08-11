@@ -288,6 +288,7 @@
         "content_max_width": 1100,
         "heading_font": "playfair_display_n5",
         "heading_size": 36,
+        "heading_size_mobile": 26,
         "heading_alignment": "center",
         "heading_align_mobile": "center",
         "heading_margin_bottom": 50,

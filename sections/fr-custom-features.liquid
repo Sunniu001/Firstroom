@@ -40,23 +40,37 @@
       ">{{ section.settings.heading }}</h2>
     {%- endif -%}
 
-    <div class="fr-custom-features__grid">
-      {%- for block in section.blocks -%}
-        <div class="fr-custom-features__item" {{ block.shopify_attributes }}>
-          <div class="fr-custom-features__icon-wrapper">
-            {%- if block.settings.icon != blank -%}
-              <img src="{{ block.settings.icon | image_url: width: 300 }}" alt="{{ block.settings.text | escape }}" loading="lazy" class="fr-custom-features__icon">
-            {%- else -%}
-              <div class="fr-custom-features__icon-placeholder"></div>
+    <div class="fr-custom-features__wrapper">
+      {%- if section.settings.show_arrows -%}
+        <button class="fr-custom-features__arrow fr-custom-features__arrow--prev" type="button" aria-label="Previous feature">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+      {%- endif -%}
+
+      <div class="fr-custom-features__grid">
+        {%- for block in section.blocks -%}
+          <div class="fr-custom-features__item" {{ block.shopify_attributes }}>
+            <div class="fr-custom-features__icon-wrapper">
+              {%- if block.settings.icon != blank -%}
+                <img src="{{ block.settings.icon | image_url: width: 300 }}" alt="{{ block.settings.text | escape }}" loading="lazy" class="fr-custom-features__icon">
+              {%- else -%}
+                <div class="fr-custom-features__icon-placeholder"></div>
+              {%- endif -%}
+            </div>
+            {%- if block.settings.text != blank -%}
+              <span class="fr-custom-features__text" style="
+                color: {{ section.settings.text_color }};
+              ">{{ block.settings.text }}</span>
             {%- endif -%}
           </div>
-          {%- if block.settings.text != blank -%}
-            <span class="fr-custom-features__text" style="
-              color: {{ section.settings.text_color }};
-            ">{{ block.settings.text }}</span>
-          {%- endif -%}
-        </div>
-      {%- endfor -%}
+        {%- endfor -%}
+      </div>
+
+      {%- if section.settings.show_arrows -%}
+        <button class="fr-custom-features__arrow fr-custom-features__arrow--next" type="button" aria-label="Next feature">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      {%- endif -%}
     </div>
   </div>
 </section>
@@ -154,6 +168,15 @@
     font-size: var(--fz-txt-m);
   }
 
+  #fr-custom-features-{{ section.id }} .fr-custom-features__wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  #fr-custom-features-{{ section.id }} .fr-custom-features__arrow {
+    display: none;
+  }
+
   @media (max-width: 767px) {
     {%- if section.settings.columns_mobile contains 'slider' -%}
       #fr-custom-features-{{ section.id }} .fr-custom-features__grid {
@@ -176,6 +199,35 @@
         max-width: none !important;
         scroll-snap-align: center !important;
       }
+      #fr-custom-features-{{ section.id }} .fr-custom-features__arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #ffffff;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        color: #1a1a1a;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.25s ease;
+        opacity: 0.9;
+      }
+      #fr-custom-features-{{ section.id }} .fr-custom-features__arrow svg {
+        width: 16px;
+        height: 16px;
+      }
+      #fr-custom-features-{{ section.id }} .fr-custom-features__arrow--prev {
+        left: 4px;
+      }
+      #fr-custom-features-{{ section.id }} .fr-custom-features__arrow--next {
+        right: 4px;
+      }
     {%- else -%}
       #fr-custom-features-{{ section.id }} .fr-custom-features__item {
         width: calc(50% - (var(--gap-m) / 2));
@@ -183,6 +235,85 @@
     {%- endif -%}
   }
 </style>
+
+<script>
+  (function() {
+    function initCustomFeaturesSlider() {
+      const section = document.getElementById('fr-custom-features-{{ section.id }}');
+      if (!section) return;
+
+      const track = section.querySelector('.fr-custom-features__grid');
+      const prevBtn = section.querySelector('.fr-custom-features__arrow--prev');
+      const nextBtn = section.querySelector('.fr-custom-features__arrow--next');
+      const enableAutoplay = {{ section.settings.enable_autoplay | json }};
+      const duration = ({{ section.settings.slider_duration | default: 4 }} * 1000);
+
+      if (!track) return;
+
+      let timer = null;
+
+      function updateArrows() {
+        if (!prevBtn || !nextBtn) return;
+        const maxScrollLeft = track.scrollWidth - track.clientWidth - 5;
+        prevBtn.style.opacity = track.scrollLeft <= 5 ? '0' : '0.9';
+        prevBtn.style.pointerEvents = track.scrollLeft <= 5 ? 'none' : 'auto';
+        nextBtn.style.opacity = track.scrollLeft >= maxScrollLeft ? '0' : '0.9';
+        nextBtn.style.pointerEvents = track.scrollLeft >= maxScrollLeft ? 'none' : 'auto';
+      }
+
+      function scrollNext() {
+        const item = track.querySelector('.fr-custom-features__item');
+        const gap = parseInt(window.getComputedStyle(track).gap) || 20;
+        const step = item ? item.offsetWidth + gap : 240;
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        
+        if (track.scrollLeft >= maxScroll - 5) {
+          track.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          track.scrollBy({ left: step, behavior: 'smooth' });
+        }
+      }
+
+      function scrollPrev() {
+        const item = track.querySelector('.fr-custom-features__item');
+        const gap = parseInt(window.getComputedStyle(track).gap) || 20;
+        const step = item ? item.offsetWidth + gap : 240;
+        track.scrollBy({ left: -step, behavior: 'smooth' });
+      }
+
+      if (prevBtn) prevBtn.addEventListener('click', scrollPrev);
+      if (nextBtn) nextBtn.addEventListener('click', scrollNext);
+
+      function startTimer() {
+        if (enableAutoplay && window.innerWidth <= 767 && duration > 0) {
+          timer = setInterval(scrollNext, duration);
+        }
+      }
+
+      function stopTimer() {
+        if (timer) clearInterval(timer);
+      }
+
+      track.addEventListener('scroll', updateArrows, { passive: true });
+      track.addEventListener('touchstart', stopTimer, { passive: true });
+      window.addEventListener('resize', updateArrows);
+
+      startTimer();
+      setTimeout(updateArrows, 100);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCustomFeaturesSlider);
+    } else {
+      initCustomFeaturesSlider();
+    }
+    document.addEventListener('shopify:section:load', function(e) {
+      if (e.detail && e.detail.sectionId === '{{ section.id }}') {
+        initCustomFeaturesSlider();
+      }
+    });
+  })();
+</script>
 
 {% schema %}
 {
@@ -201,6 +332,28 @@
       ],
       "default": "slider_peek",
       "info": "Choose a slider option to enable horizontal swipe on mobile"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_autoplay",
+      "label": "Enable Mobile Auto Slider",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "slider_duration",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Mobile Autoplay Duration",
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show Navigation Arrows on Mobile",
+      "default": true
     },
     {
       "type": "range",
