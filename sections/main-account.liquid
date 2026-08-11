@@ -174,7 +174,7 @@
                             </div>
                           </div>
                         </td>
-                        <td class="text-center">
+                        <td class="text-center" data-label="SIZE IN SQ FEET">
                           {%- if line_item.properties['Area (sq.ft)'] != blank -%}
                             {{ line_item.properties['Area (sq.ft)'] }}
                           {%- elsif line_item.properties['Area'] != blank -%}
@@ -183,10 +183,10 @@
                             {{ line_item.quantity }}.00
                           {%- endif -%}
                         </td>
-                        <td class="text-center font-medium">
+                        <td class="text-center font-medium" data-label="PRICE">
                           {{ line_item.final_line_price | money_without_trailing_zeros }}
                         </td>
-                        <td class="text-center">
+                        <td class="text-center" data-label="STATUS">
                           <div class="fr-account__status-col">
                             {%- if order.fulfillment_status == 'fulfilled' -%}
                               <span class="status-badge status-delivered">DELIVERED</span>
@@ -267,13 +267,13 @@
                             </div>
                           </div>
                         </td>
-                        <td class="text-center">
+                        <td class="text-center" data-label="QUANTITY">
                           {{ line_item.quantity }}
                         </td>
-                        <td class="text-center font-medium">
+                        <td class="text-center font-medium" data-label="PRICE">
                           {{ line_item.final_line_price | money_without_trailing_zeros }}
                         </td>
-                        <td class="text-center">
+                        <td class="text-center" data-label="STATUS">
                           <div class="fr-account__status-col">
                             {%- if order.fulfillment_status == 'fulfilled' -%}
                               <span class="status-badge status-delivered">DELIVERED</span>
@@ -1064,20 +1064,35 @@
 
   @media (max-width: 767px) {
     .fr-account {
-      padding: 24px 0 60px 0;
+      padding: 20px 0 60px 0;
+      overflow-x: hidden;
     }
     .fr-account__container {
       padding: 0 16px;
       gap: 20px;
+      width: 100%;
+      min-width: 0 !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
     }
     .fr-account__sidebar {
       gap: 16px;
+      width: 100%;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
     }
     .fr-account__user-info {
       padding-bottom: 12px;
+      width: 100%;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
     }
     .fr-account__user-name {
       font-size: 1.25rem;
+      word-break: break-word;
+    }
+    .fr-account__user-email {
+      word-break: break-all;
     }
     .fr-account__nav {
       flex-direction: row;
@@ -1089,6 +1104,8 @@
       gap: 8px;
       padding-bottom: 8px;
       border-bottom: 1px solid #ebebeb;
+      width: 100%;
+      box-sizing: border-box !important;
     }
     .fr-account__nav::-webkit-scrollbar {
       display: none;
@@ -1110,17 +1127,111 @@
       margin-top: 0;
       color: #b53939;
     }
+    .fr-account__content {
+      width: 100%;
+      min-width: 0 !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
     .fr-account__panel-title {
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       margin-bottom: 20px;
     }
-    .fr-account__table {
-      min-width: 500px;
+    .fr-account__form {
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
     }
-    .fr-account__table th,
+    .fr-account__field {
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+    .fr-account__field input,
+    .fr-account__field select {
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
+    .fr-account__field .field-hint {
+      word-break: break-word;
+    }
+
+    /* Mobile Order Cards Layout */
+    .fr-account__table-container {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      overflow-x: visible !important;
+      border: none !important;
+      box-sizing: border-box !important;
+    }
+    .fr-account__table {
+      min-width: 0 !important;
+      width: 100% !important;
+      display: block !important;
+      box-sizing: border-box !important;
+    }
+    .fr-account__table thead {
+      display: none !important;
+    }
+    .fr-account__table tbody {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+      box-sizing: border-box !important;
+    }
+    .fr-account__table tr {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      box-sizing: border-box !important;
+      background: #ffffff;
+      border: 1px solid #ebebeb !important;
+      border-radius: 8px;
+      padding: 16px;
+      gap: 10px;
+    }
+    .fr-account__table tr td.fr-account__empty-table {
+      border: none !important;
+      padding: 30px 16px !important;
+      font-style: italic;
+      text-align: center !important;
+      display: block !important;
+    }
     .fr-account__table td {
-      padding: 12px 10px;
-      font-size: 0.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      box-sizing: border-box !important;
+      padding: 8px 0 !important;
+      border-bottom: 1px dashed #f0f0f0 !important;
+      text-align: left !important;
+      font-size: 0.88rem;
+    }
+    .fr-account__table td:last-child {
+      border-bottom: none !important;
+      padding-bottom: 0 !important;
+    }
+    .fr-account__table td.fr-account__product-cell {
+      border-bottom: 1px solid #ebebeb !important;
+      padding-bottom: 12px !important;
+      display: block !important;
+    }
+    .fr-account__table td[data-label]::before {
+      content: attr(data-label);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .fr-account__status-col {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
     }
   }
 
