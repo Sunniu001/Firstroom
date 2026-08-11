@@ -493,72 +493,108 @@
     <script>
       (function() {
         if (window.location.pathname === '/cart') {
-          // Pure CSS to suppress all cart drawers, blur filters, and backdrop overlays on Cart page except mobile nav
+          // Completely isolated CSS systems for Mobile (<990px) and Desktop (>=990px)
           var style = document.createElement('style');
           style.textContent = `
-            body, html, .page-wrapper {
-              filter: none !important;
-              backdrop-filter: none !important;
+            @media (max-width: 989px) {
+              body, html, .page-wrapper {
+                overflow-y: auto !important;
+                height: auto !important;
+                position: static !important;
+                filter: none !important;
+                backdrop-filter: none !important;
+              }
+
+              main, #MainContent, .cart-page, .cart-summary, .cart-summary__inner, .cart-page__summary {
+                position: static !important;
+                top: auto !important;
+                height: auto !important;
+                overflow: visible !important;
+                max-height: none !important;
+                filter: none !important;
+                backdrop-filter: none !important;
+              }
+
+              #shopify-section-cart-drawer-section,
+              #cart-drawer,
+              theme-drawer#cart-drawer,
+              cart-drawer-component,
+              [role="dialog"]:not(#fr-mobile-nav-drawer),
+              dialog:not(#fr-mobile-nav-drawer),
+              [class*="cart-pilot"], [id*="cart-pilot"], [data-cart-pilot], [class*="cartpilot"], [id*="cartpilot"],
+              [class*="cp-drawer"], [class*="cp_drawer"], [class*="cp-modal"], [class*="cp_modal"],
+              [class*="backdrop"], [class*="overlay"]:not(.fr-mobile-drawer__overlay),
+              [id*="backdrop"], [id*="overlay"]:not(#fr-mobile-nav-overlay) {
+                display: none !important;
+                visibility: hidden !important;
+                pointer-events: none !important;
+                opacity: 0 !important;
+              }
             }
 
-            main, #MainContent, .cart-page {
-              filter: none !important;
-              backdrop-filter: none !important;
-              overflow: visible !important;
-            }
+            @media (min-width: 990px) {
+              body, html, .page-wrapper {
+                filter: none !important;
+                backdrop-filter: none !important;
+              }
 
-            #shopify-section-cart-drawer-section,
-            #cart-drawer,
-            theme-drawer#cart-drawer,
-            cart-drawer-component,
-            [role="dialog"]:not(#fr-mobile-nav-drawer),
-            dialog:not(#fr-mobile-nav-drawer),
-            [class*="cart-pilot"], [id*="cart-pilot"], [data-cart-pilot], [class*="cartpilot"], [id*="cartpilot"],
-            [class*="cp-drawer"], [class*="cp_drawer"], [class*="cp-modal"], [class*="cp_modal"],
-            [class*="backdrop"], [class*="overlay"]:not(.fr-mobile-drawer__overlay),
-            [id*="backdrop"], [id*="overlay"]:not(#fr-mobile-nav-overlay) {
-              display: none !important;
-              visibility: hidden !important;
-              pointer-events: none !important;
-              opacity: 0 !important;
+              main, #MainContent, .cart-page {
+                filter: none !important;
+                backdrop-filter: none !important;
+                overflow: visible !important;
+              }
+
+              #shopify-section-cart-drawer-section,
+              #cart-drawer,
+              theme-drawer#cart-drawer,
+              cart-drawer-component,
+              [role="dialog"]:not(#fr-mobile-nav-drawer),
+              dialog:not(#fr-mobile-nav-drawer),
+              [class*="cart-pilot"], [id*="cart-pilot"], [data-cart-pilot], [class*="cartpilot"], [id*="cartpilot"],
+              [class*="cp-drawer"], [class*="cp_drawer"], [class*="cp-modal"], [class*="cp_modal"],
+              [class*="backdrop"], [class*="overlay"]:not(.fr-mobile-drawer__overlay),
+              [id*="backdrop"], [id*="overlay"]:not(#fr-mobile-nav-overlay) {
+                display: none !important;
+                visibility: hidden !important;
+                pointer-events: none !important;
+                opacity: 0 !important;
+              }
             }
           `;
           document.head.appendChild(style);
 
-          function hideCPDrawer() {
-            document.body.style.filter = 'none';
-            document.body.style.backdropFilter = 'none';
-            document.body.classList.remove('page-wrapper--drawer-open');
-            var pw = document.querySelector('.page-wrapper');
-            if (pw) {
-              pw.style.filter = 'none';
-              pw.style.backdropFilter = 'none';
-              pw.classList.remove('page-wrapper--drawer-open');
+          // On mobile, zero JS observers run to guarantee 100% fluid touch scrolling.
+          // On desktop, run lightweight drawer observer to suppress dynamic app drawers.
+          if (window.innerWidth >= 990) {
+            function hideCPDrawerDesktop() {
+              document.body.style.filter = 'none';
+              document.body.style.backdropFilter = 'none';
+              document.body.classList.remove('page-wrapper--drawer-open');
+
+              var dialogs = document.querySelectorAll('dialog, [role="dialog"], [class*="drawer"], [class*="sidebar"], [class*="backdrop"], [class*="overlay"]');
+              dialogs.forEach(function(d) {
+                if (d.id === 'fr-mobile-nav-drawer' || d.classList.contains('fr-mobile-drawer') || d.id === 'fr-mobile-nav-overlay' || d.classList.contains('fr-mobile-drawer__overlay')) return;
+                var txt = d.textContent || '';
+                if (txt.includes('Cart Pilot') || txt.includes('Checkout') || (d.className && (d.className.indexOf('backdrop') !== -1 || d.className.indexOf('overlay') !== -1))) {
+                  d.style.setProperty('display', 'none', 'important');
+                  d.style.setProperty('visibility', 'hidden', 'important');
+                  d.style.setProperty('pointer-events', 'none', 'important');
+                  d.style.setProperty('opacity', '0', 'important');
+                }
+              });
             }
 
-            var dialogs = document.querySelectorAll('dialog, [role="dialog"], [class*="drawer"], [class*="sidebar"], [class*="backdrop"], [class*="overlay"]');
-            dialogs.forEach(function(d) {
-              if (d.id === 'fr-mobile-nav-drawer' || d.classList.contains('fr-mobile-drawer') || d.id === 'fr-mobile-nav-overlay' || d.classList.contains('fr-mobile-drawer__overlay')) return;
-              var txt = d.textContent || '';
-              if (txt.includes('Cart Pilot') || txt.includes('Checkout') || (d.className && (d.className.indexOf('backdrop') !== -1 || d.className.indexOf('overlay') !== -1))) {
-                d.style.setProperty('display', 'none', 'important');
-                d.style.setProperty('visibility', 'hidden', 'important');
-                d.style.setProperty('pointer-events', 'none', 'important');
-                d.style.setProperty('opacity', '0', 'important');
-              }
+            hideCPDrawerDesktop();
+            var hideObsTimer = null;
+            var hideObs = new MutationObserver(function() {
+              if (hideObsTimer) return;
+              hideObsTimer = setTimeout(function() {
+                hideObsTimer = null;
+                hideCPDrawerDesktop();
+              }, 300);
             });
+            hideObs.observe(document.body, { childList: true, subtree: true });
           }
-
-          hideCPDrawer();
-          var hideObsTimer = null;
-          var hideObs = new MutationObserver(function() {
-            if (hideObsTimer) return;
-            hideObsTimer = setTimeout(function() {
-              hideObsTimer = null;
-              hideCPDrawer();
-            }, 250);
-          });
-          hideObs.observe(document.body, { childList: true, subtree: true });
           return;
         }
 
