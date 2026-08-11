@@ -504,20 +504,36 @@
           `;
           document.head.appendChild(style);
 
+          function hideCartPilotOnCartPage() {
+            var els = document.querySelectorAll('div, span, p, a, button, dialog');
+            for (var i = 0; i < els.length; i++) {
+              if (els[i].textContent.includes('Powered by Cart Pilot')) {
+                var cpDrawer = els[i].closest('[role="dialog"], dialog, [class*="drawer"], [class*="sidebar"], [class*="cart"], div');
+                if (cpDrawer && cpDrawer.style.display !== 'none') {
+                  cpDrawer.style.setProperty('display', 'none', 'important');
+                  cpDrawer.style.setProperty('visibility', 'hidden', 'important');
+                  cpDrawer.style.setProperty('pointer-events', 'none', 'important');
+                  if (cpDrawer.parentElement) {
+                    var overlay = cpDrawer.parentElement.querySelector('[class*="overlay"], [class*="backdrop"]');
+                    if (overlay) {
+                      overlay.style.setProperty('display', 'none', 'important');
+                      overlay.style.setProperty('visibility', 'hidden', 'important');
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          hideCartPilotOnCartPage();
+
           var hideObsTimer = null;
           var hideObs = new MutationObserver(function() {
             if (hideObsTimer) return;
             hideObsTimer = setTimeout(function() {
               hideObsTimer = null;
-              var cpDrawers = document.querySelectorAll('[class*="cart-pilot"], [id*="cart-pilot"], [data-cart-pilot], [class*="cartpilot"], [id*="cartpilot"]');
-              cpDrawers.forEach(function(cpDrawer) {
-                if (cpDrawer && cpDrawer.style.display !== 'none') {
-                  cpDrawer.style.setProperty('display', 'none', 'important');
-                  cpDrawer.style.setProperty('visibility', 'hidden', 'important');
-                  cpDrawer.style.setProperty('pointer-events', 'none', 'important');
-                }
-              });
-            }, 300);
+              hideCartPilotOnCartPage();
+            }, 100);
           });
           hideObs.observe(document.body, { childList: true, subtree: true });
           return;
