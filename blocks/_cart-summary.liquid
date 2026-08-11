@@ -43,18 +43,20 @@
     gap: var(--gap-2xl);
     container-type: inline-size;
     padding: 0;
-    position: sticky;
-    top: 0;
-    align-self: start;
 
     @media screen and (min-width: 750px) {
+      position: sticky;
+      top: 0;
+      align-self: start;
       padding: var(--padding-5xl);
       grid-row: 1 / -1;
     }
   }
 
-  body:has(> #header-group header-component[sticky]) .cart-summary__inner {
-    top: var(--header-height, 0);
+  @media screen and (min-width: 750px) {
+    body:has(> #header-group header-component[sticky]) .cart-summary__inner {
+      top: var(--header-height, 0);
+    }
   }
 
   .cart-summary {
