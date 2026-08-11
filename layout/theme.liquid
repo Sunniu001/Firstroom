@@ -493,9 +493,15 @@
     <script>
       (function() {
         if (window.location.pathname === '/cart') {
-          // Pure CSS to suppress all cart drawers/modals on Cart page except mobile nav
+          // Pure CSS to suppress all cart drawers, blur filters, and backdrop overlays on Cart page except mobile nav
           var style = document.createElement('style');
           style.textContent = `
+            body, html, .page-wrapper, main, #MainContent, .cart-page {
+              filter: none !important;
+              backdrop-filter: none !important;
+              overflow-y: auto !important;
+            }
+
             #shopify-section-cart-drawer-section,
             #cart-drawer,
             theme-drawer#cart-drawer,
@@ -503,7 +509,9 @@
             [role="dialog"]:not(#fr-mobile-nav-drawer),
             dialog:not(#fr-mobile-nav-drawer),
             [class*="cart-pilot"], [id*="cart-pilot"], [data-cart-pilot], [class*="cartpilot"], [id*="cartpilot"],
-            [class*="cp-drawer"], [class*="cp_drawer"], [class*="cp-modal"], [class*="cp_modal"], [class*="cp-overlay"], [class*="cp_overlay"] {
+            [class*="cp-drawer"], [class*="cp_drawer"], [class*="cp-modal"], [class*="cp_modal"],
+            [class*="backdrop"], [class*="overlay"]:not(.fr-mobile-drawer__overlay),
+            [id*="backdrop"], [id*="overlay"]:not(#fr-mobile-nav-overlay) {
               display: none !important;
               visibility: hidden !important;
               pointer-events: none !important;
@@ -513,11 +521,21 @@
           document.head.appendChild(style);
 
           function hideCPDrawer() {
-            var dialogs = document.querySelectorAll('dialog, [role="dialog"], [class*="drawer"], [class*="sidebar"]');
+            document.body.style.filter = 'none';
+            document.body.style.backdropFilter = 'none';
+            document.body.classList.remove('page-wrapper--drawer-open');
+            var pw = document.querySelector('.page-wrapper');
+            if (pw) {
+              pw.style.filter = 'none';
+              pw.style.backdropFilter = 'none';
+              pw.classList.remove('page-wrapper--drawer-open');
+            }
+
+            var dialogs = document.querySelectorAll('dialog, [role="dialog"], [class*="drawer"], [class*="sidebar"], [class*="backdrop"], [class*="overlay"]');
             dialogs.forEach(function(d) {
-              if (d.id === 'fr-mobile-nav-drawer' || d.classList.contains('fr-mobile-drawer')) return;
+              if (d.id === 'fr-mobile-nav-drawer' || d.classList.contains('fr-mobile-drawer') || d.id === 'fr-mobile-nav-overlay' || d.classList.contains('fr-mobile-drawer__overlay')) return;
               var txt = d.textContent || '';
-              if (txt.includes('Cart Pilot') || txt.includes('Checkout')) {
+              if (txt.includes('Cart Pilot') || txt.includes('Checkout') || (d.className && (d.className.indexOf('backdrop') !== -1 || d.className.indexOf('overlay') !== -1))) {
                 d.style.setProperty('display', 'none', 'important');
                 d.style.setProperty('visibility', 'hidden', 'important');
                 d.style.setProperty('pointer-events', 'none', 'important');
