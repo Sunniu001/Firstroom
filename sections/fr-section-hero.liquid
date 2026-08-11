@@ -1,27 +1,131 @@
+{%- liquid
+  assign slides_count = 0
+  assign has_block_slides = false
+
+  for block in section.blocks
+    if block.type == 'slide' and block.settings.image != blank
+      assign has_block_slides = true
+    endif
+  endfor
+
+  if has_block_slides
+    for block in section.blocks
+      if block.type == 'slide' and block.settings.image != blank
+        assign slides_count = slides_count | plus: 1
+      endif
+    endfor
+  else
+    if section.settings.hero_image != blank
+      assign slides_count = slides_count | plus: 1
+    endif
+    if section.settings.hero_image_2 != blank
+      assign slides_count = slides_count | plus: 1
+    endif
+    if section.settings.hero_image_3 != blank
+      assign slides_count = slides_count | plus: 1
+    endif
+    if section.settings.hero_image_4 != blank
+      assign slides_count = slides_count | plus: 1
+    endif
+  endif
+-%}
+
 <section class="fr-about-hero" id="fr-about-hero-{{ section.id }}">
-  {%- if section.settings.hero_image != blank -%}
-    <div class="fr-about-hero__wrapper fr-about-hero__wrapper--with-img" style="background-image: linear-gradient(rgba(0, 0, 0, {{ section.settings.hero_overlay_opacity | divided_by: 100.0 }}), rgba(0, 0, 0, {{ section.settings.hero_overlay_opacity | divided_by: 100.0 }})), url('{{ section.settings.hero_image | image_url: width: 2400 }}');">
-      <div class="fr-about-hero__content">
-        {%- if section.settings.hero_title != blank -%}
-          <h1 class="fr-about-hero__title">{{ section.settings.hero_title }}</h1>
+  <div class="fr-about-hero__wrapper">
+    
+    <!-- Slides Container -->
+    <div class="fr-about-hero__slides">
+      {%- if has_block_slides -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'slide' and block.settings.image != blank -%}
+            <div class="fr-about-hero__slide {% if forloop.first %}active{% endif %}" data-slide-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+              <picture>
+                {%- if block.settings.mobile_image != blank -%}
+                  <source media="(max-width: 767px)" srcset="{{ block.settings.mobile_image | image_url: width: 1200 }}">
+                {%- endif -%}
+                <img src="{{ block.settings.image | image_url: width: 2400 }}" alt="{{ section.settings.hero_title | escape }}" class="fr-about-hero__bg-img" {% if forloop.first %}loading="eager"{% else %}loading="lazy"{% endif %}>
+              </picture>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- if section.settings.hero_image != blank -%}
+          <div class="fr-about-hero__slide active" data-slide-index="0">
+            <picture>
+              {%- if section.settings.hero_image_mobile != blank -%}
+                <source media="(max-width: 767px)" srcset="{{ section.settings.hero_image_mobile | image_url: width: 1200 }}">
+              {%- endif -%}
+              <img src="{{ section.settings.hero_image | image_url: width: 2400 }}" alt="{{ section.settings.hero_title | escape }}" class="fr-about-hero__bg-img" loading="eager">
+            </picture>
+          </div>
         {%- endif -%}
-        {%- if section.settings.hero_subtitle != blank -%}
-          <p class="fr-about-hero__subtitle">{{ section.settings.hero_subtitle }}</p>
+        {%- if section.settings.hero_image_2 != blank -%}
+          <div class="fr-about-hero__slide" data-slide-index="1">
+            <picture>
+              {%- if section.settings.hero_image_2_mobile != blank -%}
+                <source media="(max-width: 767px)" srcset="{{ section.settings.hero_image_2_mobile | image_url: width: 1200 }}">
+              {%- endif -%}
+              <img src="{{ section.settings.hero_image_2 | image_url: width: 2400 }}" alt="{{ section.settings.hero_title | escape }}" class="fr-about-hero__bg-img" loading="lazy">
+            </picture>
+          </div>
         {%- endif -%}
-      </div>
+        {%- if section.settings.hero_image_3 != blank -%}
+          <div class="fr-about-hero__slide" data-slide-index="2">
+            <picture>
+              {%- if section.settings.hero_image_3_mobile != blank -%}
+                <source media="(max-width: 767px)" srcset="{{ section.settings.hero_image_3_mobile | image_url: width: 1200 }}">
+              {%- endif -%}
+              <img src="{{ section.settings.hero_image_3 | image_url: width: 2400 }}" alt="{{ section.settings.hero_title | escape }}" class="fr-about-hero__bg-img" loading="lazy">
+            </picture>
+          </div>
+        {%- endif -%}
+        {%- if section.settings.hero_image_4 != blank -%}
+          <div class="fr-about-hero__slide" data-slide-index="3">
+            <picture>
+              {%- if section.settings.hero_image_4_mobile != blank -%}
+                <source media="(max-width: 767px)" srcset="{{ section.settings.hero_image_4_mobile | image_url: width: 1200 }}">
+              {%- endif -%}
+              <img src="{{ section.settings.hero_image_4 | image_url: width: 2400 }}" alt="{{ section.settings.hero_title | escape }}" class="fr-about-hero__bg-img" loading="lazy">
+            </picture>
+          </div>
+        {%- endif -%}
+      {%- endif -%}
     </div>
-  {%- else -%}
-    <div class="fr-about-hero__wrapper fr-about-hero__wrapper--no-img" style="background-color: #faf8f5;">
-      <div class="fr-about-hero__content">
-        {%- if section.settings.hero_title != blank -%}
-          <h1 class="fr-about-hero__title" style="color: #1a1a1a;">{{ section.settings.hero_title }}</h1>
-        {%- endif -%}
-        {%- if section.settings.hero_subtitle != blank -%}
-          <p class="fr-about-hero__subtitle" style="color: #4a4a4a;">{{ section.settings.hero_subtitle }}</p>
-        {%- endif -%}
-      </div>
+
+    <!-- Overlay -->
+    <div class="fr-about-hero__overlay" style="background-color: rgba(0, 0, 0, {{ section.settings.hero_overlay_opacity | divided_by: 100.0 }});"></div>
+
+    <!-- Hero Content -->
+    <div class="fr-about-hero__content">
+      {%- if section.settings.hero_title != blank -%}
+        <h1 class="fr-about-hero__title">{{ section.settings.hero_title }}</h1>
+      {%- endif -%}
+      {%- if section.settings.hero_subtitle != blank -%}
+        <p class="fr-about-hero__subtitle">{{ section.settings.hero_subtitle }}</p>
+      {%- endif -%}
     </div>
-  {%- endif -%}
+
+    <!-- Slider Controls -->
+    {%- if slides_count > 1 -%}
+      {%- if section.settings.show_dots -%}
+        <div class="fr-about-hero__dots"></div>
+      {%- endif -%}
+
+      {%- if section.settings.show_arrows -%}
+        <button class="fr-about-hero__arrow fr-about-hero__arrow--prev" type="button" aria-label="Previous slide">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <button class="fr-about-hero__arrow fr-about-hero__arrow--next" type="button" aria-label="Next slide">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      {%- endif -%}
+    {%- endif -%}
+
+  </div>
 </section>
 
 <style>
@@ -36,9 +140,6 @@
   #fr-about-hero-{{ section.id }} .fr-about-hero__wrapper {
     position: relative;
     width: 100%;
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
     display: flex;
     overflow: hidden;
     {% if section.settings.aspect_ratio != blank and section.settings.aspect_ratio != 'vh' %}
@@ -66,13 +167,52 @@
     }
   }
 
-  .fr-about-hero__wrapper--no-img {
-    border-bottom: 1px solid #e5e7eb;
+  #fr-about-hero-{{ section.id }} .fr-about-hero__slides {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  #fr-about-hero-{{ section.id }} .fr-about-hero__slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1.2s ease-in-out, visibility 1.2s ease-in-out;
+  }
+
+  #fr-about-hero-{{ section.id }} .fr-about-hero__slide.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  #fr-about-hero-{{ section.id }} .fr-about-hero__bg-img,
+  #fr-about-hero-{{ section.id }} picture {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  #fr-about-hero-{{ section.id }} .fr-about-hero__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
   }
 
   #fr-about-hero-{{ section.id }} .fr-about-hero__content {
     position: relative;
-    z-index: 2;
+    z-index: 3;
     padding-top: {{ section.settings.padding_top_mobile | default: 40 }}px;
     padding-bottom: {{ section.settings.padding_bottom_mobile | default: 40 }}px;
     padding-left: {{ section.settings.padding_left_mobile | default: 20 }}px;
@@ -141,7 +281,186 @@
       padding-right: {{ section.settings.subtitle_padding_right }}px;
     }
   }
+
+  /* Slider Dots & Arrows */
+  #fr-about-hero-{{ section.id }} .fr-about-hero__dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  #fr-about-hero-{{ section.id }} .fr-about-hero__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease;
+  }
+
+  #fr-about-hero-{{ section.id }} .fr-about-hero__dot.active {
+    background: #ffffff;
+    width: 28px;
+    border-radius: 6px;
+  }
+
+  #fr-about-hero-{{ section.id }} .fr-about-hero__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 4;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+
+  #fr-about-hero-{{ section.id }} .fr-about-hero__arrow svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  #fr-about-hero-{{ section.id }} .fr-about-hero__arrow:hover {
+    background: rgba(255, 255, 255, 0.9);
+    color: #111111;
+  }
+
+  #fr-about-hero-{{ section.id }} .fr-about-hero__arrow--prev {
+    left: 20px;
+  }
+
+  #fr-about-hero-{{ section.id }} .fr-about-hero__arrow--next {
+    right: 20px;
+  }
+
+  @media (max-width: 767px) {
+    #fr-about-hero-{{ section.id }} .fr-about-hero__arrow {
+      width: 34px;
+      height: 34px;
+    }
+    #fr-about-hero-{{ section.id }} .fr-about-hero__arrow--prev {
+      left: 10px;
+    }
+    #fr-about-hero-{{ section.id }} .fr-about-hero__arrow--next {
+      right: 10px;
+    }
+  }
 </style>
+
+<script>
+  (function() {
+    function initAboutHeroSlider() {
+      const section = document.getElementById('fr-about-hero-{{ section.id }}');
+      if (!section) return;
+
+      const slides = section.querySelectorAll('.fr-about-hero__slide');
+      if (slides.length <= 1) return;
+
+      const dotsContainer = section.querySelector('.fr-about-hero__dots');
+      const prevBtn = section.querySelector('.fr-about-hero__arrow--prev');
+      const nextBtn = section.querySelector('.fr-about-hero__arrow--next');
+      const autoplay = {{ section.settings.enable_autoplay | json }};
+      const duration = ({{ section.settings.slider_duration | default: 6 }} * 1000);
+      
+      let currentIndex = 0;
+      let timer = null;
+
+      // Render dots dynamically
+      if (dotsContainer) {
+        dotsContainer.innerHTML = '';
+        slides.forEach((_, idx) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'fr-about-hero__dot' + (idx === 0 ? ' active' : '');
+          btn.setAttribute('aria-label', 'Go to slide ' + (idx + 1));
+          btn.addEventListener('click', () => goToSlide(idx));
+          dotsContainer.appendChild(btn);
+        });
+      }
+
+      function goToSlide(index) {
+        slides[currentIndex].classList.remove('active');
+        const dots = dotsContainer ? dotsContainer.children : [];
+        if (dots[currentIndex]) dots[currentIndex].classList.remove('active');
+
+        currentIndex = (index + slides.length) % slides.length;
+
+        slides[currentIndex].classList.add('active');
+        if (dots[currentIndex]) dots[currentIndex].classList.add('active');
+
+        resetTimer();
+      }
+
+      function nextSlide() {
+        goToSlide(currentIndex + 1);
+      }
+
+      function prevSlide() {
+        goToSlide(currentIndex - 1);
+      }
+
+      if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+      if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+
+      // Touch Swipe Support
+      let touchStartX = 0;
+      const wrapper = section.querySelector('.fr-about-hero__wrapper');
+      if (wrapper) {
+        wrapper.addEventListener('touchstart', (e) => {
+          touchStartX = e.touches[0].clientX;
+        }, { passive: true });
+
+        wrapper.addEventListener('touchend', (e) => {
+          const touchEndX = e.changedTouches[0].clientX;
+          const diffX = touchStartX - touchEndX;
+          if (Math.abs(diffX) > 40) {
+            if (diffX > 0) nextSlide();
+            else prevSlide();
+          }
+        }, { passive: true });
+      }
+
+      function startTimer() {
+        if (autoplay && duration > 0) {
+          timer = setInterval(nextSlide, duration);
+        }
+      }
+
+      function resetTimer() {
+        if (timer) clearInterval(timer);
+        startTimer();
+      }
+
+      startTimer();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAboutHeroSlider);
+    } else {
+      initAboutHeroSlider();
+    }
+    document.addEventListener('shopify:section:load', function(e) {
+      if (e.detail && e.detail.sectionId === '{{ section.id }}') {
+        initAboutHeroSlider();
+      }
+    });
+  })();
+</script>
 
 {% schema %}
 {
@@ -149,9 +468,80 @@
   "tag": "section",
   "settings": [
     {
+      "type": "header",
+      "content": "Hero Slides (Quick Pickers)"
+    },
+    {
       "type": "image_picker",
       "id": "hero_image",
-      "label": "Hero Background Image"
+      "label": "Hero Background Image 1 (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_mobile",
+      "label": "Hero Background Image 1 (Mobile)"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_2",
+      "label": "Hero Background Image 2 (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_2_mobile",
+      "label": "Hero Background Image 2 (Mobile)"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_3",
+      "label": "Hero Background Image 3 (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_3_mobile",
+      "label": "Hero Background Image 3 (Mobile)"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_4",
+      "label": "Hero Background Image 4 (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_4_mobile",
+      "label": "Hero Background Image 4 (Mobile)"
+    },
+    {
+      "type": "header",
+      "content": "Slider Animation & Controls"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_autoplay",
+      "label": "Enable Slide Autoplay",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "slider_duration",
+      "min": 3,
+      "max": 15,
+      "step": 1,
+      "unit": "s",
+      "label": "Autoplay Slide Duration",
+      "default": 6
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show Navigation Dots",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show Navigation Arrows",
+      "default": true
     },
     {
       "type": "range",
@@ -348,7 +738,6 @@
       "label": "Mobile Padding Right",
       "default": 20
     },
-
     {
       "type": "header",
       "content": "Title Typography"
@@ -648,6 +1037,24 @@
       "default": 0
     }
   ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Background Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Desktop Background Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile Background Image"
+        }
+      ]
+    }
+  ],
   "presets": [
     {
       "name": "FR About Hero"
@@ -655,4 +1062,3 @@
   ]
 }
 {% endschema %}
- 
