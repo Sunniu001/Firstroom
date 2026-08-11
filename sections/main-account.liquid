@@ -3,7 +3,7 @@
     <script>
       // Redirect to custom designed /pages/my-account page only if not already on it
       if (window.location.pathname !== '/pages/my-account') {
-        window.location.replace('/pages/my-account' + window.location.hash);
+        window.location.replace('/pages/my-account' + (window.location.hash || '#orders'));
       }
     </script>
     <div class="fr-account__container">
