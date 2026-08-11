@@ -88,19 +88,20 @@
             "type_preset": "custom",
             "font": "var(--font-body--family)",
             "font_size": "0.875rem",
-            "line_height": "loose",
-            "letter_spacing": "loose",
+            "font_size_mobile": "",
+            "line_height": "normal",
+            "letter_spacing": "normal",
             "case": "none",
             "wrap": "balance",
             "color": "var(--color-foreground)",
-            "text_color": "#4A4A4A",
+            "text_color": "#4a4a4a",
             "background": false,
             "background_color": "#00000026",
             "corner_radius": 0,
             "padding-block-start": 0,
             "padding-block-end": 0,
-            "padding-inline-start": 80,
-            "padding-inline-end": 79
+            "padding-inline-start": 60,
+            "padding-inline-end": 60
           },
           "blocks": {}
         },
@@ -217,7 +218,7 @@
     "fr_section_image_text_FcKRCK": {
       "type": "fr-section-image-text",
       "settings": {
-        "section_bg": "#E5E5E5",
+        "section_bg": "#e5e5e5",
         "content_max_width": 1100,
         "image_position": "right",
         "column_ratio": "1fr|1fr",
@@ -590,7 +591,7 @@
         "care_2"
       ],
       "settings": {
-        "section_bg": "#E5E5E5",
+        "section_bg": "#e5e5e5",
         "heading": "What we have for you",
         "heading_align": "center",
         "heading_align_mobile": "center",
@@ -888,7 +889,7 @@
         "team_4"
       ],
       "settings": {
-        "section_bg": "#E5E5E5",
+        "section_bg": "#e5e5e5",
         "heading": "Why Choose Us",
         "heading_align": "center",
         "heading_align_mobile": "center",
@@ -960,6 +961,7 @@
             "type_preset": "custom",
             "font": "var(--font-accent--family)",
             "font_size": "2rem",
+            "font_size_mobile": "",
             "line_height": "normal",
             "letter_spacing": "normal",
             "case": "none",
