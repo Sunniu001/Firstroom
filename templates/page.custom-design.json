@@ -333,7 +333,7 @@
           "type": "project",
           "settings": {
             "image": "shopify://shop_images/1_588e58d4-9cf5-43a1-9cab-53896c436b6c.png",
-            "title": "Project Name 1",
+            "title": "",
             "subtitle": "",
             "link": ""
           }
@@ -342,7 +342,7 @@
           "type": "project",
           "settings": {
             "image": "shopify://shop_images/2_ddc76c0b-1726-405c-8cb6-68df988418e7.png",
-            "title": "Project Name 2",
+            "title": "",
             "subtitle": "",
             "link": ""
           }
@@ -351,7 +351,7 @@
           "type": "project",
           "settings": {
             "image": "shopify://shop_images/3_2cde91ee-1ec2-426f-9223-09e466411b5a.png",
-            "title": "Project Name 3",
+            "title": "",
             "subtitle": "",
             "link": ""
           }
@@ -360,7 +360,7 @@
           "type": "project",
           "settings": {
             "image": "shopify://shop_images/4_b29a0282-b211-41fb-851d-6e341d3cd8ac.png",
-            "title": "Project Name 4",
+            "title": "",
             "subtitle": "",
             "link": ""
           }
@@ -369,7 +369,7 @@
           "type": "project",
           "settings": {
             "image": "shopify://shop_images/5.png",
-            "title": "Project Name 5",
+            "title": "",
             "subtitle": "",
             "link": ""
           }
@@ -378,7 +378,7 @@
           "type": "project",
           "settings": {
             "image": "shopify://shop_images/6.png",
-            "title": "Project Name 6",
+            "title": "",
             "subtitle": "",
             "link": ""
           }
