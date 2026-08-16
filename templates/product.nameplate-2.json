@@ -146,6 +146,7 @@
                     "type_preset": "custom",
                     "font": "var(--font-accent--family)",
                     "font_size": "1.5rem",
+                    "font_size_mobile": "",
                     "line_height": "normal",
                     "letter_spacing": "normal",
                     "case": "none",
@@ -244,6 +245,7 @@
                 "type_preset": "custom",
                 "font": "var(--font-subheading--family)",
                 "font_size": "0.75rem",
+                "font_size_mobile": "",
                 "line_height": "tight",
                 "letter_spacing": "tight",
                 "case": "none",
@@ -355,11 +357,14 @@
               },
               "block_order": []
             },
-            "fr_trust_badges_mcWreb": {
+            "fr_trust_badges_Dhbe98": {
               "type": "fr-trust-badges",
               "settings": {
+                "badge_1_icon": "shopify://shop_images/ChatGPT_Image_Jun_25_2026_at_11_58_08_AM_3_2.png",
                 "badge_1_text": "Eco Friendly Wallpapers",
+                "badge_2_icon": "shopify://shop_images/ChatGPT_Image_Jun_25_2026_at_11_58_08_AM_2_1.png",
                 "badge_2_text": "PVC Free Surface",
+                "badge_3_icon": "shopify://shop_images/ChatGPT_Image_Jul_20_2026_at_05_18_29_PM_1_1.png",
                 "badge_3_text": "Non-toxic water based Ink",
                 "alignment_desktop": "space-around",
                 "text_align_desktop": "center",
@@ -391,7 +396,7 @@
             "fr_nameplate_preview_xeqriE",
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi",
-            "fr_trust_badges_mcWreb"
+            "fr_trust_badges_Dhbe98"
           ]
         }
       },
@@ -461,6 +466,7 @@
             "type_preset": "h4",
             "font": "var(--font-primary--family)",
             "font_size": "1rem",
+            "font_size_mobile": "",
             "line_height": "normal",
             "letter_spacing": "normal",
             "case": "none",
