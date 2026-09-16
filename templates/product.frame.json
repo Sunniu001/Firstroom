@@ -315,11 +315,11 @@
               "type": "product-inventory",
               "name": "t:names.product_inventory",
               "settings": {
-                "inventory_threshold": 7,
+                "inventory_threshold": 9,
                 "show_inventory_quantity": true,
                 "padding-block-start": 10,
                 "padding-block-end": 10,
-                "padding-inline-start": 0,
+                "padding-inline-start": 10,
                 "padding-inline-end": 0
               },
               "blocks": {}
