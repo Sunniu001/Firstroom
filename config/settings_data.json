@@ -9,7 +9,7 @@
  */
 {
   "current": {
-    "logo": "shopify://shop_images/Logo.png",
+    "logo": "shopify://shop_images/Website_Coloured_Logo.png",
     "logo_height": 36,
     "logo_height_mobile": 28,
     "favicon": "shopify://shop_images/Fab_Icon_00ed8ba1-672e-49ca-9675-828eaa0942ef.png",
@@ -175,5 +175,8 @@
         "color2": "#DFDFDF"
       }
     }
+  },
+  "platform_customizations": {
+    "custom_css": []
   }
 }
