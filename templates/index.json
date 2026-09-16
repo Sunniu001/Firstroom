@@ -506,7 +506,7 @@
           "type": "text",
           "name": "t:names.text",
           "settings": {
-            "text": "<p>Trusted by</p>",
+            "text": "<p>Trusted by </p>",
             "width": "fit-content",
             "max_width": "normal",
             "alignment": "left",
@@ -587,7 +587,7 @@
         "t_logo_3": {
           "type": "logo",
           "settings": {
-            "image": "shopify://shop_images/ChatGPT_Image_Jul_22_2026_at_11_21_55_AM_4.png",
+            "image": "shopify://shop_images/Mastercard-logo.png",
             "title": "",
             "link": "",
             "custom_width": 0
