@@ -314,6 +314,7 @@
             "product_recommendations_8Nd7TE": {
               "type": "product-recommendations",
               "name": "t:names.product_recommendations",
+              "disabled": true,
               "settings": {
                 "recommendation_type": "related",
                 "layout_type": "carousel",
