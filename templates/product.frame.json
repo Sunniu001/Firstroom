@@ -39,7 +39,7 @@
             "media_columns": "two",
             "image_gap": 4,
             "large_first_image": false,
-            "icons_style": "none",
+            "icons_style": "chevron",
             "slideshow_controls_style": "thumbnails",
             "slideshow_mobile_controls_style": "dots",
             "thumbnail_position": "left",
@@ -461,7 +461,7 @@
               "settings": {
                 "inventory_threshold": 9,
                 "show_inventory_quantity": true,
-                "padding-block-start": 20,
+                "padding-block-start": 10,
                 "padding-block-end": 20,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
