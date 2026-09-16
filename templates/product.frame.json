@@ -146,6 +146,7 @@
                     "type_preset": "custom",
                     "font": "var(--font-accent--family)",
                     "font_size": "1.5rem",
+                    "font_size_mobile": "",
                     "line_height": "normal",
                     "letter_spacing": "normal",
                     "case": "none",
@@ -310,6 +311,19 @@
               },
               "blocks": {}
             },
+            "product_inventory_fn6XmG": {
+              "type": "product-inventory",
+              "name": "t:names.product_inventory",
+              "settings": {
+                "inventory_threshold": 7,
+                "show_inventory_quantity": true,
+                "padding-block-start": 10,
+                "padding-block-end": 10,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
             "buy_buttons_eYQEYi": {
               "type": "buy-buttons",
               "settings": {
@@ -381,6 +395,7 @@
             "fr_product_actions_4VLiKP",
             "fr_product_stepper_iWhgL8",
             "variant_picker_ThfVAa",
+            "product_inventory_fn6XmG",
             "buy_buttons_eYQEYi",
             "fr_trust_badges_hbUXNL"
           ]
@@ -438,6 +453,7 @@
             "type_preset": "h4",
             "font": "var(--font-primary--family)",
             "font_size": "1rem",
+            "font_size_mobile": "",
             "line_height": "normal",
             "letter_spacing": "normal",
             "case": "none",
