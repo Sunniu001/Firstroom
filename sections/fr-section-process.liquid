@@ -21,9 +21,9 @@
             {%- assign pos = 'bottom' -%}
             {%- if section.settings.desktop_layout == 'alternating' -%}
               {%- if is_even == 0 -%}
-                {%- assign pos = 'top' -%}
-              {%- else -%}
                 {%- assign pos = 'bottom' -%}
+              {%- else -%}
+                {%- assign pos = 'top' -%}
               {%- endif -%}
             {%- elsif section.settings.desktop_layout == 'top_only' -%}
               {%- assign pos = 'top' -%}

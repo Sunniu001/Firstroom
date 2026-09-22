@@ -21,11 +21,11 @@
       <div class="fr-staggered-track" style="--total-items: {{ section.blocks.size }};">
         {%- for block in section.blocks -%}
           {%- assign is_even = forloop.index | modulo: 2 -%}
-          {%- assign pos = 'bottom' -%}
+          {%- assign pos = 'top' -%}
           {%- if is_even == 0 -%}
-            {%- assign pos = 'top' -%}
-          {%- else -%}
             {%- assign pos = 'bottom' -%}
+          {%- else -%}
+            {%- assign pos = 'top' -%}
           {%- endif -%}
 
           <div class="fr-staggered-step fr-staggered-step--pos-{{ pos }}" {{ block.shopify_attributes }}>
