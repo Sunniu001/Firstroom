@@ -1017,28 +1017,37 @@
         if (originalSubtotalEl) {
           originalSubtotalEl.textContent = formatMoney(subtotal);
         }
-
         // 3. Update Estimated Total
         const estimatedTotalEl = document.querySelector('[data-testid="cart-total-value"]');
         if (estimatedTotalEl) {
           const discountLabel = document.querySelector('.cart-discounts__value');
           let discountValue = 0;
+
+          // Dynamically preserve and use Shopify's native discount from the admin
+          if (discountLabel && !discountLabel.dataset.initialDiscount) {
+            const rawText = discountLabel.textContent;
+            const cleanNum = rawText.replace(/[^\d]/g, '');
+            discountLabel.dataset.initialDiscount = (parseInt(cleanNum, 10) || 0).toString();
+          }
+
           if (discountLabel) {
+            const initialDiscount = parseInt(discountLabel.dataset.initialDiscount, 10) || 0;
+            // Get original full subtotal from all items
+            let fullSubtotal = 0;
+            currentRows.forEach(row => {
+              fullSubtotal += parseInt(row.dataset.linePrice, 10) || 0;
+            });
+
             if (subtotal === 0) {
               discountValue = 0;
               discountLabel.textContent = '-Rs. 0.00';
+            } else if (fullSubtotal > 0 && checkedCount < currentRows.length) {
+              // Proportionally scale the discount if some items are unchecked
+              discountValue = Math.round((subtotal / fullSubtotal) * initialDiscount);
+              discountLabel.textContent = '-' + formatMoney(discountValue);
             } else {
-              const rawText = discountLabel.textContent;
-              const cleanNum = rawText.replace(/[^\d]/g, '');
-              discountValue = parseInt(cleanNum, 10) || 0;
-            }
-          }
-
-          // Handle 10% auto discount recalculation
-          const textContent = document.body.textContent;
-          if (subtotal > 0 && (textContent.includes('10% OFF') || textContent.includes('10%'))) {
-            discountValue = Math.round(subtotal * 0.1);
-            if (discountLabel) {
+              // When all items are checked, use exact discount from Shopify Admin
+              discountValue = initialDiscount;
               discountLabel.textContent = '-' + formatMoney(discountValue);
             }
           }
