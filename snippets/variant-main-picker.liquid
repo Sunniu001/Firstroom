@@ -495,16 +495,17 @@
       {%- endfor -%}
 
       {%- if is_frame -%}
+        {%- assign fr_product_form_id = 'BuyButtons-ProductForm-' | append: section.id -%}
         {%- unless has_material_option -%}
           <fieldset class="variant-option variant-option--buttons fr-fallback-fieldset" data-property-group="Material">
             <legend class="fr-option-legend">Material</legend>
             <div class="fr-material-buttons-group">
               <label class="fr-material-btn-label">
-                <input type="radio" name="properties[Material]" value="Matte Paper" checked>
+                <input type="radio" name="properties[Material]" value="Matte Paper" form="{{ fr_product_form_id }}" checked>
                 <span class="fr-material-btn-text">MATTE PAPER</span>
               </label>
               <label class="fr-material-btn-label">
-                <input type="radio" name="properties[Material]" value="Canvas">
+                <input type="radio" name="properties[Material]" value="Canvas" form="{{ fr_product_form_id }}">
                 <span class="fr-material-btn-text">CANVAS</span>
               </label>
             </div>
@@ -520,25 +521,25 @@
               </button>
               <div class="fr-frame-swatches-row">
                 <label class="fr-frame-swatch-label">
-                  <input type="radio" name="properties[Frame]" value="Black Frame" data-frame-title="Black Frame" checked>
+                  <input type="radio" name="properties[Frame]" value="Black Frame" data-frame-title="Black Frame" form="{{ fr_product_form_id }}" checked>
                   <div class="fr-frame-swatch-box" title="Black Frame">
                     <img src="{{ 'frame-corner-black.jpg' | asset_url }}" alt="Black Frame" class="fr-frame-swatch-img" loading="lazy" width="80" height="80">
                   </div>
                 </label>
                 <label class="fr-frame-swatch-label">
-                  <input type="radio" name="properties[Frame]" value="White Frame" data-frame-title="White Frame">
+                  <input type="radio" name="properties[Frame]" value="White Frame" data-frame-title="White Frame" form="{{ fr_product_form_id }}">
                   <div class="fr-frame-swatch-box" title="White Frame">
                     <img src="{{ 'frame-corner-white.jpg' | asset_url }}" alt="White Frame" class="fr-frame-swatch-img" loading="lazy" width="80" height="80">
                   </div>
                 </label>
                 <label class="fr-frame-swatch-label">
-                  <input type="radio" name="properties[Frame]" value="Natural Wood" data-frame-title="Natural Wood">
+                  <input type="radio" name="properties[Frame]" value="Natural Wood" data-frame-title="Natural Wood" form="{{ fr_product_form_id }}">
                   <div class="fr-frame-swatch-box" title="Natural Wood">
                     <img src="{{ 'frame-corner-wood.jpg' | asset_url }}" alt="Natural Wood" class="fr-frame-swatch-img" loading="lazy" width="80" height="80">
                   </div>
                 </label>
                 <label class="fr-frame-swatch-label">
-                  <input type="radio" name="properties[Frame]" value="Walnut Frame" data-frame-title="Walnut Frame">
+                  <input type="radio" name="properties[Frame]" value="Walnut Frame" data-frame-title="Walnut Frame" form="{{ fr_product_form_id }}">
                   <div class="fr-frame-swatch-box" title="Walnut Frame">
                     <img src="{{ 'frame-corner-walnut.jpg' | asset_url }}" alt="Walnut Frame" class="fr-frame-swatch-img" loading="lazy" width="80" height="80">
                   </div>
@@ -851,12 +852,34 @@
                 }
               }
             });
-          }
-          if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initFrameTitles);
-          } else {
-            initFrameTitles();
-          }
+          // Ensure properties are synced to the add to cart form
+          document.addEventListener('submit', function(e) {
+            var form = e.target;
+            if (form && (form.matches('form[action*="/cart/add"]') || form.dataset.type === 'add-to-cart-form')) {
+              var selectedMat = document.querySelector('input[name="properties[Material]"]:checked');
+              var selectedFrm = document.querySelector('input[name="properties[Frame]"]:checked');
+              if (selectedMat) {
+                var existMat = form.querySelector('input[name="properties[Material]"]');
+                if (!existMat) {
+                  existMat = document.createElement('input');
+                  existMat.type = 'hidden';
+                  existMat.name = 'properties[Material]';
+                  form.appendChild(existMat);
+                }
+                existMat.value = selectedMat.value;
+              }
+              if (selectedFrm) {
+                var existFrm = form.querySelector('input[name="properties[Frame]"]');
+                if (!existFrm) {
+                  existFrm = document.createElement('input');
+                  existFrm.type = 'hidden';
+                  existFrm.name = 'properties[Frame]';
+                  form.appendChild(existFrm);
+                }
+                existFrm.value = selectedFrm.value;
+              }
+            }
+          }, true);
         })();
       </script>
 
