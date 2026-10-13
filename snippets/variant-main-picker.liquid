@@ -836,50 +836,113 @@
 
       <script>
         (function() {
-          function initFrameTitles() {
-            document.addEventListener('change', function(e) {
-              if (e.target && e.target.type === 'radio') {
-                var isFrame = e.target.closest('.fr-frame-swatches-row') ||
-                              e.target.name.indexOf('Frame') !== -1 ||
-                              e.target.name.indexOf('frame') !== -1;
-                if (isFrame) {
-                  var title = e.target.getAttribute('data-frame-title') || e.target.value;
-                  var fieldset = e.target.closest('fieldset');
-                  if (fieldset) {
-                    var titleEl = fieldset.querySelector('.fr-frame-selected-title');
-                    if (titleEl && title) titleEl.textContent = title;
-                  }
-                }
+          window.FR_FRAME_PREFS = window.FR_FRAME_PREFS || {
+            material: 'Matte Paper',
+            frame: 'Black Frame'
+          };
+
+          function syncFrameProperties() {
+            var selectedMatInput = document.querySelector('.fr-material-buttons-group input[type="radio"]:checked') ||
+                                   document.querySelector('input[name="properties[Material]"][type="radio"]:checked');
+            if (selectedMatInput && selectedMatInput.value) {
+              window.FR_FRAME_PREFS.material = selectedMatInput.value;
+            }
+
+            var selectedFrmInput = document.querySelector('.fr-frame-swatches-row input[type="radio"]:checked') ||
+                                   document.querySelector('input[name="properties[Frame]"][type="radio"]:checked');
+            if (selectedFrmInput && selectedFrmInput.value) {
+              window.FR_FRAME_PREFS.frame = selectedFrmInput.value;
+            }
+
+            // Sync to any radio inputs if not currently checked (e.g. after DOM morph)
+            var matRadios = document.querySelectorAll('.fr-material-buttons-group input[type="radio"]');
+            matRadios.forEach(function(r) {
+              if (r.value === window.FR_FRAME_PREFS.material) {
+                r.checked = true;
               }
             });
-          // Ensure properties are synced to the add to cart form
+
+            var frmRadios = document.querySelectorAll('.fr-frame-swatches-row input[type="radio"]');
+            frmRadios.forEach(function(r) {
+              if (r.value === window.FR_FRAME_PREFS.frame) {
+                r.checked = true;
+              }
+            });
+
+            // Update title
+            var frameTitleEl = document.querySelector('.fr-frame-selected-title');
+            if (frameTitleEl) {
+              frameTitleEl.textContent = window.FR_FRAME_PREFS.frame;
+            }
+
+            // Sync to all hidden inputs in add to cart forms
+            var hiddenMatInputs = document.querySelectorAll('.fr-active-property-material');
+            hiddenMatInputs.forEach(function(input) {
+              input.value = window.FR_FRAME_PREFS.material;
+            });
+
+            var hiddenFrmInputs = document.querySelectorAll('.fr-active-property-frame');
+            hiddenFrmInputs.forEach(function(input) {
+              input.value = window.FR_FRAME_PREFS.frame;
+            });
+          }
+
+          document.addEventListener('change', function(e) {
+            if (e.target && e.target.type === 'radio') {
+              var isMaterial = e.target.name === 'properties[Material]' || e.target.closest('.fr-material-buttons-group');
+              var isFrame = e.target.name === 'properties[Frame]' || e.target.closest('.fr-frame-swatches-row');
+
+              if (isMaterial) {
+                window.FR_FRAME_PREFS.material = e.target.value;
+                syncFrameProperties();
+              } else if (isFrame) {
+                var title = e.target.getAttribute('data-frame-title') || e.target.value;
+                window.FR_FRAME_PREFS.frame = title;
+                syncFrameProperties();
+              }
+            }
+          });
+
+          // Also hook into form submit to make sure the inputs exist and are populated
           document.addEventListener('submit', function(e) {
             var form = e.target;
             if (form && (form.matches('form[action*="/cart/add"]') || form.dataset.type === 'add-to-cart-form')) {
-              var selectedMat = document.querySelector('input[name="properties[Material]"]:checked');
-              var selectedFrm = document.querySelector('input[name="properties[Frame]"]:checked');
-              if (selectedMat) {
-                var existMat = form.querySelector('input[name="properties[Material]"]');
-                if (!existMat) {
-                  existMat = document.createElement('input');
-                  existMat.type = 'hidden';
-                  existMat.name = 'properties[Material]';
-                  form.appendChild(existMat);
-                }
-                existMat.value = selectedMat.value;
+              syncFrameProperties();
+
+              var existMat = form.querySelector('input[name="properties[Material]"]');
+              if (!existMat) {
+                existMat = document.createElement('input');
+                existMat.type = 'hidden';
+                existMat.name = 'properties[Material]';
+                form.appendChild(existMat);
               }
-              if (selectedFrm) {
-                var existFrm = form.querySelector('input[name="properties[Frame]"]');
-                if (!existFrm) {
-                  existFrm = document.createElement('input');
-                  existFrm.type = 'hidden';
-                  existFrm.name = 'properties[Frame]';
-                  form.appendChild(existFrm);
-                }
-                existFrm.value = selectedFrm.value;
+              existMat.value = window.FR_FRAME_PREFS.material;
+
+              var existFrm = form.querySelector('input[name="properties[Frame]"]');
+              if (!existFrm) {
+                existFrm = document.createElement('input');
+                existFrm.type = 'hidden';
+                existFrm.name = 'properties[Frame]';
+                form.appendChild(existFrm);
               }
+              existFrm.value = window.FR_FRAME_PREFS.frame;
             }
           }, true);
+
+          // Re-sync on variant changes or dynamic updates
+          var observer = new MutationObserver(function() {
+            syncFrameProperties();
+          });
+          var picker = document.querySelector('variant-picker') || document.querySelector('variant-picker-component');
+          if (picker) {
+            observer.observe(picker, { childList: true, subtree: true });
+          }
+
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', syncFrameProperties);
+          } else {
+            syncFrameProperties();
+          }
         })();
       </script>
 

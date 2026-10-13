@@ -63,6 +63,49 @@
           ref="variantId"
           value="{{ product.selected_or_first_available_variant.id }}"
         >
+        {%- liquid
+          assign is_nameplate_bb = false
+          assign p_type_bb = product.type | downcase
+          assign p_title_bb = product.title | downcase
+          if product.tags contains 'nameplate' or p_type_bb contains 'nameplate' or p_title_bb contains 'nameplate'
+            assign is_nameplate_bb = true
+          endif
+
+          assign is_frame_bb = false
+          if template.suffix == 'frame' or product.template_suffix == 'frame' or product.tags contains 'frame' or p_type_bb contains 'frame' or p_title_bb contains 'frame'
+            unless is_nameplate_bb
+              assign is_frame_bb = true
+            endunless
+          endif
+
+          for opt in product.options_with_values
+            assign opt_name_d = opt.name | downcase
+            if opt_name_d == 'frame size'
+              unless is_nameplate_bb
+                assign is_frame_bb = true
+              endunless
+            endif
+          endfor
+
+          assign has_mat_opt = false
+          assign has_frm_opt = false
+          for opt in product.options_with_values
+            assign opt_name_d = opt.name | downcase
+            if opt_name_d contains 'material' or opt_name_d contains 'paper' or opt_name_d contains 'finish'
+              assign has_mat_opt = true
+            elsif opt_name_d contains 'frame' and opt_name_d != 'frame size'
+              assign has_frm_opt = true
+            endif
+          endfor
+        -%}
+        {%- if is_frame_bb -%}
+          {%- unless has_mat_opt -%}
+            <input type="hidden" name="properties[Material]" class="fr-active-property-material" value="Matte Paper">
+          {%- endunless -%}
+          {%- unless has_frm_opt -%}
+            <input type="hidden" name="properties[Frame]" class="fr-active-property-frame" value="Black Frame">
+          {%- endunless -%}
+        {%- endif -%}
         {%- if block_settings.gift_card_form and product.gift_card? -%}
           {%- render 'gift-card-recipient-form', product: product, form: form, section: section, block: block -%}
           <span class="buy-buttons-block__bar">

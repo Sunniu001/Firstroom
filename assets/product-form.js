@@ -391,6 +391,26 @@ class ProductFormComponent extends Component {
 
     const formData = new FormData(form);
 
+    // Collect and sync any line item properties (Material, Frame, custom properties)
+    const root = this.closest('.product, product-component, main') || document;
+    const activeMat = root.querySelector('.fr-material-buttons-group input:checked, input[name="properties[Material]"]:checked, .fr-active-property-material');
+    if (activeMat && activeMat.value) {
+      formData.set('properties[Material]', activeMat.value);
+    }
+    const activeFrm = root.querySelector('.fr-frame-swatches-row input:checked, input[name="properties[Frame]"]:checked, .fr-active-property-frame');
+    if (activeFrm && activeFrm.value) {
+      formData.set('properties[Frame]', activeFrm.value);
+    }
+
+    const allPropertyInputs = root.querySelectorAll('input[name^="properties["], select[name^="properties["], textarea[name^="properties["]');
+    allPropertyInputs.forEach((input) => {
+      if (input.disabled) return;
+      if ((input.type === 'radio' || input.type === 'checkbox') && !input.checked) return;
+      if (input.value !== undefined && input.value !== '') {
+        formData.set(input.name, input.value);
+      }
+    });
+
     if (overrideVariantId) {
       formData.set('id', overrideVariantId);
     }
@@ -586,10 +606,31 @@ class ProductFormComponent extends Component {
       })
     );
 
+    const root = this.closest('.product, product-component, main') || document;
+    const batchProperties = {};
+    const activeMat = root.querySelector('.fr-material-buttons-group input:checked, input[name="properties[Material]"]:checked, .fr-active-property-material');
+    if (activeMat && activeMat.value) {
+      batchProperties['Material'] = activeMat.value;
+    }
+    const activeFrm = root.querySelector('.fr-frame-swatches-row input:checked, input[name="properties[Frame]"]:checked, .fr-active-property-frame');
+    if (activeFrm && activeFrm.value) {
+      batchProperties['Frame'] = activeFrm.value;
+    }
+    const allPropertyInputs = root.querySelectorAll('input[name^="properties["], select[name^="properties["], textarea[name^="properties["]');
+    allPropertyInputs.forEach((input) => {
+      if (input.disabled) return;
+      if ((input.type === 'radio' || input.type === 'checkbox') && !input.checked) return;
+      if (input.value !== undefined && input.value !== '') {
+        const key = input.name.replace(/^properties\[/, '').replace(/\]$/, '');
+        batchProperties[key] = input.value;
+      }
+    });
+
     const payload = {
       items: items.map((item) => ({
         id: Number(item.variantId),
         quantity: item.quantity,
+        properties: { ...batchProperties, ...(item.properties || {}) },
       })),
       sections: cartItemComponentsSectionIds.join(','),
     };
