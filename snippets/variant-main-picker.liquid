@@ -253,25 +253,25 @@
                   endif
 
                   if frame_image_url == blank
-                    if frame_handle contains 'black'
-                      assign frame_image_url = 'frame-corner-black.jpg' | asset_url
-                    elsif frame_handle contains 'white'
+                    if frame_handle contains 'white'
                       assign frame_image_url = 'frame-corner-white.jpg' | asset_url
-                    elsif frame_handle contains 'walnut' or frame_handle contains 'dark'
-                      assign frame_image_url = 'frame-corner-walnut.jpg' | asset_url
-                    elsif frame_handle contains 'wood' or frame_handle contains 'oak' or frame_handle contains 'natural'
-                      assign frame_image_url = 'frame-corner-wood.jpg' | asset_url
+                    elsif frame_handle contains 'black'
+                      assign frame_image_url = 'frame-corner-black.jpg' | asset_url
+                    elsif frame_handle contains 'light' or frame_handle contains 'natural'
+                      assign frame_image_url = 'frame-corner-light-wood.jpg' | asset_url
+                    elsif frame_handle contains 'dark' or frame_handle contains 'walnut'
+                      assign frame_image_url = 'frame-corner-dark-wood.jpg' | asset_url
                     else
                       if forloop.index == 1
-                        assign frame_image_url = 'frame-corner-black.jpg' | asset_url
-                      elsif forloop.index == 2
                         assign frame_image_url = 'frame-corner-white.jpg' | asset_url
-                      elsif forloop.index == 3
-                        assign frame_image_url = 'frame-corner-wood.jpg' | asset_url
-                      elsif forloop.index == 4
-                        assign frame_image_url = 'frame-corner-walnut.jpg' | asset_url
-                      else
+                      elsif forloop.index == 2
                         assign frame_image_url = 'frame-corner-black.jpg' | asset_url
+                      elsif forloop.index == 3
+                        assign frame_image_url = 'frame-corner-light-wood.jpg' | asset_url
+                      elsif forloop.index == 4
+                        assign frame_image_url = 'frame-corner-dark-wood.jpg' | asset_url
+                      else
+                        assign frame_image_url = 'frame-corner-white.jpg' | asset_url
                       endif
                     endif
                   endif
@@ -514,34 +514,34 @@
 
         {%- unless has_frame_type_option -%}
           <fieldset class="variant-option variant-option--buttons fr-fallback-fieldset" data-property-group="Frame">
-            <legend class="fr-option-legend fr-frame-legend">Frame <span class="fr-option-divider">—</span> <span class="fr-frame-selected-title">Black Frame</span></legend>
+            <legend class="fr-option-legend fr-frame-legend">Frame <span class="fr-option-divider">—</span> <span class="fr-frame-selected-title">White Fibre Frame</span></legend>
             <div class="fr-frame-carousel-wrapper">
               <button type="button" class="fr-frame-nav-btn fr-frame-nav-prev" aria-label="Previous frame" onclick="this.parentElement.querySelector('.fr-frame-swatches-row').scrollBy({left: -180, behavior: 'smooth'})">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
               </button>
               <div class="fr-frame-swatches-row">
                 <label class="fr-frame-swatch-label">
-                  <input type="radio" name="properties[Frame]" value="Black Frame" data-frame-title="Black Frame" form="{{ fr_product_form_id }}" checked>
-                  <div class="fr-frame-swatch-box" title="Black Frame">
-                    <img src="{{ 'frame-corner-black.jpg' | asset_url }}" alt="Black Frame" class="fr-frame-swatch-img" loading="lazy" width="80" height="80">
+                  <input type="radio" name="properties[Frame]" value="White Fibre Frame" data-frame-title="White Fibre Frame" form="{{ fr_product_form_id }}" checked>
+                  <div class="fr-frame-swatch-box" title="White Fibre Frame">
+                    <img src="{{ 'frame-corner-white.jpg' | asset_url }}" alt="White Fibre Frame" class="fr-frame-swatch-img" loading="lazy" width="80" height="80">
                   </div>
                 </label>
                 <label class="fr-frame-swatch-label">
-                  <input type="radio" name="properties[Frame]" value="White Frame" data-frame-title="White Frame" form="{{ fr_product_form_id }}">
-                  <div class="fr-frame-swatch-box" title="White Frame">
-                    <img src="{{ 'frame-corner-white.jpg' | asset_url }}" alt="White Frame" class="fr-frame-swatch-img" loading="lazy" width="80" height="80">
+                  <input type="radio" name="properties[Frame]" value="Black Fibre Frame" data-frame-title="Black Fibre Frame" form="{{ fr_product_form_id }}">
+                  <div class="fr-frame-swatch-box" title="Black Fibre Frame">
+                    <img src="{{ 'frame-corner-black.jpg' | asset_url }}" alt="Black Fibre Frame" class="fr-frame-swatch-img" loading="lazy" width="80" height="80">
                   </div>
                 </label>
                 <label class="fr-frame-swatch-label">
-                  <input type="radio" name="properties[Frame]" value="Natural Wood" data-frame-title="Natural Wood" form="{{ fr_product_form_id }}">
-                  <div class="fr-frame-swatch-box" title="Natural Wood">
-                    <img src="{{ 'frame-corner-wood.jpg' | asset_url }}" alt="Natural Wood" class="fr-frame-swatch-img" loading="lazy" width="80" height="80">
+                  <input type="radio" name="properties[Frame]" value="Light Wood Fibre Frame" data-frame-title="Light Wood Fibre Frame" form="{{ fr_product_form_id }}">
+                  <div class="fr-frame-swatch-box" title="Light Wood Fibre Frame">
+                    <img src="{{ 'frame-corner-light-wood.jpg' | asset_url }}" alt="Light Wood Fibre Frame" class="fr-frame-swatch-img" loading="lazy" width="80" height="80">
                   </div>
                 </label>
                 <label class="fr-frame-swatch-label">
-                  <input type="radio" name="properties[Frame]" value="Walnut Frame" data-frame-title="Walnut Frame" form="{{ fr_product_form_id }}">
-                  <div class="fr-frame-swatch-box" title="Walnut Frame">
-                    <img src="{{ 'frame-corner-walnut.jpg' | asset_url }}" alt="Walnut Frame" class="fr-frame-swatch-img" loading="lazy" width="80" height="80">
+                  <input type="radio" name="properties[Frame]" value="Dark Wood Fibre Frame" data-frame-title="Dark Wood Fibre Frame" form="{{ fr_product_form_id }}">
+                  <div class="fr-frame-swatch-box" title="Dark Wood Fibre Frame">
+                    <img src="{{ 'frame-corner-dark-wood.jpg' | asset_url }}" alt="Dark Wood Fibre Frame" class="fr-frame-swatch-img" loading="lazy" width="80" height="80">
                   </div>
                 </label>
               </div>
@@ -838,7 +838,7 @@
         (function() {
           window.FR_FRAME_PREFS = window.FR_FRAME_PREFS || {
             material: 'Matte Paper',
-            frame: 'Black Frame'
+            frame: 'White Fibre Frame'
           };
 
           function syncFrameProperties() {
