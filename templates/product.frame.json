@@ -275,7 +275,7 @@
             "fr_product_stepper_iWhgL8": {
               "type": "fr-product-stepper",
               "settings": {
-                "step_1_text": "Select Frame Size",
+                "step_1_text": "Customize Frame",
                 "step_2_text": "Add TO Cart",
                 "step_3_text": "Production",
                 "step_4_text": "Delivered",

@@ -24,6 +24,45 @@
   assign fieldset_index = 0
 %}
 
+{% liquid
+  assign is_nameplate = false
+  assign product_type_downcase = product_resource.type | downcase
+  assign product_title_downcase = product_resource.title | downcase
+  if product_resource.tags contains 'nameplate' or product_type_downcase contains 'nameplate' or product_title_downcase contains 'nameplate'
+    assign is_nameplate = true
+  endif
+
+  assign is_frame = false
+  if template.suffix == 'frame' or product_resource.template_suffix == 'frame' or product_resource.tags contains 'frame' or product_type_downcase contains 'frame' or product_title_downcase contains 'frame'
+    unless is_nameplate
+      assign is_frame = true
+    endunless
+  endif
+
+  for opt in product_resource.options_with_values
+    assign opt_name_d = opt.name | downcase
+    if opt_name_d == 'frame size'
+      unless is_nameplate
+        assign is_frame = true
+      endunless
+    endif
+  endfor
+
+  assign has_frame_size_option = false
+  assign has_material_option = false
+  assign has_frame_type_option = false
+  for opt in product_resource.options_with_values
+    assign opt_name_d = opt.name | downcase
+    if opt_name_d contains 'size' or opt_name_d == 'frame size'
+      assign has_frame_size_option = true
+    elsif opt_name_d contains 'material' or opt_name_d contains 'paper' or opt_name_d contains 'finish'
+      assign has_material_option = true
+    elsif opt_name_d contains 'frame' and opt_name_d != 'frame size'
+      assign has_frame_type_option = true
+    endif
+  endfor
+%}
+
 {% unless product_resource.has_only_default_variant %}
   {% if has_custom_variant_buttons %}
     {% render 'variant-button-custom-styles', block_settings: block_settings, block_id: block.id %}
@@ -73,7 +112,7 @@
           endif
         -%}
 
-        {%- if product_option.values.size == 1 and variant_style != 'swatch' -%}
+        {%- if product_option.values.size == 1 and variant_style != 'swatch' and is_frame == false -%}
           <div
             class="variant-option"
             data-testid="variant-option-single"
@@ -86,199 +125,317 @@
               {{- product_option.selected_value -}}
             </span>
           </div>
-        {%- elsif variant_style == 'swatch' or block_settings.variant_style == 'buttons' -%}
+        {%- elsif variant_style == 'swatch' or block_settings.variant_style == 'buttons' or is_frame -%}
+          {%- assign option_name_downcased = product_option.name | downcase -%}
+
+          {%- assign is_frame_size = false -%}
+          {%- assign is_frame_material = false -%}
+          {%- assign is_frame_type = false -%}
+          {%- assign is_nameplate_size = false -%}
+
+          {%- if is_frame -%}
+            {%- if option_name_downcased contains 'size' or option_name_downcased == 'frame size' -%}
+              {%- assign is_frame_size = true -%}
+            {%- elsif option_name_downcased contains 'material' or option_name_downcased contains 'paper' or option_name_downcased contains 'finish' -%}
+              {%- assign is_frame_material = true -%}
+            {%- elsif option_name_downcased contains 'frame' and option_name_downcased != 'frame size' -%}
+              {%- assign is_frame_type = true -%}
+            {%- endif -%}
+          {%- elsif is_nameplate -%}
+            {%- if option_name_downcased == 'size' or option_name_downcased == 'nameplate size' -%}
+              {%- assign is_nameplate_size = true -%}
+            {%- endif -%}
+          {%- endif -%}
+
           <fieldset
             class="variant-option variant-option--buttons{% if variant_style == 'swatch' %} variant-option--swatches{% else %} variant-option--{{ settings.variant_button_width }}{% endif %}"
             data-fieldset-index="{{ fieldset_index }}"
             ref="fieldsets[]"
             {{ option_id_attribute }}
           >
-            <legend>
-              {{ product_option.name | escape -}}
-              {%- if variant_style == 'swatch' -%}
-                <span class="variant-option__swatch-value">{{ product_option.selected_value }}</span>
-              {%- endif %}
-            </legend>
-            {%- assign option_name_downcased = product_option.name | downcase -%}
-
-            {%- assign is_nameplate = false -%}
-            {%- assign product_type_downcase = product_resource.type | downcase -%}
-            {%- assign product_title_downcase = product_resource.title | downcase -%}
-            {%- if product_resource.tags contains 'nameplate' or product_type_downcase contains 'nameplate' or product_title_downcase contains 'nameplate' -%}
-              {%- assign is_nameplate = true -%}
-            {%- endif -%}
-
-            {%- assign is_frame_size = false -%}
-            {%- assign is_nameplate_size = false -%}
-            {%- if option_name_downcased == 'frame size' or option_name_downcased == 'size' or option_name_downcased == 'nameplate size' -%}
-              {%- if is_nameplate -%}
-                {%- assign is_nameplate_size = true -%}
+            <legend class="{% if is_frame %}fr-option-legend{% if is_frame_type %} fr-frame-legend{% endif %}{% endif %}">
+              {%- if is_frame_type -%}
+                Frame <span class="fr-option-divider">—</span> <span class="fr-frame-selected-title">{{ product_option.selected_value }}</span>
+              {%- elsif is_frame_size -%}
+                Size
+              {%- elsif is_frame_material -%}
+                Material
               {%- else -%}
-                {%- assign is_frame_size = true -%}
+                {{ product_option.name | escape -}}
+                {%- if variant_style == 'swatch' -%}
+                  <span class="variant-option__swatch-value">{{ product_option.selected_value }}</span>
+                {%- endif %}
               {%- endif -%}
+            </legend>
+
+            {%- if is_frame_size -%}
+              <div class="fr-size-buttons-group">
+            {%- elsif is_frame_material -%}
+              <div class="fr-material-buttons-group">
+            {%- elsif is_frame_type -%}
+              <div class="fr-frame-carousel-wrapper">
+                <button type="button" class="fr-frame-nav-btn fr-frame-nav-prev" aria-label="Previous frame" onclick="this.parentElement.querySelector('.fr-frame-swatches-row').scrollBy({left: -180, behavior: 'smooth'})">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+                </button>
+                <div class="fr-frame-swatches-row">
+            {%- elsif option_name_downcased == 'material' or option_name_downcased == 'paper finish' -%}
+              <div class="fr-material-option-group">
+            {%- elsif is_nameplate_size -%}
+              <div class="fr-material-option-group">
             {%- endif -%}
 
-            {%- if option_name_downcased == 'material' or option_name_downcased == 'paper finish' -%}
-              <div class="fr-material-option-group">
-            {%- elsif is_frame_size or is_nameplate_size -%}
-              <div class="fr-material-option-group">
-            {%- endif -%}
             {%- for product_option_value in product_option.values -%}
               {% if product_option_value.size > longest_value and option_id_attribute %}
                 {% assign longest_value = product_option_value.size %}
               {% endif %}
-              <label
-                class="variant-option__button-label{% if variant_style == 'swatch' %} variant-option__button-label--has-swatch{% endif %}"
-              >
-                <input
-                  type="radio"
-                  name="{{ product_option.name | escape }}-{{ block.id }}-{{ product_resource.id }}"
-                  value="{{ product_option_value | escape }}"
-                  aria-label="{{ product_option_value.name | escape }}{% if product_option_value.available == false %} - {{ 'products.product.sold_out' | t }}{% endif %}"
-                  {% if product_option_value.available == false %}
-                    aria-disabled="true"
-                  {% endif %}
-                  data-previous-checked="false"
-                  data-fieldset-index="{{ fieldset_index }}"
-                  data-input-index="{{ forloop.index0 }}"
-                  data-input-id="{{ product_option.position }}-{{ forloop.index0 }}"
-                  data-option-name="{{ product_option.name | escape }}"
-                  data-option-value-id="{{ product_option_value.id }}"
-                  data-option-available="{{ product_option_value.available }}"
-                  data-connected-product-url="{{ product_option_value.product_url }}"
-                  {% if product_option_value.variant.id %}
-                    data-variant-id="{{ product_option_value.variant.id }}"
-                  {% endif %}
-                  {% if product_option_value.selected %}
-                    data-current-checked="true"
-                    checked
-                  {% else %}
-                    data-current-checked="false"
-                  {% endif %}
-                >
-                {% if option_name_downcased == 'material' or option_name_downcased == 'paper finish' %}
-                  {% assign finish_name = product_option_value | escape %}
-                  <div class="fr-custom-finish-card">
-                    {% liquid
-                      assign bg_image = product_option_value.variant.featured_media
-                      assign bg_style = ''
-                      if bg_image != blank
-                        assign bg_image_url = bg_image | image_url: width: 300
-                        assign bg_style = 'background: url(' | append: bg_image_url | append: ') center/cover no-repeat;'
-                      endif
-                    %}
-                    <div class="fr-finish-image fr-finish-{{ finish_name | handleize }}" {% if bg_style != blank %}style="{{ bg_style }}"{% endif %}>
-                      <svg class="fr-finish-check" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="10" fill="#222"/><path d="M9 12l2 2 4-4" stroke="#fff" stroke-width="2" fill="none"/></svg>
-                    </div>
-                    <div class="fr-finish-content">
-                      <div class="fr-finish-title">{{ finish_name }}</div>
-                      <div class="fr-finish-tag">
-                        {%- if finish_name == 'Feather Finish' or finish_name == 'Canvas' -%}PREMIUM
-                        {%- elsif finish_name == 'Leather Finish' or finish_name == 'Handmade' -%}LUXURY
-                        {%- else -%}SUPER LUXURY{%- endif -%}
-                      </div>
-                      <div class="fr-finish-desc">
-                        {%- if finish_name == 'Feather Finish' or finish_name == 'Canvas' -%}Even texture, vibrant colors
-                        {%- elsif finish_name == 'Leather Finish' or finish_name == 'Handmade' -%}Natural, earthy feel
-                        {%- elsif finish_name == 'Silk Sheen' -%}Soft sheen and ultra premium
-                        {%- else -%}Rough texture, painting look{%- endif -%}
-                      </div>
-                    </div>
-                  </div>
-                {% elsif is_frame_size %}
-                  {% assign finish_name = product_option_value | escape %}
-                  <div class="fr-custom-finish-card">
-                    {% liquid
-                      assign bg_image = product_option_value.variant.featured_media
-                      assign bg_style = ''
-                      if bg_image != blank
-                        assign bg_image_url = bg_image | image_url: width: 300
-                        assign bg_style = 'background: url(' | append: bg_image_url | append: ') center/cover no-repeat;'
-                      endif
-                    %}
-                    <div class="fr-finish-image fr-size-{{ finish_name | handleize }}" {% if bg_style != blank %}style="{{ bg_style }}"{% endif %}>
-                      <svg class="fr-finish-check" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="10" fill="#222"/><path d="M9 12l2 2 4-4" stroke="#fff" stroke-width="2" fill="none"/></svg>
-                    </div>
-                    <div class="fr-finish-content">
-                      <div class="fr-finish-title">{{ finish_name }}</div>
-                      <div class="fr-finish-tag">
-                        {%- if finish_name contains '16x20' or finish_name contains '16 x 20' -%}LARGE
-                        {%- elsif finish_name contains '12x16' or finish_name contains '12 x 16' -%}MEDIUM
-                        {%- else -%}SMALL{%- endif -%}
-                      </div>
-                      <div class="fr-finish-desc">
-                        {%- if finish_name contains '16x20' or finish_name contains '16 x 20' -%}Perfect for main living areas
-                        {%- elsif finish_name contains '12x16' or finish_name contains '12 x 16' -%}Great for bedrooms
-                        {%- else -%}Ideal for gallery walls{%- endif -%}
-                      </div>
-                    </div>
-                  </div>
-                {% elsif is_nameplate_size %}
-                  {% assign finish_name = product_option_value | escape %}
-                  <div class="fr-custom-finish-card">
-                    {% liquid
-                      assign bg_image = product_option_value.variant.featured_media
-                      assign bg_style = ''
-                      if finish_name contains '17x8' or finish_name contains '17 x 8'
-                        assign bg_style = 'background: url(https://cdn.shopify.com/s/files/1/0777/1183/5294/files/d6742761-4600-411b-a398-1c4d115a6836_1.png?v=1783708142) center/cover no-repeat;'
-                      elsif finish_name contains '12x5' or finish_name contains '12 x 5'
-                        assign bg_style = 'background: url(https://cdn.shopify.com/s/files/1/0777/1183/5294/files/455389c9-482e-410d-b4c1-606028330f93_1.png?v=1783708142) center/cover no-repeat;'
-                      elsif bg_image != blank
-                        assign bg_image_url = bg_image | image_url: width: 300
-                        assign bg_style = 'background: url(' | append: bg_image_url | append: ') center/cover no-repeat;'
-                      endif
-                    %}
-                    <div class="fr-finish-image fr-size-nameplate-{{ finish_name | handleize }}" {% if bg_style != blank %}style="{{ bg_style }}"{% endif %}>
-                      <svg class="fr-finish-check" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="10" fill="#222"/><path d="M9 12l2 2 4-4" stroke="#fff" stroke-width="2" fill="none"/></svg>
-                    </div>
-                    <div class="fr-finish-content">
-                      <div class="fr-finish-title">{{ finish_name }}</div>
-                      <div class="fr-finish-tag">
-                        {%- if finish_name contains '17x8' or finish_name contains '17 x 8' -%}LARGE
-                        {%- else -%}STANDARD{%- endif -%}
-                      </div>
-                      <div class="fr-finish-desc">
-                        {%- if finish_name contains '17x8' or finish_name contains '17 x 8' -%}Ideal for villas & large entrances
-                        {%- else -%}Perfect for apartments & small homes{%- endif -%}
-                      </div>
-                    </div>
-                  </div>
-                {% elsif variant_style == 'swatch' %}
-                  {% liquid
-                    assign featured_media = product_option_value.variant.featured_media
 
-                    # If the variant has no featured media, and we have a combined listing product, then fall back to
-                    # using the featured media of the child product that is linked to this option value.
-                    if featured_media == blank and product_option_value.product_url
-                      assign featured_media = product_option_value.variant.product.featured_media
-                    endif
-                  %}
-
-                  {% render 'swatch',
-                    swatch: product_option_value.swatch,
-                    variant_image: featured_media,
-                    mode: 'unscaled'
-                  %}
-                {% else %}
-                  {% if product_option_value.available == true %}
-                    <span
-                      class="variant-option__button-label__pill"
-                      data-key="variant-option-pill"
-                    ></span>
-                  {% endif %}
-                  <span
-                    class="variant-option__button-label__text"
-                    data-key="variant-option-text"
+              {%- if is_frame_size -%}
+                {%- assign raw_val = product_option_value | escape -%}
+                {%- assign display_size = raw_val -%}
+                {%- if raw_val contains '10x12' or raw_val contains '10 x 12' or raw_val contains '10 × 12' or raw_val == 'Small' or raw_val == 'small' -%}
+                  {%- assign display_size = 'S' -%}
+                {%- elsif raw_val contains '12x16' or raw_val contains '12 x 16' or raw_val contains '12 × 16' or raw_val == 'Medium' or raw_val == 'medium' -%}
+                  {%- assign display_size = 'M' -%}
+                {%- elsif raw_val contains '16x20' or raw_val contains '16 x 20' or raw_val contains '16 × 20' or raw_val == 'Large' or raw_val == 'large' -%}
+                  {%- assign display_size = 'L' -%}
+                {%- endif -%}
+                <label class="fr-size-btn-label">
+                  <input
+                    type="radio"
+                    name="{{ product_option.name | escape }}-{{ block.id }}-{{ product_resource.id }}"
+                    value="{{ product_option_value | escape }}"
+                    aria-label="{{ product_option_value.name | escape }}{% if product_option_value.available == false %} - {{ 'products.product.sold_out' | t }}{% endif %}"
+                    {% if product_option_value.available == false %}aria-disabled="true"{% endif %}
+                    data-previous-checked="false"
+                    data-fieldset-index="{{ fieldset_index }}"
+                    data-input-index="{{ forloop.index0 }}"
+                    data-input-id="{{ product_option.position }}-{{ forloop.index0 }}"
+                    data-option-name="{{ product_option.name | escape }}"
+                    data-option-value-id="{{ product_option_value.id }}"
+                    data-option-available="{{ product_option_value.available }}"
+                    data-connected-product-url="{{ product_option_value.product_url }}"
+                    {% if product_option_value.variant.id %}data-variant-id="{{ product_option_value.variant.id }}"{% endif %}
+                    {% if product_option_value.selected %}data-current-checked="true" checked{% else %}data-current-checked="false"{% endif %}
                   >
-                    {{- product_option_value | escape -}}
-                  </span>
-                {% endif %}
-                {% render 'strikethrough-variant', product_option: product_option_value %}
-              </label>
+                  <span class="fr-size-btn-text" title="{{ product_option_value | escape }}">{{ display_size }}</span>
+                </label>
+
+              {%- elsif is_frame_material -%}
+                <label class="fr-material-btn-label">
+                  <input
+                    type="radio"
+                    name="{{ product_option.name | escape }}-{{ block.id }}-{{ product_resource.id }}"
+                    value="{{ product_option_value | escape }}"
+                    aria-label="{{ product_option_value.name | escape }}{% if product_option_value.available == false %} - {{ 'products.product.sold_out' | t }}{% endif %}"
+                    {% if product_option_value.available == false %}aria-disabled="true"{% endif %}
+                    data-previous-checked="false"
+                    data-fieldset-index="{{ fieldset_index }}"
+                    data-input-index="{{ forloop.index0 }}"
+                    data-input-id="{{ product_option.position }}-{{ forloop.index0 }}"
+                    data-option-name="{{ product_option.name | escape }}"
+                    data-option-value-id="{{ product_option_value.id }}"
+                    data-option-available="{{ product_option_value.available }}"
+                    data-connected-product-url="{{ product_option_value.product_url }}"
+                    {% if product_option_value.variant.id %}data-variant-id="{{ product_option_value.variant.id }}"{% endif %}
+                    {% if product_option_value.selected %}data-current-checked="true" checked{% else %}data-current-checked="false"{% endif %}
+                  >
+                  <span class="fr-material-btn-text">{{ product_option_value | escape }}</span>
+                </label>
+
+              {%- elsif is_frame_type -%}
+                {%- liquid
+                  assign frame_handle = product_option_value | handleize
+                  assign frame_image_url = ''
+                  if product_option_value.variant.featured_media != blank
+                    assign frame_image_url = product_option_value.variant.featured_media | image_url: width: 240
+                  elsif product_option_value.swatch.image != blank
+                    assign frame_image_url = product_option_value.swatch.image | image_url: width: 240
+                  endif
+
+                  if frame_image_url == blank
+                    if frame_handle contains 'black'
+                      assign frame_image_url = 'frame-corner-black.jpg' | asset_url
+                    elsif frame_handle contains 'white'
+                      assign frame_image_url = 'frame-corner-white.jpg' | asset_url
+                    elsif frame_handle contains 'walnut' or frame_handle contains 'dark'
+                      assign frame_image_url = 'frame-corner-walnut.jpg' | asset_url
+                    elsif frame_handle contains 'wood' or frame_handle contains 'oak' or frame_handle contains 'natural'
+                      assign frame_image_url = 'frame-corner-wood.jpg' | asset_url
+                    else
+                      if forloop.index == 1
+                        assign frame_image_url = 'frame-corner-black.jpg' | asset_url
+                      elsif forloop.index == 2
+                        assign frame_image_url = 'frame-corner-white.jpg' | asset_url
+                      elsif forloop.index == 3
+                        assign frame_image_url = 'frame-corner-wood.jpg' | asset_url
+                      elsif forloop.index == 4
+                        assign frame_image_url = 'frame-corner-walnut.jpg' | asset_url
+                      else
+                        assign frame_image_url = 'frame-corner-black.jpg' | asset_url
+                      endif
+                    endif
+                  endif
+                -%}
+                <label class="fr-frame-swatch-label">
+                  <input
+                    type="radio"
+                    name="{{ product_option.name | escape }}-{{ block.id }}-{{ product_resource.id }}"
+                    value="{{ product_option_value | escape }}"
+                    data-frame-title="{{ product_option_value | escape }}"
+                    aria-label="{{ product_option_value.name | escape }}{% if product_option_value.available == false %} - {{ 'products.product.sold_out' | t }}{% endif %}"
+                    {% if product_option_value.available == false %}aria-disabled="true"{% endif %}
+                    data-previous-checked="false"
+                    data-fieldset-index="{{ fieldset_index }}"
+                    data-input-index="{{ forloop.index0 }}"
+                    data-input-id="{{ product_option.position }}-{{ forloop.index0 }}"
+                    data-option-name="{{ product_option.name | escape }}"
+                    data-option-value-id="{{ product_option_value.id }}"
+                    data-option-available="{{ product_option_value.available }}"
+                    data-connected-product-url="{{ product_option_value.product_url }}"
+                    {% if product_option_value.variant.id %}data-variant-id="{{ product_option_value.variant.id }}"{% endif %}
+                    {% if product_option_value.selected %}data-current-checked="true" checked{% else %}data-current-checked="false"{% endif %}
+                  >
+                  <div class="fr-frame-swatch-box" title="{{ product_option_value | escape }}">
+                    <img src="{{ frame_image_url }}" alt="{{ product_option_value | escape }}" class="fr-frame-swatch-img" loading="lazy" width="80" height="80">
+                  </div>
+                </label>
+
+              {%- else -%}
+                <label
+                  class="variant-option__button-label{% if variant_style == 'swatch' %} variant-option__button-label--has-swatch{% endif %}"
+                >
+                  <input
+                    type="radio"
+                    name="{{ product_option.name | escape }}-{{ block.id }}-{{ product_resource.id }}"
+                    value="{{ product_option_value | escape }}"
+                    aria-label="{{ product_option_value.name | escape }}{% if product_option_value.available == false %} - {{ 'products.product.sold_out' | t }}{% endif %}"
+                    {% if product_option_value.available == false %}
+                      aria-disabled="true"
+                    {% endif %}
+                    data-previous-checked="false"
+                    data-fieldset-index="{{ fieldset_index }}"
+                    data-input-index="{{ forloop.index0 }}"
+                    data-input-id="{{ product_option.position }}-{{ forloop.index0 }}"
+                    data-option-name="{{ product_option.name | escape }}"
+                    data-option-value-id="{{ product_option_value.id }}"
+                    data-option-available="{{ product_option_value.available }}"
+                    data-connected-product-url="{{ product_option_value.product_url }}"
+                    {% if product_option_value.variant.id %}
+                      data-variant-id="{{ product_option_value.variant.id }}"
+                    {% endif %}
+                    {% if product_option_value.selected %}
+                      data-current-checked="true"
+                      checked
+                    {% else %}
+                      data-current-checked="false"
+                    {% endif %}
+                  >
+                  {% if option_name_downcased == 'material' or option_name_downcased == 'paper finish' %}
+                    {% assign finish_name = product_option_value | escape %}
+                    <div class="fr-custom-finish-card">
+                      {% liquid
+                        assign bg_image = product_option_value.variant.featured_media
+                        assign bg_style = ''
+                        if bg_image != blank
+                          assign bg_image_url = bg_image | image_url: width: 300
+                          assign bg_style = 'background: url(' | append: bg_image_url | append: ') center/cover no-repeat;'
+                        endif
+                      %}
+                      <div class="fr-finish-image fr-finish-{{ finish_name | handleize }}" {% if bg_style != blank %}style="{{ bg_style }}"{% endif %}>
+                        <svg class="fr-finish-check" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="10" fill="#222"/><path d="M9 12l2 2 4-4" stroke="#fff" stroke-width="2" fill="none"/></svg>
+                      </div>
+                      <div class="fr-finish-content">
+                        <div class="fr-finish-title">{{ finish_name }}</div>
+                        <div class="fr-finish-tag">
+                          {%- if finish_name == 'Feather Finish' or finish_name == 'Canvas' -%}PREMIUM
+                          {%- elsif finish_name == 'Leather Finish' or finish_name == 'Handmade' -%}LUXURY
+                          {%- else -%}SUPER LUXURY{%- endif -%}
+                        </div>
+                        <div class="fr-finish-desc">
+                          {%- if finish_name == 'Feather Finish' or finish_name == 'Canvas' -%}Even texture, vibrant colors
+                          {%- elsif finish_name == 'Leather Finish' or finish_name == 'Handmade' -%}Natural, earthy feel
+                          {%- elsif finish_name == 'Silk Sheen' -%}Soft sheen and ultra premium
+                          {%- else -%}Rough texture, painting look{%- endif -%}
+                        </div>
+                      </div>
+                    </div>
+                  {% elsif is_nameplate_size %}
+                    {% assign finish_name = product_option_value | escape %}
+                    <div class="fr-custom-finish-card">
+                      {% liquid
+                        assign bg_image = product_option_value.variant.featured_media
+                        assign bg_style = ''
+                        if finish_name contains '17x8' or finish_name contains '17 x 8'
+                          assign bg_style = 'background: url(https://cdn.shopify.com/s/files/1/0777/1183/5294/files/d6742761-4600-411b-a398-1c4d115a6836_1.png?v=1783708142) center/cover no-repeat;'
+                        elsif finish_name contains '12x5' or finish_name contains '12 x 5'
+                          assign bg_style = 'background: url(https://cdn.shopify.com/s/files/1/0777/1183/5294/files/455389c9-482e-410d-b4c1-606028330f93_1.png?v=1783708142) center/cover no-repeat;'
+                        elsif bg_image != blank
+                          assign bg_image_url = bg_image | image_url: width: 300
+                          assign bg_style = 'background: url(' | append: bg_image_url | append: ') center/cover no-repeat;'
+                        endif
+                      %}
+                      <div class="fr-finish-image fr-size-nameplate-{{ finish_name | handleize }}" {% if bg_style != blank %}style="{{ bg_style }}"{% endif %}>
+                        <svg class="fr-finish-check" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="10" fill="#222"/><path d="M9 12l2 2 4-4" stroke="#fff" stroke-width="2" fill="none"/></svg>
+                      </div>
+                      <div class="fr-finish-content">
+                        <div class="fr-finish-title">{{ finish_name }}</div>
+                        <div class="fr-finish-tag">
+                          {%- if finish_name contains '17x8' or finish_name contains '17 x 8' -%}LARGE
+                          {%- else -%}STANDARD{%- endif -%}
+                        </div>
+                        <div class="fr-finish-desc">
+                          {%- if finish_name contains '17x8' or finish_name contains '17 x 8' -%}Ideal for villas & large entrances
+                          {%- else -%}Perfect for apartments & small homes{%- endif -%}
+                        </div>
+                      </div>
+                    </div>
+                  {% elsif variant_style == 'swatch' %}
+                    {% liquid
+                      assign featured_media = product_option_value.variant.featured_media
+
+                      if featured_media == blank and product_option_value.product_url
+                        assign featured_media = product_option_value.variant.product.featured_media
+                      endif
+                    %}
+
+                    {% render 'swatch',
+                      swatch: product_option_value.swatch,
+                      variant_image: featured_media,
+                      mode: 'unscaled'
+                    %}
+                  {% else %}
+                    {% if product_option_value.available == true %}
+                      <span
+                        class="variant-option__button-label__pill"
+                        data-key="variant-option-pill"
+                      ></span>
+                    {% endif %}
+                    <span
+                      class="variant-option__button-label__text"
+                      data-key="variant-option-text"
+                    >
+                      {{- product_option_value | escape -}}
+                    </span>
+                  {% endif %}
+                  {% render 'strikethrough-variant', product_option: product_option_value %}
+                </label>
+              {%- endif -%}
             {%- endfor -%}
-            {%- if option_name_downcased == 'material' or option_name_downcased == 'paper finish' -%}
+
+            {%- if is_frame_size or is_frame_material -%}
+              </div>
+            {%- elsif is_frame_type -%}
+                </div>
+                <button type="button" class="fr-frame-nav-btn fr-frame-nav-next" aria-label="Next frame" onclick="this.parentElement.querySelector('.fr-frame-swatches-row').scrollBy({left: 180, behavior: 'smooth'})">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
+              </div>
+            {%- elsif option_name_downcased == 'material' or option_name_downcased == 'paper finish' -%}
+              </div>
+            {%- elsif is_nameplate_size -%}
               </div>
             {%- endif -%}
+
             {% if option_id_attribute %}
               {% style %}
                 [data-option-id="{{ fieldset_id }}"] {
@@ -289,20 +446,6 @@
           </fieldset>
           {%- assign fieldset_index = fieldset_index | plus: 1 -%}
         {%- elsif block_settings.variant_style == 'dropdowns' -%}
-          {%
-            # There is an opportunity to build a custom select component that will allow us to style the select element further (animation for dropdown, swatches shown in the dropdown options, etc)
-            # It's too bad as it mean rebuilding baked in behaviours but I think we've already done that for the locale selectors
-            # in dawn. So it might mean more time spent in setting it up but worth it for future updates/styling.
-          %}
-          {% liquid
-            assign property_being_updated = false
-            if settings.variant_swatch_width != settings.variant_swatch_height
-              assign property_being_updated = true
-              # (original width / original height) x new height (20px at the moment) = new width
-              assign new_width = settings.variant_swatch_width | times: 1.0 | divided_by: settings.variant_swatch_height | times: 20
-            endif
-          %}
-
           <div class="variant-option variant-option--dropdowns">
             <label for="Option-{{ block.id }}-{{ forloop.index0 }}">{{ product_option.name | escape }}</label>
             <div
@@ -350,6 +493,91 @@
           </div>
         {%- endif -%}
       {%- endfor -%}
+
+      {%- if is_frame -%}
+        {%- unless has_material_option -%}
+          <fieldset class="variant-option variant-option--buttons fr-fallback-fieldset" data-property-group="Material">
+            <legend class="fr-option-legend">Material</legend>
+            <div class="fr-material-buttons-group">
+              <label class="fr-material-btn-label">
+                <input type="radio" name="properties[Material]" value="Matte Paper" checked>
+                <span class="fr-material-btn-text">MATTE PAPER</span>
+              </label>
+              <label class="fr-material-btn-label">
+                <input type="radio" name="properties[Material]" value="Canvas">
+                <span class="fr-material-btn-text">CANVAS</span>
+              </label>
+            </div>
+          </fieldset>
+        {%- endunless -%}
+
+        {%- unless has_frame_type_option -%}
+          <fieldset class="variant-option variant-option--buttons fr-fallback-fieldset" data-property-group="Frame">
+            <legend class="fr-option-legend fr-frame-legend">Frame <span class="fr-option-divider">—</span> <span class="fr-frame-selected-title">Black Frame</span></legend>
+            <div class="fr-frame-carousel-wrapper">
+              <button type="button" class="fr-frame-nav-btn fr-frame-nav-prev" aria-label="Previous frame" onclick="this.parentElement.querySelector('.fr-frame-swatches-row').scrollBy({left: -180, behavior: 'smooth'})">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <div class="fr-frame-swatches-row">
+                <label class="fr-frame-swatch-label">
+                  <input type="radio" name="properties[Frame]" value="Black Frame" data-frame-title="Black Frame" checked>
+                  <div class="fr-frame-swatch-box" title="Black Frame">
+                    <img src="{{ 'frame-corner-black.jpg' | asset_url }}" alt="Black Frame" class="fr-frame-swatch-img" loading="lazy" width="80" height="80">
+                  </div>
+                </label>
+                <label class="fr-frame-swatch-label">
+                  <input type="radio" name="properties[Frame]" value="White Frame" data-frame-title="White Frame">
+                  <div class="fr-frame-swatch-box" title="White Frame">
+                    <img src="{{ 'frame-corner-white.jpg' | asset_url }}" alt="White Frame" class="fr-frame-swatch-img" loading="lazy" width="80" height="80">
+                  </div>
+                </label>
+                <label class="fr-frame-swatch-label">
+                  <input type="radio" name="properties[Frame]" value="Natural Wood" data-frame-title="Natural Wood">
+                  <div class="fr-frame-swatch-box" title="Natural Wood">
+                    <img src="{{ 'frame-corner-wood.jpg' | asset_url }}" alt="Natural Wood" class="fr-frame-swatch-img" loading="lazy" width="80" height="80">
+                  </div>
+                </label>
+                <label class="fr-frame-swatch-label">
+                  <input type="radio" name="properties[Frame]" value="Walnut Frame" data-frame-title="Walnut Frame">
+                  <div class="fr-frame-swatch-box" title="Walnut Frame">
+                    <img src="{{ 'frame-corner-walnut.jpg' | asset_url }}" alt="Walnut Frame" class="fr-frame-swatch-img" loading="lazy" width="80" height="80">
+                  </div>
+                </label>
+              </div>
+              <button type="button" class="fr-frame-nav-btn fr-frame-nav-next" aria-label="Next frame" onclick="this.parentElement.querySelector('.fr-frame-swatches-row').scrollBy({left: 180, behavior: 'smooth'})">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+              </button>
+            </div>
+          </fieldset>
+        {%- endunless -%}
+      {%- endif -%}
+
+      <script>
+        (function() {
+          function initFrameTitles() {
+            document.addEventListener('change', function(e) {
+              if (e.target && e.target.type === 'radio') {
+                var isFrame = e.target.closest('.fr-frame-swatches-row') ||
+                              e.target.name.indexOf('Frame') !== -1 ||
+                              e.target.name.indexOf('frame') !== -1;
+                if (isFrame) {
+                  var title = e.target.getAttribute('data-frame-title') || e.target.value;
+                  var fieldset = e.target.closest('fieldset');
+                  if (fieldset) {
+                    var titleEl = fieldset.querySelector('.fr-frame-selected-title');
+                    if (titleEl && title) titleEl.textContent = title;
+                  }
+                }
+              }
+            });
+          }
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initFrameTitles);
+          } else {
+            initFrameTitles();
+          }
+        })();
+      </script>
 
       <script type="application/json">
         {{ product_resource.selected_or_first_available_variant | json }}
