@@ -549,7 +549,7 @@ export default class VariantPicker extends Component {
    * @returns {HTMLInputElement | HTMLOptionElement | undefined} The selected option.
    */
   get selectedOption() {
-    const selectedOption = this.querySelector('select option[selected], fieldset input:checked');
+    const selectedOption = this.querySelector('select option[selected], fieldset input[data-option-value-id]:checked, fieldset input:checked');
 
     if (!(selectedOption instanceof HTMLInputElement || selectedOption instanceof HTMLOptionElement)) {
       return undefined;
@@ -609,7 +609,8 @@ export default class VariantPicker extends Component {
    */
   get selectedOptionsValues() {
     /** @type HTMLElement[] */
-    const selectedOptions = Array.from(this.querySelectorAll('select option[selected], fieldset input:checked'));
+    const selectedOptions = Array.from(this.querySelectorAll('select option[selected], fieldset input:checked'))
+      .filter((option) => Boolean(option.dataset && option.dataset.optionValueId));
 
     return selectedOptions.map((option) => {
       const { optionValueId } = option.dataset;

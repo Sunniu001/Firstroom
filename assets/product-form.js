@@ -316,6 +316,10 @@ class ProductFormComponent extends Component {
 
   /** @returns {string | undefined} */
   #getIntendedVariantId() {
+    const activeSizeRadio = document.querySelector('.fr-size-buttons-group input:checked, variant-picker input[data-variant-id]:checked');
+    if (activeSizeRadio && activeSizeRadio.dataset.variantId) {
+      return activeSizeRadio.dataset.variantId;
+    }
     return new URL(window.location.href).searchParams.get('variant') || this.refs.variantId?.value || undefined;
   }
 
@@ -410,6 +414,12 @@ class ProductFormComponent extends Component {
         formData.set(input.name, input.value);
       }
     });
+
+    // Ensure selected size variant ID is synced to formData
+    const activeSizeRadio = root.querySelector('.fr-size-buttons-group input:checked, variant-picker input[data-variant-id]:checked');
+    if (activeSizeRadio && activeSizeRadio.dataset.variantId) {
+      formData.set('id', activeSizeRadio.dataset.variantId);
+    }
 
     if (overrideVariantId) {
       formData.set('id', overrideVariantId);

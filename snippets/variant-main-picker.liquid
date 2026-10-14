@@ -510,8 +510,8 @@
       {%- if is_frame -%}
         {%- assign fr_product_form_id = 'BuyButtons-ProductForm-' | append: section.id -%}
         {%- unless has_material_option -%}
-          <fieldset class="variant-option variant-option--buttons fr-fallback-fieldset" data-property-group="Material">
-            <legend class="fr-option-legend">Material</legend>
+          <div class="variant-option variant-option--buttons fr-fallback-fieldset" role="group" data-property-group="Material">
+            <div class="fr-option-legend">Material</div>
             <div class="fr-material-buttons-group">
               <label class="fr-material-btn-label">
                 <input type="radio" name="properties[Material]" value="Matte Paper" form="{{ fr_product_form_id }}" checked>
@@ -522,12 +522,12 @@
                 <span class="fr-material-btn-text">CANVAS</span>
               </label>
             </div>
-          </fieldset>
+          </div>
         {%- endunless -%}
 
         {%- unless has_frame_type_option -%}
-          <fieldset class="variant-option variant-option--buttons fr-fallback-fieldset" data-property-group="Frame">
-            <legend class="fr-option-legend fr-frame-legend">Frame <span class="fr-option-divider">—</span> <span class="fr-frame-selected-title">White Fibre Frame</span></legend>
+          <div class="variant-option variant-option--buttons fr-fallback-fieldset" role="group" data-property-group="Frame">
+            <div class="fr-option-legend fr-frame-legend">Frame <span class="fr-option-divider">—</span> <span class="fr-frame-selected-title">White Fibre Frame</span></div>
             <div class="fr-frame-carousel-wrapper">
               <button type="button" class="fr-frame-nav-btn fr-frame-nav-prev" aria-label="Previous frame" onclick="this.parentElement.querySelector('.fr-frame-swatches-row').scrollBy({left: -180, behavior: 'smooth'})">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
@@ -562,7 +562,7 @@
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
               </button>
             </div>
-          </fieldset>
+          </div>
         {%- endunless -%}
         <style>
           .fr-option-legend {
@@ -948,6 +948,7 @@
             if (e.target && e.target.type === 'radio') {
               var isMaterial = e.target.name === 'properties[Material]' || e.target.closest('.fr-material-buttons-group');
               var isFrame = e.target.name === 'properties[Frame]' || e.target.closest('.fr-frame-swatches-row');
+              var isSize = e.target.closest('.fr-size-buttons-group') || (e.target.dataset && e.target.dataset.variantId);
 
               if (isMaterial) {
                 window.FR_FRAME_PREFS.material = e.target.value;
@@ -956,6 +957,17 @@
                 var title = e.target.getAttribute('data-frame-title') || e.target.value;
                 window.FR_FRAME_PREFS.frame = title;
                 syncFrameProperties();
+              } else if (isSize && e.target.dataset && e.target.dataset.variantId) {
+                var newVarId = e.target.dataset.variantId;
+                var idInputs = document.querySelectorAll('form[action*="/cart/add"] input[name="id"], product-form-component input[name="id"]');
+                idInputs.forEach(function(inp) {
+                  inp.value = newVarId;
+                });
+                try {
+                  var url = new URL(window.location.href);
+                  url.searchParams.set('variant', newVarId);
+                  window.history.replaceState({}, '', url.toString());
+                } catch(err) {}
               }
             }
           });
@@ -965,6 +977,16 @@
             var form = e.target;
             if (form && (form.matches('form[action*="/cart/add"]') || form.dataset.type === 'add-to-cart-form')) {
               syncFrameProperties();
+
+              // Ensure the selected variant ID is set
+              var selectedSizeInput = document.querySelector('.fr-size-buttons-group input[type="radio"]:checked') ||
+                                      document.querySelector('variant-picker input[data-variant-id]:checked');
+              if (selectedSizeInput && selectedSizeInput.dataset && selectedSizeInput.dataset.variantId) {
+                var idInput = form.querySelector('input[name="id"]');
+                if (idInput) {
+                  idInput.value = selectedSizeInput.dataset.variantId;
+                }
+              }
 
               var existMat = form.querySelector('input[name="properties[Material]"]');
               if (!existMat) {
