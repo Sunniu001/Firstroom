@@ -19,7 +19,12 @@
       echo key
       echo ': '
 
-      if value > scale_min and key contains 'mobile' == false
+      assign is_mobile_key = false
+      if key contains 'mobile'
+        assign is_mobile_key = true
+      endif
+
+      if value > scale_min and is_mobile_key == false
         echo 'max('
         echo scale_min
         echo 'px, calc(var(--spacing-scale) * '
