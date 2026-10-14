@@ -892,30 +892,23 @@
             if (isSyncing) return;
             isSyncing = true;
             try {
-              var selectedMatInput = document.querySelector('.fr-material-buttons-group input[type="radio"]:checked') ||
-                                     document.querySelector('input[name="properties[Material]"][type="radio"]:checked');
-              if (selectedMatInput && selectedMatInput.value) {
-                window.FR_FRAME_PREFS.material = selectedMatInput.value;
-              }
-
-              var selectedFrmInput = document.querySelector('.fr-frame-swatches-row input[type="radio"]:checked') ||
-                                     document.querySelector('input[name="properties[Frame]"][type="radio"]:checked');
-              if (selectedFrmInput && selectedFrmInput.value) {
-                window.FR_FRAME_PREFS.frame = selectedFrmInput.value;
-              }
-
-              // Sync to any radio inputs if not currently checked
-              var matRadios = document.querySelectorAll('.fr-material-buttons-group input[type="radio"]');
+              // Apply saved preferences to all radio inputs
+              var matRadios = document.querySelectorAll('.fr-material-buttons-group input[type="radio"], input[name="properties[Material]"][type="radio"]');
               matRadios.forEach(function(r) {
-                if (r.value === window.FR_FRAME_PREFS.material && !r.checked) {
+                if (r.value === window.FR_FRAME_PREFS.material) {
                   r.checked = true;
+                } else {
+                  r.checked = false;
                 }
               });
 
-              var frmRadios = document.querySelectorAll('.fr-frame-swatches-row input[type="radio"]');
+              var frmRadios = document.querySelectorAll('.fr-frame-swatches-row input[type="radio"], input[name="properties[Frame]"][type="radio"]');
               frmRadios.forEach(function(r) {
-                if (r.value === window.FR_FRAME_PREFS.frame && !r.checked) {
+                var title = r.getAttribute('data-frame-title') || r.value;
+                if (title === window.FR_FRAME_PREFS.frame || r.value === window.FR_FRAME_PREFS.frame) {
                   r.checked = true;
+                } else {
+                  r.checked = false;
                 }
               });
 
@@ -926,14 +919,14 @@
               }
 
               // Sync to all hidden inputs in add to cart forms
-              var hiddenMatInputs = document.querySelectorAll('.fr-active-property-material');
+              var hiddenMatInputs = document.querySelectorAll('.fr-active-property-material, input[name="properties[Material]"][type="hidden"]');
               hiddenMatInputs.forEach(function(input) {
                 if (input.value !== window.FR_FRAME_PREFS.material) {
                   input.value = window.FR_FRAME_PREFS.material;
                 }
               });
 
-              var hiddenFrmInputs = document.querySelectorAll('.fr-active-property-frame');
+              var hiddenFrmInputs = document.querySelectorAll('.fr-active-property-frame, input[name="properties[Frame]"][type="hidden"]');
               hiddenFrmInputs.forEach(function(input) {
                 if (input.value !== window.FR_FRAME_PREFS.frame) {
                   input.value = window.FR_FRAME_PREFS.frame;
@@ -1009,6 +1002,7 @@
           }, true);
 
           document.addEventListener('fr:variant-changed', syncFrameProperties);
+          document.addEventListener('fr:variant-picker-updated', syncFrameProperties);
           document.addEventListener('shopify:section:load', syncFrameProperties);
 
           if (document.readyState === 'loading') {

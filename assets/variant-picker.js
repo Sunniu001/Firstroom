@@ -66,6 +66,15 @@ export default class VariantPicker extends Component {
 
     if (!selectedOption) return;
 
+    // Ignore non-variant inputs such as custom line-item properties
+    if (
+      selectedOption.name?.startsWith('properties[') ||
+      selectedOption.closest?.('.fr-fallback-fieldset') ||
+      (!selectedOption.dataset?.optionValueId && !(selectedOption instanceof HTMLSelectElement))
+    ) {
+      return;
+    }
+
     this.updateSelectedOption(event.target);
 
     const isOnProductPage =
@@ -497,6 +506,7 @@ export default class VariantPicker extends Component {
       },
     });
     this.updateVariantPickerCss();
+    document.dispatchEvent(new CustomEvent('fr:variant-picker-updated'));
 
     return newProduct;
   }
